@@ -43,18 +43,10 @@ public class SecurityConfig
 
 
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
-
-        http.authorizeRequests()
-                .antMatchers("/").hasAnyRole("ROLE_USER")
-                .anyRequest().permitAll()
-                .and().formLogin().loginPage("/login").and()
-                .logout().logoutSuccessUrl("/login?logout")
-                .and()
-                .csrf().disable()
-                .rememberMe();
+    protected void configure(HttpSecurity http)  {
 
     }
+
 
 }
 
