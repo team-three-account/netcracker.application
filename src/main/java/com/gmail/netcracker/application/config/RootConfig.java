@@ -1,9 +1,10 @@
 package com.gmail.netcracker.application.config;
 
 
+import com.gmail.netcracker.application.dao.PersonDao;
+import com.gmail.netcracker.application.dao.impl.PersonDaoImpl;
 import com.gmail.netcracker.application.service.imp.UserServiceImp;
 
-import org.postgresql.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -47,9 +48,14 @@ public class RootConfig {
     public DataSource dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
         driver.setDriverClassName("org.postgresql.Driver");
-        driver.setUrl("jdbc:postgresql://localhost:5432/netcracker");
+        driver.setUrl("jdbc:postgresql://localhost:5432/postgres");
         driver.setUsername("postgres");
-        driver.setPassword("artem");
+        driver.setPassword("admin");
         return driver;
+    }
+
+    @Bean
+    public PersonDao personDao() {
+        return new PersonDaoImpl(dataSource());
     }
 }

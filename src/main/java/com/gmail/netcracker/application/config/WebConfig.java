@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -41,7 +40,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * Путь к ресурсам.
      */
 
-    private static final String RESOURCES_URL = "/resources/";
+    private static final String RESOURCES_URL = "/static/";
 
     /**
      * URL запроса для авторизации.
@@ -101,4 +100,5 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .setViewName(LOGIN_VIEW_NAME);
 
     }*/
+
 }
