@@ -107,6 +107,12 @@
             <artifactId>persistence-api</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.18</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
