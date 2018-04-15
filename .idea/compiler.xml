@@ -9,5 +9,8 @@
         <module name="netcracker.application" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="netcracker.application" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
