@@ -11,7 +11,11 @@
     <title>Title</title>
 </head>
 <body>
+<<<<<<< HEAD
 <a href="/user/registration">Register</a>
 <a href="/login">Login</a>
+=======
+<h1>HELLO GUYS!!!</h1>
+>>>>>>> refs/remotes/origin/master
 </body>
 </html>

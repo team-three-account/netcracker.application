@@ -8,7 +8,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-import java.util.logging.Logger;
+
 
 public class ResetConfirmPasswordValidator implements Validator {
 
@@ -26,7 +26,6 @@ public class ResetConfirmPasswordValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         User user = (User) o;
-        Logger.getLogger(ResetConfirmPasswordValidator.class.getName()).info(user.toString());
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"confirmPassword","required.field");
         if(!user.getPassword().equals(user.getConfirmPassword())){
