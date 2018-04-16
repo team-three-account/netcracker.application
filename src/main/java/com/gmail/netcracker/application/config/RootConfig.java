@@ -1,40 +1,23 @@
 package com.gmail.netcracker.application.config;
 
-
-<<<<<<< HEAD
 import com.gmail.netcracker.application.dto.dao.imp.UserDaoImp;
 import com.gmail.netcracker.application.dto.dao.imp.VerificationTokenDaoImp;
 import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
 import com.gmail.netcracker.application.service.imp.UserServiceImp;
-
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
-=======
-import com.gmail.netcracker.application.dao.PersonDao;
-import com.gmail.netcracker.application.dao.impl.PersonDaoImpl;
-import com.gmail.netcracker.application.service.imp.UserServiceImp;
-
->>>>>>> refs/remotes/origin/master
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.PropertiesFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
-<<<<<<< HEAD
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-=======
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
->>>>>>> refs/remotes/origin/master
-
 import javax.sql.DataSource;
 import java.util.Locale;
 
@@ -99,7 +82,7 @@ public class RootConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
-        driver.setDriverClassName("org.postgresql.Driver")
+        driver.setDriverClassName("org.postgresql.Driver");
         driver.setUrl("jdbc:postgresql://localhost:5432/netcracker");
         driver.setUsername("postgres");
         driver.setPassword("artem");

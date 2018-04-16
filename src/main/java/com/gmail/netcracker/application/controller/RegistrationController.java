@@ -1,6 +1,5 @@
 package com.gmail.netcracker.application.controller;
 
-<<<<<<< HEAD
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
@@ -87,34 +86,4 @@ public class RegistrationController {
         final SimpleMailMessage email = EmailConcructor.constructRegisterEmailMessage(user, token);
         javaMailSender.send(email);
     }
-
-
-=======
-import com.gmail.netcracker.application.dao.PersonDao;
-import com.gmail.netcracker.application.model.Person;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
-
-
-
-@Controller
-public class RegistrationController {
-    @Autowired
-    public PersonDao personDao;
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String getRegister(ModelAndView modelAndView) {
-        modelAndView.addObject("person", new Person());
-        return "index-register";
-    }
-
-    @RequestMapping(value = "/registerProcess", method = RequestMethod.POST)
-    public String haveRegister(ModelAndView modelAndView, @ModelAttribute("person") Person person) {
-        personDao.register(person);
-        return "redirect:/";
-    }
->>>>>>> refs/remotes/origin/master
 }

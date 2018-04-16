@@ -40,13 +40,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * Путь к ресурсам.
      */
 
-<<<<<<< HEAD
     private static final String RESOURCES_URL = "/resources/";
-=======
-    private static final String RESOURCES_URL = "/static/";
-
->>>>>>> refs/remotes/origin/master
-    /**
+        /**
      * URL запроса для авторизации.
      */
     private static final String LOGIN_URL = "/login";
@@ -95,12 +90,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * сконфигурированных с кодом
      * состояния и вьюшкой.
      */
-<<<<<<< HEAD
-   /* @Override
-=======
-    /*@Override
->>>>>>> refs/remotes/origin/master
-    public void addViewControllers(
+
+    /*public void addViewControllers(
             final ViewControllerRegistry viewController
     ) {
         viewController.addViewController("").setViewName("");
@@ -108,8 +99,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .setViewName(LOGIN_VIEW_NAME);
 
     }*/
-<<<<<<< HEAD
-=======
-
->>>>>>> refs/remotes/origin/master
 }
