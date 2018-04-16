@@ -1,35 +1,28 @@
-package com.gmail.derevets.artem.springsecurityapp.model;
+package com.gmail.netcracker.application.utilites;
+
+
+import com.gmail.netcracker.application.dto.model.User;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
-@Entity
+
+
 public class VerificationToken {
+
     private static final int EXPIRATION = 60 * 24;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private String id;
 
     private String token;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
-    private Date expiryDate;
-
-    private Date calculateExpiryDate(int expiryTimeInMinutes) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(new Timestamp(cal.getTime().getTime()));
-        cal.add(Calendar.MINUTE, expiryTimeInMinutes);
-        return new Date(cal.getTime().getTime());
-    }
-    public VerificationToken(String token, User user, Date expiryDate) {
+    public VerificationToken(String token, User user) {
         this.token = token;
         this.user = user;
-        this.expiryDate = expiryDate;
+
     }
 
     public VerificationToken() {
@@ -39,11 +32,11 @@ public class VerificationToken {
         return EXPIRATION;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -63,11 +56,5 @@ public class VerificationToken {
         this.user = user;
     }
 
-    public Date getExpiryDate() {
-        return expiryDate;
-    }
 
-    public void setExpiryDate(Date expiryDate) {
-        this.expiryDate = expiryDate;
-    }
 }

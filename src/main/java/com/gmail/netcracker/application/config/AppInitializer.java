@@ -37,7 +37,6 @@ public class AppInitializer
      * Настроили мэпинг сервлета на "/"
      * и поэтому все запросы будут перехвачены
      * Диспетчером Сервлета Spring.
-     *
      * @return Массив типа String.
      */
     @Override

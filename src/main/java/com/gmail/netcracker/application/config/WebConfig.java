@@ -12,9 +12,14 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 
-
 @Configuration
 @EnableWebMvc
+@ComponentScan(
+        basePackages = {
+                "com.gmail.netcracker.application.controller",
+                "com.gmail.netcracker.application.config"
+        }
+)
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
@@ -37,7 +42,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      */
 
     private static final String RESOURCES_URL = "/resources/";
-
     /**
      * URL запроса для авторизации.
      */
@@ -54,6 +58,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * представления, и как их отображать.
      * Вьюшкибудут лежать в директории
      * /WEB-INF/views/ и иметь разширение *.jsp.
+     *
      * @return Реализация интерфейса ViewResolver
      * с настройками для вьюшек.
      */
@@ -71,7 +76,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
      * Указывает где будут хранится ресурсы.
-     *
      */
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry resource) {
@@ -87,13 +91,13 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * сконфигурированных с кодом
      * состояния и вьюшкой.
      */
-    @Override
+   /* @Override
     public void addViewControllers(
             final ViewControllerRegistry viewController
     ) {
-        viewController.addViewController("/").setViewName("");
+        viewController.addViewController("").setViewName("");
         viewController.addViewController(LOGIN_URL)
                 .setViewName(LOGIN_VIEW_NAME);
 
-    }
+    }*/
 }

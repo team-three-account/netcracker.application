@@ -19,6 +19,7 @@ import javax.sql.DataSource;
 public class SecurityConfig
         extends WebSecurityConfigurerAdapter {
 
+
     private final DataSource dataSource;
 
     private final UserServiceImp userService;
@@ -44,17 +45,18 @@ public class SecurityConfig
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
         http.authorizeRequests()
-                .antMatchers("/").hasAnyRole("ROLE_USER")
+                .antMatchers("/account").hasRole("USER")
                 .anyRequest().permitAll()
-                .and().formLogin().loginPage("/login").and()
+                .and().formLogin().loginPage("/login").defaultSuccessUrl("/account")
+                .and()
                 .logout().logoutSuccessUrl("/login?logout")
                 .and()
                 .csrf().disable()
                 .rememberMe();
 
     }
+
 
 }
 
