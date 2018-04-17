@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.utilites.Utilites;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,7 @@ public class VerificationTokenDaoImp extends ModelDao
                 user.setPassword(resultSet.getString("password"));
                 user.setRole(resultSet.getString("role"));
                 user.setPhone(resultSet.getString("phone"));
+                user.setBirthdayDate(Utilites.parseDateIntoString(resultSet.getDate("birthday")));
                 verificationToken.setUser(user);
                 return verificationToken;
             }
@@ -36,7 +38,7 @@ public class VerificationTokenDaoImp extends ModelDao
     @Transactional
     @Override
     public VerificationToken create(VerificationToken verificationToken) {
-        jdbcTemplate.update("INSERT into verif_token(token_id, user_id,name,surname,email,password,role,phone) values(?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT into verif_token(token_id, user_id,name,surname,email,password,role,phone,birthday) values(?,?,?,?,?,?,?,?,?)",
                 verificationToken.getId(),
                 verificationToken.getUser().getId(),
                 verificationToken.getUser().getName(),
@@ -44,7 +46,8 @@ public class VerificationTokenDaoImp extends ModelDao
                 verificationToken.getUser().getEmail(),
                 verificationToken.getUser().getPassword(),
                 "ROLE_USER",
-                verificationToken.getUser().getPhone());
+                verificationToken.getUser().getPhone(),
+                Utilites.parseStringIntoDate(verificationToken.getUser().getBirthdayDate()));
         return verificationToken;
     }
 

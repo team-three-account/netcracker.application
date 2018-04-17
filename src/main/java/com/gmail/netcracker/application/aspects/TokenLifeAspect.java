@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.TimerTask;
 import java.util.logging.Logger;
 
 @Aspect
@@ -20,10 +21,16 @@ public class TokenLifeAspect {
     @AfterReturning(pointcut = "execution(* com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao.create(..))",
             returning = "result")
     public void tokenDestroyer(Object result) throws Throwable {
-        Thread.sleep(86400000);
-        userService.deleteVerificationToken((VerificationToken) result);
-        Logger.getLogger(TokenLifeAspect.class.getName()).info("token dead");
 
+        new java.util.Timer().schedule(
+                new TimerTask() {
+                    public void run() {
+                        userService.deleteVerificationToken((VerificationToken) result);
+                        Logger.getLogger(TokenLifeAspect.class.getName()).info("token dead");
+
+                    }
+                }, 86400000
+        );
     }
 
 

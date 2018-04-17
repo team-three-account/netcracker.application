@@ -4,11 +4,8 @@ import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoString;
+import static com.gmail.netcracker.application.utilites.Utilites.parseStringIntoDate;
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
@@ -16,16 +13,17 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Transactional
     @Override
     public void saveUser(User user) {
-        jdbcTemplate.update("INSERT INTO person (person_id,name, surname, email, password, role, phone)" +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+        jdbcTemplate.update("INSERT INTO person (person_id,name, surname, email, password, role, phone,birthday)" +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
                 user.getId(),
                 user.getName(),
                 user.getSurname(),
                 user.getEmail(),
                 user.getPassword(),
                 "ROLE_USER",
-                user.getPhone()
-        );
+                user.getPhone(),
+                parseStringIntoDate(user.getBirthdayDate()
+                ));
     }
 
     @Transactional
@@ -41,6 +39,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
                 user.setPassword(resultSet.getString("password"));
                 user.setRole(resultSet.getString("role"));
                 user.setPhone(resultSet.getString("phone"));
+                user.setBirthdayDate(parseDateIntoString(resultSet.getDate("birthday")));
             }
             return user;
         });
@@ -49,21 +48,8 @@ public class UserDaoImp extends ModelDao implements UserDao {
 
     @Override
     public void changePassword(String password, String email) {
-        jdbcTemplate.update("update person set password = ? where email = ? ", password,email);
+        jdbcTemplate.update("update person set password = ? where email = ? ", password, email);
     }
 
-
-    private Timestamp parseTime(String str_date) {
-        try {
-            DateFormat formatter;
-            formatter = new SimpleDateFormat("yyyy-MM-dd");
-            java.util.Date date = formatter.parse(str_date);
-            Timestamp timestamp = new Timestamp(date.getTime());
-            return timestamp;
-        } catch (ParseException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 
 }

@@ -57,6 +57,24 @@
                     <form:errors path="password" cssClass="error"/>
                 </div>
                 <div class="form-group">
+                    <label>Confirm password</label>
+                    <form:input path="confirmPassword" name="confirmPassword" class="form-control"
+                                type="password"
+                                placeholder="Confirm Password"/>
+                    <form:errors path="password" cssClass="error"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Date</label>
+                    <div class="input-group date" data-provide="datepicker">
+                        <form:input type="text" class="form-control" path="birthdayDate"/>
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                            <form:errors path="birthdayDate" cssClass="error"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label>Phone</label>
                     <form:input path="phone" name="phone" class="form-control"
                                 type="phone"
@@ -69,10 +87,16 @@
         </div>
     </div>
 </div>
+
 <!-- Bootstrap core JavaScript-->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
 <script src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
 <script src="${contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
+<script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 <script src="${contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 </body>
 </html>
