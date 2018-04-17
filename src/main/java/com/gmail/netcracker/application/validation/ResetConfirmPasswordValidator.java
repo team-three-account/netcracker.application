@@ -31,5 +31,8 @@ public class ResetConfirmPasswordValidator implements Validator {
         if(!user.getPassword().equals(user.getConfirmPassword())){
             errors.rejectValue("confirmPassword","match.password");
         }
+        if(user.getPassword().equals(userService.findUserByEmail(user.getEmail()).getPassword())){
+            errors.rejectValue("confirmPassword","password.actual");
+        }
     }
 }

@@ -61,6 +61,7 @@ public class AccountController {
 
         user.setConfirmPassword(confirmPassword);
         verificationToken = userService.getVerificationToken(token);
+        user.setEmail(verificationToken.getUser().getEmail());
         resetConfirmPasswordValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             model.addAttribute("veriftoken", verificationToken);
