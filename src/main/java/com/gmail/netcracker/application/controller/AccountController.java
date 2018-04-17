@@ -72,11 +72,10 @@ public class AccountController {
         return "account/successfulChange";
     }
 
-    public VerificationToken passwordApprove(User user) {
+    private void passwordApprove(User user) {
         final String token = UUID.randomUUID().toString();
-        VerificationToken verificationToken = userService.createVerificationToken(user, token);
+        userService.createVerificationToken(user, token);
         final SimpleMailMessage email = EmailConcructor.constructPasswordResetEmailMessage(user, token);
         javaMailSender.send(email);
-        return verificationToken;
     }
 }
