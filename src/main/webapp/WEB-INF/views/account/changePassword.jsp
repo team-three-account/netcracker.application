@@ -15,20 +15,22 @@
         <div class="card-header">Change password</div>
         <div class="card-body">
             <form:form method="POST"
-                  class="forms_form" action="/account/changePassword/${veriftoken.id}" modelAttribute="user">
+                       class="forms_form" action="/account/changePassword/${veriftoken.id}" modelAttribute="user">
                 <div class="form-group">
+                    <h2>${veriftoken.id}</h2>
                     <label>New Password</label>
                     <form:input id="password" name="password" class="form-control"
-                          type="password"
-                          placeholder="Enter new password" path="password"/>
+                                type="password"
+                                placeholder="Enter new password" path="password"/>
                     <form:errors path="password"></form:errors>
                 </div>
                 <div class="form-group">
                     <label>Confirm Password</label>
                     <form:input name="confirmPassword" class="form-control"
-                          type="password"
-                          placeholder="Confirm Password" path="confirmPassword"/>
+                                type="password"
+                                placeholder="Confirm Password" path="confirmPassword"/>
                     <form:errors path="confirmPassword"></form:errors>
+                    <span id="error">${error}</span>
                 </div>
                 <input type="submit" value="Change Password" class="btn btn-dark">
             </form:form>

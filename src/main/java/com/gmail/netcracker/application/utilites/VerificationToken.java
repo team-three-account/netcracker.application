@@ -3,7 +3,7 @@ package com.gmail.netcracker.application.utilites;
 
 import com.gmail.netcracker.application.dto.model.User;
 
-import javax.persistence.*;
+
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
@@ -56,5 +56,12 @@ public class VerificationToken {
         this.user = user;
     }
 
-
+    @Override
+    public String toString() {
+        return "VerificationToken{" +
+                "id='" + id + '\'' +
+                ", token='" + token + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }

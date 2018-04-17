@@ -46,20 +46,24 @@ public class AccountController {
     public String newPassword(Model model, @PathVariable(value = "token") String token) {
         model.addAttribute("veriftoken", userService.getVerificationToken(token));
         model.addAttribute("user", new User());
+
         return "account/changePassword";
     }
+
 
     @RequestMapping(value = "/changePassword/{token}", method = RequestMethod.POST)
     public String changePassword(@RequestParam(value = "password") String password,
                                  @RequestParam(value = "confirmPassword") String confirmPassword,
-                                 @PathVariable(value = "token") String token,
+                                 @ModelAttribute(value = "veriftoken") VerificationToken verificationToken,
                                  @ModelAttribute("user") User user,
-                                 BindingResult bindingResult) {
-        Logger.getLogger(AccountController.class.getName()).info(user.toString());
+                                 @PathVariable("token") String token,
+                                 BindingResult bindingResult, Model model) {
+
         user.setConfirmPassword(confirmPassword);
-        VerificationToken verificationToken = userService.getVerificationToken(token);
+        verificationToken = userService.getVerificationToken(token);
         resetConfirmPasswordValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
+            model.addAttribute("veriftoken", verificationToken);
             return "account/changePassword";
         }
         verificationToken.getUser().setPassword(password);
@@ -68,10 +72,11 @@ public class AccountController {
         return "account/successfulChange";
     }
 
-    private void passwordApprove(User user) {
+    public VerificationToken passwordApprove(User user) {
         final String token = UUID.randomUUID().toString();
-        userService.createVerificationToken(user, token);
+        VerificationToken verificationToken = userService.createVerificationToken(user, token);
         final SimpleMailMessage email = EmailConcructor.constructPasswordResetEmailMessage(user, token);
         javaMailSender.send(email);
+        return verificationToken;
     }
 }

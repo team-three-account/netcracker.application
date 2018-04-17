@@ -7,9 +7,11 @@ import javax.jws.soap.SOAPBinding;
 
 public interface UserService {
 
-    void createVerificationToken(User user, String token);
+    VerificationToken createVerificationToken(User user, String token);
 
     VerificationToken getVerificationToken(String token);
+
+
 
     void saveRegisteredUser(User user);
 

@@ -6,8 +6,6 @@ import com.gmail.netcracker.application.utilites.VerificationToken;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-
 @Repository
 public class VerificationTokenDaoImp extends ModelDao
         implements VerificationTokenDao {
@@ -37,7 +35,7 @@ public class VerificationTokenDaoImp extends ModelDao
 
     @Transactional
     @Override
-    public void create(VerificationToken verificationToken) {
+    public VerificationToken create(VerificationToken verificationToken) {
         jdbcTemplate.update("INSERT into verif_token(token_id, user_id,name,surname,email,password,role,phone) values(?,?,?,?,?,?,?,?)",
                 verificationToken.getId(),
                 verificationToken.getUser().getId(),
@@ -47,6 +45,7 @@ public class VerificationTokenDaoImp extends ModelDao
                 verificationToken.getUser().getPassword(),
                 "ROLE_USER",
                 verificationToken.getUser().getPhone());
+        return verificationToken;
     }
 
     @Transactional

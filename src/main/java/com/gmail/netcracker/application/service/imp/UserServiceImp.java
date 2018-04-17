@@ -38,11 +38,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-    public void createVerificationToken(User user, String token) {
+    public VerificationToken createVerificationToken(User user, String token) {
         VerificationToken verificationToken = new VerificationToken();
         verificationToken.setId(token);
         verificationToken.setUser(user);
-        verificationTokenDao.create(verificationToken);
+        return verificationTokenDao.create(verificationToken);
     }
 
     @Override
@@ -68,12 +68,12 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public User getAuthenticatedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return userDao.findUser(auth.getName()) ;
+        return userDao.findUser(auth.getName());
     }
 
     @Override
     public void changeUserPassword(String password, String email) {
-        userDao.changePassword(password,email);
+        userDao.changePassword(password, email);
     }
 
 

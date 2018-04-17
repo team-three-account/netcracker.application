@@ -1,5 +1,6 @@
 package com.gmail.netcracker.application.config;
 
+import com.gmail.netcracker.application.aspects.TokenLifeAspect;
 import com.gmail.netcracker.application.dto.dao.imp.UserDaoImp;
 import com.gmail.netcracker.application.dto.dao.imp.VerificationTokenDaoImp;
 import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
@@ -9,21 +10,22 @@ import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+
 import javax.sql.DataSource;
 import java.util.Locale;
 
 @Configuration
 @ComponentScan("com.gmail.netcracker.application.*")
 @PropertySource("classpath:application.properties")
+@EnableAspectJAutoProxy
 public class RootConfig {
 
     private final Environment env;
@@ -33,6 +35,10 @@ public class RootConfig {
         this.env = env;
     }
 
+    @Bean
+    TokenLifeAspect tokenLifeAspect() {
+        return new TokenLifeAspect();
+    }
 
     @Bean
     UserServiceImp userServiceImp() {
@@ -60,7 +66,9 @@ public class RootConfig {
     }
 
     @Bean
-    ResetConfirmPasswordValidator resetConfirmPasswordValidator(){return new ResetConfirmPasswordValidator();}
+    public ResetConfirmPasswordValidator resetConfirmPasswordValidator() {
+        return new ResetConfirmPasswordValidator();
+    }
 
     @Bean
     LocaleResolver localeResolver() {

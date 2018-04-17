@@ -18,18 +18,26 @@ import java.util.UUID;
 @Controller
 public class RegistrationController {
 
-    @Autowired
+    private final
     ApplicationEventPublisher eventPublisher;
 
-    @Autowired
+    private final
     JavaMailSender javaMailSender;
 
-    @Autowired
+    private final
     RegisterValidator registerValidator;
 
 
-    @Autowired
+    private final
     UserService userService;
+
+    @Autowired
+    public RegistrationController(ApplicationEventPublisher eventPublisher, JavaMailSender javaMailSender, RegisterValidator registerValidator, UserService userService) {
+        this.eventPublisher = eventPublisher;
+        this.javaMailSender = javaMailSender;
+        this.registerValidator = registerValidator;
+        this.userService = userService;
+    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model,String error, String logout) {
@@ -59,7 +67,7 @@ public class RegistrationController {
             return "user/registration/registration";
         }
         user.setId(UUID.randomUUID().toString());
-        confirmRegistration(user);
+        emailSender(user);
         return "user/registration/approve";
     }
 
@@ -80,7 +88,7 @@ public class RegistrationController {
     }
 
 
-    private void confirmRegistration(User user) {
+    private void emailSender(User user) {
         final String token = UUID.randomUUID().toString();
         userService.createVerificationToken(user, token);
         final SimpleMailMessage email = EmailConcructor.constructRegisterEmailMessage(user, token);
