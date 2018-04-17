@@ -24,7 +24,7 @@ public class TokenLifeAspect {
         Logger.getLogger(TokenLifeAspect.class.getName()).info("fsdfdsfsdfs");
         Logger.getLogger(TokenLifeAspect.class.getName()).info(result.toString());
 
-        Thread.sleep(10000);
+        Thread.sleep(86400000 );
         userService.deleteVerificationToken((VerificationToken) result);
         Logger.getLogger(TokenLifeAspect.class.getName()).info("token dead");
 
