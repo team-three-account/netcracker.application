@@ -61,7 +61,7 @@
                     <form:input path="confirmPassword" name="confirmPassword" class="form-control"
                                 type="password"
                                 placeholder="Confirm Password"/>
-                    <form:errors path="password" cssClass="error"/>
+                    <form:errors path="confirmPassword" cssClass="error"/>
                 </div>
 
                 <div class="form-group">

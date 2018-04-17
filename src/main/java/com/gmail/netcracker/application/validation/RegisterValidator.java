@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.validation;
 
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.UserService;
+import com.gmail.netcracker.application.utilites.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
@@ -26,6 +27,12 @@ public class RegisterValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "required.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"password","required.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"confirmPassword","required.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"birthdayDate","required.field");
+        if( !user.getPassword().equals(user.getConfirmPassword())){
+            errors.rejectValue("confirmPassword","match.password");
+        }
         if (userService.findUserByEmail(user.getEmail()).getEmail() != null) {
             errors.rejectValue("email", "email.already.exist");
         }
