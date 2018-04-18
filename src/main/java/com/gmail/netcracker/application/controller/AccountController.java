@@ -19,15 +19,25 @@ import java.util.logging.Logger;
 @Controller
 @RequestMapping(value = "/account")
 public class AccountController {
+    private final
+    EmailConcructor emailConcructor;
 
-    @Autowired
+    private final
     UserService userService;
 
-    @Autowired
+    private final
     JavaMailSender javaMailSender;
 
-    @Autowired
+    private final
     ResetConfirmPasswordValidator resetConfirmPasswordValidator;
+
+    @Autowired
+    public AccountController(EmailConcructor emailConcructor, UserService userService, JavaMailSender javaMailSender, ResetConfirmPasswordValidator resetConfirmPasswordValidator) {
+        this.emailConcructor = emailConcructor;
+        this.userService = userService;
+        this.javaMailSender = javaMailSender;
+        this.resetConfirmPasswordValidator = resetConfirmPasswordValidator;
+    }
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String homeAccount(Model model) {
@@ -76,7 +86,7 @@ public class AccountController {
     private void passwordApprove(User user) {
         final String token = UUID.randomUUID().toString();
         userService.createVerificationToken(user, token);
-        final SimpleMailMessage email = EmailConcructor.constructPasswordResetEmailMessage(user, token);
+        final SimpleMailMessage email = emailConcructor.constructPasswordResetEmailMessage(user,token);
         javaMailSender.send(email);
     }
 }

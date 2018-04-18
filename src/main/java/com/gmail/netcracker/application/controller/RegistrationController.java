@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
 
 @Controller
@@ -27,20 +28,21 @@ public class RegistrationController {
     private final
     RegisterValidator registerValidator;
 
-
+    private final EmailConcructor emailConcructor;
     private final
     UserService userService;
 
     @Autowired
-    public RegistrationController(ApplicationEventPublisher eventPublisher, JavaMailSender javaMailSender, RegisterValidator registerValidator, UserService userService) {
+    public RegistrationController(ApplicationEventPublisher eventPublisher, JavaMailSender javaMailSender, RegisterValidator registerValidator, EmailConcructor emailConcructor, UserService userService) {
         this.eventPublisher = eventPublisher;
         this.javaMailSender = javaMailSender;
         this.registerValidator = registerValidator;
+        this.emailConcructor = emailConcructor;
         this.userService = userService;
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model,String error, String logout) {
+    public String login(Model model, String error, String logout) {
 
         if (error != null) {
             model.addAttribute("error", "Username or password is incorrect.");
@@ -61,7 +63,7 @@ public class RegistrationController {
 
     @RequestMapping(value = "/user/registration/post", method = RequestMethod.POST)
     public String registerUserAccount(
-            @ModelAttribute("registrationForm") User user, BindingResult bindingResult){
+            @ModelAttribute("registrationForm") User user, BindingResult bindingResult) {
         registerValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
             return "user/registration/registration";
@@ -91,7 +93,7 @@ public class RegistrationController {
     private void emailSender(User user) {
         final String token = UUID.randomUUID().toString();
         userService.createVerificationToken(user, token);
-        final SimpleMailMessage email = EmailConcructor.constructRegisterEmailMessage(user, token);
+        final SimpleMailMessage email = emailConcructor.constructRegisterEmailMessage(user,token);
         javaMailSender.send(email);
     }
 }

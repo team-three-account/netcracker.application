@@ -7,6 +7,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
 import com.gmail.netcracker.application.service.imp.UserServiceImp;
 import com.gmail.netcracker.application.service.interfaces.UserService;
+import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ import java.util.Locale;
 public class RootConfig {
 
     private final Environment env;
+
+    @Bean
+    public EmailConcructor emailConcructor(){
+        return new EmailConcructor();
+    }
 
     @Autowired
     public RootConfig(Environment env) {
@@ -86,7 +92,8 @@ public class RootConfig {
 
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource
+    dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
         driver.setDriverClassName("org.postgresql.Driver");
         driver.setUrl("jdbc:postgresql://ec2-54-217-217-142.eu-west-1.compute.amazonaws.com/dccj5b64fcv5hl?sslmode=require");

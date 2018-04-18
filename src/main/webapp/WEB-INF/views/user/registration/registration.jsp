@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label">Date</label>
+                    <label class="control-label">Date of birthday</label>
                     <div class="input-group date" data-provide="datepicker">
                         <form:input type="text" class="form-control" path="birthdayDate"/>
                         <div class="input-group-addon">

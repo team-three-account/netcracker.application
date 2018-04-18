@@ -25,7 +25,7 @@ public class User {
 
     private String birthdayDate;
 
-   private String phone;
+    private String phone;
 
     public User() {
     }
@@ -142,7 +142,6 @@ public class User {
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", confirmPassword='" + confirmPassword + '\'' +
                 ", role='" + role + '\'' +
                 ", birthdayDate='" + birthdayDate + '\'' +
                 ", phone='" + phone + '\'' +

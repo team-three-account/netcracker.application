@@ -36,7 +36,6 @@ public class RegisterValidator implements Validator {
         if (userService.findUserByEmail(user.getEmail()).getEmail() != null) {
             errors.rejectValue("email", "email.already.exist");
         }
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required.field");
     }
 
     @Override

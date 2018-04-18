@@ -17,7 +17,6 @@
             <form:form method="POST"
                        class="forms_form" action="/account/changePassword/${veriftoken.id}" modelAttribute="user">
                 <div class="form-group">
-                    <h2>${veriftoken.id}</h2>
                     <label>New Password</label>
                     <form:input id="password" name="password" class="form-control"
                                 type="password"
