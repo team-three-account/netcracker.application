@@ -8,7 +8,7 @@ public class EmailConcructor {
     public static SimpleMailMessage constructRegisterEmailMessage(final User user, final String token) {
         final String recipientAddress = user.getEmail();
         final String subject = "Registration Confirmation";
-        final String confirmationUrl = "https://finalprojectteamthree/registrationConfirm/" + token;
+        final String confirmationUrl = "https://finalprojectteamthree.herokuapp.com/registrationConfirm/" + token;
         final String message = "Reg sucss";
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
@@ -22,7 +22,7 @@ public class EmailConcructor {
     public static SimpleMailMessage constructPasswordResetEmailMessage(final User user, final String token) {
         final String recipientAddress = user.getEmail();
         final String subject = "Reset Password";
-        final String confirmationUrl = "https://finalprojectteamthree/account/changePassword/" + token;
+        final String confirmationUrl = "https://finalprojectteamthree.herokuapp.com/account/changePassword/" + token;
         final String message = "Link for reset password for user " + user.getEmail();
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
