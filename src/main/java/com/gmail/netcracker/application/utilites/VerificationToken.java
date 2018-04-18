@@ -2,25 +2,20 @@ package com.gmail.netcracker.application.utilites;
 
 
 import com.gmail.netcracker.application.dto.model.User;
+import org.springframework.stereotype.Component;
 
 
-import java.sql.Timestamp;
-import java.util.Calendar;
-import java.util.Date;
 
-
+@Component
 public class VerificationToken {
-
-    private static final int EXPIRATION = 60 * 24;
 
     private String id;
 
-    private String token;
-
     private User user;
 
-    public VerificationToken(String token, User user) {
-        this.token = token;
+    public VerificationToken(String id, User user) {
+
+        this.id = id;
         this.user = user;
 
     }
@@ -28,9 +23,6 @@ public class VerificationToken {
     public VerificationToken() {
     }
 
-    public static int getEXPIRATION() {
-        return EXPIRATION;
-    }
 
     public String getId() {
         return id;
@@ -38,14 +30,6 @@ public class VerificationToken {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
     }
 
     public User getUser() {
@@ -60,7 +44,6 @@ public class VerificationToken {
     public String toString() {
         return "VerificationToken{" +
                 "id='" + id + '\'' +
-                ", token='" + token + '\'' +
                 ", user=" + user +
                 '}';
     }

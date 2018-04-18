@@ -19,7 +19,6 @@ public class VerificationTokenDaoImp extends ModelDao
         return jdbcTemplate.query("select * from verif_token where verif_token.token_id = " + "'" + token + "'", resultSet -> {
             while (resultSet.next()) {
                 verificationToken.setId(resultSet.getString("token_id"));
-                verificationToken.setToken(resultSet.getString("token_id"));
                 user.setId(resultSet.getString("user_id"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
