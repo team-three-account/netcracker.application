@@ -89,9 +89,9 @@ public class RootConfig {
     public DataSource dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
         driver.setDriverClassName("org.postgresql.Driver");
-        driver.setUrl("jdbc:postgresql://localhost:5432/netcracker");
-        driver.setUsername("postgres");
-        driver.setPassword("artem");
+        driver.setUrl("jdbc:postgresql://ec2-54-217-217-142.eu-west-1.compute.amazonaws.com/dccj5b64fcv5hl?sslmode=require");
+        driver.setUsername("lwxcegckywakkn");
+        driver.setPassword("373f20167c234c3f771777da2f715f5f20e6274d9f014cc03daebc00485dc867");
         return driver;
 
     }
