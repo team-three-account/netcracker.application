@@ -70,9 +70,9 @@
                         <form:input type="text" class="form-control" path="birthdayDate"/>
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
-                            <form:errors path="birthdayDate" cssClass="error"/>
                         </div>
                     </div>
+                    <form:errors path="birthdayDate" cssClass="error"/>
                 </div>
                 <div class="form-group">
                     <label>Phone</label>
