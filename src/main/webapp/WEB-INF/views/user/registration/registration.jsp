@@ -12,9 +12,10 @@
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-    <title>Title</title>
+    <title>Registration</title>
     <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
+    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
     <link href="${contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
     <link href="${contextPath}/resources/css/sb-admin.css">
@@ -58,10 +59,12 @@
                 </div>
                 <div class="form-group">
                     <label>Confirm password</label>
-                    <form:input path="confirmPassword" name="confirmPassword" class="form-control"
-                                type="password"
-                                placeholder="Confirm Password"/>
-                    <form:errors path="confirmPassword" cssClass="error"/>
+                    <div class="">
+                        <form:input path="confirmPassword" name="confirmPassword" class="form-control"
+                                    type="password"
+                                    placeholder="Confirm Password"/>
+                        <form:errors path="confirmPassword" cssClass="error"/>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -76,7 +79,7 @@
                 </div>
                 <div class="form-group">
                     <label>Phone</label>
-                    <form:input path="phone" name="phone" class="form-control"
+                    <form:input path="phone" name="phone" class="form-control phone"
                                 type="phone"
                                 aria-describedby="emailHelp"
                                 placeholder="Enter phone"/>
@@ -89,8 +92,10 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery.appear.js"></script>
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery.maskedinput.min.js"></script>
 <script src="${contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- Core plugin JavaScript-->
 <script type="text/javascript"
