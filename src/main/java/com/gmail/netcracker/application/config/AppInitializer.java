@@ -1,5 +1,6 @@
 package com.gmail.netcracker.application.config;
 
+import com.gmail.netcracker.application.utilites.SessionListener;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -60,6 +61,7 @@ public class AppInitializer
         encodingFilter.setInitParameter("encoding", "UTF-8");
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
+        servletContext.addListener(new SessionListener());
     }
 
     /**
@@ -75,4 +77,5 @@ public class AppInitializer
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return dispatcherServlet;
     }
+
 }
