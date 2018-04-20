@@ -8,9 +8,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>Register</title>
+    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="${contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-We send you massage on your email, please approve it
+<div class="container">
+    <div class="card card-register mx-auto mt-5 col-md-6">
+        <div class="card-header">Register an Account</div>
+        <div class="card-body">
+            <h2>We send you massage on your email, please approve it</h2>
+            <a href="/">Home</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -126,4 +126,17 @@ article>p {
   .subscribe input[type="email"] {
     width: 240px;
   }
+
+}
+.menu{
+  height: 100%;
+  background-color: whitesmoke;
+  padding-top: 120px;
+
+  margin-top: 40px;
+  position: relative;
+}
+
+.menu ul{
+  padding-top: 30px;
 }

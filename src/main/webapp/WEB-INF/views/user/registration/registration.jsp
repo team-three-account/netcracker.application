@@ -27,7 +27,7 @@
         <div class="card-header">Register an Account</div>
         <div class="card-body">
             <form:form method="POST" modelAttribute="registrationForm"
-                       class="forms_form" action="/user/registration/post">
+                       class="forms_form" action="/user/registration">
                 <div class="form-group">
                     <label>Name</label>
                     <form:input path="name" name="name" class="form-control"
