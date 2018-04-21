@@ -1,5 +1,7 @@
 package com.gmail.netcracker.application.controller.other;
 
+import com.gmail.netcracker.application.exception.BadRequestException;
+import com.gmail.netcracker.application.exception.ForbiddenException;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -51,6 +53,12 @@ public class ExeptionController {
             = "Временные неполадки с сервером... Приносим свои извинения!";
 
 
+    /**
+     * Перехват NoHandlerFoundException
+     * исключения (http статус 404).
+     *
+     * @return Объект класса {@link ModelAndView}.
+     */
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ModelAndView noHandlerFoundException(
@@ -61,6 +69,68 @@ public class ExeptionController {
                 exception,
                 request,
                 NO_HANDLER_FOUND_EXCEPTION_MESSAGE
+        );
+    }
+
+
+    /**
+     * Перехват BadRequestException
+     * исключения (http статус 400).
+     *
+     * @param exception Объект исключения BadRequestException.
+     * @param request   Объект интерфейса HttpServletRequest.
+     * @return Объект класса {@link ModelAndView}.
+     */
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ModelAndView badRequestException(
+            final BadRequestException exception,
+            final HttpServletRequest request
+    ) {
+        return handleException(
+                exception,
+                request,
+                BAD_REQUEST_EXCEPTION_MESSAGE
+        );
+    }
+
+    /**
+     * Перехват ForbiddenException
+     * исключения (http статус 403).
+     *
+     * @param exception Объект исключения
+     *                  ForbiddenException.
+     * @param request   Объект интерфейса HttpServletRequest.
+     * @return Объект класса {@link ModelAndView}.
+     */
+    @ExceptionHandler(ForbiddenException.class)
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    public ModelAndView forbiddenException(
+            final ForbiddenException exception,
+            final HttpServletRequest request
+    ) {
+        return handleException(
+                exception,
+                request,
+                FORBIDDEN_EXCEPTION_MESSAGE
+        );
+    }
+
+    /**
+     * Перехват всех остальных
+     * исключения (http статус 500).
+     *
+     * @return Объект класса {@link ModelAndView}.
+     */
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ModelAndView otherException(
+            final Exception exception,
+            final HttpServletRequest request) {
+        return handleException(
+                exception,
+                request,
+                OTHER_EXCEPTION_MESSAGE
         );
     }
 
