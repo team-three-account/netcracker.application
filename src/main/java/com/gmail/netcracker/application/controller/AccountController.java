@@ -6,38 +6,28 @@ import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-import java.util.logging.Logger;
-
 @Controller
 @RequestMapping(value = "/account")
 public class AccountController {
-    private final
-    EmailConcructor emailConcructor;
-
-    private final
-    UserService userService;
-
-    private final
-    JavaMailSender javaMailSender;
-
-    private final
-    ResetConfirmPasswordValidator resetConfirmPasswordValidator;
 
     @Autowired
-    public AccountController(EmailConcructor emailConcructor, UserService userService, JavaMailSender javaMailSender, ResetConfirmPasswordValidator resetConfirmPasswordValidator) {
-        this.emailConcructor = emailConcructor;
-        this.userService = userService;
-        this.javaMailSender = javaMailSender;
-        this.resetConfirmPasswordValidator = resetConfirmPasswordValidator;
-    }
+    private User user;
+
+    @Autowired
+    private EmailConcructor emailConcructor;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ResetConfirmPasswordValidator resetConfirmPasswordValidator;
+
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String homeAccount(Model model) {
@@ -47,8 +37,8 @@ public class AccountController {
 
     @RequestMapping(value = "/resetpassword", method = RequestMethod.GET)
     public String passwordResetSuccessful() {
-        User user = userService.getAuthenticatedUser();
-        passwordApprove(user);
+        user = userService.getAuthenticatedUser();
+        emailConcructor.resetPasswordEmailSender(user);
         return "account/passwordResetSuccessful";
     }
 
@@ -83,10 +73,5 @@ public class AccountController {
         return "account/successfulChange";
     }
 
-    private void passwordApprove(User user) {
-        final String token = UUID.randomUUID().toString();
-        userService.createVerificationToken(user, token);
-        final SimpleMailMessage email = emailConcructor.constructPasswordResetEmailMessage(user,token);
-        javaMailSender.send(email);
-    }
+
 }

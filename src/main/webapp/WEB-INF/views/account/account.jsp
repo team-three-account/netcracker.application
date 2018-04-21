@@ -9,20 +9,34 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
-    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <title>${auth_user.name} ${auth_user.surname}</title>
+    <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
-    <link href="${contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <!-- Custom styles for this template-->
-    <link href="${contextPath}/resources/css/sb-admin.css">
+
 </head>
 <body>
-<h2>${auth_user.name} ${auth_user.email}</h2>
-<h2>${auth_user}</h2>
-<a href="/logout" class="btn btn-dark text-center" >Logout</a>
 
-    <a href="/account/resetpassword" type="submit" class="btn btn-dark text-center" >Change Password</a>
-
-
+<jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar menu">
+            <ul class="nav nav-sidebar">
+                <li><a href="#">${auth_user.name} ${auth_user.surname}</a></li>
+                <li><a href="#">${auth_user.email}</a></li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="">Friends</a></li>
+                <li><a href="#">Events</a></li>
+                <li><a href="#">Calendar</a></li>
+                <li><a href="#">Wish List</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </body>
 </html>

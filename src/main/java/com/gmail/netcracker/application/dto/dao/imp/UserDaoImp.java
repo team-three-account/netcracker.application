@@ -2,13 +2,19 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoString;
 import static com.gmail.netcracker.application.utilites.Utilites.parseStringIntoDate;
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
+
+    @Autowired
+    private User user;
+
 
     @Transactional
     @Override
@@ -29,7 +35,6 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Transactional
     @Override
     public User findUser(String email) {
-        User user = new User();
         jdbcTemplate.query("select * from person where email = " + "'" + email + "'", resultSet -> {
             while (resultSet.next()) {
                 user.setId(resultSet.getString("person_id"));

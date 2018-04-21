@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.Utilites;
 import com.gmail.netcracker.application.utilites.VerificationToken;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,11 +12,17 @@ import org.springframework.transaction.annotation.Transactional;
 public class VerificationTokenDaoImp extends ModelDao
         implements VerificationTokenDao {
 
+    @Autowired
+    private User user;
+
+    @Autowired
+    private VerificationToken verificationToken;
+
+
     @Transactional
     @Override
     public VerificationToken findByToken(String token) {
-        VerificationToken verificationToken = new VerificationToken();
-        User user = new User();
+
         return jdbcTemplate.query("select * from verif_token where verif_token.token_id = " + "'" + token + "'", resultSet -> {
             while (resultSet.next()) {
                 verificationToken.setId(resultSet.getString("token_id"));

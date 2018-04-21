@@ -13,34 +13,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
 
 @Controller
 public class RegistrationController {
 
-    private final
-    ApplicationEventPublisher eventPublisher;
-
-    private final
-    JavaMailSender javaMailSender;
-
-    private final
-    RegisterValidator registerValidator;
-
-    private final EmailConcructor emailConcructor;
-    private final
-    UserService userService;
+    @Autowired
+    private VerificationToken verificationToken;
 
     @Autowired
-    public RegistrationController(ApplicationEventPublisher eventPublisher, JavaMailSender javaMailSender, RegisterValidator registerValidator, EmailConcructor emailConcructor, UserService userService) {
-        this.eventPublisher = eventPublisher;
-        this.javaMailSender = javaMailSender;
-        this.registerValidator = registerValidator;
-        this.emailConcructor = emailConcructor;
-        this.userService = userService;
-    }
+    private User user;
+
+    @Autowired
+    private RegisterValidator registerValidator;
+
+    @Autowired
+    private EmailConcructor emailConcructor;
+
+    @Autowired
+    private UserService userService;
+
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
@@ -62,7 +55,7 @@ public class RegistrationController {
         return "user/registration/registration";
     }
 
-    @RequestMapping(value = "/user/registration/post", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
     public String registerUserAccount(
             @ModelAttribute("registrationForm") User user, BindingResult bindingResult) {
         registerValidator.validate(user, bindingResult);
@@ -70,7 +63,7 @@ public class RegistrationController {
             return "user/registration/registration";
         }
         user.setId(UUID.randomUUID().toString());
-        emailSender(user);
+        emailConcructor.registerEmailSender(user);
         return "user/registration/approve";
     }
 
@@ -83,23 +76,10 @@ public class RegistrationController {
     @RequestMapping(value = "/registrationConfirm/{token}", method = RequestMethod.GET)
     public String confirmRegistration
             (@PathVariable(value = "token") String token) {
-        VerificationToken verificationToken = userService.getVerificationToken(token);
-        User user = verificationToken.getUser();
+        verificationToken = userService.getVerificationToken(token);
+        user = verificationToken.getUser();
         userService.saveRegisteredUser(user);
         userService.deleteVerificationToken(verificationToken);
         return "user/registration/successfulRegistration";
-    }
-
-
-    private void emailSender(User user) {
-        final String token = UUID.randomUUID().toString();
-        userService.createVerificationToken(user, token);
-        final SimpleMailMessage email = emailConcructor.constructRegisterEmailMessage(user,token);
-        javaMailSender.send(email);
-    }
-
-    @RequestMapping(value = "/example", method = RequestMethod.GET)
-    public String home(ModelAndView modelAndView) {
-        return "example";
     }
 }

@@ -24,16 +24,16 @@ public class SecurityConfig
         extends WebSecurityConfigurerAdapter {
 
 
-    private final DataSource dataSource;
+
 
     @Autowired
-    private final UserServiceImp userService;
+    private  UserServiceImp userService;
 
-    @Autowired
-    public SecurityConfig(DataSource dataSource, UserServiceImp userService) {
-        this.dataSource = dataSource;
-        this.userService = userService;
-    }
+    /**
+     * URL запроса при отказе в доступе при авторизации.
+     */
+    private static final String ACCESS_DENIED_PAGE = "/forbidden_exception";
+
 
     @Override
     protected void configure(final AuthenticationManagerBuilder builder)
@@ -52,12 +52,13 @@ public class SecurityConfig
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/account").hasRole("USER")
+                .antMatchers("/account/**").hasRole("USER")
                 .anyRequest().permitAll()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/account")
                 .and()
                 .logout().logoutSuccessUrl("/login?logout")
                 .and()
+                .exceptionHandling().accessDeniedPage(ACCESS_DENIED_PAGE).and()
                 .csrf().disable();
 
     }

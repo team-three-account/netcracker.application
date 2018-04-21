@@ -5,9 +5,11 @@ import com.gmail.netcracker.application.dto.dao.imp.UserDaoImp;
 import com.gmail.netcracker.application.dto.dao.imp.VerificationTokenDaoImp;
 import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
+import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.UserServiceImp;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +32,7 @@ public class RootConfig {
     private final Environment env;
 
     @Bean
-    public EmailConcructor emailConcructor(){
+    public EmailConcructor emailConcructor() {
         return new EmailConcructor();
     }
 
@@ -52,6 +54,16 @@ public class RootConfig {
     @Bean
     UserService userService() {
         return new UserServiceImp();
+    }
+
+    @Bean
+    VerificationToken verificationToken() {
+        return new VerificationToken();
+    }
+
+    @Bean
+    User user() {
+        return new User();
     }
 
     @Bean

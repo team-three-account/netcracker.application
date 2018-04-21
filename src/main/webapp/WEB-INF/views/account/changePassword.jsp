@@ -36,10 +36,9 @@
         </div>
     </div>
 </div>
-<!-- Bootstrap core JavaScript-->
-<script src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery.appear.js"></script>
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery.maskedinput.min.js"></script>
 <script src="${contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin JavaScript-->
-<script src="${contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 </body>
 </html>

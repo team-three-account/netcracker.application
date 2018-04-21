@@ -21,11 +21,16 @@ import java.util.Arrays;
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
 
-    @Autowired
-    UserDao userDao;
 
     @Autowired
-    VerificationTokenDao verificationTokenDao;
+    private VerificationToken verificationToken;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private VerificationTokenDao verificationTokenDao;
+
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -39,7 +44,6 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public VerificationToken createVerificationToken(User user, String token) {
-        VerificationToken verificationToken = new VerificationToken();
         verificationToken.setId(token);
         verificationToken.setUser(user);
         return verificationTokenDao.create(verificationToken);

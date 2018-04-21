@@ -25,11 +25,9 @@ public class RegisterValidator implements Validator {
         User user = (User) obj;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "phone", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"password","required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,"confirmPassword","required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"birthdayDate","required.field");
         if( !user.getPassword().equals(user.getConfirmPassword())){
             errors.rejectValue("confirmPassword","match.password");
         }
