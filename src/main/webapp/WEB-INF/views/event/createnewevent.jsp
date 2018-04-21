@@ -37,6 +37,10 @@
         <label>period</label>
         <form:input path="periodicity" id="periodicity" type="text"/>
     </div>
+        <div>
+            <label>type</label>
+            <form:select path="type" items="${eventTypes}" multiple="true" itemValue="typeId" id="eventRole" itemLabel="type"/>
+        </div>
 
     <div>
         <label>is_Draft</label>
