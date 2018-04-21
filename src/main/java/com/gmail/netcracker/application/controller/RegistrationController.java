@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
 
@@ -95,5 +96,10 @@ public class RegistrationController {
         userService.createVerificationToken(user, token);
         final SimpleMailMessage email = emailConcructor.constructRegisterEmailMessage(user,token);
         javaMailSender.send(email);
+    }
+
+    @RequestMapping(value = "/example", method = RequestMethod.GET)
+    public String home(ModelAndView modelAndView) {
+        return "example";
     }
 }

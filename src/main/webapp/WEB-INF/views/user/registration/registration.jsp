@@ -10,15 +10,19 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Title</title>
+    <title>Registration</title>
     <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
     <link href="${contextPath}/resources/css/sb-admin.css">
 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="829562763201-3hn7scp4j1c9u7hvlherebi8e56pv9va.apps.googleusercontent.com">
 </head>
 <body>
 <div class="container">
@@ -27,10 +31,18 @@
         <div class="card-body">
             <form:form method="POST" modelAttribute="registrationForm"
                        class="forms_form" action="/user/registration/post">
-                <div class="form-group">
+
+                <div style="text-align: center">Using Google</div>
+                <div class="g-signin2 " data-onsuccess="onRegistration" id="myP" style="float: left; margin-bottom: 15px">Google</div>
+
+                <div style="float: right">
+                    <a href="#" onclick="signOut();">Sign out</a>
+                </div>
+                <div style="clear: both; border: 1px solid darkgrey; margin-bottom: 5%;"></div>
+                <div class="form-group" style="clear: both">
                     <label>Name</label>
-                    <form:input path="name" name="name" class="form-control"
-                                type="name"
+                    <form:input path="name"  name="name" class="form-control"
+                                type="name" readonly="readonly"
                                 placeholder="Enter name"/>
                     <form:errors path="name" cssClass="error"/>
                 </div>
@@ -98,5 +110,6 @@
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 <script src="${contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
+<script src="${contextPath}/resources/js/google.js"></script>
 </body>
 </html>
