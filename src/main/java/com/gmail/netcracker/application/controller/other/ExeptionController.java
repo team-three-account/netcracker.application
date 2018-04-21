@@ -58,7 +58,7 @@ public class ExeptionController {
      * исключения (http статус 404).
      *
      * @return Объект класса {@link ModelAndView}.
-     */
+     *//*
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ModelAndView noHandlerFoundException(
@@ -73,14 +73,14 @@ public class ExeptionController {
     }
 
 
-    /**
+    *//**
      * Перехват BadRequestException
      * исключения (http статус 400).
      *
      * @param exception Объект исключения BadRequestException.
      * @param request   Объект интерфейса HttpServletRequest.
      * @return Объект класса {@link ModelAndView}.
-     */
+     *//*
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ModelAndView badRequestException(
@@ -94,7 +94,7 @@ public class ExeptionController {
         );
     }
 
-    /**
+    *//**
      * Перехват ForbiddenException
      * исключения (http статус 403).
      *
@@ -102,7 +102,7 @@ public class ExeptionController {
      *                  ForbiddenException.
      * @param request   Объект интерфейса HttpServletRequest.
      * @return Объект класса {@link ModelAndView}.
-     */
+     *//*
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ModelAndView forbiddenException(
@@ -116,12 +116,12 @@ public class ExeptionController {
         );
     }
 
-    /**
+    *//**
      * Перехват всех остальных
      * исключения (http статус 500).
      *
      * @return Объект класса {@link ModelAndView}.
-     */
+     *//*
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView otherException(
@@ -154,5 +154,5 @@ public class ExeptionController {
         return modelAndView;
     }
 
-
+*/
 }
