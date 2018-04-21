@@ -52,7 +52,7 @@ public class SecurityConfig
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/account").hasRole("USER")
+                .antMatchers("/account/**").hasRole("USER")
                 .anyRequest().permitAll()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/account")
                 .and()
