@@ -1,12 +1,17 @@
 package com.gmail.netcracker.application.config;
 
 import com.gmail.netcracker.application.aspects.TokenLifeAspect;
+import com.gmail.netcracker.application.dto.dao.imp.EventDaoImpl;
 import com.gmail.netcracker.application.dto.dao.imp.UserDaoImp;
 import com.gmail.netcracker.application.dto.dao.imp.VerificationTokenDaoImp;
+import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
+import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.service.imp.EventServiceImpl;
 import com.gmail.netcracker.application.service.imp.UserServiceImp;
+import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
@@ -84,6 +89,20 @@ public class RootConfig {
     @Bean
     public ResetConfirmPasswordValidator resetConfirmPasswordValidator() {
         return new ResetConfirmPasswordValidator();
+    }
+    @Bean
+    EventDao eventDao() {
+        return new EventDaoImpl();
+    }
+
+    @Bean
+    Event event() {
+        return new Event();
+    }
+
+    @Bean
+    EventService eventService() {
+        return new EventServiceImpl();
     }
 
     @Bean
