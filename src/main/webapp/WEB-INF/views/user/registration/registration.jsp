@@ -30,7 +30,7 @@
         <div class="card-header">Register an Account</div>
         <div class="card-body">
             <form:form method="POST" modelAttribute="registrationForm"
-                       class="forms_form" action="/user/registration/post">
+                       class="forms_form" action="/user/registration">
 
                 <div style="text-align: center">Using Google</div>
                 <div class="g-signin2 " data-onsuccess="onRegistration" id="myP" style="float: left; margin-bottom: 15px">Google</div>
@@ -88,7 +88,7 @@
                 </div>
                 <div class="form-group">
                     <label>Phone</label>
-                    <form:input path="phone" name="phone" class="form-control"
+                    <form:input path="phone" name="phone" class="form-control phone"
                                 type="phone"
                                 aria-describedby="emailHelp"
                                 placeholder="Enter phone"/>
@@ -101,10 +101,9 @@
 </div>
 
 <!-- Bootstrap core JavaScript-->
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-<script src="${contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-<script src="${contextPath}/resources/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- Core plugin JavaScript-->
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
++<script src="${contextPath}/resources/vendor/bootstrap/js/jquery.appear.js"></script>
++<script src="${contextPath}/resources/vendor/bootstrap/js/jquery.maskedinput.min.js"></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet"
