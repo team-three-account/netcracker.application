@@ -5,7 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
 
-public class ModelDao {
+public abstract class ModelDao {
     @Autowired
     protected DataSource dataSource;
 

@@ -34,6 +34,9 @@
                 <li><a href="#">Wish List</a></li>
             </ul>
         </div>
+        <div  style="padding : 7%">
+            <h1>Profile of Friend</h1>
+         <div>
     </div>
 </div>
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
