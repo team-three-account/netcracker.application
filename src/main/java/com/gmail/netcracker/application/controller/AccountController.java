@@ -7,6 +7,7 @@ import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,9 @@ public class AccountController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private ResetConfirmPasswordValidator resetConfirmPasswordValidator;
@@ -67,7 +71,7 @@ public class AccountController {
             model.addAttribute("veriftoken", verificationToken);
             return "account/changePassword";
         }
-        verificationToken.getUser().setPassword(password);
+        verificationToken.getUser().setPassword(passwordEncoder.encode(password));
         userService.changeUserPassword(verificationToken.getUser().getPassword(), verificationToken.getUser().getEmail());
         userService.deleteVerificationToken(verificationToken);
         return "account/successfulChange";
