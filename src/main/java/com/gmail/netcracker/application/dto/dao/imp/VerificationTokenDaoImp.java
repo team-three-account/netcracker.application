@@ -5,6 +5,7 @@ import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.Utilites;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,8 @@ public class VerificationTokenDaoImp extends ModelDao
     @Autowired
     private VerificationToken verificationToken;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Transactional
     @Override
@@ -50,7 +53,7 @@ public class VerificationTokenDaoImp extends ModelDao
                 verificationToken.getUser().getName(),
                 verificationToken.getUser().getSurname(),
                 verificationToken.getUser().getEmail(),
-                verificationToken.getUser().getPassword(),
+                passwordEncoder.encode(verificationToken.getUser().getPassword()),
                 "ROLE_USER",
                 verificationToken.getUser().getPhone(),
                 Utilites.parseStringIntoDate(verificationToken.getUser().getBirthdayDate()));

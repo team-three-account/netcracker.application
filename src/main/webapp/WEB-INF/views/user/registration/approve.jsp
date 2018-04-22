@@ -19,7 +19,7 @@
     <div class="card card-register mx-auto mt-5 col-md-6">
         <div class="card-header">Register an Account</div>
         <div class="card-body">
-            <h2>We send you massage on your email, please approve it</h2>
+            <h2>We send you message on your email, please approve it</h2>
             <a href="/">Home</a>
         </div>
     </div>

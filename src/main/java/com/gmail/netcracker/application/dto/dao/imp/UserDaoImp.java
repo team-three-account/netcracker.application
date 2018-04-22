@@ -15,7 +15,6 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Autowired
     private User user;
 
-
     @Transactional
     @Override
     public void saveUser(User user) {

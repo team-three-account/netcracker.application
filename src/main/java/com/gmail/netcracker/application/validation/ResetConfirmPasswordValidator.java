@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -18,6 +19,9 @@ public class ResetConfirmPasswordValidator implements Validator {
     @Autowired
     MessageSource messageSource;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public boolean supports(Class<?> aClass) {
         return User.class.equals(aClass);
@@ -31,7 +35,7 @@ public class ResetConfirmPasswordValidator implements Validator {
         if(!user.getPassword().equals(user.getConfirmPassword())){
             errors.rejectValue("confirmPassword","match.password");
         }
-        if(user.getPassword().equals(userService.findUserByEmail(user.getEmail()).getPassword())){
+        if(passwordEncoder.matches(user.getPassword(),(userService.findUserByEmail(user.getEmail()).getPassword()))){
             errors.rejectValue("confirmPassword","password.actual");
         }
     }

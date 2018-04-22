@@ -55,7 +55,7 @@ public class RegistrationController {
         return "user/registration/registration";
     }
 
-    @RequestMapping(value = "/user/registration/post", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
     public String registerUserAccount(
             @ModelAttribute("registrationForm") User user, BindingResult bindingResult) {
         registerValidator.validate(user, bindingResult);
