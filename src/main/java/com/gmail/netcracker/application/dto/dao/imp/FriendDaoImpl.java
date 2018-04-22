@@ -15,10 +15,12 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
             "from public.\"person\"\n"+
             "where person_id = (select DISTINCT sender\n"+
             "                   from public.\"Friend\"\n"+
-            "                   where recipient = ?)\n"+
+            "                   where recipient = ?\n"+
+            "                   and \"isAccepted\" = TRUE)\n"+
             "or person_id = (select DISTINCT recipient\n"+
             "                   from public.\"Friend\"\n"+
-            "                   where sender = ?)";
+            "                   where sender = ?\n"+
+            "                   and \"isAccepted\" = TRUE)";
 
 
 
