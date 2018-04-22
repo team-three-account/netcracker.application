@@ -23,6 +23,9 @@ public class Utilites {
     }
 
     public static String parseDateIntoString(Date date) {
+        if(date==null){
+            return "";
+        }
         Format df = new SimpleDateFormat("dd/MM/yyyy");
         return df.format(date);
     }
