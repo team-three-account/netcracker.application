@@ -27,45 +27,55 @@ public class SecurityConfig
         extends WebSecurityConfigurerAdapter {
 
 
-
+    private final DataSource dataSource;
 
     @Autowired
-    private UserServiceImp userService;
+    private final UserServiceImp userService;
 
-    /**
-     * URL запроса при отказе в доступе при авторизации.
-     */
-    private static final String ACCESS_DENIED_PAGE = "/forbidden_exception";
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    public SecurityConfig(DataSource dataSource, UserServiceImp userService) {
+        this.dataSource = dataSource;
+        this.userService = userService;
+    }
 
     @Override
     protected void configure(final AuthenticationManagerBuilder builder)
             throws Exception {
-        builder.userDetailsService(userService);
+        builder.authenticationProvider(authProvider());
+
 
     }
 
     @Autowired
-    protected void registerGlobalAuthentication(AuthenticationManagerBuilder registry) throws Exception {
+    protected void registerGlobalAuthentication(AuthenticationManagerBuilder registry, PasswordEncoder passwordEncoder) throws Exception {
         registry
-                .userDetailsService(userService);
+                .userDetailsService(userService)
+                .passwordEncoder(passwordEncoder);
     }
 
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/account/**").hasRole("USER")
+                .antMatchers("/account").hasRole("USER")
                 .anyRequest().permitAll()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/account")
                 .and()
                 .logout().logoutSuccessUrl("/login?logout")
                 .and()
-                .exceptionHandling().accessDeniedPage(ACCESS_DENIED_PAGE).and()
                 .csrf().disable();
 
     }
-
+    @Bean
+    public DaoAuthenticationProvider authProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userService);
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
+    }
 
 }
 
