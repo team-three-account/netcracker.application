@@ -14,7 +14,7 @@ import java.util.List;
 
 
 public class EventDaoImpl extends ModelDao implements EventDao {
-    private static final String EVENT_READ = "SELECT event_id, \"Event\".name, description, email, start_date, end_date, place_id, place_address, periodicity, valueee, is_draft, folder\n" +
+    private static final String EVENT_READ = "SELECT event_id, \"Event\".name, description, email, start_date, end_date, place_id, place_address, periodicity, value, is_draft, folder\n" +
             "FROM public.\"Event\"\n" +
             "INNER JOIN \"Type\" ON \"Event\".type=\"Type\".type_id\n" +
             "INNER JOIN \"person\" ON \"Event\".creator=\"person\".person_id";
@@ -25,7 +25,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     private static final String EVENT_DELETE = "DELETE FROM public.\"Event\"\n" +
             "\tWHERE \"Event\".event_id=?";
-    private static final String GET_ALL_EVENT_TYPES = "SELECT type_id, valueee\n" +
+    private static final String GET_ALL_EVENT_TYPES = "SELECT type_id, value\n" +
             "\tFROM public.\"Type\";";
 
 

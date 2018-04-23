@@ -47,7 +47,8 @@ public class VerificationTokenDaoImp extends ModelDao
     @Transactional
     @Override
     public VerificationToken create(VerificationToken verificationToken) {
-        jdbcTemplate.update("INSERT into verif_token(token_id, user_id,name,surname,email,password,role,phone,birthday) values(?,?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT into verif_token(token_id,user_id,name,surname,email,password,role,birthday,phone)" +
+                        "values(?,?,?,?,?,?,?,?,?)",
                 verificationToken.getId(),
                 verificationToken.getUser().getId(),
                 verificationToken.getUser().getName(),
@@ -55,8 +56,8 @@ public class VerificationTokenDaoImp extends ModelDao
                 verificationToken.getUser().getEmail(),
                 passwordEncoder.encode(verificationToken.getUser().getPassword()),
                 "ROLE_USER",
-                verificationToken.getUser().getPhone(),
-                Utilites.parseStringIntoDate(verificationToken.getUser().getBirthdayDate()));
+                Utilites.parseStringIntoDate(verificationToken.getUser().getBirthdayDate()),
+                verificationToken.getUser().getPhone());
         return verificationToken;
     }
 

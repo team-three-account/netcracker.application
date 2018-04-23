@@ -120,12 +120,11 @@
             <artifactId>validation-api</artifactId>
             <version>1.1.0.Final</version>
         </dependency>
-
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.16.18</version>
-         </dependency>
+            <groupId>javax.validation</groupId>
+            <artifactId>validation-api</artifactId>
+            <version>2.0.1.Final</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
