@@ -31,7 +31,7 @@ public class RegisterValidator implements Validator {
         if( !user.getPassword().equals(user.getConfirmPassword())){
             errors.rejectValue("confirmPassword","match.password");
         }
-        if (userService.findUserByEmail(user.getEmail()).getEmail() != null) {
+        if (user.getEmail().equals(userService.findUserByEmail(user.getEmail()).getEmail())) {
             errors.rejectValue("email", "email.already.exist");
         }
     }
