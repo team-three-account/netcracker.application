@@ -154,10 +154,10 @@ public class RootConfig {
     public DataSource
     dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
-        driver.setDriverClassName(env.getProperty("org.postgresql.Driver"));
-        driver.setUrl(env.getProperty("jdbc:postgresql://localhost:5432/postgres"));
-        driver.setUsername(env.getProperty("postgres"));
-        driver.setPassword(env.getProperty("root"));
+        driver.setDriverClassName(env.getProperty("postgre.driver"));
+        driver.setUrl(env.getProperty("postgre.url"));
+        driver.setUsername(env.getProperty("postgre.username"));
+        driver.setPassword(env.getProperty("postgre.password"));
         return driver;
 
     }
