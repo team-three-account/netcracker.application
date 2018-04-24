@@ -10,6 +10,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.FriendDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.EventServiceImpl;
 import com.gmail.netcracker.application.service.imp.FriendServiceImpl;
@@ -77,6 +78,11 @@ public class RootConfig {
     @Bean
     User user() {
         return new User();
+    }
+
+    @Bean
+    Friend friendship() {
+        return new Friend();
     }
 
     @Bean
