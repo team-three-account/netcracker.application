@@ -32,6 +32,7 @@ public class ItemController {
         itemService.add(item);
         return "redirect:/itemsList";
     }
+
     @RequestMapping(value = "/account/itemsList", method = RequestMethod.GET)
     public String itemList (Model model) {
         model.addAttribute("itemsList", itemService.itemList());

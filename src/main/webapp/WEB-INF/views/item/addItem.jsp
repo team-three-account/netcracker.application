@@ -11,7 +11,6 @@
     <title>Add new item</title>
 </head>
 <body>
-
 <form name="item" action="/account/eventList/addItem" method="post">
     <p>itemId</p>
     <input title="itemId" type="text" name="itemId">
