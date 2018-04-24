@@ -32,13 +32,11 @@ public class ItemController {
         itemService.add(item);
         return "redirect:/itemsList";
     }
-
     @RequestMapping(value = "/account/itemsList", method = RequestMethod.GET)
     public String itemList (Model model) {
         model.addAttribute("itemsList", itemService.itemList());
         return "item/itemsList";
     }
-
     @RequestMapping(value = {"account/itemsList/findItemByPersonId-{personId}"}, method = RequestMethod.GET)
     public String findItemByPersonId(@PathVariable("personId") String personId, Model model){
          model.addAttribute("itemsList", itemService.findItemByPersonId(personId));
