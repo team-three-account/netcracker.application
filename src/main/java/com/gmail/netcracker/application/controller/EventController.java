@@ -23,7 +23,6 @@ public class EventController {
     @Autowired
     EventService eventService;
 
-
     @RequestMapping(value = "/account/eventlist", method = RequestMethod.GET)
     public ModelAndView eventList(ModelAndView modelAndView) {
         List<Event> eventList = eventDao.eventList();
