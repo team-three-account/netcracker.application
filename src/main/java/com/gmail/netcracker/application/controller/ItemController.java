@@ -37,6 +37,7 @@ public class ItemController {
         model.addAttribute("itemsList", itemService.itemList());
         return "item/itemsList";
     }
+
     @RequestMapping(value = {"account/itemsList/findItemByPersonId-{personId}"}, method = RequestMethod.GET)
     public String findItemByPersonId(@PathVariable("personId") String personId, Model model){
          model.addAttribute("itemsList", itemService.findItemByPersonId(personId));

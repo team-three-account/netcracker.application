@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ItemDaoImpl extends ModelDao implements ItemDao {
 
+
     private final String UPDATE = "UPDATE public.\"Item\"\n" +
             "SET person_id=?, booker_name=?, item_name=?, link=?, due_date=?, priority=?, root=?\n" +
             "WHERE \"Item\".item_id=?;";

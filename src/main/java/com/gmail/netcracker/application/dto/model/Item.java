@@ -1,6 +1,7 @@
 package com.gmail.netcracker.application.dto.model;
 
 public class Item {
+
     private String itemId;
     private String personId;
     private String bookerName;
