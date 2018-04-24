@@ -42,9 +42,18 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public void insertEvent(Event event) {
 
-        jdbcTemplate.update(EVENT_INSERT, event.getName(), event.getDescription(), event.getCreator(),
-                parseTime(event.getDateStart()), parseTime(event.getDateEnd()), event.getPlaceId(), event.getPlaceAddress(),
-                event.getPeriodicity(), parseStringToInt(event.getType()), event.isDraft(), event.getFolder());
+        jdbcTemplate.update(EVENT_INSERT,
+                event.getName(),
+                event.getDescription(),
+                event.getCreator(),
+                parseTime(event.getDateStart()),
+                parseTime(event.getDateEnd()),
+                event.getPlaceId(),
+                event.getPlaceAddress(),
+                event.getPeriodicity(),
+                parseStringToInt(event.getType()),
+                event.isDraft(),
+                event.getFolder());
     }
 
     @Override

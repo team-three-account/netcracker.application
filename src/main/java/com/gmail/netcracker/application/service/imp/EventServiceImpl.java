@@ -6,6 +6,8 @@ import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 public class EventServiceImpl implements EventService {
 
     @Autowired
@@ -21,5 +23,9 @@ public class EventServiceImpl implements EventService {
     public void createEventWithAuthUser(Event event) {
         event.setCreator(userService.getAuthenticatedUser().getId());
         eventDao.insertEvent(event);
+    }
+
+    public List<Event> findAll(){
+        return eventDao.eventList();
     }
 }
