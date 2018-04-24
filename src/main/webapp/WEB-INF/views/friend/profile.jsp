@@ -1,7 +1,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
-  User: Artem
+  User: anyat
   Date: 15.04.2018
   Time: 20:11
   To change this template use File | Settings | File Templates.
@@ -28,7 +28,7 @@
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="/account/eventlist">Events</a></li>
-                <li><a href="/account/friends">Friends</a></li>
+                <li><a href="/friends">Friends</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Calendar</a></li>
                 <li><a href="#">Wish List</a></li>

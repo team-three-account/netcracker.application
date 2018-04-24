@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.aspects.TokenLifeAspect;
 import com.gmail.netcracker.application.dto.dao.imp.*;
 import com.gmail.netcracker.application.dto.dao.interfaces.*;
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.EventServiceImpl;
 import com.gmail.netcracker.application.service.imp.FriendServiceImpl;
@@ -71,6 +72,11 @@ public class RootConfig {
     @Bean
     User user() {
         return new User();
+    }
+
+    @Bean
+    Friend friendship() {
+        return new Friend();
     }
 
     @Bean

@@ -29,7 +29,6 @@
             <ul class="nav nav-sidebar">
                 <li><a href="/account/eventlist">Events</a></li>
                 <li><a href="/account/friends">Friends</a></li>
-                <li><a href="/account/itemsList">Wish List</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Calendar</a></li>
                 <li><a href="#">Wish List</a></li>

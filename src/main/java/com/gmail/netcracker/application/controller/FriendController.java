@@ -9,11 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/account")
 public class FriendController {
 
     @Autowired
@@ -29,13 +29,61 @@ public class FriendController {
         List<User> friendList = friendService.getAllFriends(auth_user.getId());
         model.addAttribute("friendList", friendList);
         model.addAttribute("message", amountOfFriendsMessage(friendList.size()));
-        return "account/friends";
+        return "friend/friends";
     }
 
     @RequestMapping(value = "/{friend_id}", method = RequestMethod.GET)
     public String friendAccount(Model model, @PathVariable(value = "friend_id") String friend_id){
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        return "account/profile";
+        return "friend/profile";
+    }
+
+    @RequestMapping(value = "delete-friend", method = RequestMethod.POST)
+    public String deleteFriend(@RequestParam(value = "friend_id") String friend_id){
+         userService.getAuthenticatedUser().getId();
+
+        return "redirect:/friend/friends";
+    }
+
+    @RequestMapping(value = "/friends/add-friend", method = RequestMethod.POST)
+    public String addFriend(@RequestParam(value = "friend_id") String friend_id){
+
+        friendService.addFriend(userService.getAuthenticatedUser().getId(), friend_id);
+        return "redirect:/friends/outgoing";
+    }
+
+    @RequestMapping(value = "/friends/add", method = RequestMethod.GET)
+    public String searchFriend(Model model){
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+
+        return "friend/addFriend";
+    }
+
+    @RequestMapping(value = "/friends/add", method = RequestMethod.POST)
+    public String getSearch(Model model, String search){
+        if(search.isEmpty()) return "friend/addFriend";
+        List<User> foundFriends = friendService.searchFriends(search);
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("foundFriends",foundFriends);
+        return "friend/addFriend";
+    }
+
+    @RequestMapping(value = "/friends/outgoing", method = RequestMethod.GET)
+    public String outgoingRequests(Model model) {
+        User auth_user = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        List<User> outgoingList = friendService.getOutgoingRequests(auth_user.getId());
+        model.addAttribute("outgoingList", outgoingList);
+        if(outgoingList.isEmpty()) model.addAttribute("message", "You have not any outgoing request");
+
+        return "friend/outgoingRequest";
+    }
+
+    @RequestMapping(value = "/friends/cancel-request", method = RequestMethod.POST)
+    public String cancelRequest(@RequestParam(value = "friend_id") String friend_id){
+        User auth_user = userService.getAuthenticatedUser();
+        friendService.cancelRequest(userService.getAuthenticatedUser().getId(), friend_id);
+        return "redirect:/friends/outgoing";
     }
 
     public static String amountOfFriendsMessage(int amount){
