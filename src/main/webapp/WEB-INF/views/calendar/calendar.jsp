@@ -9,11 +9,11 @@
 <html>
 <head>
     <meta charset='utf-8' />
-    <link href='resources/calendar/css/fullcalendar.min.css' rel='stylesheet' />
-    <link href='resources/calendar/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
-    <script src='resources/calendar/js/moment.min.js'></script>
-    <script src='resources/calendar/js/jquery.min.js'></script>
-    <script src='resources/calendar/js/fullcalendar.min.js'></script>
+    <link href='../resources/calendar/css/fullcalendar.min.css' rel='stylesheet' />
+    <link href='../resources/calendar/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <script src='../resources/calendar/js/moment.min.js'></script>
+    <script src='../resources/calendar/js/jquery.min.js'></script>
+    <script src='../resources/calendar/js/fullcalendar.min.js'></script>
     <script>
 
         $(document).ready(function() {

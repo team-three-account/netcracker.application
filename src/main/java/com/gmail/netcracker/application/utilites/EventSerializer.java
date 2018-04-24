@@ -15,6 +15,6 @@ public class EventSerializer implements JsonSerializer<Event> {
         result.addProperty("title", src.getName());
         result.addProperty("start", src.getDateStart());
         result.addProperty("end", src.getDateEnd());
-        return null;
+        return result;
     }
 }
