@@ -1,21 +1,18 @@
 package com.gmail.netcracker.application.config;
 
 import com.gmail.netcracker.application.aspects.TokenLifeAspect;
-import com.gmail.netcracker.application.dto.dao.imp.EventDaoImpl;
-import com.gmail.netcracker.application.dto.dao.imp.FriendDaoImpl;
-import com.gmail.netcracker.application.dto.dao.imp.UserDaoImp;
-import com.gmail.netcracker.application.dto.dao.imp.VerificationTokenDaoImp;
-import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
-import com.gmail.netcracker.application.dto.dao.interfaces.FriendDao;
-import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
-import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
+import com.gmail.netcracker.application.dto.dao.imp.*;
+import com.gmail.netcracker.application.dto.dao.interfaces.*;
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.EventServiceImpl;
 import com.gmail.netcracker.application.service.imp.FriendServiceImpl;
+import com.gmail.netcracker.application.service.imp.ItemServiceImpl;
 import com.gmail.netcracker.application.service.imp.UserServiceImp;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
+import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
@@ -26,7 +23,6 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.LocaleResolver;
@@ -42,7 +38,6 @@ import java.util.Locale;
 public class RootConfig {
 
     private final Environment env;
-
 
     @Bean
     public EmailConcructor emailConcructor() {
@@ -80,6 +75,11 @@ public class RootConfig {
     }
 
     @Bean
+    Friend friendship() {
+        return new Friend();
+    }
+
+    @Bean
     VerificationTokenDao verificationTokenDao() {
         return new VerificationTokenDaoImp();
     }
@@ -98,13 +98,21 @@ public class RootConfig {
     public ResetConfirmPasswordValidator resetConfirmPasswordValidator() {
         return new ResetConfirmPasswordValidator();
     }
+
     @Bean
     EventDao eventDao() {
         return new EventDaoImpl();
     }
 
     @Bean
-    FriendDao friendDao() {return new FriendDaoImpl(); }
+    FriendDao friendDao() {
+        return new FriendDaoImpl();
+    }
+
+    @Bean
+    ItemDao itemDao() {
+        return new ItemDaoImpl();
+    }
 
     @Bean
     Event event() {
@@ -117,7 +125,14 @@ public class RootConfig {
     }
 
     @Bean
-    FriendService friendServiceriendService() {return new FriendServiceImpl();}
+    FriendService friendServiceFriendService() {
+        return new FriendServiceImpl();
+    }
+
+    @Bean
+    ItemService itemService() {
+        return new ItemServiceImpl();
+    }
 
     @Bean
     LocaleResolver localeResolver() {
@@ -135,7 +150,6 @@ public class RootConfig {
         return resourceBundleMessageSource;
     }
 
-
     @Bean
     public DataSource
     dataSource() {
@@ -147,11 +161,11 @@ public class RootConfig {
         return driver;
 
     }
+
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 
 }

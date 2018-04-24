@@ -28,10 +28,17 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     private static final String GET_ALL_EVENT_TYPES = "SELECT type_id, valueee\n" +
             "\tFROM public.\"Type\";";
 
+    private static final String EVENT_UPDATE = "UPDATE public.\"Event\"\n" +
+            "SET name=?, description=?, creator=?, start_date=?, end_date=?, \n" +
+            "place_id=?, place_address=?, periodicity=?, type=?, is_draft=?, folder=?\n" +
+            "WHERE \"Event\".event_id=?;";
+
 
     @Override
     public void update(Event event) {
-
+        jdbcTemplate.update(EVENT_UPDATE, event.getName(), event.getDescription(), event.getCreator(),
+                parseTime(event.getDateStart()), parseTime(event.getDateEnd()), event.getPlaceId(), event.getPlaceAddress(),
+                event.getPeriodicity(), parseStringToInt(event.getType()), event.isDraft(), event.getFolder(), event.getEventId());
     }
 
     @Override
@@ -41,19 +48,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public void insertEvent(Event event) {
-
-        jdbcTemplate.update(EVENT_INSERT,
-                event.getName(),
-                event.getDescription(),
-                event.getCreator(),
-                parseTime(event.getDateStart()),
-                parseTime(event.getDateEnd()),
-                event.getPlaceId(),
-                event.getPlaceAddress(),
-                event.getPeriodicity(),
-                parseStringToInt(event.getType()),
-                event.isDraft(),
-                event.getFolder());
+        jdbcTemplate.update(EVENT_INSERT, event.getName(), event.getDescription(), event.getCreator(),
+                parseTime(event.getDateStart()), parseTime(event.getDateEnd()), event.getPlaceId(), event.getPlaceAddress(),
+                event.getPeriodicity(), parseStringToInt(event.getType()), event.isDraft(), event.getFolder());
     }
 
     @Override
@@ -76,9 +73,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
                 event.setFolder(resultSet.getInt("folder"));
                 return event;
             }
-
         });
-
         return listEmployee;
     }
 
