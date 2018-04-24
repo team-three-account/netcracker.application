@@ -49,7 +49,7 @@ public class FriendController {
     public String addFriend(@RequestParam(value = "friend_id") String friend_id){
 
         friendService.addFriend(userService.getAuthenticatedUser().getId(), friend_id);
-        return "/friend/outgoingRequest";
+        return "redirect:/friends/outgoing";
     }
 
     @RequestMapping(value = "/friends/add", method = RequestMethod.GET)
@@ -66,6 +66,24 @@ public class FriendController {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("foundFriends",foundFriends);
         return "friend/addFriend";
+    }
+
+    @RequestMapping(value = "/friends/outgoing", method = RequestMethod.GET)
+    public String outgoingRequests(Model model) {
+        User auth_user = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        List<User> outgoingList = friendService.getOutgoingRequests(auth_user.getId());
+        model.addAttribute("outgoingList", outgoingList);
+        if(outgoingList.isEmpty()) model.addAttribute("message", "You have not any outgoing request");
+
+        return "friend/outgoingRequest";
+    }
+
+    @RequestMapping(value = "/friends/cancel-request", method = RequestMethod.POST)
+    public String cancelRequest(@RequestParam(value = "friend_id") String friend_id){
+        User auth_user = userService.getAuthenticatedUser();
+        friendService.cancelRequest(userService.getAuthenticatedUser().getId(), friend_id);
+        return "redirect:/friends/outgoing";
     }
 
     public static String amountOfFriendsMessage(int amount){

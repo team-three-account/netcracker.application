@@ -15,4 +15,8 @@ public interface FriendDao {
     Friend getFriendshipById(String person_id, String friend_id);
 
     void addFriend(String person_id, String friend_id);
+
+    List<User> getOutgoingRequests(String id);
+
+    void cancelRequest(String id, String friend_id);
 }

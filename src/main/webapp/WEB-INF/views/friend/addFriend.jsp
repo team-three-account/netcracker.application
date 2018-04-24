@@ -27,7 +27,7 @@
             <ul class="nav nav-sidebar">
                 <li style="background-color : #dee5fc"><a href="/friends">Friends</a></li>
                 <li><a href="#">Incoming requests</a></li>
-                <li><a href="#">Outgoing requests</a></li>
+                <li><a href="/friends/outgoing">Outgoing requests</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Calendar</a></li>
                 <li><a href="#">Wish List</a></li>

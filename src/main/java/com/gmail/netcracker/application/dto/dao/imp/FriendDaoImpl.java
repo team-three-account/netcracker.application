@@ -44,6 +44,19 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
     private static final String ADD_FRIEND = "INSERT INTO public.\"Friend\"\n" +
             "(sender, recipient, \"isAccepted\")\n" +
             "VALUES (?, ?, FALSE )";
+
+    private static final String GET_OUTGOING_REQUESTS = "select name, surname, person_id\n" +
+            "            from public.\"person\"\n" +
+            "            where person_id = (select recipient\n" +
+            "                               from public.\"Friend\"\n" +
+            "                               where sender = ?\n" +
+            "                               and \"isAccepted\" = FALSE)";
+
+    private static final String CANCEL_REQUEST= "delete from public.\"Friend\"\n"+
+            "where sender = ?\n" +
+            "and recipient = ?\n" +
+            "and \"isAccepted\" = FALSE";
+
     @Override
     public List<User> friendList(String id) {
 
@@ -84,6 +97,17 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
     @Override
     public void addFriend(String person_id, String friend_id) {
         jdbcTemplate.update(ADD_FRIEND, person_id, friend_id );
+    }
+
+    @Override
+    public List<User> getOutgoingRequests(String id) {
+        List<User> outgoingList = jdbcTemplate.query(GET_OUTGOING_REQUESTS, new Object[] { id }, new FriendMapper() );
+        return outgoingList;
+    }
+
+    @Override
+    public void cancelRequest(String id, String friend_id) {
+        jdbcTemplate.update(CANCEL_REQUEST, id, friend_id );
     }
 
     private static final class FriendMapper implements RowMapper<User> {
