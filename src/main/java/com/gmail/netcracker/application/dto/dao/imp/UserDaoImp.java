@@ -18,9 +18,9 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Transactional
     @Override
     public void saveUser(User user) {
-        jdbcTemplate.update("INSERT INTO person (person_id,name, surname, email, password, role, phone,birthday)" +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                user.getId(),
+        jdbcTemplate.update("INSERT INTO public.\"Person\" (name, surname, email, password, role, phone,birthday)" +
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+
                 user.getName(),
                 user.getSurname(),
                 user.getEmail(),
@@ -34,7 +34,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Transactional
     @Override
     public User findUser(String email) {
-        jdbcTemplate.query("select * from person where email = " + "'" + email + "'", resultSet -> {
+        jdbcTemplate.query("select * from public.\"Person\" where email = " + "'" + email + "'", resultSet -> {
             while (resultSet.next()) {
                 user.setId(resultSet.getString("person_id"));
                 user.setName(resultSet.getString("name"));
@@ -52,7 +52,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
 
     @Override
     public void changePassword(String password, String email) {
-        jdbcTemplate.update("update person set password = ? where email = ? ", password, email);
+        jdbcTemplate.update("update public.\"Person\" set password = ? where email = ? ", password, email);
     }
 
 
