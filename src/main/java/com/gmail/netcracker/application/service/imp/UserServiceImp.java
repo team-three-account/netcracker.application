@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.logging.Logger;
 
 
 @Service
@@ -72,6 +73,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public User getAuthenticatedUser() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Logger.getLogger(UserServiceImp.class.getName()).info(auth.getName());
         return userDao.findUser(auth.getName());
     }
 
