@@ -38,7 +38,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
 
     @Transactional
     @Override
-    public User findUser(String email) {
+    public User findUserByEmail(String email) {
         jdbcTemplate.query("select * from public.\"Person\" where email = " + "'" + email + "'", resultSet -> {
             while (resultSet.next()) {
                 user.setId(resultSet.getLong("person_id"));
@@ -69,5 +69,23 @@ public class UserDaoImp extends ModelDao implements UserDao {
                 Utilites.parseStringIntoDate(user.getBirthdayDate()),
                 user.getPhone(),
                 user.getId());
+    }
+
+    @Override
+    public User findUserById(Long id){
+        jdbcTemplate.query("select * from public.\"Person\" where person_id = " + "'" + id + "'", resultSet -> {
+            while (resultSet.next()) {
+                user.setId(resultSet.getLong("person_id"));
+                user.setName(resultSet.getString("name"));
+                user.setSurname(resultSet.getString("surname"));
+                user.setEmail(resultSet.getString("email"));
+                user.setPassword(resultSet.getString("password"));
+                user.setRole(resultSet.getString("role"));
+                user.setPhone(resultSet.getString("phone"));
+                user.setBirthdayDate(parseDateIntoString(resultSet.getDate("birthday")));
+            }
+            return user;
+        });
+        return user;
     }
 }

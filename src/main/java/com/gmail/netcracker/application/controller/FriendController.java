@@ -36,6 +36,7 @@ public class FriendController {
     @RequestMapping(value = "/{friend_id}", method = RequestMethod.GET)
     public String friendAccount(Model model, @PathVariable(value = "friend_id") String friend_id){
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("friend", userService.findUserById(Long.parseLong(friend_id)));
         return "friend/profile";
     }
 

@@ -24,4 +24,6 @@ public interface UserService {
     void changeUserPassword(String password, String email);
 
     void updateUser(User user);
+
+    User findUserById(Long id);
 }

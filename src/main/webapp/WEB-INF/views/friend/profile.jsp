@@ -36,6 +36,30 @@
         </div>
         <div  style="padding : 7%">
             <h1>Profile of Friend</h1>
+            <table>
+                <tbody>
+                <tr>
+                    <td>Name:</td>
+                    <td>${friend.name}</td>
+                </tr>
+                <tr>
+                    <td>Surname</td>
+                    <td>${friend.surname}</td>
+                </tr>
+                <tr>
+                    <td>Date of Birth</td>
+                    <td>${friend.birthdayDate}</td>
+                </tr>
+                <tr>
+                    <td>Email</td>
+                    <td>${friend.email}</td>
+                </tr>
+                <tr>
+                    <td>Phone Number</td>
+                    <td>${friend.phone}</td>
+                </tr>
+                </tbody>
+            </table>
          <div>
     </div>
 </div>
