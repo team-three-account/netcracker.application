@@ -45,6 +45,7 @@ public class EventController {
             return createNewEvent();
         }
 
+        
         ModelAndView modelAndView = new ModelAndView("redirect:/account/eventlist");
         eventService.insertEvent(event);
         return modelAndView;
