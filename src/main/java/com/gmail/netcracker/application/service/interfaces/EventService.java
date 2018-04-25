@@ -5,7 +5,7 @@ import com.gmail.netcracker.application.dto.model.Event;
 import java.util.List;
 
 public interface EventService {
-    // crud
+
     void update(Event event);
 
     void delete(int eventId);

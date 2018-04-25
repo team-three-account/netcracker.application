@@ -1,13 +1,15 @@
 package com.gmail.netcracker.application.controller;
 
-import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.service.interfaces.EventService;
+import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
@@ -16,16 +18,16 @@ import java.util.List;
 @Controller
 @RequestMapping("/account")
 public class EventController {
-    @Autowired
-    private EventDao eventDao;
 
     @Autowired
     EventService eventService;
 
+    @Autowired
+    RegisterAndUpdateEventValidator eventValidator;
 
     @RequestMapping(value = "/eventlist", method = RequestMethod.GET)
     public ModelAndView eventList(ModelAndView modelAndView) {
-        List<Event> eventList = eventDao.eventList();
+        List<Event> eventList = eventService.eventList();
         modelAndView.addObject("eventList", eventList);
         modelAndView.setViewName("event/eventlist");
         return modelAndView;
@@ -35,25 +37,28 @@ public class EventController {
     public ModelAndView createNewEvent() {
         Event event = new Event();
         ModelAndView modelAndView = new ModelAndView("event/createnewevent", "createNewEvent", event);
-        modelAndView.addObject("edit", false);
+
         return modelAndView;
     }
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.POST)
-    public ModelAndView saveNewEvent(@Valid Event event, BindingResult result,@RequestParam(value = "hidden") String hidden) {
+    public ModelAndView saveNewEvent(@ModelAttribute("createNewEvent")Event event, BindingResult result) {
+        ModelAndView modelAndView = new ModelAndView("event/createnewevent", "createNewEvent", event);
+        eventValidator.validate(event,result);
         if (result.hasErrors()) {
-            return createNewEvent();
+            return modelAndView;
         }
 
 
-        ModelAndView modelAndView = new ModelAndView("redirect:/account/eventlist");
         eventService.insertEvent(event);
+        modelAndView.setViewName("redirect:/account/eventlist");
         return modelAndView;
     }
 
+
     @RequestMapping(value = {"/eventList/deleteEvent-{eventId}"}, method = RequestMethod.GET)
     public String deleteEvent(@PathVariable int eventId) {
-        eventDao.delete(eventId);
+        eventService.delete(eventId);
         return "redirect:/account/eventlist";
     }
 
@@ -65,14 +70,14 @@ public class EventController {
     }
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.POST)
-    public ModelAndView updateEvent(@Valid @ModelAttribute("editEventUpdate") Event event, BindingResult result,
-                                    @PathVariable int eventId) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/account/eventlist");
+    public ModelAndView updateEvent(@ModelAttribute("editEvent") Event event, BindingResult result) {
+        ModelAndView modelAndView = new ModelAndView("event/testupdate", "editEvent", event);
+        eventValidator.validate(event,result);
         if (result.hasErrors()) {
-            return editEvent(eventId);
+            return modelAndView;
         }
-
         eventService.update(event);
+        modelAndView.setViewName("redirect:/account/eventlist");
         return modelAndView;
     }
 

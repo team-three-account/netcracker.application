@@ -11,14 +11,14 @@
     <!-- Custom styles for this template-->
     <link href="${contextPath}/resources/css/sb-admin.css" rel="stylesheet" type="text/css">
 
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 
 <div class="container">
     <div class="card card-register mx-auto mt-5 col-md-6">
         <div class="card-header">Create New Event</div>
         <div class="card-body">
-            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form">
+            <%--action="/account/eventList/createNewEvent"--%>
+            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form" >
                 <div class="form-group">
                     <label>Event Name: </label>
                     <form:input path="name" id="name" type="text" class="form-control" placeholder="Enter event name"/>
@@ -43,30 +43,20 @@
                     <form:errors path="dateEnd" cssClass="error"/>
                 </div>
 
-                <%--<div class="form-group">--%>
-                    <%--<label>period</label>--%>
-                    <%--<form:input path="periodicity" id="periodicity" type="text" class="form-control"--%>
-                                <%--placeholder="Enter periodicity"/>--%>
-                    <%--<form:errors path="periodicity" cssClass="error"/>--%>
-                <%--</div>--%>
-
                 <div class="form-group">
                     <label>Event type: </label>
                     <form:select path="type" class="form-control">
-                        <form:options  items="${eventTypes}" itemValue="typeId" itemLabel="type"/>
+                        <form:options items="${eventTypes}" itemValue="typeId" itemLabel="type"/>
                     </form:select>
+                    <form:errors path="type" cssClass="error"/>
                 </div>
 
-                <%--<div class="form-group">--%>
-                    <%--<label>Folder</label>--%>
-                    <%--<form:input path="folder" id="folder" type="text" class="form-control" placeholder="Enter foler"/>--%>
-                    <%--<form:errors path="folder" cssClass="error"/>--%>
-                <%--</div>--%>
                 <form:input path="width" type="hidden" id="latitude"></form:input>
                 <form:input path="longitude" type="hidden" id="longitude"></form:input>
                 <div class="form-group">
                     <label>Event place</label>
                     <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
+                    <form:errors path="eventPlaceName" cssClass="error"/>
                     <div id="map"></div>
                     <script src='${contextPath}/resources/js/pamCode.js'></script>
                     <script

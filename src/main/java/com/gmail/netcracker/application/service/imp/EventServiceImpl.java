@@ -63,7 +63,4 @@ public class EventServiceImpl implements EventService {
         }
     }
 
-    public List<Event> findAll(){
-        return eventDao.eventList();
-    }
 }

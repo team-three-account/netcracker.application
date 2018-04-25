@@ -18,6 +18,7 @@ import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
+import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,6 +98,11 @@ public class RootConfig {
     }
 
     @Bean
+    RegisterAndUpdateEventValidator registerEventValidator() {
+        return new RegisterAndUpdateEventValidator();
+    }
+
+    @Bean
     public ResetConfirmPasswordValidator resetConfirmPasswordValidator() {
         return new ResetConfirmPasswordValidator();
     }
@@ -115,7 +121,6 @@ public class RootConfig {
     ItemDao itemDao() {
         return new ItemDaoImpl();
     }
-
 
 
     @Bean

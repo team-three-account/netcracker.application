@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.utilites.Utilites;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -41,7 +42,8 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     public void update(Event event) {
         if (event.getEventId() > 0) {
             jdbcTemplate.update(EVENT_UPDATE, event.getName(), event.getDescription(),
-                    parseTime(event.getDateStart()), parseTime(event.getDateEnd()), parseStringToInt(event.getType()),
+                    Utilites.parseTime(event.getDateStart()), Utilites.parseTime(event.getDateEnd()),
+                    Utilites.parseStringToInt(event.getType()),
                     event.isDraft(), event.getWidth(), event.getLongitude(),
                     event.getEventPlaceName(), event.getEventId());
         }
@@ -57,9 +59,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
         // evventid.UUAID.toString();
 
         jdbcTemplate.update(EVENT_INSERT, event.getName(), event.getDescription(), event.getCreator(),
-                parseTime(event.getDateStart()), parseTime(event.getDateEnd()),
+                Utilites.parseTime(event.getDateStart()), Utilites.parseTime(event.getDateEnd()),
                 event.getWidth(), event.getLongitude(), event.getEventPlaceName(),
-                parseStringToInt(event.getType()), event.isDraft());
+                Utilites.parseStringToInt(event.getType()), event.isDraft());
     }
 
     @Override
@@ -89,7 +91,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public List<Event> eventList() {
-        List<Event> listEmployee = jdbcTemplate.query(EVENT_READ, new EventMapper());
+        List<Event> listEmployee = jdbcTemplate.query(EVENT_READ, new Utilites.EventMapper());
         return listEmployee;
     }
 
@@ -104,44 +106,5 @@ public class EventDaoImpl extends ModelDao implements EventDao {
         });
         return listEventTypes;
     }
-
-    private Timestamp parseTime(String str_date) {
-        if (str_date != null) {
-            try {
-                DateFormat formatter;
-                formatter = new SimpleDateFormat("yyyy-MM-dd");
-                java.util.Date date = formatter.parse(str_date);
-                Timestamp timestamp = new Timestamp(date.getTime());
-                return timestamp;
-            } catch (ParseException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        return null;
-    }
-
-    private int parseStringToInt(String srt) {
-        int value = 0;
-        try {
-            value = Integer.parseInt(srt);
-        } catch (NumberFormatException nfe) {
-            nfe.printStackTrace();
-        }
-        return value;
-    }
 }
 
-final class EventMapper implements RowMapper<Event> {
-    @Override
-    public Event mapRow(ResultSet rs, int i) throws SQLException {
-        Event event = new Event();
-        event.setEventId(rs.getInt("event_id"));
-        event.setName(rs.getString("name"));
-        event.setCreator(rs.getLong("person_id"));
-        event.setDateStart(rs.getString("start_date"));
-        event.setDateEnd(rs.getString("end_date"));
-        event.setType(rs.getString("value"));
-        return event;
-    }
-}
