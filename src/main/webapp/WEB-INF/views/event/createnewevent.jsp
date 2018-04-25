@@ -76,9 +76,22 @@
                         setMarkerFromInput();
                     </script>
                 </div>
-                <input type="submit" value="Create" class="btn btn-dark text-center"/>
+                <input id="hidden" name="hidden" type="hidden" value="">
+                <button id="create" class="btn btn-dark text-center">Create</button>
+                <button id="draft" class="btn btn-dark text-center">Draft</button>
             </form:form>
         </div>
     </div>
 </div>
+<script>
+    var hid = document.getElementById('hidden');
+    var create = document.getElementById('create');
+    var draft = document.getElementById('draft');
+    create.onclick = function() {
+        hid.value = false;
+    };
+    draft.onclick = function() {
+        hid.value = true;
+    };
+</script>
 </html>

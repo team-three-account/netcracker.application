@@ -54,20 +54,23 @@ public class FriendController {
         return "redirect:/account/friends/outgoing";
     }
 
-    @RequestMapping(value = "/friends/add", method = RequestMethod.GET)
-    public String searchFriend(Model model){
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+    //@RequestMapping(value = "/friends/add", method = RequestMethod.GET)
+    //public String searchFriend(Model model){
+    //    model.addAttribute("auth_user", userService.getAuthenticatedUser());
 
-        return "friend/addFriend";
-    }
+    //    return "friend/addFriend";
+    //}
 
-    @RequestMapping(value = "/friends/add", method = RequestMethod.POST)
+    @RequestMapping(value = "/friends/search", method = RequestMethod.POST)
     public String getSearch(Model model, String search){
-        if(search.isEmpty()) return "friend/addFriend";
-        List<User> foundFriends = friendService.searchFriends(search);
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("foundFriends",foundFriends);
-        return "friend/addFriend";
+        if(search.isEmpty()) return "friend/friends";
+        User auth_user = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        List<User> friendList = friendService.searchFriends(auth_user.getId(), search);
+        model.addAttribute("friendList",friendList);
+        //List<User> foundUsers = friendService.searchFriends(auth_user.getId(), search);
+        //model.addAttribute("foundUsers",foundUsers);
+        return "friend/friends";
     }
 
     @RequestMapping(value = "/friends/outgoing", method = RequestMethod.GET)

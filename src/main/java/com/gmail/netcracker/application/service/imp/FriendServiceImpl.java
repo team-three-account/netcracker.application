@@ -22,9 +22,9 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<User> searchFriends(String search) {
+    public List<User> searchFriends(Long id, String search) {
         String [] input = search.split(" ");
-        return input.length > 1 ? friendDao.getFriendsByNameAndSurname(input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.getFriendsByNameOrSurname(input[0].toLowerCase());
+        return input.length > 1 ? friendDao.getFriendsByNameAndSurname(id, input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.getFriendsByNameOrSurname(id, input[0].toLowerCase());
     }
 
 

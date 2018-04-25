@@ -7,7 +7,7 @@ import java.util.List;
 public interface FriendService {
     List<User> getAllFriends(Long id);
 
-    List<User> searchFriends(String search);
+    List<User> searchFriends(Long id, String search);
 
     void addFriend(Long person_id, Long friend_id);
 

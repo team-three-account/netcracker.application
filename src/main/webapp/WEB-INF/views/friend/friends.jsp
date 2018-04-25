@@ -33,7 +33,15 @@
             request</a>
     </p>
     <h1>${message}</h1>
-    <h2><a href="/account/friends/add">Add friend</a></h2>
+    <h3>Search for friends</h3>
+    <form method="POST"
+          class="forms_form" action="/account/friends/search">
+
+        <div class="form-group">
+            <input name="search" id="search"  placeholder="Enter name or surname"/>
+            <input type="submit" value="Search" class="btn btn-dark" href="/">
+        </div>
+    </form>
 
     <div class="row">
         <c:forEach var="friend" items="${friendList}">
@@ -49,6 +57,28 @@
                 </button>
                 </form>
             </div>
+        </c:forEach>
+    </div>
+    <div class="row">
+        <tr>
+            <th>Photo (id) </th>
+            <th>Name Surname </th>
+            <th>Action</th>
+        </tr>
+
+        <c:forEach var="user" items="${foundUsers}">
+            <tr>
+                <td>${user.id}</td>
+                <td><a href="/${user.id}">${user.name} ${user.surname}</a></td>
+                <td>
+                    <form action="/account/friends/add-friend" method="POST">
+                        <button type="submit" >
+                            <input type="hidden" name="friend_id" value=${user.id} />
+                            Add </span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
         </c:forEach>
     </div>
     <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>

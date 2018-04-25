@@ -75,6 +75,32 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
             "and recipient in (?, ?)\n" +
             "and \"isAccepted\" = TRUE";
 
+    private static final String GET_SEARCHED_FRIENDS_BY_NAME_OR_SURNAME = "select name, surname, person_id\n"+
+            "from public.\"Person\"\n"+
+            "where (person_id = (select DISTINCT sender\n"+
+            "                   from public.\"Friend\"\n"+
+            "                   where recipient = ?\n"+
+            "                   and \"isAccepted\" = TRUE)\n"+
+            "or person_id = (select DISTINCT recipient\n"+
+            "                   from public.\"Friend\"\n"+
+            "                   where sender = ?\n"+
+            "                   and \"isAccepted\" = TRUE))\n"+
+            "and (lower(name) = ?\n" +
+            "      or lower(surname) = ?)";
+
+    private static final String GET_SEARCHED_FRIENDS_BY_NAME_AND_SURNAME = "select name, surname, person_id\n"+
+            "from public.\"Person\"\n"+
+            "where (person_id = (select DISTINCT sender\n"+
+            "                   from public.\"Friend\"\n"+
+            "                   where recipient = ?\n"+
+            "                   and \"isAccepted\" = TRUE)\n"+
+            "or person_id = (select DISTINCT recipient\n"+
+            "                   from public.\"Friend\"\n"+
+            "                   where sender = ?\n"+
+            "                   and \"isAccepted\" = TRUE))\n"+
+            "and lower(name) in (?, ?)\n" +
+            "      and lower(surname) in (?, ?)";
+
     @Override
     public List<User> friendList(Long id) {
 
@@ -88,14 +114,14 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
     }
 
     @Override
-    public List<User> getFriendsByNameOrSurname(String input) {
-        List<User> friendList = jdbcTemplate.query(GET_FRIENDS_BY_NAME_OR_SURNAME, new Object[] { input, input }, new FriendMapper() );
+    public List<User> getFriendsByNameOrSurname(Long id, String input) {
+        List<User> friendList = jdbcTemplate.query(GET_SEARCHED_FRIENDS_BY_NAME_OR_SURNAME, new Object[] { id,id, input, input }, new FriendMapper() );
         return friendList;
     }
 
     @Override
-    public List<User> getFriendsByNameAndSurname(String name, String surname) {
-        List<User> friendList = jdbcTemplate.query(GET_FRIENDS_BY_NAME_AND_SURNAME, new Object[] { name, surname, name,surname }, new FriendMapper() );
+    public List<User> getFriendsByNameAndSurname(Long id, String name, String surname) {
+        List<User> friendList = jdbcTemplate.query(GET_SEARCHED_FRIENDS_BY_NAME_AND_SURNAME, new Object[] { id, id, name, surname, name,surname }, new FriendMapper() );
         return friendList;
     }
 
