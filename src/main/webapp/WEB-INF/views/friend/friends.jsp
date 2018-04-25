@@ -59,7 +59,9 @@
             </div>
         </c:forEach>
     </div>
+
     <div class="row">
+        <table>
         <tr>
             <th>Photo (id) </th>
             <th>Name Surname </th>
@@ -80,7 +82,9 @@
                 </td>
             </tr>
         </c:forEach>
+        </table>
     </div>
+</div>
     <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
     <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>

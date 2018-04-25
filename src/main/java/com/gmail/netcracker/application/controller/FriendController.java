@@ -62,7 +62,7 @@ public class FriendController {
         List<User> friendList = friendService.searchFriends(auth_user.getId(), search);
         model.addAttribute("friendList",friendList);
         List<User> foundUsers = friendService.searchUsers(auth_user.getId(), search);
-        //model.addAttribute("foundUsers",foundUsers);
+        model.addAttribute("foundUsers",foundUsers);
         return "friend/friends";
     }
 
