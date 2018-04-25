@@ -140,3 +140,15 @@ article>p {
 .menu ul{
   padding-top: 30px;
 }
+
+.content{
+  padding-top: 130px;
+}
+.friend{
+  padding-top: 2%;
+  display: -webkit-inline-flex;
+  padding-left: 10%
+}
+.friend button{
+margin-left: 35%;
+}

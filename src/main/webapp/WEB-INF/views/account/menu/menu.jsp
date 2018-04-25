@@ -13,7 +13,7 @@
 <body>
         <div class="container-fluid">
         <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar menu">
+        <div class="sidebar menu">
         <ul class="nav nav-sidebar">
         <li style="background-color : #dee5fc"><a href="/account">${auth_user.name} ${auth_user.surname}</a></li>
         <li><a href="#">${auth_user.email}</a></li>
