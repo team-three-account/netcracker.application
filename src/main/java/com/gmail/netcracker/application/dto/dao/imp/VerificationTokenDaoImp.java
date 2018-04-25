@@ -29,7 +29,7 @@ public class VerificationTokenDaoImp extends ModelDao
         return jdbcTemplate.query("select * from public.\"Verif_token\" where token_id = " + "'" + token + "'", resultSet -> {
             while (resultSet.next()) {
                 verificationToken.setId(resultSet.getString("token_id"));
-                user.setId(resultSet.getString("user_id"));
+                user.setId(resultSet.getLong("user_id"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setEmail(resultSet.getString("email"));
@@ -47,10 +47,9 @@ public class VerificationTokenDaoImp extends ModelDao
     @Transactional
     @Override
     public VerificationToken create(VerificationToken verificationToken) {
-        jdbcTemplate.update("INSERT into public.\"Verif_token\"(token_id,user_id,name,surname,email,password,role,birthday,phone)" +
-                        "values(?,?,?,?,?,?,?,?,?)",
+        jdbcTemplate.update("INSERT into public.\"Verif_token\"(token_id,name,surname,email,password,role,birthday,phone)" +
+                        "values(?,?,?,?,?,?,?,?)",
                 verificationToken.getId(),
-                verificationToken.getUser().getId(),
                 verificationToken.getUser().getName(),
                 verificationToken.getUser().getSurname(),
                 verificationToken.getUser().getEmail(),

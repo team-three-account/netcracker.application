@@ -62,7 +62,6 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             return "user/registration/registration";
         }
-        user.setId(UUID.randomUUID().toString());
         emailConcructor.registerEmailSender(user);
         return "user/registration/approve";
     }

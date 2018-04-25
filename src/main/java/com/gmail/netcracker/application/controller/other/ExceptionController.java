@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 @ComponentScan(basePackages = "com.gmail.netcraker.application.service*")
-public class ExeptionController {
+public class ExceptionController {
 
     /**
      * Сообщение исключения NoHandlerFoundException.

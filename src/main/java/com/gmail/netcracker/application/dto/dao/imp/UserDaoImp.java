@@ -36,7 +36,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
     public User findUser(String email) {
         jdbcTemplate.query("select * from public.\"Person\" where email = " + "'" + email + "'", resultSet -> {
             while (resultSet.next()) {
-                user.setId(resultSet.getString("person_id"));
+                user.setId(resultSet.getLong("person_id"));
                 user.setName(resultSet.getString("name"));
                 user.setSurname(resultSet.getString("surname"));
                 user.setEmail(resultSet.getString("email"));
