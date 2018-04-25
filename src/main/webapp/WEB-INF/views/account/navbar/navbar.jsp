@@ -24,8 +24,8 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#">Settings</a></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="/account/settings">Settings</a></li>
+                <li><a href="/account/profile">Profile</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
         </div>
