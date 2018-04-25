@@ -6,13 +6,10 @@ import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidat
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
+
 import java.util.List;
 
 @Controller
@@ -42,7 +39,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.POST)
-    public ModelAndView saveNewEvent(@ModelAttribute("createNewEvent")Event event, BindingResult result) {
+    public ModelAndView saveNewEvent(@ModelAttribute("createNewEvent")Event event, BindingResult result,@RequestParam(value = "hidden") String hidden) {
         ModelAndView modelAndView = new ModelAndView("event/createnewevent", "createNewEvent", event);
         eventValidator.validate(event,result);
         if (result.hasErrors()) {
