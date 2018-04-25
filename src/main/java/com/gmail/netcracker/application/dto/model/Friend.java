@@ -8,15 +8,15 @@ import lombok.Setter;
 @Setter
 @Getter
 public class Friend {
-    private String sender;
-    private String recipient;
+    private Long sender;
+    private Long recipient;
     private boolean isAccepted;
 
     public Friend(){
 
     }
 
-    public Friend(String sender, String recipient, boolean isAccepted){
+    public Friend(Long sender, Long recipient, boolean isAccepted){
         this.sender=sender;
         this.recipient = recipient;
         this.isAccepted=isAccepted;
