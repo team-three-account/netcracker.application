@@ -40,11 +40,11 @@ public class FriendController {
         return "friend/profile";
     }
 
-    @RequestMapping(value = "delete-friend", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete-friend", method = RequestMethod.POST)
     public String deleteFriend(@RequestParam(value = "friend_id") String friend_id){
-         userService.getAuthenticatedUser().getId();
-
-        return "redirect:/account/friend/friends";
+        userService.getAuthenticatedUser().getId();
+        friendService.deleteFriend(userService.getAuthenticatedUser().getId(), Long.parseLong(friend_id));
+        return "redirect:/account/friends";
     }
 
     @RequestMapping(value = "/friends/add-friend", method = RequestMethod.POST)

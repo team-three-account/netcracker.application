@@ -195,8 +195,8 @@ create table "Verif_token"
   phone    text
 );
 INSERT INTO public."Type"(value)
-VALUES ( 'private');
+VALUES ('private');
 INSERT INTO public."Type"(value)
-VALUES ( 'public');
+VALUES ('public');
 INSERT INTO public."Type"(value)
-VALUES ( 'only_for_friends');
+VALUES ('only_for_friends');

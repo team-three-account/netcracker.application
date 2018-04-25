@@ -55,4 +55,9 @@ public class FriendServiceImpl implements FriendService {
     public void acceptRequest(Long id, Long friend_id) {
         friendDao.acceptRequest(id, friend_id);
     }
+
+    @Override
+    public void deleteFriend(Long id, Long friend_id) {
+        friendDao.deleteFriend(id, friend_id);
+    }
 }

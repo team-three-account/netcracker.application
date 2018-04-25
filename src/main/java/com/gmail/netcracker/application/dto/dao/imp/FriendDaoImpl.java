@@ -70,6 +70,11 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
             "and sender = ?\n" +
             "and \"isAccepted\" = FALSE";
 
+    private static final String DELETE_REQUEST= "delete from public.\"Friend\"\n"+
+            "where sender in (?, ?)\n" +
+            "and recipient in (?, ?)\n" +
+            "and \"isAccepted\" = TRUE";
+
     @Override
     public List<User> friendList(Long id) {
 
@@ -79,7 +84,7 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
 
     @Override
     public void deleteFriend(Long person, Long friend) {
-
+        jdbcTemplate.update(DELETE_REQUEST, person, friend, person, friend );
     }
 
     @Override

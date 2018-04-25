@@ -18,4 +18,6 @@ public interface FriendService {
     List<User> getIncomingRequests(Long id);
 
     void acceptRequest(Long id, Long friend_id);
+
+    void deleteFriend(Long id, Long friend_id);
 }

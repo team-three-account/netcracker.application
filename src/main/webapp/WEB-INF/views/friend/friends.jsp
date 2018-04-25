@@ -40,13 +40,14 @@
             <div class="card friend" style="width: 100%; display: inline-flex">
                 <img class="card-img-top" src="" alt="Card image cap">
                 <div class="card-body" style="margin-left: 10%;">
-                    <p class="card-text"><a href="/account//${friend.id}">${friend.name} ${friend.surname}</a></p>
+                    <p class="card-text"><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></p>
                 </div>
+                <form action="/account/delete-friend" method="POST">
                 <button class="btn btn-danger" type="submit">
-                    <input type="hidden" name="friend_id" value=${friend.id}/>
+                    <input type="hidden" name="friend_id" value=${friend.id} />
                     Remove from friends </span>
                 </button>
-
+                </form>
             </div>
         </c:forEach>
     </div>
