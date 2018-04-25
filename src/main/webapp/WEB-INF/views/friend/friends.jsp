@@ -54,7 +54,7 @@
                         <form action="/account/delete-friend" method="POST">
                             <button type="submit"  class="btn btn-danger">
                                 <input type="hidden" name="friend_id" value=${friend.id} />
-                                Remove from friendlist </span>
+                                Remove from friends </span>
                             </button>
                         </form>
                     </td>

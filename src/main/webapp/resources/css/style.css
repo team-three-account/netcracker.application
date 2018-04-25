@@ -165,3 +165,8 @@ article > p {
     height: 42%;
     margin-left: 35%;
 }
+
+#map {
+    height: 50%;
+    width: 100%;
+}

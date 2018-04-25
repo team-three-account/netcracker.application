@@ -5,20 +5,25 @@
 <html>
 <head>
     <title>Create New Event </title>
-    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->    <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
-    <link href="${contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <!-- Custom styles for this template-->
-    <link href="${contextPath}/resources/css/sb-admin.css" rel="stylesheet" type="text/css">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 
 </head>
+<div class="row">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
+    <div class="col-md-3"
+    <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+</div>
 
-<div class="container">
+
+<div class="col-md-9 content">
     <div class="card card-register mx-auto mt-5 col-md-6">
         <div class="card-header">Create New Event</div>
         <div class="card-body">
             <%--action="/account/eventList/createNewEvent"--%>
-            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form" >
+            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form">
                 <div class="form-group">
                     <label>Event Name: </label>
                     <form:input path="name" id="name" type="text" class="form-control" placeholder="Enter event name"/>
@@ -77,10 +82,10 @@
     var hid = document.getElementById('hidden');
     var create = document.getElementById('create');
     var draft = document.getElementById('draft');
-    create.onclick = function() {
+    create.onclick = function () {
         hid.value = false;
     };
-    draft.onclick = function() {
+    draft.onclick = function () {
         hid.value = true;
     };
 </script>
