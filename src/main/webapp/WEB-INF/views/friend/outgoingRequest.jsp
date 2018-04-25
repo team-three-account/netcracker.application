@@ -18,52 +18,36 @@
 </head>
 <body>
 
-<jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar menu">
-            <ul class="nav nav-sidebar">
-                <li><a href="/account">${auth_user.name} ${auth_user.surname}</a></li>
-                <li><a href="#">${auth_user.email}</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li ><a href="/account/friends">Friends</a></li>
-                <li><a href="/account/friends/incoming">Incoming requests</a></li>
-                <li style="background-color : #dee5fc"><a href="/account/friends/outgoing">Outgoing requests</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Calendar</a></li>
-                <li><a href="#">Wish List</a></li>
-            </ul>
+<div class="row">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
+    <div class="col-md-3"
+    <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+</div>
+
+
+<div class="col-md-9 content">
+    <p>
+        <a class="btn btn-primary" data-toggle="collapse" href="/account/friends" role="button">All Friends</a>
+        <a class="btn btn-primary" data-toggle="collapse" href="/account/friends/incoming" role="button">Incoming
+            request</a>
+        <a class="btn btn-primary" data-toggle="collapse" href="/account/friends/outgoing" role="button">Outgoing
+            request</a>
+    </p>
+    <h1>${message}</h1>
+    <c:forEach var="friend" items="${outgoingList}">
+        <div class="card friend" style="width: 100%; display: inline-flex">
+            <img class="card-img-top" src="" alt="Card image cap">
+            <div class="card-body" style="margin-left: 10%;">
+                <p class="card-text"><a href="/account//${friend.id}">${friend.name} ${friend.surname}</a></p>
+            </div>
+            <form action="/account/friends/cancel-request" method="POST">
+                <button type="submit" class="btn btn-success">
+                    <input type="hidden" name="friend_id" value=${friend.id} />
+                    Cancel request
+                </button>
+            </form>
         </div>
-        <div  style="padding : 7%">
-            <h1>Outgoing requests</h1>
-            <h2>${message}</h2>
-            <table>
-                <tr>
-                    <th>Photo (id) </th>
-                    <th>Name Surname </th>
-                    <th>Action</th>
-                </tr>
-
-                <c:forEach var="friend" items="${outgoingList}">
-                    <tr>
-                        <td>${friend.id}</td>
-                        <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
-                        <td>
-                            <form action="/account/friends/cancel-request" method="POST">
-                                <button type="submit" >
-                                    <input type="hidden" name="friend_id" value=${friend.id} />
-                                    Cancel request </span>
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                </c:forEach>
-
-            </table>
-
-        </div>
-    </div>
+    </c:forEach>
 </div>
 
 
