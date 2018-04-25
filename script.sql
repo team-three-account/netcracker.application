@@ -182,10 +182,10 @@ create table "PersonChat"
 
 create table "Verif_token"
 (
-  token_id text not null
+  token_id text   not null
     constraint verif_token_pk
     primary key,
-  user_id  text   not null,
+  user_id  serial not null,
   name     text   not null,
   surname  text   not null,
   email    text   not null,

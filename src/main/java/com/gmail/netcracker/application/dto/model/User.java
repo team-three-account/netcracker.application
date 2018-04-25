@@ -9,7 +9,7 @@ import java.util.Objects;
 @Component
 public class User {
 
-    private String id;
+    private Long id;
 
     private String name;
 
@@ -30,7 +30,7 @@ public class User {
     public User() {
     }
 
-    public User(String id, String name, String surname, String email, String password, String role, String birthdayDate, String phone) {
+    public User(Long id, String name, String surname, String email, String password, String role, String birthdayDate, String phone) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -41,11 +41,11 @@ public class User {
         this.phone = phone;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
