@@ -62,4 +62,8 @@ public class EventServiceImpl implements EventService {
             event.setDraft(true);
         }
     }
+
+    public List<Event> findAll(){
+        return eventDao.eventList();
+    }
 }

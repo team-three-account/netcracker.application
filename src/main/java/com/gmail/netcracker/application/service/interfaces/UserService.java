@@ -22,4 +22,6 @@ public interface UserService {
     User getAuthenticatedUser();
 
     void changeUserPassword(String password, String email);
+
+    void updateUser(User user);
 }

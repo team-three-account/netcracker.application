@@ -98,8 +98,8 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
     public Friend getFriendshipById(Long person_id, Long friend_id) {
         jdbcTemplate.query(GET_FRIEND_BY_ID, new Object[] { person_id, friend_id, person_id, friend_id }, resultSet -> {
             while (resultSet.next()) {
-                friendship.setRecipient(resultSet.getString("recipient"));
-                friendship.setSender(resultSet.getString("sender"));
+                friendship.setRecipient(resultSet.getLong("recipient"));
+                friendship.setSender(resultSet.getLong("sender"));
                 friendship.setAccepted(resultSet.getBoolean("isAccepted"));
             }
             return friendship;

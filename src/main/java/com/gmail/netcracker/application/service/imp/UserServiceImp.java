@@ -82,5 +82,9 @@ public class UserServiceImp implements UserService, UserDetailsService {
         userDao.changePassword(password, email);
     }
 
+    @Override
+    public void updateUser(User user){
+        userDao.updateUser(user);
+    }
 
 }
