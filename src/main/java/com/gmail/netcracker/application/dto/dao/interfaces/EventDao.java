@@ -11,7 +11,11 @@ public interface EventDao {
 
     void insertEvent(Event event);
 
+    Event getEvent(int eventId);
+
     List<Event> eventList();
 
     List<Event> findAllEventTypes();
+
+
 }

@@ -1,6 +1,6 @@
 create table "Periodicity"
 (
-  per_id    serial      not null
+  per_id    serial
     constraint periodicity_pk
     primary key,
   frequency varchar(20) not null,
@@ -41,7 +41,7 @@ create table "Type"
   type_id serial      not null
     constraint type_pk
     primary key,
-  value   varchar(20) not null
+    value varchar(20) not null
 );
 
 create table "Item"
@@ -85,7 +85,7 @@ create table "ItemTag"
 
 create table "Folder"
 (
-  folder_id serial  not null
+  folder_id serial
     constraint folder_pk
     primary key,
   name      text    not null,
@@ -106,9 +106,9 @@ create table "Event"
     references "Person",
   start_date    date,
   end_date      date,
-  latitude      double precision,
+  width      double precision,
   longitude     double precision,
-  place_address text,
+  eventplacename text,
   periodicity   integer
     constraint "Event_fk1"
     references "Periodicity",
@@ -194,3 +194,9 @@ create table "Verif_token"
   birthday date,
   phone    text
 );
+INSERT INTO public."Type"(value)
+VALUES ( 'private');
+INSERT INTO public."Type"(value)
+VALUES ( 'public');
+INSERT INTO public."Type"(value)
+VALUES ( 'only_for_friends');

@@ -5,7 +5,18 @@ import com.gmail.netcracker.application.dto.model.Event;
 import java.util.List;
 
 public interface EventService {
-    void createEventWithAuthUser(Event Event);
+    // crud
+    void update(Event event);
 
-    public List<Event> findAll();
+    void delete(int eventId);
+
+    void insertEvent(Event event);
+
+    Event getEvent(int eventId);
+
+    List<Event> eventList();
+
+    List<Event> findAllEventTypes();
+
+    void setPersonIdAndDraftStatus(Event event);
 }

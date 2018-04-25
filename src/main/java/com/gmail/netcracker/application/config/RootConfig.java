@@ -7,10 +7,12 @@ import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.EventServiceImpl;
+
 import com.gmail.netcracker.application.service.imp.FriendServiceImpl;
 import com.gmail.netcracker.application.service.imp.ItemServiceImpl;
 import com.gmail.netcracker.application.service.imp.UserServiceImp;
 import com.gmail.netcracker.application.service.interfaces.EventService;
+
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
@@ -113,6 +115,8 @@ public class RootConfig {
     ItemDao itemDao() {
         return new ItemDaoImpl();
     }
+
+
 
     @Bean
     Event event() {

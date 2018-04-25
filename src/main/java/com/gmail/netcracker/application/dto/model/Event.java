@@ -4,7 +4,7 @@ public class Event {
     private int eventId;
     private String name;
     private String description;
-    private String creator;
+    private Long creator;
     private String dateStart;
     private String dateEnd;
     private String placeId;
@@ -13,8 +13,11 @@ public class Event {
     private String type;
     private boolean draft;
     private int folder;
-    // винесу в окремий клас і даошку...
     private int typeId;
+    private double width;
+    private double longitude;
+    private String eventPlaceName;
+    private String photo;
 
     public String getType() {
         return type;
@@ -48,11 +51,11 @@ public class Event {
         this.description = description;
     }
 
-    public String getCreator() {
+    public Long getCreator() {
         return creator;
     }
 
-    public void setCreator(String creator) {
+    public void setCreator(Long creator) {
         this.creator = creator;
     }
 
@@ -118,6 +121,38 @@ public class Event {
 
     public void setTypeId(int typeId) {
         this.typeId = typeId;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getEventPlaceName() {
+        return eventPlaceName;
+    }
+
+    public void setEventPlaceName(String eventPlaceName) {
+        this.eventPlaceName = eventPlaceName;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public Event() {
