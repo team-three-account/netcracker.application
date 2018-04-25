@@ -25,7 +25,7 @@ public class CalendarController {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Event.class, new EventSerializer())
                 .create();
-        String eventList = gson.toJson(eventService.findAll());
+        String eventList = gson.toJson(eventService.eventList());
         modelAndView.addObject("eventList", eventList);
         modelAndView.setViewName("calendar/calendar");
         return modelAndView;

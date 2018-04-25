@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.utilites.Utilites;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,6 +12,10 @@ import static com.gmail.netcracker.application.utilites.Utilites.parseStringInto
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
+
+    private final String UPDATE = "UPDATE public.\"Person\"\n" +
+            "SET name=?, surname=?, birthday=?, phone=?\n" +
+            "WHERE \"Person\".person_id=?;";
 
     @Autowired
     private User user;
@@ -56,4 +61,13 @@ public class UserDaoImp extends ModelDao implements UserDao {
     }
 
 
+    @Override
+    public void updateUser(User user){
+        jdbcTemplate.update(UPDATE,
+                user.getName(),
+                user.getSurname(),
+                Utilites.parseStringIntoDate(user.getBirthdayDate()),
+                user.getPhone(),
+                user.getId());
+    }
 }

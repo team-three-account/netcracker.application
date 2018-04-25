@@ -9,4 +9,6 @@ public interface UserDao {
     User findUser(String email);
 
     void changePassword(String password, String email);
+
+    void updateUser(User user);
 }
