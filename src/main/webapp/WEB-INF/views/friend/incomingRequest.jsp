@@ -1,16 +1,15 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%--
   Created by IntelliJ IDEA.
   User: anyat
-  Date: 21.04.2018
-  Time: 21:38
+  Date: 25.04.2018
+  Time: 10:49
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Outgoing requests</title>
+    <title>Incoming requests</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
@@ -28,15 +27,15 @@
             </ul>
             <ul class="nav nav-sidebar">
                 <li ><a href="/account/friends">Friends</a></li>
-                <li><a href="/account/friends/incoming">Incoming requests</a></li>
-                <li style="background-color : #dee5fc"><a href="/account/friends/outgoing">Outgoing requests</a></li>
+                <li style="background-color : #dee5fc"><a href="/account/friends/incoming">Incoming requests</a></li>
+                <li><a href="/account/friends/outgoing">Outgoing requests</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Calendar</a></li>
                 <li><a href="#">Wish List</a></li>
             </ul>
         </div>
         <div  style="padding : 7%">
-            <h1>Outgoing requests</h1>
+            <h1>Incoming requests</h1>
             <h2>${message}</h2>
             <table>
                 <tr>
@@ -45,15 +44,15 @@
                     <th>Action</th>
                 </tr>
 
-                <c:forEach var="friend" items="${outgoingList}">
+                <c:forEach var="friend" items="${incomingList}">
                     <tr>
                         <td>${friend.id}</td>
                         <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
                         <td>
-                            <form action="/account/friends/cancel-request" method="POST">
+                            <form action="/account/friends/accept-request" method="POST">
                                 <button type="submit" >
                                     <input type="hidden" name="friend_id" value=${friend.id} />
-                                    Cancel request </span>
+                                    Accept request </span>
                                 </button>
                             </form>
                         </td>

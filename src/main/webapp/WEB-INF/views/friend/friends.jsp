@@ -27,9 +27,9 @@
                 <li><a href="#">${auth_user.email}</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li style="background-color : #dee5fc"><a href="/friends">Friends</a></li>
-                <li><a href="#">Incoming requests</a></li>
-                <li><a href="/friends/outgoing">Outgoing requests</a></li>
+                <li style="background-color : #dee5fc"><a href="/account/friends">Friends</a></li>
+                <li><a href="/account/friends/incoming">Incoming requests</a></li>
+                <li><a href="/account/friends/outgoing">Outgoing requests</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Calendar</a></li>
                 <li><a href="#">Wish List</a></li>
@@ -37,7 +37,7 @@
         </div>
         <div  style="padding : 7%">
             <h1>${message}</h1>
-            <h2><a href="/friends/add">Add friend</a></h2>
+            <h2><a href="/account/friends/add">Add friend</a></h2>
             <table>
                 <tr>
                     <th>Photo (id) </th>
@@ -48,7 +48,7 @@
                 <c:forEach var="friend" items="${friendList}">
                         <tr>
                             <td>${friend.id}</td>
-                            <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
+                            <td><a href="/account//${friend.id}">${friend.name} ${friend.surname}</a></td>
                             <td>
                                 <form action="delete-friend" method="POST">
                                     <button type="submit" >

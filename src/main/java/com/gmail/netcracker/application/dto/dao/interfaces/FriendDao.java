@@ -7,16 +7,20 @@ import java.util.List;
 
 public interface FriendDao {
 
-    List<User> friendList(String id);
-    void deleteFriend(String person, String friend);
+    List<User> friendList(Long id);
+    void deleteFriend(Long person, Long friend);
     List<User> getFriendsByNameOrSurname(String input);
     List<User> getFriendsByNameAndSurname(String name, String surname);
 
-    Friend getFriendshipById(String person_id, String friend_id);
+    Friend getFriendshipById(Long person_id, Long friend_id);
 
-    void addFriend(String person_id, String friend_id);
+    void addFriend(Long person_id, Long friend_id);
 
-    List<User> getOutgoingRequests(String id);
+    List<User> getOutgoingRequests(Long id);
 
-    void cancelRequest(String id, String friend_id);
+    void cancelRequest(Long id, Long friend_id);
+
+    List<User> getIncomingRequests(Long id);
+
+    void acceptRequest(Long id, Long friend_id);
 }

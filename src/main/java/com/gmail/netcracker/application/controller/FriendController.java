@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@RequestMapping(value = "/account")
 @Controller
 public class FriendController {
 
@@ -42,14 +43,14 @@ public class FriendController {
     public String deleteFriend(@RequestParam(value = "friend_id") String friend_id){
          userService.getAuthenticatedUser().getId();
 
-        return "redirect:/friend/friends";
+        return "redirect:/account/friend/friends";
     }
 
     @RequestMapping(value = "/friends/add-friend", method = RequestMethod.POST)
-    public String addFriend(@RequestParam(value = "friend_id") String friend_id){
+    public String addFriend(@RequestParam(value = "friend_id") Long friend_id){
 
         friendService.addFriend(userService.getAuthenticatedUser().getId(), friend_id);
-        return "redirect:/friends/outgoing";
+        return "redirect:/account/friends/outgoing";
     }
 
     @RequestMapping(value = "/friends/add", method = RequestMethod.GET)
@@ -80,10 +81,30 @@ public class FriendController {
     }
 
     @RequestMapping(value = "/friends/cancel-request", method = RequestMethod.POST)
-    public String cancelRequest(@RequestParam(value = "friend_id") String friend_id){
+    public String cancelRequest(Model model, @RequestParam(value = "friend_id") Long friend_id){
         User auth_user = userService.getAuthenticatedUser();
-        friendService.cancelRequest(userService.getAuthenticatedUser().getId(), friend_id);
-        return "redirect:/friends/outgoing";
+        model.addAttribute("auth_user", auth_user);
+        friendService.cancelRequest(auth_user.getId(), friend_id);
+        return "redirect:/account/friends/outgoing";
+    }
+
+    @RequestMapping(value = "/friends/incoming", method = RequestMethod.GET)
+    public String incomingRequests(Model model) {
+        User auth_user = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        List<User> incomingList = friendService.getIncomingRequests(auth_user.getId());
+        model.addAttribute("incomingList", incomingList);
+        if(incomingList.isEmpty()) model.addAttribute("message", "You have not any incoming request");
+
+        return "friend/incomingRequest";
+    }
+
+    @RequestMapping(value = "/friends/accept-request", method = RequestMethod.POST)
+    public String acceptRequest(Model model, @RequestParam(value = "friend_id") Long friend_id){
+        User auth_user = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        friendService.acceptRequest(auth_user.getId(), friend_id);
+        return "redirect:/account/friends/incoming";
     }
 
     public static String amountOfFriendsMessage(int amount){

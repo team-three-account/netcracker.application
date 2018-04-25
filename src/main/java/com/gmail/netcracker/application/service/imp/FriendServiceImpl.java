@@ -17,7 +17,7 @@ public class FriendServiceImpl implements FriendService {
     Friend friendship;
 
     @Override
-    public List<User> getAllFriends(String id) {
+    public List<User> getAllFriends(Long id) {
         return friendDao.friendList(id);
     }
 
@@ -29,7 +29,7 @@ public class FriendServiceImpl implements FriendService {
 
 
     @Override
-    public void addFriend(String person_id, String friend_id) {
+    public void addFriend(Long person_id, Long friend_id) {
         friendship = friendDao.getFriendshipById(person_id, friend_id);
         if(friendship.getSender() == null && friendship.getRecipient()== null) {
             friendDao.addFriend(person_id, friend_id);
@@ -37,12 +37,22 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<User> getOutgoingRequests(String id) {
+    public List<User> getOutgoingRequests(Long id) {
         return friendDao.getOutgoingRequests(id);
     }
 
     @Override
-    public void cancelRequest(String id, String friend_id) {
+    public void cancelRequest(Long id, Long friend_id) {
         friendDao.cancelRequest(id, friend_id);
+    }
+
+    @Override
+    public List<User> getIncomingRequests(Long id) {
+        return friendDao.getIncomingRequests(id);
+    }
+
+    @Override
+    public void acceptRequest(Long id, Long friend_id) {
+        friendDao.acceptRequest(id, friend_id);
     }
 }
