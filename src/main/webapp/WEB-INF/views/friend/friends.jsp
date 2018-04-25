@@ -44,7 +44,7 @@
                 </div>
                 <button class="btn btn-danger" type="submit">
                     <input type="hidden" name="friend_id" value=${friend.id}/>
-                    Delete </span>
+                    Remove from friends </span>
                 </button>
 
             </div>

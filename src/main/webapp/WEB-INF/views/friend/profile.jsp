@@ -17,28 +17,15 @@
 
 </head>
 <body>
-
-<jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar menu">
-            <ul class="nav nav-sidebar">
-                <li style="background-color : #dee5fc"><a href="/account">${auth_user.name} ${auth_user.surname}</a></li>
-                <li><a href="#">${auth_user.email}</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="/account/eventlist">Events</a></li>
-                <li><a href="/account/friends">Friends</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Calendar</a></li>
-                <li><a href="#">Wish List</a></li>
-            </ul>
-        </div>
-        <div  style="padding : 7%">
-            <h1>Profile of Friend</h1>
-         <div>
-    </div>
+<div class="row">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
+    <div class="col-md-3"
+    <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
+<div class="col-md-9">
+
+</div>
+
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
 <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
