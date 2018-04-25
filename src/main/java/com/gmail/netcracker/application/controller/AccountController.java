@@ -80,19 +80,19 @@ public class AccountController {
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(Model model){
         User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("user", auth_user);
+        model.addAttribute("auth_user", auth_user);
         return "account/profile";
     }
 
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
     public String settings(Model model){
         User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("user", auth_user);
+        model.addAttribute("auth_user", auth_user);
         return "account/settings";
     }
 
     @RequestMapping(value = "/settings", method = RequestMethod.POST)
-    public String saveSettings(@ModelAttribute("user") User user,
+    public String saveSettings(@ModelAttribute("auth_user") User user,
                                BindingResult result,
                                Model model){
         User auth_user = userService.getAuthenticatedUser();
@@ -102,7 +102,6 @@ public class AccountController {
         if (result.hasErrors()) {
             return settings(model);
         }
-
         userService.updateUser(user);
         return "account/profile";
     }

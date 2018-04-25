@@ -34,20 +34,22 @@
             request</a>
     </p>
     <h1>${message}</h1>
-    <c:forEach var="friend" items="${outgoingList}">
-        <div class="card friend" style="width: 100%; display: inline-flex">
-            <img class="card-img-top" src="" alt="Card image cap">
-            <div class="card-body" style="margin-left: 10%;">
-                <p class="card-text"><a href="/account//${friend.id}">${friend.name} ${friend.surname}</a></p>
-            </div>
-            <form action="/account/friends/cancel-request" method="POST">
-                <button type="submit" class="btn btn-success">
-                    <input type="hidden" name="friend_id" value=${friend.id} />
-                    Cancel request
-                </button>
-            </form>
-        </div>
-    </c:forEach>
+    <table class="table">
+        <c:forEach var="friend" items="${outgoingList}">
+            <tr>
+                <td><img class="card-img-top" src="" alt="Card image cap"></td>
+                <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
+                <td>
+                    <form action="/account/friends/cancel-request" method="POST">
+                        <button type="submit"  class="btn btn-success">
+                            <input type="hidden" name="friend_id" value=${friend.id} />
+                            Cancel request </span>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        </c:forEach>
+    </table>
 </div>
 
 

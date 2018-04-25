@@ -10,40 +10,48 @@
 <html>
 <head>
     <title>Info</title>
+    <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
 </head>
 <body>
-<table>
-    <tbody>
-    <tr>
-        <td>Name:</td>
-        <td>${user.name}</td>
-    </tr>
-    <tr>
-        <td>Surname</td>
-        <td>${user.surname}</td>
-    </tr>
-    <tr>
-        <td>Date of Birth</td>
-        <td>${user.birthdayDate}</td>
-    </tr>
-    <tr>
-        <td>Email</td>
-        <td>${user.email}</td>
-    </tr>
-    <tr>
-        <td>Phone Number</td>
-        <td>${user.phone}</td>
-    </tr>
-    </tbody>
-    <a href="<c:url value="/account/settings"/>">
-        <input type="button" value="Edit information" >
-    </a>
-    <a href="<c:url value="/account/changePassword"/>">
-        <input type="button" value="Change password" >
-    </a>
-
-
-
-</table>
+<div class="row">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
+    <div class="col-md-3">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+    </div>
+    <div class="col-md-9 content">
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>Name:</td>
+                <td>${auth_user.name}</td>
+            </tr>
+            <tr>
+                <td>Surname</td>
+                <td>${auth_user.surname}</td>
+            </tr>
+            <tr>
+                <td>Date of Birth</td>
+                <td>${auth_user.birthdayDate}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>${auth_user.email}</td>
+            </tr>
+            <tr>
+                <td>Phone Number</td>
+                <td>${auth_user.phone}</td>
+            </tr>
+            </tbody>
+            <a href="<c:url value="/account/settings"/>">
+                <input type="button" class="btn btn-dark" value="Edit information">
+            </a>
+            <a href="<c:url value="/account/resetpassword"/>">
+                <input type="button" class="btn btn-outline-dark" value="Change password">
+            </a>
+        </table>
+    </div>
 </body>
 </html>

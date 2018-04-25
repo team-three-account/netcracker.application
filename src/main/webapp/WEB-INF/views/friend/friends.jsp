@@ -38,45 +38,43 @@
           class="forms_form" action="/account/friends/search">
 
         <div class="form-group">
-            <input name="search" id="search"  placeholder="Enter name or surname"/>
-            <input type="submit" value="Search" class="btn btn-dark" href="/">
+            <input name="search" class="form-control" style="width: 33%" id="search"  placeholder="Enter name or surname"/>
+            <input type="submit" value="Search" class="btn btn-dark" href="/" style="margin-top: 15px; margin-bottom: 15px">
         </div>
     </form>
 
     <div class="row">
-        <c:forEach var="friend" items="${friendList}">
-            <div class="card friend" style="width: 100%; display: inline-flex">
-                <img class="card-img-top" src="" alt="Card image cap">
-                <div class="card-body" style="margin-left: 10%;">
-                    <p class="card-text"><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></p>
-                </div>
-                <form action="/account/delete-friend" method="POST">
-                <button class="btn btn-danger" type="submit">
-                    <input type="hidden" name="friend_id" value=${friend.id} />
-                    Remove from friends </span>
-                </button>
-                </form>
-            </div>
-        </c:forEach>
+        <table class="table">
+
+            <c:forEach var="friend" items="${friendList}">
+                <tr>
+                    <td><img class="card-img-top" src="" alt="Card image cap"></td>
+                    <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
+                    <td>
+                        <form action="/account/delete-friend" method="POST">
+                            <button type="submit"  class="btn btn-danger">
+                                <input type="hidden" name="friend_id" value=${friend.id} />
+                                Remove from friendlist </span>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
     </div>
 
     <div class="row">
-        <table>
-        <tr>
-            <th>Photo (id) </th>
-            <th>Name Surname </th>
-            <th>Action</th>
-        </tr>
+        <table class="table">
 
         <c:forEach var="user" items="${foundUsers}">
             <tr>
-                <td>${user.id}</td>
+                <td><img class="card-img-top" src="" alt="Card image cap"></td>
                 <td><a href="/${user.id}">${user.name} ${user.surname}</a></td>
                 <td>
                     <form action="/account/friends/add-friend" method="POST">
-                        <button type="submit" >
+                        <button type="submit"  class="btn btn-success">
                             <input type="hidden" name="friend_id" value=${user.id} />
-                            Add </span>
+                            Add to friendlist </span>
                         </button>
                     </form>
                 </td>

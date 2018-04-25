@@ -14,58 +14,63 @@
 <html>
 <head>
     <title>Settings</title>
-    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
-    <link href="${contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <!-- Custom styles for this template-->
-    <link href="${contextPath}/resources/css/sb-admin.css">
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="829562763201-3hn7scp4j1c9u7hvlherebi8e56pv9va.apps.googleusercontent.com">
+    <meta name="google-signin-client_id"
+          content="829562763201-3hn7scp4j1c9u7hvlherebi8e56pv9va.apps.googleusercontent.com">
 </head>
 <body>
-<div class="container">
+
+<div class="row">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
+    <div class="col-md-3">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+    </div>
+
+<div class="col-md-9 content">
     <div class="card card-register mx-auto mt-5 col-md-6">
         <div class="card-body">
             <form:form method="POST" modelAttribute="user"
                        class="forms_form" action="/account/settings">
-         </div>
-                <div class="form-group" style="clear: both">
-                    <label>Name</label>
-                    <form:input path="name"  name="name" class="form-control"
-                                type="name" readonly="readonly"
-                                placeholder="Enter name"/>
-                    <form:errors path="name" cssClass="error"/>
-                </div>
-                <div class="form-group">
-                    <label>Surname</label>
-                    <form:input path="surname" name="surname" class="form-control"
-                                type="surname"
-                                placeholder="Enter surname"/>
-                    <form:errors path="surname" cssClass="error"/>
-                </div>
-                <div class="form-group">
-                    <label class="control-label">Date of birthday</label>
-                    <div class="input-group date" data-provide="datepicker">
-                        <form:input type="text" class="form-control" path="birthdayDate"/>
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
-                    </div>
-                    <form:errors path="birthdayDate" cssClass="error"/>
-                </div>
-                <div class="form-group">
-                    <label>Phone</label>
-                    <form:input path="phone" name="phone" class="form-control phone"
-                                type="phone"
-                                aria-describedby="emailHelp"
-                                placeholder="Enter phone"/>
-                    <form:errors path="phone" cssClass="error"/>
-                </div>
-                <input type="submit" value="Save" class="btn btn-dark text-center">
-            </form:form>
         </div>
+        <div class="form-group" style="clear: both">
+            <label>Name</label>
+            <form:input path="name" name="name" class="form-control"
+                        type="name" readonly="readonly"
+                        placeholder="Enter name"/>
+            <form:errors path="name" cssClass="error"/>
+        </div>
+        <div class="form-group">
+            <label>Surname</label>
+            <form:input path="surname" name="surname" class="form-control"
+                        type="surname"
+                        placeholder="Enter surname"/>
+            <form:errors path="surname" cssClass="error"/>
+        </div>
+        <div class="form-group">
+            <label class="control-label">Date of birthday</label>
+            <div class="input-group date" data-provide="datepicker">
+                <form:input type="text" class="form-control" path="birthdayDate"/>
+                <div class="input-group-addon">
+                    <span class="glyphicon glyphicon-th"></span>
+                </div>
+            </div>
+            <form:errors path="birthdayDate" cssClass="error"/>
+        </div>
+        <div class="form-group">
+            <label>Phone</label>
+            <form:input path="phone" name="phone" class="form-control phone"
+                        type="phone"
+                        aria-describedby="emailHelp"
+                        placeholder="Enter phone"/>
+            <form:errors path="phone" cssClass="error"/>
+        </div>
+        <input type="submit" value="Save" class="btn btn-dark text-center">
+        </form:form>
     </div>
 </div>
 
