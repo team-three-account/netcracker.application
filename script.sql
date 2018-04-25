@@ -194,3 +194,9 @@ create table "Verif_token"
   birthday date,
   phone    text
 );
+INSERT INTO public."Type"(value)
+VALUES ( 'private');
+INSERT INTO public."Type"(value)
+VALUES ( 'public');
+INSERT INTO public."Type"(value)
+VALUES ( 'only_for_friends');
