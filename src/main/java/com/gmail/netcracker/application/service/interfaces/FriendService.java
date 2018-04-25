@@ -5,17 +5,17 @@ import com.gmail.netcracker.application.dto.model.User;
 import java.util.List;
 
 public interface FriendService {
-    List<User> getAllFriends(String id);
+    List<User> getAllFriends(Long id);
 
     List<User> searchFriends(String search);
 
-    void addFriend(String person_id, String friend_id);
+    void addFriend(Long person_id, Long friend_id);
 
-    List<User> getOutgoingRequests(String id);
+    List<User> getOutgoingRequests(Long id);
 
-    void cancelRequest(String id, String friend_id);
+    void cancelRequest(Long id, Long friend_id);
 
-    List<User> getIncomingRequests(String id);
+    List<User> getIncomingRequests(Long id);
 
-    void acceptRequest(String id, String friend_id);
+    void acceptRequest(Long id, Long friend_id);
 }

@@ -19,7 +19,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void createEventWithAuthUser(Event event) {
-        event.setCreator(userService.getAuthenticatedUser().getId());
-        eventDao.insertEvent(event);
+       // event.setCreator(userService.getAuthenticatedUser().getId());
+       // eventDao.insertEvent(event);
     }
 }

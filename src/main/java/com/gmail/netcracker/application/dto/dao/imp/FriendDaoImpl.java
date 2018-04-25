@@ -16,7 +16,7 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
     Friend friendship;
 
     private static final String GET_ALL_FRIENDS = "select name, surname, person_id\n"+
-            "from public.\"person\"\n"+
+            "from public.\"Person\"\n"+
             "where person_id = (select DISTINCT sender\n"+
             "                   from public.\"Friend\"\n"+
             "                   where recipient = ?\n"+
@@ -27,12 +27,12 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
             "                   and \"isAccepted\" = TRUE)";
 
     private static final String GET_FRIENDS_BY_NAME_OR_SURNAME = "select name, surname, person_id\n" +
-            "from public.\"person\"\n" +
+            "from public.\"Person\"\n" +
             "where lower(name) = ?\n" +
             "      or lower(surname) = ?";
 
     private static final String GET_FRIENDS_BY_NAME_AND_SURNAME = "select name, surname, person_id\n" +
-            "from public.\"person\"\n" +
+            "from public.\"Person\"\n" +
             "where lower(name) in (?, ?)\n" +
             "      and lower(surname) in (?, ?)";
 
@@ -46,7 +46,7 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
             "VALUES (?, ?, FALSE )";
 
     private static final String GET_OUTGOING_REQUESTS = "select name, surname, person_id\n" +
-            "            from public.\"person\"\n" +
+            "            from public.\"Person\"\n" +
             "            where person_id = (select recipient\n" +
             "                               from public.\"Friend\"\n" +
             "                               where sender = ?\n" +
@@ -58,7 +58,7 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
             "and \"isAccepted\" = FALSE";
 
     private static final String GET_INCOMING_REQUESTS = "select name, surname, person_id\n" +
-            "            from public.\"person\"\n" +
+            "            from public.\"Person\"\n" +
             "            where person_id = (select sender\n" +
             "                               from public.\"Friend\"\n" +
             "                               where recipient = ?\n" +
@@ -71,14 +71,14 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
             "and \"isAccepted\" = FALSE";
 
     @Override
-    public List<User> friendList(String id) {
+    public List<User> friendList(Long id) {
 
         List<User> friendList = jdbcTemplate.query(GET_ALL_FRIENDS, new Object[] { id, id }, new FriendMapper() );
         return friendList;
     }
 
     @Override
-    public void deleteFriend(String person, String friend) {
+    public void deleteFriend(Long person, Long friend) {
 
     }
 
@@ -95,7 +95,7 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
     }
 
     @Override
-    public Friend getFriendshipById(String person_id, String friend_id) {
+    public Friend getFriendshipById(Long person_id, Long friend_id) {
         jdbcTemplate.query(GET_FRIEND_BY_ID, new Object[] { person_id, friend_id, person_id, friend_id }, resultSet -> {
             while (resultSet.next()) {
                 friendship.setRecipient(resultSet.getString("recipient"));
@@ -108,29 +108,29 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
     }
 
     @Override
-    public void addFriend(String person_id, String friend_id) {
+    public void addFriend(Long person_id, Long friend_id) {
         jdbcTemplate.update(ADD_FRIEND, person_id, friend_id );
     }
 
     @Override
-    public List<User> getOutgoingRequests(String id) {
+    public List<User> getOutgoingRequests(Long id) {
         List<User> outgoingList = jdbcTemplate.query(GET_OUTGOING_REQUESTS, new Object[] { id }, new FriendMapper() );
         return outgoingList;
     }
 
     @Override
-    public void cancelRequest(String id, String friend_id) {
+    public void cancelRequest(Long id, Long friend_id) {
         jdbcTemplate.update(CANCEL_REQUEST, id, friend_id );
     }
 
     @Override
-    public List<User> getIncomingRequests(String id) {
+    public List<User> getIncomingRequests(Long id) {
         List<User> incomingList = jdbcTemplate.query(GET_INCOMING_REQUESTS, new Object[] { id }, new FriendMapper() );
         return incomingList;
     }
 
     @Override
-    public void acceptRequest(String id, String friend_id) {
+    public void acceptRequest(Long id, Long friend_id) {
         jdbcTemplate.update(ACCEPT_REQUEST, id, friend_id );
     }
 
@@ -139,7 +139,7 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
         @Override
         public User mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             User user = new User();
-            user.setId(resultSet.getString("person_id"));
+            user.setId(resultSet.getLong("person_id"));
             user.setName(resultSet.getString("name"));
             user.setSurname(resultSet.getString("surname"));
             return user;

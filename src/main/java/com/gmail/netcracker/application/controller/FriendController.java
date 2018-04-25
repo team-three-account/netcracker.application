@@ -47,7 +47,7 @@ public class FriendController {
     }
 
     @RequestMapping(value = "/friends/add-friend", method = RequestMethod.POST)
-    public String addFriend(@RequestParam(value = "friend_id") String friend_id){
+    public String addFriend(@RequestParam(value = "friend_id") Long friend_id){
 
         friendService.addFriend(userService.getAuthenticatedUser().getId(), friend_id);
         return "redirect:/account/friends/outgoing";
@@ -81,7 +81,7 @@ public class FriendController {
     }
 
     @RequestMapping(value = "/friends/cancel-request", method = RequestMethod.POST)
-    public String cancelRequest(Model model, @RequestParam(value = "friend_id") String friend_id){
+    public String cancelRequest(Model model, @RequestParam(value = "friend_id") Long friend_id){
         User auth_user = userService.getAuthenticatedUser();
         model.addAttribute("auth_user", auth_user);
         friendService.cancelRequest(auth_user.getId(), friend_id);
@@ -100,7 +100,7 @@ public class FriendController {
     }
 
     @RequestMapping(value = "/friends/accept-request", method = RequestMethod.POST)
-    public String acceptRequest(Model model, @RequestParam(value = "friend_id") String friend_id){
+    public String acceptRequest(Model model, @RequestParam(value = "friend_id") Long friend_id){
         User auth_user = userService.getAuthenticatedUser();
         model.addAttribute("auth_user", auth_user);
         friendService.acceptRequest(auth_user.getId(), friend_id);
