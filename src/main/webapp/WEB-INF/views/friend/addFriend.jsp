@@ -25,9 +25,9 @@
                 <li><a href="#">${auth_user.email}</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li style="background-color : #dee5fc"><a href="/friends">Friends</a></li>
+                <li style="background-color : #dee5fc"><a href="/account/friends">Friends</a></li>
                 <li><a href="#">Incoming requests</a></li>
-                <li><a href="/friends/outgoing">Outgoing requests</a></li>
+                <li><a href="/account/friends/outgoing">Outgoing requests</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Calendar</a></li>
                 <li><a href="#">Wish List</a></li>
@@ -37,7 +37,7 @@
             <div class="card card-register mx-auto mt-5 col-md-6">
                 <h1>Search for friends</h1>
                     <form method="POST"
-                          class="forms_form" action="/friends/add">
+                          class="forms_form" action="/account/friends/add">
 
                         <div class="form-group">
                             <input name="search" id="search"  placeholder="Enter name or surname"/>
@@ -57,7 +57,7 @@
                             <td>${friend.id}</td>
                             <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
                             <td>
-                                <form action="/friends/add-friend" method="POST">
+                                <form action="/account/friends/add-friend" method="POST">
                                     <button type="submit" >
                                         <input type="hidden" name="friend_id" value=${friend.id} />
                                         Add </span>

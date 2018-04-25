@@ -45,4 +45,14 @@ public class FriendServiceImpl implements FriendService {
     public void cancelRequest(String id, String friend_id) {
         friendDao.cancelRequest(id, friend_id);
     }
+
+    @Override
+    public List<User> getIncomingRequests(String id) {
+        return friendDao.getIncomingRequests(id);
+    }
+
+    @Override
+    public void acceptRequest(String id, String friend_id) {
+        friendDao.acceptRequest(id, friend_id);
+    }
 }

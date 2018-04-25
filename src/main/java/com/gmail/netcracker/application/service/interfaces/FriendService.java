@@ -14,4 +14,8 @@ public interface FriendService {
     List<User> getOutgoingRequests(String id);
 
     void cancelRequest(String id, String friend_id);
+
+    List<User> getIncomingRequests(String id);
+
+    void acceptRequest(String id, String friend_id);
 }

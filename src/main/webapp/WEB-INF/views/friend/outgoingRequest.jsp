@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Friends</title>
+    <title>Outgoing requests</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
@@ -27,9 +27,9 @@
                 <li><a href="#">${auth_user.email}</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li ><a href="/friends">Friends</a></li>
+                <li ><a href="/account/friends">Friends</a></li>
                 <li><a href="#">Incoming requests</a></li>
-                <li style="background-color : #dee5fc"><a href="/friends/outgoing">Outgoing requests</a></li>
+                <li style="background-color : #dee5fc"><a href="/account/friends/outgoing">Outgoing requests</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Calendar</a></li>
                 <li><a href="#">Wish List</a></li>
@@ -50,7 +50,7 @@
                         <td>${friend.id}</td>
                         <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
                         <td>
-                            <form action="cancel-request" method="POST">
+                            <form action="/account/friends/cancel-request" method="POST">
                                 <button type="submit" >
                                     <input type="hidden" name="friend_id" value=${friend.id} />
                                     Cancel request </span>
