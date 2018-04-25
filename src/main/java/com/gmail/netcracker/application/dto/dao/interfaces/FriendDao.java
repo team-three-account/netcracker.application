@@ -23,4 +23,7 @@ public interface FriendDao {
     List<User> getIncomingRequests(Long id);
 
     void acceptRequest(Long id, Long friend_id);
+
+    List<User> searchUsersByNameAndSurname(Long id, String name, String surname);
+    List<User> searchUsersByNameOrSurname(Long id, String search);
 }

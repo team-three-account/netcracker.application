@@ -20,4 +20,6 @@ public interface FriendService {
     void acceptRequest(Long id, Long friend_id);
 
     void deleteFriend(Long id, Long friend_id);
+
+    List<User> searchUsers(Long id, String search);
 }

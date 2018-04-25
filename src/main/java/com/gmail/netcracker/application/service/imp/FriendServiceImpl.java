@@ -60,4 +60,10 @@ public class FriendServiceImpl implements FriendService {
     public void deleteFriend(Long id, Long friend_id) {
         friendDao.deleteFriend(id, friend_id);
     }
+
+    @Override
+    public List<User> searchUsers(Long id, String search) {
+        String [] input = search.split(" ");
+        return input.length > 1 ? friendDao.searchUsersByNameAndSurname(id, input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.searchUsersByNameOrSurname(id, input[0].toLowerCase());
+    }
 }

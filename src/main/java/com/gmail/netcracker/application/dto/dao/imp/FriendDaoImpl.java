@@ -26,15 +26,17 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
             "                   where sender = ?\n"+
             "                   and \"isAccepted\" = TRUE)";
 
-    private static final String GET_FRIENDS_BY_NAME_OR_SURNAME = "select name, surname, person_id\n" +
+    private static final String SEARCH_USERS_BY_NAME_OR_SURNAME = "select name, surname, person_id\n" +
             "from public.\"Person\"\n" +
-            "where lower(name) = ?\n" +
-            "      or lower(surname) = ?";
+            "where (lower(name) = ?\n" +
+            "      or lower(surname) = ?)\n" +
+            "and person_id != ?";
 
-    private static final String GET_FRIENDS_BY_NAME_AND_SURNAME = "select name, surname, person_id\n" +
+    private static final String SEARCH_USERS_BY_NAME_AND_SURNAME = "select name, surname, person_id\n" +
             "from public.\"Person\"\n" +
             "where lower(name) in (?, ?)\n" +
-            "      and lower(surname) in (?, ?)";
+            "      and lower(surname) in (?, ?)\n" +
+            "       and person_id != ?";
 
     private static final String GET_FRIEND_BY_ID= "select sender, recipient,\"isAccepted\"\n" +
             "from public.\"Friend\"\n"+
@@ -88,18 +90,18 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
             "and (lower(name) = ?\n" +
             "      or lower(surname) = ?)";
 
-    private static final String GET_SEARCHED_FRIENDS_BY_NAME_AND_SURNAME = "select name, surname, person_id\n"+
-            "from public.\"Person\"\n"+
-            "where (person_id = (select DISTINCT sender\n"+
-            "                   from public.\"Friend\"\n"+
-            "                   where recipient = ?\n"+
-            "                   and \"isAccepted\" = TRUE)\n"+
-            "or person_id = (select DISTINCT recipient\n"+
-            "                   from public.\"Friend\"\n"+
-            "                   where sender = ?\n"+
-            "                   and \"isAccepted\" = TRUE))\n"+
-            "and lower(name) in (?, ?)\n" +
-            "      and lower(surname) in (?, ?)";
+    private static final String GET_SEARCHED_FRIENDS_BY_NAME_AND_SURNAME = "select name, surname, person_id\n" +
+            "from public.\"Person\"\n" +
+            "where person_id = (select DISTINCT sender\n" +
+            "                   from public.\"Friend\"\n" +
+            "                   where recipient = ?\n" +
+            "                         and \"isAccepted\" = TRUE)\n" +
+            "      or person_id = (select DISTINCT recipient\n" +
+            "                      from public.\"Friend\"\n" +
+            "                      where sender = ?\n" +
+            "                            and \"isAccepted\" = TRUE)\n" +
+            "         and lower(name) in (?,?)\n" +
+            "         and lower(surname) in (?,?)";
 
     @Override
     public List<User> friendList(Long id) {
@@ -163,6 +165,18 @@ public class FriendDaoImpl extends ModelDao implements FriendDao  {
     @Override
     public void acceptRequest(Long id, Long friend_id) {
         jdbcTemplate.update(ACCEPT_REQUEST, id, friend_id );
+    }
+
+    @Override
+    public List<User> searchUsersByNameAndSurname(Long id, String name, String surname) {
+        List<User> friendList = jdbcTemplate.query(SEARCH_USERS_BY_NAME_AND_SURNAME, new Object[] { name,surname, name,surname, id }, new FriendMapper() );
+        return friendList;
+    }
+
+    @Override
+    public List<User> searchUsersByNameOrSurname(Long id, String search) {
+        List<User> friendList = jdbcTemplate.query(SEARCH_USERS_BY_NAME_OR_SURNAME, new Object[] { search, search, id }, new FriendMapper() );
+        return friendList;
     }
 
     private static final class FriendMapper implements RowMapper<User> {
