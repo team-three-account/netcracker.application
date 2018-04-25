@@ -97,13 +97,11 @@ public class AccountController {
                                Model model){
         User auth_user = userService.getAuthenticatedUser();
         user.setId(auth_user.getId());
-        user.setEmail(auth_user.getEmail());
-
         if (result.hasErrors()) {
             return settings(model);
         }
         userService.updateUser(user);
-        return "account/profile";
+        return "redirect:/account/profile";
     }
 
 
