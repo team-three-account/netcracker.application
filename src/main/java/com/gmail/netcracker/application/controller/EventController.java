@@ -98,8 +98,7 @@ public class EventController {
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
     public String deleteFriend(@RequestParam(value = "event_id") String event_id) {
         eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(event_id));
-        //в мои ивенты
-        return "redirect:/account";
+        return "redirect:/account/myevents";
     }
 
     @RequestMapping(value = "/myevents", method = RequestMethod.GET)
