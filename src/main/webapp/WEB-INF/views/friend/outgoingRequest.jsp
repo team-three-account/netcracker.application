@@ -38,7 +38,7 @@
         <c:forEach var="friend" items="${outgoingList}">
             <tr>
                 <td><img class="card-img-top" src="" alt="Card image cap"></td>
-                <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
+                <td><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></td>
                 <td>
                     <form action="/account/friends/cancel-request" method="POST">
                         <button type="submit"  class="btn btn-success">

@@ -14,44 +14,51 @@
     <div class="col-md-3"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
+<div class="col-md-9 content ">
 
-<div class="col-md-9 content">
-    <div class="container">
-        <h1 class="default_h1">Simple Event List.. will be soon </h1>
+    <div class="card-deck mb-3 text-center">
+        <div class="card col-md-3 box-shadow eventCategory">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal eventCategory">Public Events</h4>
+            </div>
+            <div class="card-body eventCard">
+                <c:forEach var="emp" items="${eventList}">
+                    <a href="<c:url value='/account/eventList/event-${emp.eventId}' />">
+                        <ul class="list-unstyled mt-3 mb-4 eventCardItem">
+                            <li>${emp.name}</li>
+                            <li>Start ${emp.dateStart}</li>
+                            <li>End ${emp.dateEnd}</li>
+                        </ul>
+                    </a>
+                </c:forEach>
+            </div>
+        </div>
+        <div class="card col-md-3 box-shadow eventCategory">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal eventCategory">Private Events</h4>
+            </div>
+            <div class="card-body eventCard">
 
-        <table class="table">
-            <tr>
-                <th>Name</th>
-                <th>creator</th>
-                <th>Start</th>
-                <th>End</th>
-                <th>type</th>
-                <th>Delete</th>
-            </tr>
-            <c:forEach var="emp" items="${eventList}">
-                <tr>
-                    <td><a href="<c:url value='/account/eventList/editevent-${emp.eventId}' />">${emp.name}</a></td>
-                    <td>${emp.creator}</td>
-                    <td>${emp.dateStart}</td>
-                    <td>${emp.dateEnd}</td>
-                    <td>${emp.type}</td>
-                    <td>
-                        <sec:authorize access="hasRole('USER')">
-                            <a class="btn btn-danger"
-                               href="<c:url value='/account/eventList/deleteEvent-${emp.eventId}' />">Delete</a>
-                        </sec:authorize>
-                    </td>
-                </tr>
 
-            </c:forEach>
-        </table>
-        <div>
-            <sec:authorize access="hasRole('USER')">
-                <a class="btn btn-primary" href="<c:url value='/account/eventList/createNewEvent' />">Add new event</a>
-            </sec:authorize>
+            </div>
+        </div>
+        <div class="card col-md-3 box-shadow eventCategory">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal eventCategory">Notes</h4>
+            </div>
+            <div class="card-body eventCard">
+
+
+            </div>
         </div>
     </div>
 </div>
+<div>
+    <sec:authorize access="hasRole('USER')">
+        <a class="btn btn-primary" href="<c:url value='/account/eventList/createNewEvent' />">Add new event</a>
+    </sec:authorize>
+</div>
+
 </body>
 
 <%--<td>--%>

@@ -49,7 +49,7 @@
             <c:forEach var="friend" items="${friendList}">
                 <tr>
                     <td><img class="card-img-top" src="" alt="Card image cap"></td>
-                    <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
+                    <td><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></td>
                     <td>
                         <form action="/account/delete-friend" method="POST">
                             <button type="submit"  class="btn btn-danger">
@@ -69,7 +69,7 @@
         <c:forEach var="user" items="${foundUsers}">
             <tr>
                 <td><img class="card-img-top" src="" alt="Card image cap"></td>
-                <td><a href="/${user.id}">${user.name} ${user.surname}</a></td>
+                <td><a href="/account/${user.id}">${user.name} ${user.surname}</a></td>
                 <td>
                     <form action="/account/friends/add-friend" method="POST">
                         <button type="submit"  class="btn btn-success">

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/account")
@@ -62,6 +63,16 @@ public class EventController {
         return "redirect:/account/eventlist";
     }
 
+    @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.GET)
+    public ModelAndView viewEvent(@PathVariable("eventId") int eventId, ModelAndView modelAndView ){
+        modelAndView.addObject("auth_user",userService.getAuthenticatedUser());
+        modelAndView.addObject("event", eventService.getEvent(eventId));
+        modelAndView.addObject("user_creator", userService.findUserById(eventService.getEvent(eventId).getCreator()));
+        modelAndView.setViewName("event/viewEvent");
+        return modelAndView;
+    }
+
+
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView editEvent(@PathVariable int eventId) {
         Event event = eventService.getEvent(eventId);
@@ -73,6 +84,7 @@ public class EventController {
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.POST)
     public ModelAndView updateEvent(@ModelAttribute("editEvent") Event event, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("event/testupdate", "editEvent", event);
+        modelAndView.addObject("auth_user",userService.getAuthenticatedUser());
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
             return modelAndView;

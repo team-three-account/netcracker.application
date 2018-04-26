@@ -167,6 +167,53 @@ article > p {
 }
 
 #map {
-    height: 50%;
+    height: 48%;
     width: 100%;
 }
+
+.eventCategory {
+    border-radius: 10px;
+    margin: 10px;
+
+    background-color: whitesmoke;
+}
+
+.eventCard {
+    margin-bottom: 40px;
+}
+
+.eventCardItem {
+    font-family: "OpenSans-Regular", sans-serif;
+    font-size: 1em;
+    margin: 30px;
+    padding: 10px;
+    border: 3px greenyellow groove;
+    background-color: white;
+    border-radius: 10px;
+}
+.eventCard a{
+    color: black;
+}
+.eventCard a:hover {
+    color:black;
+    text-decoration: none;
+
+}
+.viewEvent{
+    background: whitesmoke;
+
+
+}
+.viewEvent ul{
+    padding: 1%;
+    background: whitesmoke;
+}
+.viewEvent li{
+    font-size: 18;
+    margin: 2%;
+    padding: 10px;
+    background-color: whitesmoke;
+    border-radius: 10px;
+    border: grey 3px double;
+}
+

@@ -16,7 +16,6 @@
         <div class="sidebar menu">
         <ul class="nav nav-sidebar">
         <li style="background-color : #dee5fc"><a href="/account">${auth_user.name} ${auth_user.surname}</a></li>
-        <li><a href="#">${auth_user.email}</a></li>
         </ul>
         <ul class="nav nav-sidebar">
         <li><a href="/account/eventlist">Events</a></li>
