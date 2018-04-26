@@ -18,7 +18,9 @@ public interface EventService {
 
     List<Event> findAllEventTypes();
 
-    void setPersonIdAndDraftStatus(Event event);
+    void setPersonId(Event event);
+
+    List<Event> getAllMyEvents();
 
     void participate(Long user_id, long event_id);
 }

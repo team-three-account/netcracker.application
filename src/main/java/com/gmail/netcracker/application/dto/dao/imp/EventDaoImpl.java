@@ -36,10 +36,10 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     private static final String GET_EVENT_BY_ID = "SELECT  event_id,name, description,creator, start_date, end_date,\n" +
             " type, is_draft, folder,width,longitude,eventplacename,periodicity\n" +
             "FROM public.\"Event\"\n" +
-            "where event_id= ";
+            "where event_id=";
 
     private static final String PARTICIPATE = "INSERT INTO public.\"Participant\"(person, event, is_accepted)\n" +
-    "VALUES (?, ?, TRUE)";
+            "VALUES (?, ?, TRUE)";
 
     @Override
     public void update(Event event) {
@@ -59,7 +59,6 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public void insertEvent(Event event) {
-        // evventid.UUAID.toString();
 
         jdbcTemplate.update(EVENT_INSERT, event.getName(), event.getDescription(), event.getCreator(),
                 Utilites.parseTime(event.getDateStart()), Utilites.parseTime(event.getDateEnd()),
@@ -69,8 +68,8 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public Event getEvent(int eventId) {
-        String getEvent = GET_EVENT_BY_ID;
-        return jdbcTemplate.query(getEvent + eventId, rs -> {
+        String getEvent = GET_EVENT_BY_ID + eventId;
+        return jdbcTemplate.query(getEvent, rs -> {
             if (rs.next()) {
                 Event event = new Event();
                 event.setEventId(rs.getInt("event_id"));
@@ -106,6 +105,22 @@ public class EventDaoImpl extends ModelDao implements EventDao {
             eventType.setTypeId(rs.getInt("type_id"));
             eventType.setType(rs.getString("value"));
             return eventType;
+        });
+        return listEventTypes;
+    }
+
+    @Override
+    public List<Event> getAllMyEvents(Long personId) {
+
+        String sql = "SELECT event_id,name, start_date,end_date\n" +
+                "FROM \"Event\" WHERE event_id IN (SELECT event FROM \"Participant\" WHERE person = ? AND is_accepted=TRUE)";
+        List<Event> listEventTypes = jdbcTemplate.query(sql,new Object[]{personId}, (rs, rowNum) -> {
+            Event event = new Event();
+            event.setEventId(rs.getInt("event_id"));
+            event.setName(rs.getString("name"));
+            event.setDateStart(rs.getString("start_date"));
+            event.setDateEnd(rs.getString("end_date"));
+            return event;
         });
         return listEventTypes;
     }
