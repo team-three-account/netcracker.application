@@ -19,14 +19,18 @@ import java.util.logging.Logger;
 @RequestMapping("/account")
 public class EventController {
 
-    @Autowired
-    EventService eventService;
+    private final EventService eventService;
+
+    private final UserService userService;
+
+    private final RegisterAndUpdateEventValidator eventValidator;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
-    RegisterAndUpdateEventValidator eventValidator;
+    public EventController(EventService eventService, UserService userService, RegisterAndUpdateEventValidator eventValidator) {
+        this.eventService = eventService;
+        this.userService = userService;
+        this.eventValidator = eventValidator;
+    }
 
     @RequestMapping(value = "/eventlist", method = RequestMethod.GET)
     public ModelAndView eventList(ModelAndView modelAndView) {

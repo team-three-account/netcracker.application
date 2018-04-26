@@ -19,20 +19,24 @@ import java.util.UUID;
 @Controller
 public class RegistrationController {
 
-    @Autowired
     private VerificationToken verificationToken;
 
-    @Autowired
     private User user;
 
-    @Autowired
-    private RegisterValidator registerValidator;
+    private final RegisterValidator registerValidator;
+
+    private final EmailConcructor emailConcructor;
+
+    private final UserService userService;
 
     @Autowired
-    private EmailConcructor emailConcructor;
-
-    @Autowired
-    private UserService userService;
+    public RegistrationController(VerificationToken verificationToken, User user, RegisterValidator registerValidator, EmailConcructor emailConcructor, UserService userService) {
+        this.verificationToken = verificationToken;
+        this.user = user;
+        this.registerValidator = registerValidator;
+        this.emailConcructor = emailConcructor;
+        this.userService = userService;
+    }
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
