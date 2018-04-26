@@ -34,7 +34,7 @@
 <div class="col-md-9 content">
     <div class="card card-register mx-auto mt-5 col-md-6">
         <div class="card-body">
-            <form:form method="POST" modelAttribute="user"
+            <form:form method="POST" modelAttribute="auth_user"
                        class="forms_form" action="/account/settings">
         </div>
         <div class="form-group" style="clear: both">
@@ -54,7 +54,7 @@
         <div class="form-group">
             <label class="control-label">Date of birthday</label>
             <div class="input-group date" data-provide="datepicker">
-                <form:input type="text" class="form-control" path="birthdayDate"/>
+                <form:input class="form-control" path="birthdayDate"/>
                 <div class="input-group-addon">
                     <span class="glyphicon glyphicon-th"></span>
                 </div>

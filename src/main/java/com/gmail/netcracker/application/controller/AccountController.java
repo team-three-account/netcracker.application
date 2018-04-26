@@ -17,20 +17,24 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/account")
 public class AccountController {
 
-    @Autowired
     private User user;
 
-    @Autowired
     private EmailConcructor emailConcructor;
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
     private ResetConfirmPasswordValidator resetConfirmPasswordValidator;
+
+    @Autowired
+    public AccountController(User user, EmailConcructor emailConcructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator) {
+        this.user = user;
+        this.emailConcructor = emailConcructor;
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.resetConfirmPasswordValidator = resetConfirmPasswordValidator;
+    }
 
 
     @RequestMapping(value = "", method = RequestMethod.GET)
@@ -78,32 +82,26 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile(Model model){
-        User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
+    public String profile(Model model) {
+        model.addAttribute("auth_user", userService.findUserById(userService.getAuthenticatedUser().getId()));
         return "account/profile";
     }
 
     @RequestMapping(value = "/settings", method = RequestMethod.GET)
-    public String settings(Model model){
-        User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
+    public String settings(Model model) {
+        model.addAttribute("auth_user", userService.findUserById(userService.getAuthenticatedUser().getId()));
         return "account/settings";
     }
 
     @RequestMapping(value = "/settings", method = RequestMethod.POST)
     public String saveSettings(@ModelAttribute("auth_user") User user,
                                BindingResult result,
-                               Model model){
-        User auth_user = userService.getAuthenticatedUser();
-        user.setId(auth_user.getId());
+                               Model model) {
+        user.setId(userService.getAuthenticatedUser().getId());
         if (result.hasErrors()) {
             return settings(model);
         }
         userService.updateUser(user);
         return "redirect:/account/profile";
     }
-
-
-
 }
