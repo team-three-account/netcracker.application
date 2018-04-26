@@ -46,23 +46,20 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 pointer">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Event Place</h3>
                 </div>
                 <div class="panel-body viewEvent">
-                    <div class="form-group">
+                    <div class="form-group" disabled="false">
                         <label>Event place</label>
-                        <div id="map"></div>
+                        <div id="map" disabled=""></div>
                         <input type="hidden" value="${event.width}" id="latitude">
                         <input type="hidden" value="${event.longitude}" id="longitude">
-                        <script src='${contextPath}/resources/js/pamCode.js'></script>
+                        <script src='${contextPath}/resources/js/showPlace.js'></script>
                         <script
                                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&callback=initMap&language=en">
-                        </script>
-                        <script>
-                            setMarkerFromInput();
                         </script>
                     </div>
                 </div>

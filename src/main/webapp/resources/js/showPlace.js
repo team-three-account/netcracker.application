@@ -1,4 +1,3 @@
-// Декодування
 (function () {
     if (document.getElementById('eventPlaceName')) {
         var inputPlace = document.getElementById('eventPlaceName');
@@ -22,9 +21,9 @@ function initMap() {
             zoom: 11,
             center: {lat: 50.449420, lng: 30.522503}
         });
-    map.addListener('click', function (e) {//event click коли натискання на карту відбувається виклик функції e а вона в свою чергу кличе placeMarker...
-        placeMarkerAndPanTo(e.latLng);
-    });
+    /* map.addListener('click', function (e) {//event click коли натискання на карту відбувається виклик функції e а вона в свою чергу кличе placeMarker...
+         placeMarkerAndPanTo(e.latLng);
+     });*/
 
     setMarkerFromInput();
     //dlya update
