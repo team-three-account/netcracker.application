@@ -36,7 +36,10 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     private static final String GET_EVENT_BY_ID = "SELECT  event_id,name, description,creator, start_date, end_date,\n" +
             " type, is_draft, folder,width,longitude,eventplacename,periodicity\n" +
             "FROM public.\"Event\"\n" +
-            "where event_id=";
+            "where event_id= ?";
+
+    private static final String PARTICIPATE = "INSERT INTO public.\"Participant\"(person, event, is_accepted)\n" +
+    "VALUES (?, ?, TRUE)";
 
     @Override
     public void update(Event event) {
@@ -105,6 +108,11 @@ public class EventDaoImpl extends ModelDao implements EventDao {
             return eventType;
         });
         return listEventTypes;
+    }
+
+    @Override
+    public void participate(Long user_id, long event_id) {
+        jdbcTemplate.update(PARTICIPATE, user_id, event_id );
     }
 }
 

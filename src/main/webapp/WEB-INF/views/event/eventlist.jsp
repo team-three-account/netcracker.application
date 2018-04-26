@@ -30,6 +30,14 @@
                             <li>End ${emp.dateEnd}</li>
                         </ul>
                     </a>
+
+                    <form action="/account/participate" method="POST">
+                        <button type="submit"  class="btn btn-success">
+                            <input type="hidden" name="event_id" value=${emp.eventId} />
+                            Participate </span>
+                        </button>
+                    </form>
+
                 </c:forEach>
             </div>
         </div>

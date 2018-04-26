@@ -94,6 +94,13 @@ public class EventController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/participate", method = RequestMethod.POST)
+    public String deleteFriend(@RequestParam(value = "event_id") String event_id) {
+        eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(event_id));
+        //в мои ивенты
+        return "redirect:/account";
+    }
+
     @ModelAttribute("eventTypes")
     public List<Event> findAllEventTypes() {
         return eventService.findAllEventTypes();

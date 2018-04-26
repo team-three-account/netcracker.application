@@ -63,4 +63,9 @@ public class EventServiceImpl implements EventService {
         }
     }
 
+    @Override
+    public void participate(Long user_id, long event_id) {
+        eventDao.participate(user_id, event_id);
+    }
+
 }
