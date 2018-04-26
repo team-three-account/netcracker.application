@@ -22,4 +22,6 @@ public interface FriendService {
     void deleteFriend(Long id, Long friend_id);
 
     List<User> searchUsers(Long id, String search);
+
+    List<User> intersect(List<User> friendList, List<User> foundUsers);
 }

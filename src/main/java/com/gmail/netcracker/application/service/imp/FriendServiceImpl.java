@@ -66,4 +66,14 @@ public class FriendServiceImpl implements FriendService {
         String [] input = search.split(" ");
         return input.length > 1 ? friendDao.searchUsersByNameAndSurname(id, input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.searchUsersByNameOrSurname(id, input[0].toLowerCase());
     }
+
+    @Override
+    public List<User> intersect(List<User> friendList, List<User> foundUsers) {
+        for (User item : friendList){
+            if (foundUsers.contains(item)) {
+                foundUsers.remove(item);
+            }
+        }
+        return foundUsers;
+    }
 }
