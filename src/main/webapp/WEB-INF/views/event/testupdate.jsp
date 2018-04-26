@@ -19,11 +19,11 @@
 
 
 <div class="col-md-9 content">
-    <div class="container">
-        <div class="card card-register mx-auto mt-5 col-md-6">
-            <div class="card-header">Update Event</div>
-            <div class="card-body">
-                <form:form method="POST" modelAttribute="editEvent" class="forms_form">
+    <div class="card card-register">
+        <div class="card-header">Update Event</div>
+        <div class="card-body">
+            <form:form method="POST" modelAttribute="editEvent" class="forms_form">
+                <div class="col-md-6">
                     <div class="form-group">
                         <label>Event Name: </label>
                         <form:input path="name" id="name" type="text" class="form-control"
@@ -49,24 +49,25 @@
                         <form:errors path="dateEnd" cssClass="error"/>
                     </div>
 
-                    <%--<div class="form-group">--%>
-                    <%--<label>period</label>--%>
-                    <%--<form:input path="periodicity" id="periodicity" type="text" class="form-control"--%>
-                    <%--placeholder="Enter periodicity"/>--%>
-                    <%--<form:errors path="periodicity" cssClass="error"/>--%>
-                    <%--</div>--%>
+                        <%--<div class="form-group">--%>
+                        <%--<label>period</label>--%>
+                        <%--<form:input path="periodicity" id="periodicity" type="text" class="form-control"--%>
+                        <%--placeholder="Enter periodicity"/>--%>
+                        <%--<form:errors path="periodicity" cssClass="error"/>--%>
+                        <%--</div>--%>
                     <div class="form-group">
                         <label>Event type: </label>
                         <form:select path="type" class="form-control">
                             <form:options items="${eventTypes}" itemValue="typeId" itemLabel="type"/>
                         </form:select>
                     </div>
-
-                    <%--<div class="form-group">--%>
-                    <%--<label>Folder</label>--%>
-                    <%--<form:input path="folder" id="folder" type="text" class="form-control" placeholder="Enter foler"/>--%>
-                    <%--<form:errors path="folder" cssClass="error"/>--%>
-                    <%--</div>--%>
+                </div>
+                <%--<div class="form-group">--%>
+                <%--<label>Folder</label>--%>
+                <%--<form:input path="folder" id="folder" type="text" class="form-control" placeholder="Enter foler"/>--%>
+                <%--<form:errors path="folder" cssClass="error"/>--%>
+                <%--</div>--%>
+                <div class="col-md-6">
                     <form:input path="width" type="hidden" id="latitude"></form:input>
                     <form:input path="longitude" type="hidden" id="longitude"></form:input>
                     <div class="form-group">
@@ -77,13 +78,13 @@
                         <script async defer
                                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&callback=initMap&language=en">
                         </script>
-
                     </div>
-                    <input type="submit" value="Update" class="btn btn-dark text-center"/>
-                </form:form>
-            </div>
+                </div>
+                <input type="submit" value="Update" class="btn btn-dark text-center"/>
+            </form:form>
         </div>
     </div>
 </div>
+
 </html>
 

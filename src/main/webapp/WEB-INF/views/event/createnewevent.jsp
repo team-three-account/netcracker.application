@@ -25,61 +25,62 @@
         <div class="card-body">
             <%--action="/account/eventList/createNewEvent"--%>
             <form:form method="POST" modelAttribute="createNewEvent" class="forms_form">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Event Name: </label>
-                        <form:input path="name" id="name" type="text" class="form-control"
-                                    placeholder="Enter event name"/>
-                        <form:errors path="name" cssClass="error"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Description: </label>
-                        <form:input path="description" id="description" type="text" class="form-control"
-                                    placeholder="Enter event description"/>
-                        <form:errors path="description" cssClass="error"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Start_date: </label>
-                        <form:input path="dateStart" id="dateStart" type="date" class="form-control"
-                                    placeholder="Enter event start date"/>
-                        <form:errors path="dateStart" cssClass="error"/>
-                    </div>
-                    <div class="form-group">
-                        <label>End_date: </label>
-                        <form:input path="dateEnd" id="dateEnd" type="date" class="form-control"
-                                    placeholder="Enter event end date"/>
-                        <form:errors path="dateEnd" cssClass="error"/>
-                    </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Event Name: </label>
+                            <form:input path="name" id="name" type="text" class="form-control"
+                                        placeholder="Enter event name"/>
+                            <form:errors path="name" cssClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Description: </label>
+                            <form:input path="description" id="description" type="text" class="form-control"
+                                        placeholder="Enter event description"/>
+                            <form:errors path="description" cssClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Start_date: </label>
+                            <form:input path="dateStart" id="dateStart" type="date" class="form-control"
+                                        placeholder="Enter event start date"/>
+                            <form:errors path="dateStart" cssClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <label>End_date: </label>
+                            <form:input path="dateEnd" id="dateEnd" type="date" class="form-control"
+                                        placeholder="Enter event end date"/>
+                            <form:errors path="dateEnd" cssClass="error"/>
+                        </div>
 
-                    <div class="form-group">
-                        <label>Event type: </label>
-                        <form:select path="type" class="form-control">
-                            <form:options items="${eventTypes}" itemValue="typeId" itemLabel="type"/>
-                        </form:select>
-                        <form:errors path="type" cssClass="error"/>
+                        <div class="form-group">
+                            <label>Event type: </label>
+                            <form:select path="type" class="form-control">
+                                <form:options items="${eventTypes}" itemValue="typeId" itemLabel="type"/>
+                            </form:select>
+                            <form:errors path="type" cssClass="error"/>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <form:input path="width" type="hidden" id="latitude"></form:input>
-                    <form:input path="longitude" type="hidden" id="longitude"></form:input>
-                    <div class="form-group">
-                        <label>Event place</label>
-                        <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
-                        <form:errors path="eventPlaceName" cssClass="error"/>
-                        <div id="map"></div>
-                        <script src='${contextPath}/resources/js/pamCode.js'></script>
-                        <script
-                                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&callback=initMap&language=en">
-                        </script>
-                        <script>
-                            setMarkerFromInput();
-                        </script>
+                    <div class="col-lg-6">
+                        <form:input path="width" type="hidden" id="latitude"></form:input>
+                        <form:input path="longitude" type="hidden" id="longitude"></form:input>
+                        <div class="form-group">
+                            <label>Event place</label>
+                            <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
+                            <form:errors path="eventPlaceName" cssClass="error"/>
+                            <div id="map"></div>
+                            <script src='${contextPath}/resources/js/pamCode.js'></script>
+                            <script
+                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&callback=initMap&language=en">
+                            </script>
+                            <script>
+                                setMarkerFromInput();
+                            </script>
+                        </div>
                     </div>
                 </div>
                 <input id="hidden" name="hidden" type="hidden" value="">
                 <button id="create" class="btn btn-success text-center">Create</button>
                 <button id="draft" class="btn btn-danger text-center">Draft</button>
-
             </form:form>
         </div>
     </div>
