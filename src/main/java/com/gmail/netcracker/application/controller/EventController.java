@@ -6,6 +6,7 @@ import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -64,8 +65,8 @@ public class EventController {
     }
 
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.GET)
-    public ModelAndView viewEvent(@PathVariable("eventId") int eventId, ModelAndView modelAndView ){
-        modelAndView.addObject("auth_user",userService.getAuthenticatedUser());
+    public ModelAndView viewEvent(@PathVariable("eventId") int eventId, ModelAndView modelAndView) {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("event", eventService.getEvent(eventId));
         modelAndView.addObject("user_creator", userService.findUserById(eventService.getEvent(eventId).getCreator()));
         modelAndView.setViewName("event/viewEvent");
@@ -84,7 +85,7 @@ public class EventController {
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.POST)
     public ModelAndView updateEvent(@ModelAttribute("editEvent") Event event, BindingResult result) {
         ModelAndView modelAndView = new ModelAndView("event/testupdate", "editEvent", event);
-        modelAndView.addObject("auth_user",userService.getAuthenticatedUser());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
             return modelAndView;
@@ -97,8 +98,15 @@ public class EventController {
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
     public String deleteFriend(@RequestParam(value = "event_id") String event_id) {
         eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(event_id));
-        //в мои ивенты
-        return "redirect:/account";
+        return "redirect:/account/myevents";
+    }
+
+    @RequestMapping(value = "/myevents", method = RequestMethod.GET)
+    public ModelAndView getMyEvent() {
+        ModelAndView modelAndView = new ModelAndView("/event/myevents");
+        List<Event> eventList = eventService.getAllMyEvents();
+        modelAndView.addObject("personalEventList", eventList);
+        return modelAndView;
     }
 
     @ModelAttribute("eventTypes")

@@ -11,20 +11,22 @@
     <title>Title</title>
 </head>
 <body>
-        <div class="container-fluid">
-        <div class="row">
+<div class="container-fluid">
+    <div class="row">
         <div class="sidebar menu">
-        <ul class="nav nav-sidebar">
-        <li style="background-color : #dee5fc"><a href="/account">${auth_user.name} ${auth_user.surname}</a></li>
-        </ul>
-        <ul class="nav nav-sidebar">
-        <li><a href="/account/eventlist">Events</a></li>
-        <li><a href="/account/friends">Friends</a></li>
-        <li><a href="#">Calendar</a></li>
-        <li><a href="#">Wish List</a></li>
-        </ul>
+            <ul class="nav nav-sidebar">
+                <li style="background-color : #dee5fc"><a href="/account">${auth_user.name} ${auth_user.surname}</a>
+                </li>
+            </ul>
+            <ul class="nav nav-sidebar">
+                <li><a href="/account/eventlist">Events</a></li>
+                <li><a href="/account/myevents">My Events</a></li>
+                <li><a href="/account/friends">Friends</a></li>
+                <li><a href="#">Calendar</a></li>
+                <li><a href="#">Wish List</a></li>
+            </ul>
         </div>
-        </div>
-        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -22,7 +22,7 @@ public class EventServiceImpl implements EventService {
     //crud
     @Override
     public void update(Event event) {
-        setPersonIdAndDraftStatus(event);
+        setPersonId(event);
         eventDao.update(event);
     }
 
@@ -33,7 +33,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void insertEvent(Event event) {
-        setPersonIdAndDraftStatus(event);
+        setPersonId(event);
         eventDao.insertEvent(event);
     }
 
@@ -56,11 +56,15 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void setPersonIdAndDraftStatus(Event event) {
+    public void setPersonId(Event event) {
         event.setCreator(userService.getAuthenticatedUser().getId());
-        if (event.getDateStart().equals("") || event.getDateEnd().equals("")) {
-            event.setDraft(true);
-        }
+    }
+
+    @Override
+    public List<Event> getAllMyEvents() {
+        Long personId = userService.getAuthenticatedUser().getId();
+        List<Event> eventList = eventDao.getAllMyEvents(personId);
+        return eventList;
     }
 
     @Override
