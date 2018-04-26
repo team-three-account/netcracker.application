@@ -65,8 +65,8 @@ public class FriendController {
         model.addAttribute("auth_user", auth_user);
         List<User> friendList = friendService.searchFriends(auth_user.getId(), search);
         model.addAttribute("friendList", friendList);
-        List<User> foundUsers = friendService.searchUsers(auth_user.getId(), search);
-        model.addAttribute("foundUsers", foundUsers);
+        List<User> intersectionUsers = friendService.intersect(friendList, friendService.searchUsers(auth_user.getId(), search));
+        model.addAttribute("intersectionUsers", intersectionUsers);
         return "friend/friends";
     }
 

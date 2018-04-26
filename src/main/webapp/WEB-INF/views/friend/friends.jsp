@@ -66,7 +66,7 @@
     <div class="row">
         <table class="table">
 
-        <c:forEach var="user" items="${foundUsers}">
+        <c:forEach var="user" items="${intersectionUsers}">
             <tr>
                 <td><img class="card-img-top" src="" alt="Card image cap"></td>
                 <td><a href="/account/${user.id}">${user.name} ${user.surname}</a></td>
