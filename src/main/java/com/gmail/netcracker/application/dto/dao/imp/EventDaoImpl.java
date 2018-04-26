@@ -2,109 +2,97 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.utilites.Utilities;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-
+@Repository
 public class EventDaoImpl extends ModelDao implements EventDao {
-    private static final String EVENT_READ = "SELECT event_id, \"Event\".name, description, person_id, start_date, end_date, value\n" +
-            "FROM public.\"Event\"\n" +
-            "INNER JOIN \"Type\" ON \"Type\".type_id=\"Event\".type\n" +
-            "INNER JOIN \"Person\" ON \"Person\".person_id = \"Event\".creator";
+    private final String PK_COLUMN_NAME = "event_id";
 
-    private static final String EVENT_INSERT = "INSERT INTO public.\"Event\"( name, description, creator, start_date," +
-            " end_date, width, longitude, eventplacename, type, is_draft)\n" +
-            "\tVALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    private final String SQL_ADD = "event/add.sql";
+    private final String SQL_DELETE = "event/delete.sql";
+    private final String SQL_FIND = "event/find.sql";
+    private final String SQL_FIND_LIST_BY_CREATOR = "event/findListByCreator.sql";
+    private final String SQL_GET_EVENT_TYPES = "event/getEventTypes.sql";
+    private final String SQL_UPDATE = "event/update.sql";
 
-    private static final String EVENT_DELETE = "DELETE FROM public.\"Event\"\n" +
-            "\tWHERE \"Event\".event_id=?";
+    private final RowMapper<Event> eventRowMapper;
+    private final RowMapper<Event> eventTypeRowMapper;
 
-    private static final String GET_ALL_EVENT_TYPES = "SELECT type_id, value\n" +
-            "\tFROM public.\"Type\";";
-
-    private static final String EVENT_UPDATE = "UPDATE public.\"Event\" SET name=?, description=?," +
-            "start_date=?,end_date=?, type=?, is_draft=?,width=?,longitude=?,eventplacename=?" +
-            "WHERE event_id=?";
-    private static final String GET_EVENT_BY_ID = "SELECT  event_id,name, description,creator, start_date, end_date,\n" +
-            " type, is_draft, folder,width,longitude,eventplacename,periodicity\n" +
-            "FROM public.\"Event\"\n" +
-            "where event_id=";
+    @Autowired
+    protected EventDaoImpl(DataSource dataSource, ResourceLoader resourceLoader,
+                           Environment environment,
+                           @Qualifier("eventRowMapper") RowMapper<Event> eventRowMapper,
+                           @Qualifier("eventTypeRowMapper") RowMapper<Event> eventTypeRowMapper) {
+        super(dataSource, resourceLoader, environment);
+        this.eventRowMapper = eventRowMapper;
+        this.eventTypeRowMapper = eventTypeRowMapper;
+    }
 
     @Override
     public void update(Event event) {
-        if (event.getEventId() > 0) {
-            jdbcTemplate.update(EVENT_UPDATE, event.getName(), event.getDescription(),
-                    parseTime(event.getDateStart()), parseTime(event.getDateEnd()), parseStringToInt(event.getType()),
-                    event.isDraft(), event.getWidth(), event.getLongitude(),
-                    event.getEventPlaceName(), event.getEventId());
-        }
+        updateEntity(SQL_UPDATE,
+                event.getName(),
+                event.getDescription(),
+                parseTime(event.getDateStart()),
+                parseTime(event.getDateEnd()),
+                Utilities.parseStringToInt(event.getType()),
+                event.isDraft(),
+                event.getWidth(),
+                event.getLongitude(),
+                event.getEventPlaceName(),
+                event.getEventId());
     }
 
     @Override
     public void delete(int eventId) {
-        jdbcTemplate.update(EVENT_DELETE, eventId);
+        deleteEntity(SQL_DELETE, (long) eventId);
     }
 
     @Override
     public void insertEvent(Event event) {
-        // evventid.UUAID.toString();
-
-        jdbcTemplate.update(EVENT_INSERT, event.getName(), event.getDescription(), event.getCreator(),
-                parseTime(event.getDateStart()), parseTime(event.getDateEnd()),
-                event.getWidth(), event.getLongitude(), event.getEventPlaceName(),
-                parseStringToInt(event.getType()), event.isDraft());
+        insertEntity(SQL_ADD, PK_COLUMN_NAME,
+                event.getName(),
+                event.getDescription(),
+                event.getCreator(),
+                parseTime(event.getDateStart()),
+                parseTime(event.getDateEnd()),
+                event.getWidth(),
+                event.getLongitude(),
+                event.getEventPlaceName(),
+                Utilities.parseStringToInt(event.getType()),
+                event.isDraft());
     }
 
     @Override
     public Event getEvent(int eventId) {
-        String getEvent = GET_EVENT_BY_ID + eventId;
-        return jdbcTemplate.query(getEvent, rs -> {
-            if (rs.next()) {
-                Event event = new Event();
-                event.setEventId(rs.getInt("event_id"));
-                event.setName(rs.getString("name"));
-                event.setDescription(rs.getString("description"));
-                event.setCreator(rs.getLong("creator"));
-                event.setDateStart(rs.getString("start_date"));
-                event.setDateEnd(rs.getString("end_date"));
-                event.setType(rs.getString("type"));
-                event.setDraft(rs.getBoolean("is_draft"));
-                event.setFolder(rs.getInt("folder"));
-                event.setWidth(rs.getDouble("width"));
-                event.setLongitude(rs.getDouble("longitude"));
-                event.setEventPlaceName(rs.getString("eventplacename"));
-                event.setPeriodicity(rs.getInt("periodicity"));
-                return event;
-            }
-            return null;
-        });
+        return findEntity(SQL_FIND, eventRowMapper, eventId);
     }
 
     @Override
     public List<Event> eventList() {
-        List<Event> listEmployee = jdbcTemplate.query(EVENT_READ, new EventMapper());
-        return listEmployee;
+        return findEntityList(SQL_FIND_LIST_BY_CREATOR, eventRowMapper);
     }
 
 
     @Override
     public List<Event> findAllEventTypes() {
-        List<Event> listEventTypes = jdbcTemplate.query(GET_ALL_EVENT_TYPES, (rs, rowNum) -> {
-            Event eventType = new Event();
-            eventType.setTypeId(rs.getInt("type_id"));
-            eventType.setType(rs.getString("value"));
-            return eventType;
-        });
-        return listEventTypes;
+        return findEntityList(SQL_GET_EVENT_TYPES, eventTypeRowMapper);
     }
 
+    //TODO move this method to Utilities (there is problem with date format)
     private Timestamp parseTime(String str_date) {
         if (str_date != null) {
             try {
@@ -119,29 +107,5 @@ public class EventDaoImpl extends ModelDao implements EventDao {
             }
         }
         return null;
-    }
-
-    private int parseStringToInt(String srt) {
-        int value = 0;
-        try {
-            value = Integer.parseInt(srt);
-        } catch (NumberFormatException nfe) {
-            nfe.printStackTrace();
-        }
-        return value;
-    }
-}
-
-final class EventMapper implements RowMapper<Event> {
-    @Override
-    public Event mapRow(ResultSet rs, int i) throws SQLException {
-        Event event = new Event();
-        event.setEventId(rs.getInt("event_id"));
-        event.setName(rs.getString("name"));
-        event.setCreator(rs.getLong("person_id"));
-        event.setDateStart(rs.getString("start_date"));
-        event.setDateEnd(rs.getString("end_date"));
-        event.setType(rs.getString("value"));
-        return event;
     }
 }

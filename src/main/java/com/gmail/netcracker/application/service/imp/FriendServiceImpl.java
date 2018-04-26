@@ -5,9 +5,11 @@ import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class FriendServiceImpl implements FriendService {
 
     @Autowired
@@ -23,15 +25,14 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<User> searchFriends(String search) {
-        String [] input = search.split(" ");
+        String[] input = search.split(" ");
         return input.length > 1 ? friendDao.getFriendsByNameAndSurname(input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.getFriendsByNameOrSurname(input[0].toLowerCase());
     }
-
 
     @Override
     public void addFriend(Long person_id, Long friend_id) {
         friendship = friendDao.getFriendshipById(person_id, friend_id);
-        if(friendship.getSender() == null && friendship.getRecipient()== null) {
+        if (friendship == null) {
             friendDao.addFriend(person_id, friend_id);
         }
     }

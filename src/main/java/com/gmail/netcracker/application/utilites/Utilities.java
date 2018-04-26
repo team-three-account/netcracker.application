@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Utilites {
+public class Utilities {
 
     public static Timestamp parseStringIntoDate(String str_date) {
         try {
@@ -28,5 +28,15 @@ public class Utilites {
         }
         Format df = new SimpleDateFormat("dd/MM/yyyy");
         return df.format(date);
+    }
+
+    public static int parseStringToInt(String srt) {
+        int value = 0;
+        try {
+            value = Integer.parseInt(srt);
+        } catch (NumberFormatException nfe) {
+            nfe.printStackTrace();
+        }
+        return value;
     }
 }

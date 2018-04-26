@@ -5,9 +5,11 @@ import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class EventServiceImpl implements EventService {
 
     @Autowired
@@ -19,7 +21,6 @@ public class EventServiceImpl implements EventService {
     @Autowired
     UserService userService;
 
-    //crud
     @Override
     public void update(Event event) {
         setPersonIdAndDraftStatus(event);

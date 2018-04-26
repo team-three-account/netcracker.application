@@ -2,71 +2,67 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.model.User;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.core.io.ResourceLoader;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoString;
-import static com.gmail.netcracker.application.utilites.Utilites.parseStringIntoDate;
+import javax.sql.DataSource;
+
+import static com.gmail.netcracker.application.utilites.Utilities.parseStringIntoDate;
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
+    private final String PK_COLUMN_NAME = "person_id";
 
-    private final String UPDATE = "UPDATE public.\"Person\"\n" +
-            "SET name=?, surname=?, birthday=?, phone=?\n" +
-            "WHERE \"Person\".person_id=?;";
+    private final String SQL_ADD = "user/add.sql";
+    private final String SQL_UPDATE = "user/update.sql";
+    private final String SQL_FIND_BY_EMAIL = "user/findByEmail.sql";
+    private final String SQL_CHANGE_PASSWORD = "user/changePassword.sql";
+
+    private final RowMapper<User> rowMapper;
 
     @Autowired
-    private User user;
+    protected UserDaoImp(DataSource dataSource, ResourceLoader resourceLoader, Environment environment,
+                         RowMapper<User> rowMapper) {
+        super(dataSource, resourceLoader, environment);
+        this.rowMapper = rowMapper;
+    }
 
     @Transactional
     @Override
     public void saveUser(User user) {
-        jdbcTemplate.update("INSERT INTO public.\"Person\" (name, surname, email, password, role, phone,birthday)" +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
-
+        user.setId(insertEntity(SQL_ADD, PK_COLUMN_NAME,
                 user.getName(),
                 user.getSurname(),
                 user.getEmail(),
                 user.getPassword(),
                 "ROLE_USER",
                 user.getPhone(),
-                parseStringIntoDate(user.getBirthdayDate()
-                ));
+                parseStringIntoDate(user.getBirthdayDate())
+        ));
     }
 
     @Transactional
     @Override
     public User findUser(String email) {
-        jdbcTemplate.query("select * from public.\"Person\" where email = " + "'" + email + "'", resultSet -> {
-            while (resultSet.next()) {
-                user.setId(resultSet.getLong("person_id"));
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-                user.setRole(resultSet.getString("role"));
-                user.setPhone(resultSet.getString("phone"));
-                user.setBirthdayDate(parseDateIntoString(resultSet.getDate("birthday")));
-            }
-            return user;
-        });
-        return user;
+        return findEntity(SQL_FIND_BY_EMAIL, rowMapper, email);
     }
 
     @Override
     public void changePassword(String password, String email) {
-        jdbcTemplate.update("update public.\"Person\" set password = ? where email = ? ", password, email);
+        updateEntity(SQL_CHANGE_PASSWORD, password, email);
     }
 
-
     @Override
-    public void updateUser(User user){
-        jdbcTemplate.update(UPDATE,
+    public void updateUser(User user) {
+        updateEntity(SQL_UPDATE,
                 user.getName(),
                 user.getSurname(),
-                Utilites.parseStringIntoDate(user.getBirthdayDate()),
+                Utilities.parseStringIntoDate(user.getBirthdayDate()),
                 user.getPhone(),
                 user.getId());
     }
