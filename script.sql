@@ -126,10 +126,14 @@ create table "Participant"
 (
   person      integer not null
     constraint "Participant_fk0"
-    references "Person",
+    references "Person"
+    ON UPDATE cascade
+    ON DELETE cascade,
   event       integer not null
     constraint "Participant_fk1"
-    references "Event",
+    references "Event"
+    ON UPDATE cascade
+    ON DELETE cascade,
   priority    integer,
   countdown   boolean,
   is_accepted boolean not null
