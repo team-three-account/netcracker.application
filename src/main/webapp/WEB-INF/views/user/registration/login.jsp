@@ -57,7 +57,7 @@
                     <span id="error">${error}</span>
                     <span id="message">${message}</span>
                 </div>
-                <input type="submit" value="Login" class="btn btn-dark" href="/">
+                <input type="submit" value="Login" class="btn btn-dark">
             </form>
         </div>
     </div>

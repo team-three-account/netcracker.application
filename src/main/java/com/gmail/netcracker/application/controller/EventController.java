@@ -31,23 +31,23 @@ public class EventController {
     @RequestMapping(value = "/eventlist", method = RequestMethod.GET)
     public ModelAndView eventList(ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        List<Event> eventList = eventService.eventList();
-        modelAndView.addObject("eventList", eventList);
+        modelAndView.addObject("eventList", eventService.eventList());
         modelAndView.setViewName("event/eventlist");
         return modelAndView;
     }
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
-    public ModelAndView createNewEvent() {
-        Event event = new Event();
-        ModelAndView modelAndView = new ModelAndView("event/createnewevent", "createNewEvent", event);
+    public ModelAndView createNewEvent(@ModelAttribute(value = "createNewEvent") Event event, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("event/createnewevent");
         return modelAndView;
     }
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.POST)
-    public ModelAndView saveNewEvent(@ModelAttribute("createNewEvent") Event event, BindingResult result, @RequestParam(value = "hidden") String hidden) {
-        ModelAndView modelAndView = new ModelAndView("event/createnewevent", "createNewEvent", event);
+    public ModelAndView saveNewEvent(@ModelAttribute("createNewEvent") Event event,
+                                     BindingResult result,
+                                     @RequestParam(value = "hidden") String hidden,
+                                     ModelAndView modelAndView) {
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
             return modelAndView;
@@ -75,16 +75,17 @@ public class EventController {
 
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.GET)
-    public ModelAndView editEvent(@PathVariable int eventId) {
-        Event event = eventService.getEvent(eventId);
-        ModelAndView modelAndView = new ModelAndView("event/testupdate", "editEvent", event);
+    public ModelAndView editEvent(@PathVariable int eventId, ModelAndView modelAndView) {
+        modelAndView.addObject("editEvent", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("event/testupdate");
         return modelAndView;
     }
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.POST)
-    public ModelAndView updateEvent(@ModelAttribute("editEvent") Event event, BindingResult result) {
-        ModelAndView modelAndView = new ModelAndView("event/testupdate", "editEvent", event);
+    public ModelAndView updateEvent(@ModelAttribute("editEvent") Event event,
+                                    BindingResult result,
+                                    ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
@@ -102,10 +103,10 @@ public class EventController {
     }
 
     @RequestMapping(value = "/myevents", method = RequestMethod.GET)
-    public ModelAndView getMyEvent() {
-        ModelAndView modelAndView = new ModelAndView("/event/myevents");
-        List<Event> eventList = eventService.getAllMyEvents();
-        modelAndView.addObject("personalEventList", eventList);
+    public ModelAndView getMyEvent(ModelAndView modelAndView) {
+        modelAndView.addObject("personalEventList", eventService.getAllMyEvents());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("event/myevents");
         return modelAndView;
     }
 

@@ -37,11 +37,14 @@
                         <li>Start : ${event.dateStart}</li>
                         <li>End : ${event.dateEnd}</li>
                         <li>Place : ${event.eventPlaceName}</li>
-                        <li><a href="/account/eventList/editevent-${event.eventId}">
-                            <input type="submit" class="btn btn-success text-center" value="Edit event"></a>
-                            <a href="/account/eventList/deleteEvent-${event.eventId}">
-                                <input type="submit" class="btn btn-danger text-center" value="Delete event"></a>
-                        </li>
+                        <c:if test="${auth_user.id.equals(user_creator.id)}">
+                            <li>
+                                <a href="/account/eventList/editevent-${event.eventId}">
+                                    <input type="submit" class="btn btn-success text-center" value="Edit event"></a>
+                                <a href="/account/eventList/deleteEvent-${event.eventId}">
+                                    <input type="submit" class="btn btn-danger text-center" value="Delete event"></a>
+                            </li>
+                        </c:if>
                     </ul>
                 </div>
             </div>
@@ -52,7 +55,7 @@
                     <h3 class="panel-title">Event Place</h3>
                 </div>
                 <div class="panel-body viewEvent">
-                    <div class="form-group" disabled="false">
+                    <div class="form-group">
                         <label>Event place</label>
                         <div id="map" disabled=""></div>
                         <input type="hidden" value="${event.width}" id="latitude">

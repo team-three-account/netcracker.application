@@ -35,12 +35,8 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userDao.findUserByEmail(email);
-        GrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-        UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-                true, true, true, true,
-                Arrays.asList(authority));
-        return userDetails;
+        Logger.getLogger(UserServiceImp.class.getName());
+        return userDao.findUserByEmail(email);
     }
 
     @Override
@@ -72,9 +68,17 @@ public class UserServiceImp implements UserService, UserDetailsService {
 
     @Override
     public User getAuthenticatedUser() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Logger.getLogger(UserServiceImp.class.getName()).info(auth.getName());
-        return userDao.findUserByEmail(auth.getName());
+        User user;
+        try {
+            user = (User) SecurityContextHolder
+                    .getContext()
+                    .getAuthentication()
+                    .getPrincipal();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            user = null;
+        }
+        return user;
     }
 
     @Override
