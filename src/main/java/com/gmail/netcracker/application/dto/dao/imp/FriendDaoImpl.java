@@ -4,8 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.FriendDao;
 import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -14,24 +13,33 @@ import java.util.List;
 
 @Repository
 public class FriendDaoImpl extends ModelDao implements FriendDao {
-    private final String SQL_FIND_FRIENDS = "friend/findFriends.sql";
-    private final String SQL_FIND_BY_NAME_OR_SURNAME = "friend/findByNameOrSurname.sql";
-    private final String SQL_FIND_BY_NAME_AND_SURNAME = "friend/findByNameAndSurname.sql";
-    private final String SQL_FIND_BY_ID = "friend/findById.sql";
-    private final String SQL_ADD = "friend/add.sql";
-    private final String SQL_FIND_OUTGOING_REQUESTS = "friend/findOutgoingRequests.sql";
-    private final String SQL_CANCEL_REQUEST = "friend/cancelRequest.sql";
-    private final String SQL_FIND_INCOMING_REQUESTS = "friend/findIncomingRequests.sql";
-    private final String SQL_ACCEPT_REQUEST = "friend/acceptRequest.sql";
-    private final String SQL_DELETE = "friend/delete.sql";
+    @Value("${sql.friend.findFriends}")
+    private String SQL_FIND_FRIENDS;
+    @Value("${sql.friend.findByNameOrSurname}")
+    private String SQL_FIND_BY_NAME_OR_SURNAME;
+    @Value("${sql.friend.findByNameAndSurname}")
+    private String SQL_FIND_BY_NAME_AND_SURNAME;
+    @Value("${sql.friend.findById}")
+    private String SQL_FIND_BY_ID;
+    @Value("${sql.friend.add}")
+    private String SQL_ADD;
+    @Value("${sql.friend.findOutgoingRequests}")
+    private String SQL_FIND_OUTGOING_REQUESTS;
+    @Value("${sql.friend.cancelRequest}")
+    private String SQL_CANCEL_REQUEST;
+    @Value("${sql.friend.findIncomingRequests}")
+    private String SQL_FIND_INCOMING_REQUESTS;
+    @Value("${sql.friend.acceptRequest}")
+    private String SQL_ACCEPT_REQUEST;
+    @Value("${sql.friend.delete}")
+    private String SQL_DELETE;
 
     private final RowMapper<User> userRowMapper;
     private final RowMapper<Friend> friendRowMapper;
 
     @Autowired
-    public FriendDaoImpl(DataSource dataSource, ResourceLoader resourceLoader, Environment environment,
-                         RowMapper<User> userRowMapper, RowMapper<Friend> friendRowMapper) {
-        super(dataSource, resourceLoader, environment);
+    public FriendDaoImpl(DataSource dataSource, RowMapper<User> userRowMapper, RowMapper<Friend> friendRowMapper) {
+        super(dataSource);
         this.userRowMapper = userRowMapper;
         this.friendRowMapper = friendRowMapper;
     }

@@ -4,8 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,19 +15,23 @@ import static com.gmail.netcracker.application.utilites.Utilities.parseStringInt
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
-    private final String PK_COLUMN_NAME = "person_id";
+    @Value("${sql.user.pkColumnName}")
+    private String PK_COLUMN_NAME;
 
-    private final String SQL_ADD = "user/add.sql";
-    private final String SQL_UPDATE = "user/update.sql";
-    private final String SQL_FIND_BY_EMAIL = "user/findByEmail.sql";
-    private final String SQL_CHANGE_PASSWORD = "user/changePassword.sql";
+    @Value("${sql.user.add}")
+    private String SQL_ADD;
+    @Value("${sql.user.update}")
+    private String SQL_UPDATE;
+    @Value("${sql.user.findByEmail}")
+    private String SQL_FIND_BY_EMAIL;
+    @Value("${sql.user.changePassword}")
+    private String SQL_CHANGE_PASSWORD;
 
     private final RowMapper<User> rowMapper;
 
     @Autowired
-    protected UserDaoImp(DataSource dataSource, ResourceLoader resourceLoader, Environment environment,
-                         RowMapper<User> rowMapper) {
-        super(dataSource, resourceLoader, environment);
+    protected UserDaoImp(DataSource dataSource, RowMapper<User> rowMapper) {
+        super(dataSource);
         this.rowMapper = rowMapper;
     }
 

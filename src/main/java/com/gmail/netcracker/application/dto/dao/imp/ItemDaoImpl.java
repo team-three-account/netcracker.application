@@ -3,8 +3,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 import com.gmail.netcracker.application.dto.dao.interfaces.ItemDao;
 import com.gmail.netcracker.application.dto.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -15,20 +14,25 @@ import java.util.List;
 //TODO this dao, set numeric id, check sql
 @Repository
 public class ItemDaoImpl extends ModelDao implements ItemDao {
-    private final String PK_COLUMN_NAME = "item_id";
+    @Value("${sql.item.pkColumnName}")
+    private String PK_COLUMN_NAME;
 
-    private final String SQL_ADD = "item/add.sql";
-    private final String SQL_DELETE = "item/delete.sql";
-    private final String SQL_FIND_LIST = "item/findList.sql";
-    private final String SQL_FIND_PERSON_LIST = "item/findPersonList.sql";
-    private final String SQL_UPDATE = "item/update.sql";
+    @Value("${sql.item.add}")
+    private String SQL_ADD;
+    @Value("${sql.item.delete}")
+    private String SQL_DELETE;
+    @Value("${sql.item.findList}")
+    private String SQL_FIND_LIST;
+    @Value("${sql.item.findPersonList}")
+    private String SQL_FIND_PERSON_LIST;
+    @Value("${sql.item.update}")
+    private String SQL_UPDATE;
 
     private final RowMapper<Item> rowMapper;
 
     @Autowired
-    protected ItemDaoImpl(DataSource dataSource, ResourceLoader resourceLoader, Environment environment,
-                          RowMapper<Item> rowMapper) {
-        super(dataSource, resourceLoader, environment);
+    protected ItemDaoImpl(DataSource dataSource, RowMapper<Item> rowMapper) {
+        super(dataSource);
         this.rowMapper = rowMapper;
     }
 

@@ -5,8 +5,7 @@ import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
@@ -19,24 +18,30 @@ import java.util.List;
 
 @Repository
 public class EventDaoImpl extends ModelDao implements EventDao {
-    private final String PK_COLUMN_NAME = "event_id";
+    @Value("${sql.event.pkColumnName}")
+    private String PK_COLUMN_NAME = "event_id";
 
-    private final String SQL_ADD = "event/add.sql";
-    private final String SQL_DELETE = "event/delete.sql";
-    private final String SQL_FIND = "event/find.sql";
-    private final String SQL_FIND_LIST_BY_CREATOR = "event/findListByCreator.sql";
-    private final String SQL_GET_EVENT_TYPES = "event/getEventTypes.sql";
-    private final String SQL_UPDATE = "event/update.sql";
+    @Value("${sql.event.add}")
+    private String SQL_ADD;
+    @Value("${sql.event.delete}")
+    private String SQL_DELETE;
+    @Value("${sql.event.find}")
+    private String SQL_FIND;
+    @Value("${sql.event.findListByCreator}")
+    private String SQL_FIND_LIST_BY_CREATOR;
+    @Value("${sql.event.getEventTypes}")
+    private String SQL_GET_EVENT_TYPES;
+    @Value("${sql.event.update}")
+    private String SQL_UPDATE;
 
     private final RowMapper<Event> eventRowMapper;
     private final RowMapper<Event> eventTypeRowMapper;
 
     @Autowired
-    protected EventDaoImpl(DataSource dataSource, ResourceLoader resourceLoader,
-                           Environment environment,
+    protected EventDaoImpl(DataSource dataSource,
                            @Qualifier("eventRowMapper") RowMapper<Event> eventRowMapper,
                            @Qualifier("eventTypeRowMapper") RowMapper<Event> eventTypeRowMapper) {
-        super(dataSource, resourceLoader, environment);
+        super(dataSource);
         this.eventRowMapper = eventRowMapper;
         this.eventTypeRowMapper = eventTypeRowMapper;
     }

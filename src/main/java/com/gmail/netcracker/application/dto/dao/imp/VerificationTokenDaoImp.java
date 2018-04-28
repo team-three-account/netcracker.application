@@ -4,8 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
 import com.gmail.netcracker.application.utilites.Utilities;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.core.io.ResourceLoader;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
@@ -15,19 +14,23 @@ import javax.sql.DataSource;
 
 @Repository
 public class VerificationTokenDaoImp extends ModelDao implements VerificationTokenDao {
-    private final String PK_COLUMN_NAME = "token_id";
+    @Value("${sql.token.pkColumnName}")
+    private String PK_COLUMN_NAME;
 
-    private final String SQL_CREATE = "verificationToken/create.sql";
-    private final String SQL_FIND = "verificationToken/findByCreator.sql";
-    private final String SQL_DELETE = "verificationToken/delete.sql";
+    @Value("${sql.token.create}")
+    private String SQL_CREATE;
+    @Value("${sql.token.find}")
+    private String SQL_FIND;
+    @Value("${sql.token.delete}")
+    private String SQL_DELETE;
 
     private PasswordEncoder passwordEncoder;
     private RowMapper<VerificationToken> rowMapper;
 
     @Autowired
-    protected VerificationTokenDaoImp(DataSource dataSource, ResourceLoader resourceLoader,
-                                      Environment environment, RowMapper<VerificationToken> rowMapper, PasswordEncoder passwordEncoder) {
-        super(dataSource, resourceLoader, environment);
+    protected VerificationTokenDaoImp(DataSource dataSource, RowMapper<VerificationToken> rowMapper,
+                                      PasswordEncoder passwordEncoder) {
+        super(dataSource);
         this.passwordEncoder = passwordEncoder;
         this.rowMapper = rowMapper;
     }
@@ -40,6 +43,7 @@ public class VerificationTokenDaoImp extends ModelDao implements VerificationTok
 
     @Transactional
     @Override
+    //TODO don't hardcode role
     public VerificationToken create(VerificationToken verificationToken) {
         insertEntity(SQL_CREATE, PK_COLUMN_NAME,
                 verificationToken.getId(),
