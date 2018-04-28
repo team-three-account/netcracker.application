@@ -19,7 +19,6 @@ public class EventServiceImpl implements EventService {
     @Autowired
     UserService userService;
 
-    //crud
     @Override
     public void update(Event event) {
         setPersonId(event);
@@ -39,20 +38,17 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Event getEvent(int eventId) {
-        Event event = eventDao.getEvent(eventId);
-        return event;
+        return eventDao.getEvent(eventId);
     }
 
     @Override
     public List<Event> eventList() {
-        List<Event> eventList = eventDao.eventList();
-        return eventList;
+        return eventDao.eventList();
     }
 
     @Override
     public List<Event> findAllEventTypes() {
-        List<Event> eventList = eventDao.findAllEventTypes();
-        return eventList;
+        return eventDao.findAllEventTypes();
     }
 
     @Override
