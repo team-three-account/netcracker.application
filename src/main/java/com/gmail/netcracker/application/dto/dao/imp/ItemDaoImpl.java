@@ -70,15 +70,15 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
         @Override
         public Item mapRow(ResultSet resultSet, int rowNum) throws SQLException {
             Item item = new Item();
-            item.setItemId(resultSet.getString("item_id"));
-            item.setPersonId(resultSet.getString("person"));
+            item.setItemId(resultSet.getLong("item_id"));
+            item.setPersonId(resultSet.getLong("person"));
             item.setBookerName(resultSet.getString("booker"));
             item.setItemName(resultSet.getString("name"));
             item.setDescription(resultSet.getString("description"));
             item.setLink(resultSet.getString("link"));
             item.setDueDate(resultSet.getString("due_date"));
             item.setPriority(resultSet.getInt("priority"));
-            item.setRoot(resultSet.getString("root"));
+            item.setRoot(resultSet.getLong("root"));
             return item;
         }
     }
