@@ -4,66 +4,70 @@ import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.Utilites;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
-import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoString;
+import javax.sql.DataSource;
+
 import static com.gmail.netcracker.application.utilites.Utilites.parseStringIntoDate;
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
+    @Value("${sql.user.pkColumnName}")
+    private String PK_COLUMN_NAME;
 
-    private final String UPDATE = "UPDATE public.\"Person\"\n" +
-            "SET name=?, surname=?, birthday=?, phone=?\n" +
-            "WHERE \"Person\".person_id=?;";
+    @Value("${sql.user.add}")
+    private String SQL_ADD;
+
+    @Value("${sql.user.update}")
+    private String SQL_UPDATE;
+
+    @Value("${sql.user.find}")
+    private String SQL_FIND;
+
+    @Value("${sql.user.findByEmail}")
+    private String SQL_FIND_BY_EMAIL;
+
+    @Value("${sql.user.changePassword}")
+    private String SQL_CHANGE_PASSWORD;
+
+    private final RowMapper<User> rowMapper;
 
     @Autowired
-    private User user;
+    public UserDaoImp(DataSource dataSource, RowMapper<User> rowMapper) {
+        super(dataSource);
+        this.rowMapper = rowMapper;
+    }
 
-    @Transactional
+    //TODO don't hardcode role!!!
     @Override
     public void saveUser(User user) {
-        jdbcTemplate.update("INSERT INTO public.\"Person\" (name, surname, email, password, role, phone,birthday)" +
-                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
-
+        user.setId(insertEntity(SQL_ADD, PK_COLUMN_NAME,
                 user.getName(),
                 user.getSurname(),
                 user.getEmail(),
                 user.getPassword(),
                 "ROLE_USER",
                 user.getPhone(),
-                parseStringIntoDate(user.getBirthdayDate()
-                ));
+                parseStringIntoDate(user.getBirthdayDate())
+        ));
     }
 
-    @Transactional
     @Override
     public User findUserByEmail(String email) {
-        jdbcTemplate.query("select * from public.\"Person\" where email = " + "'" + email + "'", resultSet -> {
-            while (resultSet.next()) {
-                user.setId(resultSet.getLong("person_id"));
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-                user.setRole(resultSet.getString("role"));
-                user.setPhone(resultSet.getString("phone"));
-                user.setBirthdayDate(parseDateIntoString(resultSet.getDate("birthday")));
-            }
-            return user;
-        });
-        return user;
+        return findEntity(SQL_FIND_BY_EMAIL, rowMapper, email);
     }
 
     @Override
     public void changePassword(String password, String email) {
-        jdbcTemplate.update("update public.\"Person\" set password = ? where email = ? ", password, email);
+        updateEntity(SQL_CHANGE_PASSWORD, password, email);
     }
 
 
     @Override
-    public void updateUser(User user){
-        jdbcTemplate.update(UPDATE,
+    public void updateUser(User user) {
+        updateEntity(SQL_UPDATE,
                 user.getName(),
                 user.getSurname(),
                 Utilites.parseStringIntoDate(user.getBirthdayDate()),
@@ -72,20 +76,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
     }
 
     @Override
-    public User findUserById(Long id){
-        jdbcTemplate.query("select * from public.\"Person\" where person_id = " + "'" + id + "'", resultSet -> {
-            while (resultSet.next()) {
-                user.setId(resultSet.getLong("person_id"));
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-                user.setRole(resultSet.getString("role"));
-                user.setPhone(resultSet.getString("phone"));
-                user.setBirthdayDate(parseDateIntoString(resultSet.getDate("birthday")));
-            }
-            return user;
-        });
-        return user;
+    public User findUserById(Long id) {
+        return findEntity(SQL_FIND, rowMapper, id);
     }
 }

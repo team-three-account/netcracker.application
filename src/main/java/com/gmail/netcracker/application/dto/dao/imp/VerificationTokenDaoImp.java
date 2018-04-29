@@ -1,54 +1,50 @@
 package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao;
-import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.Utilites;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
+
+import javax.sql.DataSource;
 
 @Repository
-public class VerificationTokenDaoImp extends ModelDao
-        implements VerificationTokenDao {
+public class VerificationTokenDaoImp extends ModelDao implements VerificationTokenDao {
+    @Value("${sql.token.pkColumnName}")
+    private String PK_COLUMN_NAME;
 
-    @Autowired
-    private User user;
+    @Value("${sql.token.create}")
+    private String SQL_CREATE;
 
-    @Autowired
-    private VerificationToken verificationToken;
+    @Value("${sql.token.find}")
+    private String SQL_FIND;
 
-    @Autowired
+    @Value("${sql.token.delete}")
+    private String SQL_DELETE;
+
     private PasswordEncoder passwordEncoder;
+    private RowMapper<VerificationToken> rowMapper;
 
-    @Transactional
-    @Override
-    public VerificationToken findByToken(String token) {
-
-        return jdbcTemplate.query("select * from public.\"Verif_token\" where token_id = " + "'" + token + "'", resultSet -> {
-            while (resultSet.next()) {
-                verificationToken.setId(resultSet.getString("token_id"));
-                user.setId(resultSet.getLong("user_id"));
-                user.setName(resultSet.getString("name"));
-                user.setSurname(resultSet.getString("surname"));
-                user.setEmail(resultSet.getString("email"));
-                user.setPassword(resultSet.getString("password"));
-                user.setRole(resultSet.getString("role"));
-                user.setPhone(resultSet.getString("phone"));
-                user.setBirthdayDate(Utilites.parseDateIntoString(resultSet.getDate("birthday")));
-                verificationToken.setUser(user);
-                return verificationToken;
-            }
-            return verificationToken;
-        });
+    @Autowired
+    public VerificationTokenDaoImp(DataSource dataSource, RowMapper<VerificationToken> rowMapper,
+                                   PasswordEncoder passwordEncoder) {
+        super(dataSource);
+        this.passwordEncoder = passwordEncoder;
+        this.rowMapper = rowMapper;
     }
 
-    @Transactional
     @Override
+    public VerificationToken findByToken(String token) {
+        return findEntity(SQL_FIND, rowMapper, token);
+    }
+
+    @Override
+    //TODO don't hardcode role!!!
     public VerificationToken create(VerificationToken verificationToken) {
-        jdbcTemplate.update("INSERT into public.\"Verif_token\"(token_id,name,surname,email,password,role,birthday,phone)" +
-                        "values(?,?,?,?,?,?,?,?)",
+        insertEntity(SQL_CREATE, PK_COLUMN_NAME,
                 verificationToken.getId(),
                 verificationToken.getUser().getName(),
                 verificationToken.getUser().getSurname(),
@@ -56,13 +52,13 @@ public class VerificationTokenDaoImp extends ModelDao
                 passwordEncoder.encode(verificationToken.getUser().getPassword()),
                 "ROLE_USER",
                 Utilites.parseStringIntoDate(verificationToken.getUser().getBirthdayDate()),
-                verificationToken.getUser().getPhone());
+                verificationToken.getUser().getPhone()
+        );
         return verificationToken;
     }
 
-    @Transactional
     @Override
     public void delete(VerificationToken verificationToken) {
-        jdbcTemplate.update("delete from public.\"Verif_token\" where token_id = ?", verificationToken.getId());
+        deleteEntity(SQL_DELETE, verificationToken.getId());
     }
 }

@@ -2,13 +2,17 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.ItemDao;
 import com.gmail.netcracker.application.dto.model.Item;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
+import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-
+//TODO this dao
+@Repository
 public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     private final String UPDATE = "UPDATE public.\"Item\"\n" +
@@ -25,6 +29,11 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     private final String ITEM_LIST = "SELECT * FROM public.\"Item\";";
 
     private final String ITEM_LIST_BY_PERSON = "SELECT * FROM public.\"Item\" WHERE public.\"Item\".person=?;";
+
+    @Autowired
+    public ItemDaoImpl(DataSource dataSource) {
+        super(dataSource);
+    }
 
     @Override
     public void update(Item item) {

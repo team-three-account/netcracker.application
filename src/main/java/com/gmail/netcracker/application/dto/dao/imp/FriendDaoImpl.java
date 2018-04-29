@@ -4,201 +4,123 @@ import com.gmail.netcracker.application.dto.dao.interfaces.FriendDao;
 import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.sql.DataSource;
 import java.util.List;
 
-public class FriendDaoImpl extends ModelDao implements FriendDao  {
+@Repository
+public class FriendDaoImpl extends ModelDao implements FriendDao {
+    @Value("${sql.friend.findFriends}")
+    private String SQL_FIND_FRIENDS;
+
+    @Value("${sql.friend.findUserByNameOrSurname}")
+    private String SQL_FIND_USER_BY_NAME_OR_SURNAME; //TODO use LIKE
+
+    @Value("${sql.friend.findUserByNameAndSurname}")
+    private String SQL_FIND_USER_BY_NAME_AND_SURNAME;  //TODO use LIKE
+
+    @Value("${sql.friend.findRequestedUserById}")
+    private String SQL_FIND_REQUESTED_USER_BY_ID;
+
+    @Value("${sql.friend.addRequestedUser}")
+    private String SQL_ADD_REQUESTED_USER;
+
+    @Value("${sql.friend.findOutgoingRequests}")
+    private String SQL_FIND_OUTGOING_REQUESTS;
+
+    @Value("${sql.friend.cancelRequest}")
+    private String SQL_CANCEL_REQUEST;
+
+    @Value("${sql.friend.findIncomingRequests}")
+    private String SQL_FIND_INCOMING_REQUESTS;
+
+    @Value("${sql.friend.acceptRequest}")
+    private String SQL_ACCEPT_REQUEST;
+
+    @Value("${sql.friend.deleteFriend}")
+    private String SQL_DELETE;
+
+    @Value("${sql.friend.findFriendByNameOrSurname}")
+    private String SQL_FIND_FRIEND_BY_NAME_OR_SURNAME;
+
+    @Value("${sql.friend.findFriendByNameAndSurname}")
+    private String SQL_FIND_FRIEND_BY_NAME_AND_SURNAME;
+
+    private final RowMapper<User> userRowMapper;
+    private final RowMapper<Friend> friendRowMapper;
 
     @Autowired
-    Friend friendship;
-
-    private static final String GET_ALL_FRIENDS = "select name, surname, person_id\n"+
-            "from public.\"Person\"\n"+
-            "where person_id = (select DISTINCT sender\n"+
-            "                   from public.\"Friend\"\n"+
-            "                   where recipient = ?\n"+
-            "                   and \"isAccepted\" = TRUE)\n"+
-            "or person_id = (select DISTINCT recipient\n"+
-            "                   from public.\"Friend\"\n"+
-            "                   where sender = ?\n"+
-            "                   and \"isAccepted\" = TRUE)";
-
-    private static final String SEARCH_USERS_BY_NAME_OR_SURNAME = "select name, surname, person_id\n" +
-            "from public.\"Person\"\n" +
-            "where (lower(name) = ?\n" +
-            "      or lower(surname) = ?)\n" +
-            "and person_id != ?";
-
-    private static final String SEARCH_USERS_BY_NAME_AND_SURNAME = "select name, surname, person_id\n" +
-            "from public.\"Person\"\n" +
-            "where lower(name) in (?, ?)\n" +
-            "      and lower(surname) in (?, ?)\n" +
-            "       and person_id != ?";
-
-    private static final String GET_FRIEND_BY_ID= "select sender, recipient,\"isAccepted\"\n" +
-            "from public.\"Friend\"\n"+
-            "where sender in (?,?)\n" +
-            "      and recipient in (?,?)";
-
-    private static final String ADD_FRIEND = "INSERT INTO public.\"Friend\"\n" +
-            "(sender, recipient, \"isAccepted\")\n" +
-            "VALUES (?, ?, FALSE )";
-
-    private static final String GET_OUTGOING_REQUESTS = "select name, surname, person_id\n" +
-            "            from public.\"Person\"\n" +
-            "            where person_id = (select recipient\n" +
-            "                               from public.\"Friend\"\n" +
-            "                               where sender = ?\n" +
-            "                               and \"isAccepted\" = FALSE)";
-
-    private static final String CANCEL_REQUEST= "delete from public.\"Friend\"\n"+
-            "where sender = ?\n" +
-            "and recipient = ?\n" +
-            "and \"isAccepted\" = FALSE";
-
-    private static final String GET_INCOMING_REQUESTS = "select name, surname, person_id\n" +
-            "            from public.\"Person\"\n" +
-            "            where person_id = (select sender\n" +
-            "                               from public.\"Friend\"\n" +
-            "                               where recipient = ?\n" +
-            "                               and \"isAccepted\" = FALSE)";
-
-    private static final String ACCEPT_REQUEST = "update public.\"Friend\"\n"+
-            "set \"isAccepted\" = TRUE \n" +
-            "where recipient = ?\n" +
-            "and sender = ?\n" +
-            "and \"isAccepted\" = FALSE";
-
-    private static final String DELETE_REQUEST= "delete from public.\"Friend\"\n"+
-            "where sender in (?, ?)\n" +
-            "and recipient in (?, ?)\n" +
-            "and \"isAccepted\" = TRUE";
-
-    private static final String GET_SEARCHED_FRIENDS_BY_NAME_OR_SURNAME = "select name, surname, person_id\n"+
-            "from public.\"Person\"\n"+
-            "where (person_id = (select DISTINCT sender\n"+
-            "                   from public.\"Friend\"\n"+
-            "                   where recipient = ?\n"+
-            "                   and \"isAccepted\" = TRUE)\n"+
-            "or person_id = (select DISTINCT recipient\n"+
-            "                   from public.\"Friend\"\n"+
-            "                   where sender = ?\n"+
-            "                   and \"isAccepted\" = TRUE))\n"+
-            "and (lower(name) = ?\n" +
-            "      or lower(surname) = ?)";
-
-    private static final String GET_SEARCHED_FRIENDS_BY_NAME_AND_SURNAME = "select name, surname, person_id\n" +
-            "from public.\"Person\"\n" +
-            "where person_id = (select DISTINCT sender\n" +
-            "                   from public.\"Friend\"\n" +
-            "                   where recipient = ?\n" +
-            "                         and \"isAccepted\" = TRUE)\n" +
-            "      or person_id = (select DISTINCT recipient\n" +
-            "                      from public.\"Friend\"\n" +
-            "                      where sender = ?\n" +
-            "                            and \"isAccepted\" = TRUE)\n" +
-            "         and lower(name) in (?,?)\n" +
-            "         and lower(surname) in (?,?)";
+    public FriendDaoImpl(DataSource dataSource, RowMapper<Friend> friendRowMapper, RowMapper<User> userRowMapper) {
+        super(dataSource);
+        this.friendRowMapper = friendRowMapper;
+        this.userRowMapper = userRowMapper;
+    }
 
     @Override
     public List<User> friendList(Long id) {
-
-        List<User> friendList = jdbcTemplate.query(GET_ALL_FRIENDS, new Object[] { id, id }, new FriendMapper() );
-        return friendList;
+        return findEntityList(SQL_FIND_FRIENDS, userRowMapper, id, id, id);
     }
 
     @Override
     public void deleteFriend(Long person, Long friend) {
-        jdbcTemplate.update(DELETE_REQUEST, person, friend, person, friend );
+        deleteEntity(SQL_DELETE, person, friend, person, friend);
     }
 
     @Override
     public List<User> getFriendsByNameOrSurname(Long id, String input) {
-        List<User> friendList = jdbcTemplate.query(GET_SEARCHED_FRIENDS_BY_NAME_OR_SURNAME, new Object[] { id,id, input, input }, new FriendMapper() );
-        return friendList;
+        return findEntityList(SQL_FIND_FRIEND_BY_NAME_OR_SURNAME, userRowMapper,
+                id, id, id, input, input, input, input);
     }
 
     @Override
     public List<User> getFriendsByNameAndSurname(Long id, String name, String surname) {
-        List<User> friendList = jdbcTemplate.query(GET_SEARCHED_FRIENDS_BY_NAME_AND_SURNAME, new Object[] { id, id, name, surname, name,surname }, new FriendMapper() );
-        return friendList;
+        return findEntityList(SQL_FIND_FRIEND_BY_NAME_AND_SURNAME, userRowMapper,
+                id, id, id, name, surname, name, surname);
     }
 
     @Override
     public Friend getFriendshipById(Long person_id, Long friend_id) {
-        jdbcTemplate.query(GET_FRIEND_BY_ID, new Object[] { person_id, friend_id, person_id, friend_id }, resultSet -> {
-            while (resultSet.next()) {
-                friendship.setRecipient(resultSet.getLong("recipient"));
-                friendship.setSender(resultSet.getLong("sender"));
-                friendship.setAccepted(resultSet.getBoolean("isAccepted"));
-            }
-            return friendship;
-        });
-        return friendship;
+        return findEntity(SQL_FIND_REQUESTED_USER_BY_ID, friendRowMapper,
+                person_id, friend_id, person_id, friend_id);
     }
 
     @Override
     public void addFriend(Long person_id, Long friend_id) {
-        jdbcTemplate.update(ADD_FRIEND, person_id, friend_id );
+        updateEntity(SQL_ADD_REQUESTED_USER, person_id, friend_id);
     }
 
     @Override
     public List<User> getOutgoingRequests(Long id) {
-        List<User> outgoingList = jdbcTemplate.query(GET_OUTGOING_REQUESTS, new Object[] { id }, new FriendMapper() );
-        return outgoingList;
+        return findEntityList(SQL_FIND_OUTGOING_REQUESTS, userRowMapper, id);
     }
 
     @Override
     public void cancelRequest(Long id, Long friend_id) {
-        jdbcTemplate.update(CANCEL_REQUEST, id, friend_id );
+        updateEntity(SQL_CANCEL_REQUEST, id, friend_id, id, friend_id);
     }
 
     @Override
     public List<User> getIncomingRequests(Long id) {
-        List<User> incomingList = jdbcTemplate.query(GET_INCOMING_REQUESTS, new Object[] { id }, new FriendMapper() );
-        return incomingList;
+        return findEntityList(SQL_FIND_INCOMING_REQUESTS, userRowMapper, id);
     }
 
     @Override
     public void acceptRequest(Long id, Long friend_id) {
-        jdbcTemplate.update(ACCEPT_REQUEST, id, friend_id );
+        updateEntity(SQL_ACCEPT_REQUEST, id, friend_id, id, friend_id);
     }
 
     @Override
     public List<User> searchUsersByNameAndSurname(Long id, String name, String surname) {
-        List<User> friendList = jdbcTemplate.query(SEARCH_USERS_BY_NAME_AND_SURNAME, new Object[] { name,surname, name,surname, id }, new FriendMapper() );
-        return friendList;
+        return findEntityList(SQL_FIND_USER_BY_NAME_AND_SURNAME, userRowMapper,
+                name, surname, name, surname, id);
     }
 
     @Override
     public List<User> searchUsersByNameOrSurname(Long id, String search) {
-        List<User> friendList = jdbcTemplate.query(SEARCH_USERS_BY_NAME_OR_SURNAME, new Object[] { search, search, id }, new FriendMapper() );
-        return friendList;
+        return findEntityList(SQL_FIND_USER_BY_NAME_OR_SURNAME, userRowMapper,
+                search,search,id);
     }
-
-    private static final class FriendMapper implements RowMapper<User> {
-
-        @Override
-        public User mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-            User user = new User();
-            user.setId(resultSet.getLong("person_id"));
-            user.setName(resultSet.getString("name"));
-            user.setSurname(resultSet.getString("surname"));
-            return user;
-        }
-    }
-
-   //private static final class FriendshipMapper implements RowMapper<Friend> {
-
-    //    @Override
-    //    public Friend mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-    //        friendship.setRecipient(resultSet.getString("recipient"));
-    //        friendship.setSender(resultSet.getString("sender"));
-     //       friendship.setAccepted(resultSet.getBoolean("isAccepted"));
-    //        return friendship;
-    //    }
-    //}
 }

@@ -3,131 +3,114 @@ package com.gmail.netcracker.application.dto.dao.imp;
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.utilites.Utilites;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.sql.DataSource;
 import java.util.List;
 
-
+@Repository
 public class EventDaoImpl extends ModelDao implements EventDao {
-    private static final String EVENT_READ = "SELECT event_id, \"Event\".name, description, person_id, start_date, end_date, value\n" +
-            "FROM public.\"Event\"\n" +
-            "INNER JOIN \"Type\" ON \"Type\".type_id=\"Event\".type\n" +
-            "INNER JOIN \"Person\" ON \"Person\".person_id = \"Event\".creator";
+    @Value("${sql.event.pkColumnName}")
+    private String PK_COLUMN_NAME = "event_id";
 
-    private static final String EVENT_INSERT = "INSERT INTO public.\"Event\"( name, description, creator, start_date," +
-            " end_date, width, longitude, eventplacename, type, is_draft)\n" +
-            "\tVALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    @Value("${sql.event.add}")
+    private String SQL_ADD;
 
-    private static final String EVENT_DELETE = "DELETE FROM public.\"Event\"\n" +
-            "\tWHERE \"Event\".event_id=?";
+    @Value("${sql.event.delete}")
+    private String SQL_DELETE;
 
-    private static final String GET_ALL_EVENT_TYPES = "SELECT type_id, value\n" +
-            "\tFROM public.\"Type\";";
+    @Value("${sql.event.find}")
+    private String SQL_FIND;
 
-    private static final String EVENT_UPDATE = "UPDATE public.\"Event\" SET name=?, description=?," +
-            "start_date=?,end_date=?, type=?, is_draft=?,width=?,longitude=?,eventplacename=?" +
-            "WHERE event_id=?";
-    private static final String GET_EVENT_BY_ID = "SELECT  event_id,name, description,creator, start_date, end_date,\n" +
-            " type, is_draft, folder,width,longitude,eventplacename,periodicity\n" +
-            "FROM public.\"Event\"\n" +
-            "where event_id=";
+    @Value("${sql.event.findListByCreator}")
+    private String SQL_FIND_LIST_BY_CREATOR;
 
-    private static final String PARTICIPATE = "INSERT INTO public.\"Participant\"(person, event, is_accepted)\n" +
-            "VALUES (?, ?, TRUE)";
+    @Value("${sql.event.getEventTypes}")
+    private String SQL_GET_EVENT_TYPES;
+
+    @Value("${sql.event.update}")
+    private String SQL_UPDATE;
+
+    @Value("${sql.event.findPersonEvents}")
+    private String SQL_FIND_PERSON_EVENTS;
+
+    @Value("${sql.event.participate}")
+    private String SQL_PARTICIPATE;
+
+    private final RowMapper<Event> eventRowMapper;
+    private final RowMapper<Event> eventTypeRowMapper;
+
+    @Autowired
+    public EventDaoImpl(DataSource dataSource,
+                        @Qualifier("eventRowMapper") RowMapper<Event> eventRowMapper,
+                        @Qualifier("eventTypeRowMapper") RowMapper<Event> eventTypeRowMapper) {
+        super(dataSource);
+        this.eventRowMapper = eventRowMapper;
+        this.eventTypeRowMapper = eventTypeRowMapper;
+    }
 
     @Override
     public void update(Event event) {
-        if (event.getEventId() > 0) {
-            jdbcTemplate.update(EVENT_UPDATE, event.getName(), event.getDescription(),
-                    Utilites.parseTime(event.getDateStart()), Utilites.parseTime(event.getDateEnd()),
-                    Utilites.parseStringToInt(event.getType()),
-                    event.isDraft(), event.getWidth(), event.getLongitude(),
-                    event.getEventPlaceName(), event.getEventId());
-        }
+        updateEntity(SQL_UPDATE,
+                event.getName(),
+                event.getDescription(),
+                Utilites.parseTime(event.getDateStart()),
+                Utilites.parseTime(event.getDateEnd()),
+                Utilites.parseStringToInt(event.getType()),
+                event.isDraft(),
+                event.getWidth(),
+                event.getLongitude(),
+                event.getEventPlaceName(),
+                event.getEventId());
     }
 
     @Override
     public void delete(int eventId) {
-        jdbcTemplate.update(EVENT_DELETE, eventId);
+        deleteEntity(SQL_DELETE, eventId);
     }
 
     @Override
     public void insertEvent(Event event) {
-
-        jdbcTemplate.update(EVENT_INSERT, event.getName(), event.getDescription(), event.getCreator(),
-                Utilites.parseTime(event.getDateStart()), Utilites.parseTime(event.getDateEnd()),
-                event.getWidth(), event.getLongitude(), event.getEventPlaceName(),
-                Utilites.parseStringToInt(event.getType()), event.isDraft());
+        insertEntity(SQL_ADD, PK_COLUMN_NAME,
+                event.getName(),
+                event.getDescription(),
+                event.getCreator(),
+                Utilites.parseTime(event.getDateStart()),
+                Utilites.parseTime(event.getDateEnd()),
+                event.getWidth(),
+                event.getLongitude(),
+                event.getEventPlaceName(),
+                Utilites.parseStringToInt(event.getType()),
+                event.isDraft());
     }
 
     @Override
     public Event getEvent(int eventId) {
-        String getEvent = GET_EVENT_BY_ID + eventId;
-        return jdbcTemplate.query(getEvent, rs -> {
-            if (rs.next()) {
-                Event event = new Event();
-                event.setEventId(rs.getInt("event_id"));
-                event.setName(rs.getString("name"));
-                event.setDescription(rs.getString("description"));
-                event.setCreator(rs.getLong("creator"));
-                event.setDateStart(rs.getString("start_date"));
-                event.setDateEnd(rs.getString("end_date"));
-                event.setType(rs.getString("type"));
-                event.setDraft(rs.getBoolean("is_draft"));
-                event.setFolder(rs.getInt("folder"));
-                event.setWidth(rs.getDouble("width"));
-                event.setLongitude(rs.getDouble("longitude"));
-                event.setEventPlaceName(rs.getString("eventplacename"));
-                event.setPeriodicity(rs.getInt("periodicity"));
-                return event;
-            }
-            return null;
-        });
+        return findEntity(SQL_FIND, eventRowMapper, eventId);
     }
 
     @Override
     public List<Event> eventList() {
-        List<Event> listEmployee = jdbcTemplate.query(EVENT_READ, new Utilites.EventMapper());
-        return listEmployee;
+        return findEntityList(SQL_FIND_LIST_BY_CREATOR, eventRowMapper);
     }
-
 
     @Override
     public List<Event> findAllEventTypes() {
-        List<Event> listEventTypes = jdbcTemplate.query(GET_ALL_EVENT_TYPES, (rs, rowNum) -> {
-            Event eventType = new Event();
-            eventType.setTypeId(rs.getInt("type_id"));
-            eventType.setType(rs.getString("value"));
-            return eventType;
-        });
-        return listEventTypes;
+        return findEntityList(SQL_GET_EVENT_TYPES, eventTypeRowMapper);
     }
 
     @Override
     public List<Event> getAllMyEvents(Long personId) {
-
-        String sql = "SELECT event_id,name, start_date,end_date\n" +
-                "FROM \"Event\" WHERE event_id IN (SELECT event FROM \"Participant\" WHERE person = ? AND is_accepted=TRUE)";
-        List<Event> listEventTypes = jdbcTemplate.query(sql,new Object[]{personId}, (rs, rowNum) -> {
-            Event event = new Event();
-            event.setEventId(rs.getInt("event_id"));
-            event.setName(rs.getString("name"));
-            event.setDateStart(rs.getString("start_date"));
-            event.setDateEnd(rs.getString("end_date"));
-            return event;
-        });
-        return listEventTypes;
+        return findEntityList(SQL_FIND_PERSON_EVENTS, eventRowMapper, personId);
     }
 
     @Override
     public void participate(Long user_id, long event_id) {
-        jdbcTemplate.update(PARTICIPATE, user_id, event_id );
+        updateEntity(SQL_PARTICIPATE, user_id, event_id);
     }
 }
 
