@@ -23,7 +23,7 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<User> searchFriends(Long id, String search) {
-        String [] input = search.split(" ");
+        String[] input = search.split(" ");
         return input.length > 1 ? friendDao.getFriendsByNameAndSurname(id, input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.getFriendsByNameOrSurname(id, input[0].toLowerCase());
     }
 
@@ -31,7 +31,7 @@ public class FriendServiceImpl implements FriendService {
     @Override
     public void addFriend(Long person_id, Long friend_id) {
         friendship = friendDao.getFriendshipById(person_id, friend_id);
-        if(friendship.getSender() == null && friendship.getRecipient()== null) {
+        if (friendship == null) {
             friendDao.addFriend(person_id, friend_id);
         }
     }
@@ -63,13 +63,13 @@ public class FriendServiceImpl implements FriendService {
 
     @Override
     public List<User> searchUsers(Long id, String search) {
-        String [] input = search.split(" ");
+        String[] input = search.split(" ");
         return input.length > 1 ? friendDao.searchUsersByNameAndSurname(id, input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.searchUsersByNameOrSurname(id, input[0].toLowerCase());
     }
 
     @Override
     public List<User> intersect(List<User> friendList, List<User> foundUsers) {
-        for (User item : friendList){
+        for (User item : friendList) {
             if (foundUsers.contains(item)) {
                 foundUsers.remove(item);
             }

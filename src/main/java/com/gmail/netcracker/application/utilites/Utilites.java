@@ -60,18 +60,4 @@ public class Utilites {
         }
         return value;
     }
-
-    public static final class EventMapper implements RowMapper<Event> {
-        @Override
-        public Event mapRow(ResultSet rs, int i) throws SQLException {
-            Event event = new Event();
-            event.setEventId(rs.getInt("event_id"));
-            event.setName(rs.getString("name"));
-            event.setCreator(rs.getLong("person_id"));
-            event.setDateStart(rs.getString("start_date"));
-            event.setDateEnd(rs.getString("end_date"));
-            event.setType(rs.getString("value"));
-            return event;
-        }
-    }
 }
