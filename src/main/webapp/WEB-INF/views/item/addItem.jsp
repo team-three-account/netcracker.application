@@ -11,13 +11,13 @@
     <title>Add new item</title>
 </head>
 <body>
-<form name="item" action="/account/eventList/addItem" method="post">
+<form name="item" action="/addItem" method="post">
     <p>itemId</p>
-    <input title="itemId" type="text" name="itemId">
+    <input title="itemId" type="number" name="itemId">
     <p>personId</p>
-    <input title="personId" type="text" name="personId">
+    <input title="personId" type="number" name="personId">
     <p>booker</p>
-    <input title="booker" type="text" name="bookerName">
+    <input title="booker" type="number" name="booker">
     <p>itemName</p>
     <input title="itemName" type="text" name="itemName">
     <p>description</p>
@@ -25,12 +25,12 @@
     <p>link</p>
     <input title="link" type="text" name="link">
     <p>dueDate</p>
-    <input title="dueDate" type="text" name="dueDate">
+    <input title="dueDate" type="date" name="dueDate">
     <p>priority</p>
-    <input title="priority" type="text" name="priority">
+    <input title="priority" type="number" name="priority">
     <p>root</p>
-    <input title="root" type="text" name="root">
-    <input type="submit" value="save user">
+    <input title="root" type="number" name="root">
+    <input type="submit" value="save item">
 </form>
 </body>
 </html>

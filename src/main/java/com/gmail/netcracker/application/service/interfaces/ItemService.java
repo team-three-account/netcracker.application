@@ -9,11 +9,13 @@ public interface ItemService {
 
     void update(Item item);
 
-    void delete(String itemId);
+    void delete(int itemId);
 
     void add(Item item);
 
     List<Item> itemList();
 
-    List<Item> findItemByPersonId(String personId);
+    Item getByItemName(String itemName);
+
+    List<Item> findItemByPersonId(int personId);
 }

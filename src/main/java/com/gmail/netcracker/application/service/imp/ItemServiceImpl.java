@@ -19,7 +19,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public void delete(String itemId) {
+    public void delete(int itemId) {
         itemDao.delete(itemId);
     }
 
@@ -34,7 +34,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> findItemByPersonId(String personId) {
-        return itemDao.findItemByPersonId(personId);
+    public Item getByItemName(String itemName) {
+        return null;
+    }
+
+    @Override
+    public List<Item> findItemByPersonId(int personId) {
+        return itemDao.allPersonItem(personId);
     }
 }
