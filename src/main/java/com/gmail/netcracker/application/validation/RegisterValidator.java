@@ -26,12 +26,13 @@ public class RegisterValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "surname", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "email", "required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"password","required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,"confirmPassword","required.field");
-        if( !user.getPassword().equals(user.getConfirmPassword())){
-            errors.rejectValue("confirmPassword","match.password");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "required.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "required.field");
+        if (!user.getPassword().equals(user.getConfirmPassword())) {
+            errors.rejectValue("confirmPassword", "match.password");
         }
-        if (user.getEmail().equals(userService.findUserByEmail(user.getEmail()).getEmail())) {
+        User registeredUser = userService.findUserByEmail(user.getEmail());
+        if (registeredUser != null && user.getEmail().equals(registeredUser.getEmail())) {
             errors.rejectValue("email", "email.already.exist");
         }
     }
