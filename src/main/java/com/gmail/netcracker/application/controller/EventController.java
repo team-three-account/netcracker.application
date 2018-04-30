@@ -6,14 +6,13 @@ import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/account")
@@ -36,14 +35,14 @@ public class EventController {
     public ModelAndView eventList(ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("eventList", eventService.eventList());
-        modelAndView.setViewName("event/eventlist");
+        modelAndView.setViewName("event/eventList");
         return modelAndView;
     }
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
     public ModelAndView createNewEvent(@ModelAttribute(value = "createNewEvent") Event event, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.setViewName("event/createnewevent");
+        modelAndView.setViewName("event/createNewEvent");
         return modelAndView;
     }
 
@@ -52,6 +51,7 @@ public class EventController {
                                      BindingResult result,
                                      @RequestParam(value = "hidden") String hidden,
                                      ModelAndView modelAndView) {
+        modelAndView.setViewName("event/createNewEvent");
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
             return modelAndView;
@@ -82,7 +82,7 @@ public class EventController {
     public ModelAndView editEvent(@PathVariable int eventId, ModelAndView modelAndView) {
         modelAndView.addObject("editEvent", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.setViewName("event/testupdate");
+        modelAndView.setViewName("event/updateEvent");
         return modelAndView;
     }
 
@@ -91,6 +91,7 @@ public class EventController {
                                     BindingResult result,
                                     ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("event/updateEvent");
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
             return modelAndView;
@@ -110,7 +111,7 @@ public class EventController {
     public ModelAndView getMyEvent(ModelAndView modelAndView) {
         modelAndView.addObject("personalEventList", eventService.getAllMyEvents());
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.setViewName("event/myevents");
+        modelAndView.setViewName("event/personalEvents");
         return modelAndView;
     }
 
