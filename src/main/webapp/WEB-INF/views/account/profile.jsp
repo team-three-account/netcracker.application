@@ -50,7 +50,7 @@
                 <td>${auth_user.phone}</td>
             </tr>
             </tbody>
-            <a href="<c:url value="/account/settings"/>">
+            <a href="<c:url value="/account/settings-user/${auth_user.id}"/>">
                 <input type="button" class="btn btn-dark" value="Edit information">
             </a>
             <a href="<c:url value="/account/resetpassword"/>">
