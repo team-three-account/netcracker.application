@@ -4,9 +4,7 @@
 <head>
     <title>Event List</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-    <!-- Custom styles for this template-->
 </head>
 <body>
 <div class="row">

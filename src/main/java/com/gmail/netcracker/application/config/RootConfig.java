@@ -3,20 +3,11 @@ package com.gmail.netcracker.application.config;
 import com.gmail.netcracker.application.aspects.TokenLifeAspect;
 import com.gmail.netcracker.application.dto.dao.imp.*;
 import com.gmail.netcracker.application.dto.dao.interfaces.*;
-import com.gmail.netcracker.application.dto.model.Event;
-import com.gmail.netcracker.application.dto.model.Friend;
-import com.gmail.netcracker.application.dto.model.Item;
-import com.gmail.netcracker.application.dto.model.User;
-import com.gmail.netcracker.application.service.imp.EventServiceImpl;
+import com.gmail.netcracker.application.dto.model.*;
+import com.gmail.netcracker.application.service.imp.*;
 
-import com.gmail.netcracker.application.service.imp.FriendServiceImpl;
-import com.gmail.netcracker.application.service.imp.ItemServiceImpl;
-import com.gmail.netcracker.application.service.imp.UserServiceImp;
-import com.gmail.netcracker.application.service.interfaces.EventService;
+import com.gmail.netcracker.application.service.interfaces.*;
 
-import com.gmail.netcracker.application.service.interfaces.FriendService;
-import com.gmail.netcracker.application.service.interfaces.ItemService;
-import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.Utilites;
 import com.gmail.netcracker.application.utilites.VerificationToken;
@@ -123,6 +114,16 @@ public class RootConfig {
     }
 
     @Bean
+    Note note() {
+        return new Note();
+    }
+
+    @Bean
+    NoteService noteService() {
+        return new NoteServiceImpl();
+    }
+
+    @Bean
     LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
@@ -213,12 +214,25 @@ public class RootConfig {
     }
 
     @Bean
-    public RowMapper<Event> eventTypeRowMapper(){
+    public RowMapper<Event> eventTypeRowMapper() {
         return (rs, i) -> {
             Event eventType = new Event();
             eventType.setTypeId(rs.getInt("type_id"));
             eventType.setType(rs.getString("value"));
             return eventType;
+        };
+    }
+
+    @Bean
+    public RowMapper<Note> noteRowMapper() {
+        return (rs, i) -> {
+            Note note = new Note();
+            note.setNoteId(rs.getInt("note_id"));
+            note.setName(rs.getString("name"));
+            note.setDescription(rs.getString("description"));
+            note.setCreator(rs.getLong("creator"));
+            note.setFolder(rs.getInt("folder"));
+            return note;
         };
     }
 
