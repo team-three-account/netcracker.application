@@ -3,6 +3,9 @@ package com.gmail.netcracker.application.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
+import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -41,7 +44,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      */
 
     private static final String RESOURCES_URL = "/resources/";
-        /**
+    /**
      * URL запроса для авторизации.
      */
     private static final String LOGIN_URL = "/login";
@@ -50,6 +53,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      * Название вьюшки авторизации.
      */
     private static final String LOGIN_VIEW_NAME = "login";
+
 
     /**
      * Указывает Spring'у где находятся
@@ -71,6 +75,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         viewResolver.setViewClass(JstlView.class);
         viewResolver.setExposeContextBeansAsAttributes(true);
         return viewResolver;
+    }
+
+    @Bean
+    public MultipartResolver multipartResolver() {
+        return new StandardServletMultipartResolver();
     }
 
     /**

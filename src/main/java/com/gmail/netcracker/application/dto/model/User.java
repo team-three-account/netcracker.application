@@ -5,6 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +23,8 @@ public class User implements UserDetails {
     private String role;
     private String birthdayDate;
     private String phone;
+    private String photo;
+    private MultipartFile photoFile;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

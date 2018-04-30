@@ -6,12 +6,13 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-import javax.servlet.FilterRegistration;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
+import javax.servlet.*;
+import java.io.File;
 
 public class AppInitializer
         extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+    private int maxUploadSizeInMb = 10 * 1024 * 1024; // 5 MB
     /**
      * Возвращает конфигурацию, в которой
      * инициализируем ViewResolver.
@@ -63,7 +64,20 @@ public class AppInitializer
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
         servletContext.addListener(new SessionListener());
     }
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 
+        // upload temp file will put here
+        File uploadDirectory = new File(System.getenv("CATALINA_HOME")+"/webapps/ROOT/resources/img/");
+
+        // register a MultipartConfigElement
+        MultipartConfigElement multipartConfigElement =
+                new MultipartConfigElement(uploadDirectory.getAbsolutePath(),
+                        maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);
+
+        registration.setMultipartConfig(multipartConfigElement);
+
+    }
     /**
      * Включение исключений NoHandlerFound.
      *
@@ -77,5 +91,8 @@ public class AppInitializer
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return dispatcherServlet;
     }
+
+
+
 
 }

@@ -17,7 +17,7 @@ public class Utilites {
     public static Timestamp parseStringIntoDate(String str_date) {
         try {
             DateFormat formatter;
-            formatter = new SimpleDateFormat("dd/MM/yyyy");
+            formatter = new SimpleDateFormat("yyyy-MM-dd");
             java.util.Date date = formatter.parse(str_date);
             Timestamp timestamp = new Timestamp(date.getTime());
             return timestamp;
@@ -31,7 +31,7 @@ public class Utilites {
         if (date == null) {
             return "";
         }
-        Format df = new SimpleDateFormat("dd/MM/yyyy");
+        Format df = new SimpleDateFormat("yyyy-MM-dd");
         return df.format(date);
     }
 

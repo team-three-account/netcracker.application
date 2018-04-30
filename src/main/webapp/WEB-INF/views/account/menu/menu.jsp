@@ -15,7 +15,7 @@
     <div class="row">
         <div class="sidebar menu">
             <ul class="nav nav-sidebar">
-                <li style="background-color : #dee5fc"><a href="/account">${auth_user.name} ${auth_user.surname}</a>
+                <li style="background-color : #dee5fc"><a href="/account/profile/${auth_user.id}">${auth_user.name} ${auth_user.surname}</a>
                 </li>
             </ul>
             <ul class="nav nav-sidebar">

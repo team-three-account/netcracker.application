@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: anyat
@@ -32,6 +33,8 @@
                 </div>
                 <div class="panel-body viewEvent">
                     <ul class="list-unstyled mt-3 mb-4">
+                        <li><img class="img-circle" style="width: 200px;height: 200px"
+                                 src="<c:url value="/account/image/${friend.photo}.jpg"/>"></li>
                         <li>Name : ${friend.name} </li>
                         <li>Surname : ${friend.surname}</li>
                         <li>Email : ${friend.email}</li>
