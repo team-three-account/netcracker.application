@@ -198,6 +198,21 @@ create table "Verif_token"
   birthday date,
   phone    text
 );
+
+create table "Note"
+(
+  note_id      serial  not null
+    constraint note_pk
+    primary key,
+  name          text    not null,
+  description   text    not null,
+  creator       integer not null
+    constraint "Note_fk0"
+    references "Person",
+  folder        integer
+    constraint "Note_fk1"
+    references "Folder"
+);
 INSERT INTO public."Type"(value)
 VALUES ('private');
 INSERT INTO public."Type"(value)
