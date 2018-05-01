@@ -1,7 +1,9 @@
 package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.Item;
+import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
+import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,37 +13,59 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
+@RequestMapping("/account")
 public class ItemController {
 
-    @Autowired
     private ItemService itemService;
 
-    @RequestMapping(value = {"/account/itemsList/deleteItem-{itemId}"}, method = RequestMethod.GET)
-    public String deleteItem(@PathVariable String itemId){
+    @Autowired
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
+
+        @RequestMapping(value = "/update/{itemName}", method = RequestMethod.GET)
+    public String updateItemPage(@PathVariable("itemName") String itemName, Model model) {
+       model.addAttribute("update", itemService.getByItemName(itemName));
+        return "item/editItem";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String updateItem(@ModelAttribute("item") Item item){
+        itemService.update(item);
+        return "redirect:/account/itemList";
+    }
+    @RequestMapping(value = "/deleteItem/{itemId}", method = RequestMethod.GET)
+    public String deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.delete(itemId);
-        return "redirect:/account/itemsList";
+        return "redirect:/account/itemList";
     }
 
-    @RequestMapping(value = "/account/itemsList/addItem", method = RequestMethod.GET)
-    private String createItemPage(){
-        return "addItem";
+    @RequestMapping(value = "/addItem", method = RequestMethod.GET)
+    public String createItemPage() {
+        return "item/addItem";
     }
 
-    @RequestMapping(value = "/account/itemsList/addItem", method = RequestMethod.POST)
-        public String addItem(@ModelAttribute("item") Item item){
+    @RequestMapping(value = "/addItem", method = RequestMethod.POST)
+    public String addItem(@ModelAttribute("item") Item item) {
         itemService.add(item);
-        return "redirect:/itemsList";
+        return "redirect:/account/itemList";
     }
 
-    @RequestMapping(value = "/account/itemsList", method = RequestMethod.GET)
-    public String itemList (Model model) {
-        model.addAttribute("itemsList", itemService.itemList());
-        return "item/itemsList";
+    @RequestMapping(value = "/itemList", method = RequestMethod.GET)
+    public String itemList(Model model) {
+        model.addAttribute("itemList", itemService.itemList());
+        return "item/itemList";
     }
 
-    @RequestMapping(value = {"account/itemsList/findItemByPersonId-{personId}"}, method = RequestMethod.GET)
-    public String findItemByPersonId(@PathVariable("personId") String personId, Model model){
-         model.addAttribute("itemsList", itemService.findItemByPersonId(personId));
-         return "redirect:/item/findItemByPersonId";
+    @RequestMapping(value = "/item/{itemName}", method = RequestMethod.GET)
+    public String getByItemName(@PathVariable("itemName") String itemName, Model model){
+        model.addAttribute("item", itemService.getByItemName(itemName));
+        return "item/findByName";
+    }
+
+    @RequestMapping(value = {"/personItemList/{personId}"}, method = RequestMethod.GET)
+    public String findItemByPersonId(@PathVariable("personId") Long personId, Model model) {
+        model.addAttribute("personItemList", itemService.findItemByPersonId(personId));
+        return "item/findItemByPersonId";
     }
 }

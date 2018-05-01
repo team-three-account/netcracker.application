@@ -8,11 +8,13 @@ public interface ItemDao {
 
     void update(Item item);
 
-    void delete(String itemId);
+    void delete(Long itemId);
 
     void add(Item item);
 
     List<Item> itemList();
 
-    List<Item> findItemByPersonId(String personId);
+    Item getByItemName(String name);
+
+    List<Item> allPersonItem(Long personId);
 }
