@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.PhotoDao;
 
 import com.gmail.netcracker.application.service.interfaces.PhotoService;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
@@ -18,7 +19,8 @@ public class PhotoServiceImp implements PhotoService, Serializable {
     @Autowired
     private PhotoDao photoDao;
 
-    public static final String PATH ="D://Java Workspace/netcracker.application-master/src/main/webapp/resources/img/";
+
+    public static final String PATH = System.getenv("CATALINA_HOME") + "/webapps/ROOT/resources/img/";
 
 
     @Override
@@ -33,6 +35,7 @@ public class PhotoServiceImp implements PhotoService, Serializable {
                     OutputStream stream = new FileOutputStream(PhotoServiceImp.PATH +
                             name + ".jpg"
                     )
+
             ) {
                 stream.write(
                         photo.getBytes()
