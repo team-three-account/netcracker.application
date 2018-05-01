@@ -1,10 +1,9 @@
-create table "Periodicity"
+create table "Priority"
 (
-  per_id    serial
-    constraint periodicity_pk
-    primary key,
-  frequency varchar(20) not null,
-  value     integer     not null
+  priority_id serial      not null
+  constraint priority_pk
+  primary key,
+  value varchar(20) not null
 );
 
 create table "Person"
@@ -19,9 +18,7 @@ create table "Person"
   birthday     date,
   phone        varchar(20),
   photo        text,
-  notification integer
-    constraint "Person_fk0"
-    references "Periodicity",
+  notification text,
   role         text        not null
 );
 
@@ -60,9 +57,11 @@ create table "Item"
   image       text,
   link        text,
   due_date    date,
-  priority    integer,
-  root        integer
+  priority    integer
     constraint "Item_fk2"
+    references "Priority",
+  root        integer
+    constraint "Item_fk3"
     references "Item"
 );
 
@@ -109,9 +108,7 @@ create table "Event"
   width      double precision,
   longitude     double precision,
   eventplacename text,
-  periodicity   integer
-    constraint "Event_fk1"
-    references "Periodicity",
+  periodicity   text,
   type          bigint  not null
     constraint "Event_fk2"
     references "Type",
@@ -134,7 +131,9 @@ create table "Participant"
     references "Event"
     ON UPDATE cascade
     ON DELETE cascade,
-  priority    integer,
+  priority    integer
+    constraint "Participant_fk2"
+    references "Priority",
   countdown   boolean,
   is_accepted boolean not null
 );
@@ -213,6 +212,7 @@ create table "Note"
     constraint "Note_fk1"
     references "Folder"
 );
+
 INSERT INTO public."Type"(value)
 VALUES ('private');
 INSERT INTO public."Type"(value)
