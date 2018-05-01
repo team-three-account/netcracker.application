@@ -28,12 +28,12 @@
     </tr>
     <c:forEach var="item" items="${itemList}">
         <tr>
-            <td><form method="update" action="/update/${item.itemName}">
+            <td><form method="update" action="/update/${item.name}">
                 <input type="submit" value="edit"></form></td>
             <td>${item.itemId}</td>
             <td><a href="/personItemList/${item.personId}">${item.personId}</a></td>
-            <td><c:out value="${item.booker}" escapeXml="false"/></td>
-            <td><a href="/update/${item.itemName}">${item.itemName}</a></td>
+            <td>${item.booker}</td>
+            <td><a href="/update/${item.name}">${item.name}</a></td>
             <td>${item.description}</td>
             <td>${item.link}</td>
             <td><c:out value="${item.dueDate}" escapeXml="false"/></td>
@@ -56,7 +56,3 @@
 </html>
 
 
-<%--<a href="delete.html?id=2" target="_blank" onclick="return confirmDelete(this);" class="delete-link need-to-confirm">--%>
-    <%--<span class="maintext">✘ Delete</span>--%>
-    <%--<span class="confirmation">✔ Sure?</span>--%>
-<%--</a>--%>

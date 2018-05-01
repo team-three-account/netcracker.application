@@ -6,8 +6,8 @@ import lombok.Data;
 public class Item {
     private Long itemId;
     private Long personId;
-    private String bookerName;
-    private String itemName;
+    private Long booker;
+    private String name;
     private String description;
     private String link;
     private String dueDate;

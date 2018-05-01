@@ -9,7 +9,6 @@ import com.gmail.netcracker.application.service.imp.*;
 import com.gmail.netcracker.application.service.interfaces.*;
 
 import com.gmail.netcracker.application.utilites.EmailConcructor;
-import com.gmail.netcracker.application.utilites.Utilites;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import com.gmail.netcracker.application.validation.RegisterValidator;
@@ -47,8 +46,10 @@ public class RootConfig {
     public RootConfig(Environment env) {
         this.env = env;
     }
-@Bean
-PhotoService photoService(){return new PhotoServiceImp();}
+
+    @Bean
+    PhotoService photoService(){return new PhotoServiceImp();}
+
     @Bean
     TokenLifeAspect tokenLifeAspect() {
         return new TokenLifeAspect();
@@ -105,13 +106,18 @@ PhotoService photoService(){return new PhotoServiceImp();}
     }
 
     @Bean
-    FriendService friendServiceFriendService() {
-        return new FriendServiceImpl();
+    Item item() {
+        return new Item();
     }
 
     @Bean
     ItemService itemService() {
         return new ItemServiceImpl();
+    }
+
+    @Bean
+    FriendService friendServiceFriendService() {
+        return new FriendServiceImpl();
     }
 
     @Bean
@@ -123,6 +129,7 @@ PhotoService photoService(){return new PhotoServiceImp();}
     NoteService noteService() {
         return new NoteServiceImpl();
     }
+
 
     @Bean
     LocaleResolver localeResolver() {
@@ -144,10 +151,10 @@ PhotoService photoService(){return new PhotoServiceImp();}
     public DataSource
     dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
-        driver.setDriverClassName(env.getProperty("postgres.driver"));
-        driver.setUrl(env.getProperty("postgres.url"));
-        driver.setUsername(env.getProperty("postgres.username"));
-        driver.setPassword(env.getProperty("postgres.password"));
+        driver.setDriverClassName(env.getProperty("postgre.driver"));
+        driver.setUrl(env.getProperty("postgre.url"));
+        driver.setUsername(env.getProperty("postgre.username"));
+        driver.setPassword(env.getProperty("postgre.password"));
         return driver;
 
     }
@@ -170,7 +177,6 @@ PhotoService photoService(){return new PhotoServiceImp();}
             user.setRole(resultSet.getString("role"));
             user.setPhone(resultSet.getString("phone"));
             user.setBirthdayDate(parseDateIntoString(resultSet.getDate("birthday")));
-            user.setPhoto(resultSet.getString("photo"));
             return user;
         };
     }
@@ -249,21 +255,20 @@ PhotoService photoService(){return new PhotoServiceImp();}
         };
     }
 
-    //TODO itemRowMapper
-//    @Bean
-//    public RowMapper<Item> itemRowMapper() {
-//        return (resultSet, i) -> {
-//            Item item = new Item();
-//            item.setItemId(resultSet.getLong("item_id"));
-//            item.setPersonId(resultSet.getString("person"));
-//            item.setBookerName(resultSet.getString("booker"));
-//            item.setItemName(resultSet.getString("name"));
-//            item.setDescription(resultSet.getString("description"));
-//            item.setLink(resultSet.getString("link"));
-//            item.setDueDate(resultSet.getString("due_date"));
-//            item.setPriority(resultSet.getInt("priority"));
-//            item.setRoot(resultSet.getString("root"));
-//            return item;
-//        };
-//    }
+    @Bean
+    public RowMapper<Item> itemRowMapper() {
+        return (resultSet, i) -> {
+            Item item = new Item();
+            item.setItemId(resultSet.getLong("item_id"));
+            item.setPersonId(resultSet.getLong("person"));
+            item.setBooker(resultSet.getLong("booker"));
+            item.setName(resultSet.getString("name"));
+            item.setDescription(resultSet.getString("description"));
+            item.setLink(resultSet.getString("link"));
+            item.setDueDate(resultSet.getString("due_date"));
+            item.setPriority(resultSet.getInt("priority"));
+            item.setRoot(resultSet.getLong("root"));
+            return item;
+        };
+    }
 }

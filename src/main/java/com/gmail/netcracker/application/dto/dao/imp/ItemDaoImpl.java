@@ -3,84 +3,75 @@ package com.gmail.netcracker.application.dto.dao.imp;
 import com.gmail.netcracker.application.dto.dao.interfaces.ItemDao;
 import com.gmail.netcracker.application.dto.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
-//TODO this dao
+
 @Repository
 public class ItemDaoImpl extends ModelDao implements ItemDao {
 
-    private final String UPDATE = "UPDATE public.\"Item\"\n" +
-            "SET person_id=?, booker_name=?, item_name=?, link=?, due_date=?, priority=?, root=?\n" +
-            "WHERE \"Item\".item_id=?;";
+    @Value("${sql.item.add}")
+    private String ADD_ITEM;
 
-    private final String DELETE = "DELETE FROM public.\"Item\"\n" +
-            "WHERE \"Item\".item_id=?";
+    @Value("${sql.item.update}")
+    private String UPDATE_ITEM;
 
-    private final String ADD = "INSERT INTO public.\"Item\"(\n" +
-            "item_id, person_id, booker_name, item_name, link, due_date, priority, root)\n" +
-            "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    @Value("${sql.item.delete}")
+    private String DELETE_ITEM;
 
-    private final String ITEM_LIST = "SELECT * FROM public.\"Item\";";
+    @Value("${sql.item.getItem}")
+    private String SELECT_ITEM;
 
-    private final String ITEM_LIST_BY_PERSON = "SELECT * FROM public.\"Item\" WHERE public.\"Item\".person=?;";
+    @Value("${sql.item.PersonList}")
+    private String PERSON_ITEM_LIST;
+
+    @Value("${sql.item.itemList}")
+    private String ALL_ITEM;
+
+   private final RowMapper<Item> itemRowMapper;
 
     @Autowired
-    public ItemDaoImpl(DataSource dataSource) {
+    public ItemDaoImpl(DataSource dataSource, RowMapper<Item> itemRowMapper) {
         super(dataSource);
-    }
-
-    @Override
-    public void update(Item item) {
-        jdbcTemplate.update(UPDATE, item.getPersonId(), item.getBookerName(), item.getItemName(), item.getLink(),
-                item.getDueDate(), item.getPriority(), item.getRoot(), item.getItemId());
-    }
-
-    @Override
-    public void delete(String itemId) {
-        jdbcTemplate.update(DELETE, itemId);
+        this.itemRowMapper = itemRowMapper;
     }
 
     @Override
     public void add(Item item) {
-        jdbcTemplate.update(ADD, item.getItemId(), item.getPersonId(), item.getBookerName(), item.getLink(),
+        jdbcTemplate.update(ADD_ITEM, item.getItemId(), item.getPersonId(), item.getBooker(), item.getLink(),
                 item.getDueDate(), item.getPriority(), item.getRoot());
     }
 
     @Override
-    public List<Item> itemList() {
-        return jdbcTemplate.query(ITEM_LIST, new ItemDaoImpl.ItemRowMapper());
+    public void update(Item item) {
+        jdbcTemplate.update(UPDATE_ITEM, item.getPersonId(), item.getBooker(), item.getName(), item.getLink(),
+                item.getDueDate(), item.getPriority(), item.getRoot(), item.getItemId());
     }
 
     @Override
-    public List<Item> findItemByPersonId(String personId) {
-        return jdbcTemplate.query(ITEM_LIST_BY_PERSON, new ItemDaoImpl.ItemRowMapper(), personId);
+    public void delete(Long itemId) {
+        jdbcTemplate.update(DELETE_ITEM, itemId);
+    }
+
+    @Override
+    public Item getByItemName(String name) {
+        return jdbcTemplate.queryForObject(SELECT_ITEM, itemRowMapper, name);
+    }
+
+    @Override
+    public List<Item> allPersonItem(Long personId) {
+        return jdbcTemplate.query(PERSON_ITEM_LIST, itemRowMapper, personId);
 
     }
 
-    // CustomerRowMapper class includes the method of the 'mapRow'
-    // which is uses the method 'itemList' and 'findItemByPersonId'
-    final class ItemRowMapper implements RowMapper<Item> {
-
-        @Override
-        public Item mapRow(ResultSet resultSet, int rowNum) throws SQLException {
-            Item item = new Item();
-            item.setItemId(resultSet.getLong("item_id"));
-            item.setPersonId(resultSet.getLong("person"));
-            item.setBookerName(resultSet.getString("booker"));
-            item.setItemName(resultSet.getString("name"));
-            item.setDescription(resultSet.getString("description"));
-            item.setLink(resultSet.getString("link"));
-            item.setDueDate(resultSet.getString("due_date"));
-            item.setPriority(resultSet.getInt("priority"));
-            item.setRoot(resultSet.getLong("root"));
-            return item;
-        }
+    @Override
+    public List<Item> itemList() {
+        return jdbcTemplate.query(ALL_ITEM, itemRowMapper);
     }
+
 }
 

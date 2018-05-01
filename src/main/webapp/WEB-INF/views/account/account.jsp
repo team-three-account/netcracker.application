@@ -36,7 +36,6 @@
                 <li><a href="/account/itemList">Wish List</a></li>
                 <li><a href="#">Events</a></li>
                 <li><a href="#">Calendar</a></li>
-                <%--<li><a href="#">Wish List</a></li>--%>
             </ul>
         </div>
     </div>
