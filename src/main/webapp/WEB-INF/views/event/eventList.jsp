@@ -32,7 +32,7 @@
 
                     <form action="/account/participate" method="POST">
                         <button type="submit" class="btn btn-success">
-                            <input type="hidden" name="event_id" value=${emp.eventId}/>
+                            <input type="hidden" name="event_id" value="${emp.eventId}"/>
                             Participate </span>
                         </button>
                     </form>

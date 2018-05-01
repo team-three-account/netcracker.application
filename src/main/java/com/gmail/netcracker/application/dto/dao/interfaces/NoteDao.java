@@ -10,4 +10,8 @@ public interface NoteDao {
     List<Note> noteList();
 
     Note getNote(int noteId);
+
+    void delete(int noteId);
+
+    void update(Note note);
 }

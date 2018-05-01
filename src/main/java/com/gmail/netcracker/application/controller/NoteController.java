@@ -48,4 +48,28 @@ public class NoteController {
         modelAndView.setViewName("note/viewNote");
         return modelAndView;
     }
+
+    @RequestMapping(value = {"/eventList/deleteNote-{noteId}"}, method = RequestMethod.GET)
+    public String deleteNote(@PathVariable int noteId) {
+        noteService.delete(noteId);
+        return "redirect:/account/eventlist";
+    }
+
+    @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.GET)
+    public ModelAndView editEvent(@PathVariable int noteId, ModelAndView modelAndView) {
+        modelAndView.addObject("editNote", noteService.getNote(noteId));
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("note/updateNote");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.POST)
+    public ModelAndView updateEvent(@ModelAttribute("editNote") Note note,
+                                    ModelAndView modelAndView) {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        noteService.update(note);
+        modelAndView.setViewName("redirect:/account/eventlist");
+        return modelAndView;
+    }
+
 }
