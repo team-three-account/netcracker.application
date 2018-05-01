@@ -1,6 +1,7 @@
 package com.gmail.netcracker.application.service.interfaces;
 
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.EventType;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface EventService {
 
     List<Event> eventList();
 
-    List<Event> findAllEventTypes();
+    List<EventType> getAllEventTypes();
 
     void setPersonId(Event event);
 

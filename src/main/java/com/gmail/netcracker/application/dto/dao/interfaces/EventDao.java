@@ -15,8 +15,6 @@ public interface EventDao {
 
     List<Event> eventList();
 
-    List<Event> findAllEventTypes();
-
     List<Event> getAllMyEvents(Long personId);
 
     void participate(Long user_id, long event_id);

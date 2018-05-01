@@ -1,6 +1,7 @@
 package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.EventType;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -122,7 +122,7 @@ public class EventController {
     }
 
     @ModelAttribute("eventTypes")
-    public List<Event> findAllEventTypes() {
-        return eventService.findAllEventTypes();
+    public List<EventType> findAllEventTypes() {
+        return eventService.getAllEventTypes();
     }
 }

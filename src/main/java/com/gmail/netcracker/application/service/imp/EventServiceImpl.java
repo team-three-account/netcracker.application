@@ -1,23 +1,28 @@
 package com.gmail.netcracker.application.service.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
+import com.gmail.netcracker.application.dto.dao.interfaces.EventTypeDao;
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.EventType;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class EventServiceImpl implements EventService {
+    private EventDao eventDao;
+    private EventTypeDao eventTypeDao;
+    private UserService userService;
 
     @Autowired
-    Event event;
-
-    @Autowired
-    EventDao eventDao;
-
-    @Autowired
-    UserService userService;
+    public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService) {
+        this.eventDao = eventDao;
+        this.eventTypeDao = eventTypeDao;
+        this.userService = userService;
+    }
 
     @Override
     public void update(Event event) {
@@ -47,8 +52,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> findAllEventTypes() {
-        return eventDao.findAllEventTypes();
+    public List<EventType> getAllEventTypes() {
+        return eventTypeDao.getAllEventTypes();
     }
 
     @Override
@@ -58,8 +63,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getAllMyEvents() {
-        Long personId = userService.getAuthenticatedUser().getId();
-        return eventDao.getAllMyEvents(personId);
+        return eventDao.getAllMyEvents(userService.getAuthenticatedUser().getId());
     }
 
     @Override

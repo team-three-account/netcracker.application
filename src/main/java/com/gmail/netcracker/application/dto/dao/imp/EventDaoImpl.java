@@ -41,16 +41,13 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.participate}")
     private String SQL_PARTICIPATE;
 
-    private final RowMapper<Event> eventRowMapper;
-    private final RowMapper<Event> eventTypeRowMapper;
+    private final RowMapper<Event> rowMapper;
 
     @Autowired
     public EventDaoImpl(DataSource dataSource,
-                        @Qualifier("eventRowMapper") RowMapper<Event> eventRowMapper,
-                        @Qualifier("eventTypeRowMapper") RowMapper<Event> eventTypeRowMapper) {
+                        @Qualifier("eventRowMapper") RowMapper<Event> rowMapper) {
         super(dataSource);
-        this.eventRowMapper = eventRowMapper;
-        this.eventTypeRowMapper = eventTypeRowMapper;
+        this.rowMapper = rowMapper;
     }
 
     @Override
@@ -90,22 +87,17 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public Event getEvent(int eventId) {
-        return findEntity(SQL_FIND, eventRowMapper, eventId);
+        return findEntity(SQL_FIND, rowMapper, eventId);
     }
 
     @Override
     public List<Event> eventList() {
-        return findEntityList(SQL_FIND_LIST_BY_CREATOR, eventRowMapper);
-    }
-
-    @Override
-    public List<Event> findAllEventTypes() {
-        return findEntityList(SQL_GET_EVENT_TYPES, eventTypeRowMapper);
+        return findEntityList(SQL_FIND_LIST_BY_CREATOR, rowMapper);
     }
 
     @Override
     public List<Event> getAllMyEvents(Long personId) {
-        return findEntityList(SQL_FIND_PERSON_EVENTS, eventRowMapper, personId);
+        return findEntityList(SQL_FIND_PERSON_EVENTS, rowMapper, personId);
     }
 
     @Override

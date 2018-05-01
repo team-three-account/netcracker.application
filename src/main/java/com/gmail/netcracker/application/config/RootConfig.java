@@ -1,15 +1,10 @@
 package com.gmail.netcracker.application.config;
 
 import com.gmail.netcracker.application.aspects.TokenLifeAspect;
-import com.gmail.netcracker.application.dto.dao.imp.*;
-import com.gmail.netcracker.application.dto.dao.interfaces.*;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.*;
-
 import com.gmail.netcracker.application.service.interfaces.*;
-
 import com.gmail.netcracker.application.utilites.EmailConcructor;
-import com.gmail.netcracker.application.utilites.Utilites;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import com.gmail.netcracker.application.validation.RegisterValidator;
@@ -47,8 +42,12 @@ public class RootConfig {
     public RootConfig(Environment env) {
         this.env = env;
     }
-@Bean
-PhotoService photoService(){return new PhotoServiceImp();}
+
+    @Bean
+    PhotoService photoService() {
+        return new PhotoServiceImp();
+    }
+
     @Bean
     TokenLifeAspect tokenLifeAspect() {
         return new TokenLifeAspect();
@@ -97,11 +96,6 @@ PhotoService photoService(){return new PhotoServiceImp();}
     @Bean
     Event event() {
         return new Event();
-    }
-
-    @Bean
-    EventService eventService() {
-        return new EventServiceImpl();
     }
 
     @Bean
@@ -216,11 +210,11 @@ PhotoService photoService(){return new PhotoServiceImp();}
     }
 
     @Bean
-    public RowMapper<Event> eventTypeRowMapper() {
-        return (rs, i) -> {
-            Event eventType = new Event();
-            eventType.setTypeId(rs.getInt("type_id"));
-            eventType.setType(rs.getString("value"));
+    public RowMapper<EventType> eventTypeRowMapper() {
+        return (resultSet, i) -> {
+            EventType eventType = new EventType();
+            eventType.setTypeId(resultSet.getInt("type_id"));
+            eventType.setName(resultSet.getString("value"));
             return eventType;
         };
     }
