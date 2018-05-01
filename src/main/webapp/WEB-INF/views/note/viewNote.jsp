@@ -26,9 +26,9 @@
                         <li>Description : ${note.description}</li>
                         <c:if test="${auth_user.id.equals(user_creator.id)}">
                             <li>
-                                <a href="/account/eventList/editevent-${note.noteId}">
+                                <a href="/account/eventList/editNote-${note.noteId}">
                                     <input type="submit" class="btn btn-success text-center" value="Edit Note"></a>
-                                <a href="/account/eventList/deleteEvent-${note.noteId}">
+                                <a href="/account/eventList/deleteNote-${note.noteId}">
                                     <input type="submit" class="btn btn-danger text-center" value="Delete Note"></a>
                             </li>
                         </c:if>

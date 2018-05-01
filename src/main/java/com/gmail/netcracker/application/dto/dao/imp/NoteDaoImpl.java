@@ -22,6 +22,12 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     @Value("${sql.note.find}")
     private String SQL_FIND;
 
+    @Value("${sql.note.delete}")
+    private String SQL_DELETE;
+
+    @Value("${sql.note.update}")
+    private String SQL_UPDATE;
+
     @Value("${sql.note.findListNotes}")
     private String SQL_FIND_LIST_NOTES;
 
@@ -50,5 +56,18 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     @Override
     public Note getNote(int noteId) {
         return findEntity(SQL_FIND, noteRowMapper, noteId);
+    }
+
+    @Override
+    public void delete(int noteId) {
+        deleteEntity(SQL_DELETE, noteId);
+    }
+
+    @Override
+    public void update(Note note) {
+        updateEntity(SQL_UPDATE,
+                note.getName(),
+                note.getDescription(),
+                note.getNoteId());
     }
 }

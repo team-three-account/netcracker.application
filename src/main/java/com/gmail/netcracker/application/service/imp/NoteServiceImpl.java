@@ -34,4 +34,16 @@ public class NoteServiceImpl implements NoteService {
     public Note getNote(int noteId) {
         return noteDao.getNote(noteId);
     }
+
+    @Override
+    public void delete(int noteId) {
+        noteDao.delete(noteId);
+    }
+
+    @Override
+    public void update(Note note) {
+        note.setCreator(userService.getAuthenticatedUser().getId());
+        noteDao.update(note);
+    }
+
 }
