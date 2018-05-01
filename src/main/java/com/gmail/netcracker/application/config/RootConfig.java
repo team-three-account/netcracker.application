@@ -104,11 +104,6 @@ public class RootConfig {
     }
 
     @Bean
-    ItemService itemService() {
-        return new ItemServiceImpl();
-    }
-
-    @Bean
     Note note() {
         return new Note();
     }
@@ -243,21 +238,20 @@ public class RootConfig {
         };
     }
 
-    //TODO itemRowMapper
-//    @Bean
-//    public RowMapper<Item> itemRowMapper() {
-//        return (resultSet, i) -> {
-//            Item item = new Item();
-//            item.setItemId(resultSet.getLong("item_id"));
-//            item.setPersonId(resultSet.getString("person"));
-//            item.setBookerName(resultSet.getString("booker"));
-//            item.setItemName(resultSet.getString("name"));
-//            item.setDescription(resultSet.getString("description"));
-//            item.setLink(resultSet.getString("link"));
-//            item.setDueDate(resultSet.getString("due_date"));
-//            item.setPriority(resultSet.getInt("priority"));
-//            item.setRoot(resultSet.getString("root"));
-//            return item;
-//        };
-//    }
+    @Bean
+    public RowMapper<Item> itemRowMapper() {
+        return (resultSet, i) -> {
+            Item item = new Item();
+            item.setItemId(resultSet.getLong("item_id"));
+            item.setPersonId(resultSet.getLong("person"));
+            item.setBooker(resultSet.getLong("booker"));
+            item.setItemId(resultSet.getLong("name"));
+            item.setDescription(resultSet.getString("description"));
+            item.setLink(resultSet.getString("link"));
+            item.setDueDate(resultSet.getString("due_date"));
+            item.setPriority(resultSet.getInt("priority"));
+            item.setRoot(resultSet.getLong("root"));
+            return item;
+        };
+    }
 }
