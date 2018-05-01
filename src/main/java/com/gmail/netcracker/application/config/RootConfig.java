@@ -199,7 +199,8 @@ public class RootConfig {
             event.setWidth(rs.getDouble("width"));
             event.setLongitude(rs.getDouble("longitude"));
             event.setEventPlaceName(rs.getString("eventplacename"));
-            event.setPeriodicity(rs.getInt("periodicity"));
+            event.setPeriodicity(rs.getString("periodicity"));
+            event.setPriority(rs.getString("priority"));
             return event;
         };
     }
@@ -211,6 +212,16 @@ public class RootConfig {
             eventType.setTypeId(resultSet.getInt("type_id"));
             eventType.setName(resultSet.getString("value"));
             return eventType;
+        };
+    }
+
+    @Bean
+    public RowMapper<Priority> priorityRowMapper() {
+        return (resultSet, i) -> {
+            Priority priority = new Priority();
+            priority.setPriorityId(resultSet.getInt("priority_id"));
+            priority.setName(resultSet.getString("value"));
+            return priority;
         };
     }
 

@@ -12,7 +12,8 @@ public class Event {
     private String dateEnd;
     private String placeId;
     private String placeAddress;
-    private int periodicity;
+    private String periodicity;
+    private String priority;
     private String type;
     private boolean draft;
     private int folder;

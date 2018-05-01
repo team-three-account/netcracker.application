@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.List;
 
-@Repository
+@Repository//TODO добавить priority в запросы
 public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.pkColumnName}")
     private String PK_COLUMN_NAME;
@@ -45,7 +45,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     private String SQL_UPDATE;
 
     @Value("${sql.event.findPersonEvents}")
-    private String SQL_FIND_PERSON_EVENTS;
+    private String SQL_FIND_PERSON_EVENTS;//TODO не учитывает isDraft;
 
     @Value("${sql.event.participate}")
     private String SQL_PARTICIPATE;
