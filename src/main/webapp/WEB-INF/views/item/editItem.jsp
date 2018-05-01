@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<form name="item" action="/update" method="post">
+<form name="item" action="/account/updateItem" method="post">
     <p>itemId</p>
     <input title="itemId" type="number" name="itemId" value="${item.itemId}">
     <p>personId</p>

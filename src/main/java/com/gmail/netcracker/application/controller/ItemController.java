@@ -29,7 +29,7 @@ public class ItemController {
         return "item/editItem";
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @RequestMapping(value = "/updateItem", method = RequestMethod.POST)
     public String updateItem(@ModelAttribute("item") Item item){
         itemService.update(item);
         return "redirect:/account/itemList";

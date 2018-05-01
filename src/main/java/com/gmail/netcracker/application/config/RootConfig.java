@@ -151,10 +151,10 @@ public class RootConfig {
     public DataSource
     dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
-        driver.setDriverClassName(env.getProperty("postgre.driver"));
-        driver.setUrl(env.getProperty("postgre.url"));
-        driver.setUsername(env.getProperty("postgre.username"));
-        driver.setPassword(env.getProperty("postgre.password"));
+        driver.setDriverClassName(env.getProperty("postgres.driver"));
+        driver.setUrl(env.getProperty("postgres.url"));
+        driver.setUsername(env.getProperty("postgres.username"));
+        driver.setPassword(env.getProperty("postgres.password"));
         return driver;
 
     }
@@ -177,6 +177,7 @@ public class RootConfig {
             user.setRole(resultSet.getString("role"));
             user.setPhone(resultSet.getString("phone"));
             user.setBirthdayDate(parseDateIntoString(resultSet.getDate("birthday")));
+            user.setPhoto(resultSet.getString("photo"));
             return user;
         };
     }
