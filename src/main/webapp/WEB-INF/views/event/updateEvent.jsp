@@ -51,7 +51,7 @@
                     <div class="form-group">
                         <label>Event type: </label>
                         <form:select path="type" class="form-control">
-                            <form:options items="${eventTypes}" itemValue="typeId" itemLabel="type"/>
+                            <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
                         </form:select>
                     </div>
                 </div>

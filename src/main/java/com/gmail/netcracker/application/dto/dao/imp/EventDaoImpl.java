@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.pkColumnName}")
-    private String PK_COLUMN_NAME = "event_id";
+    private String PK_COLUMN_NAME;
 
     @Value("${sql.event.add}")
     private String SQL_ADD;
@@ -29,8 +29,17 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.findListByCreator}")
     private String SQL_FIND_LIST_BY_CREATOR;
 
-    @Value("${sql.event.getEventTypes}")
-    private String SQL_GET_EVENT_TYPES;
+    @Value("${sql.event.findPublicEvents}")
+    private String SQL_FIND_PUBLIC_EVENTS;
+
+    @Value("${sql.event.findPrivateEvents}")
+    private String SQL_FIND_PRIVATE_EVENTS;
+
+    @Value("${sql.event.findFriendsEvents}")
+    private String SQL_FIND_FRIENDS_EVENTS;
+
+    @Value("${sql.event.findDrafts}")
+    private String SQL_FIND_DRAFTS;
 
     @Value("${sql.event.update}")
     private String SQL_UPDATE;
@@ -41,16 +50,13 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.participate}")
     private String SQL_PARTICIPATE;
 
-    private final RowMapper<Event> eventRowMapper;
-    private final RowMapper<Event> eventTypeRowMapper;
+    private final RowMapper<Event> rowMapper;
 
     @Autowired
     public EventDaoImpl(DataSource dataSource,
-                        @Qualifier("eventRowMapper") RowMapper<Event> eventRowMapper,
-                        @Qualifier("eventTypeRowMapper") RowMapper<Event> eventTypeRowMapper) {
+                        @Qualifier("eventRowMapper") RowMapper<Event> rowMapper) {
         super(dataSource);
-        this.eventRowMapper = eventRowMapper;
-        this.eventTypeRowMapper = eventTypeRowMapper;
+        this.rowMapper = rowMapper;
     }
 
     @Override
@@ -90,22 +96,37 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public Event getEvent(int eventId) {
-        return findEntity(SQL_FIND, eventRowMapper, eventId);
+        return findEntity(SQL_FIND, rowMapper, eventId);
     }
 
     @Override
     public List<Event> eventList() {
-        return findEntityList(SQL_FIND_LIST_BY_CREATOR, eventRowMapper);
+        return findEntityList(SQL_FIND_LIST_BY_CREATOR, rowMapper);
     }
 
     @Override
-    public List<Event> findAllEventTypes() {
-        return findEntityList(SQL_GET_EVENT_TYPES, eventTypeRowMapper);
+    public List<Event> findPublicEvents() {
+        return findEntityList(SQL_FIND_PUBLIC_EVENTS, rowMapper);
+    }
+
+    @Override
+    public List<Event> findPrivateEvents(Long userId) {
+        return findEntityList(SQL_FIND_PRIVATE_EVENTS, rowMapper, userId);
+    }
+
+    @Override
+    public List<Event> findFriendsEvents(Long userId) {
+        return findEntityList(SQL_FIND_FRIENDS_EVENTS, rowMapper, userId, userId);
+    }
+
+    @Override
+    public List<Event> findDrafts(Long userId) {
+        return findEntityList(SQL_FIND_DRAFTS, rowMapper, userId);
     }
 
     @Override
     public List<Event> getAllMyEvents(Long personId) {
-        return findEntityList(SQL_FIND_PERSON_EVENTS, eventRowMapper, personId);
+        return findEntityList(SQL_FIND_PERSON_EVENTS, rowMapper, personId);
     }
 
     @Override

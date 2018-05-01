@@ -129,6 +129,7 @@ public class AccountController {
         user.setPhotoFile(photoFile);
         Logger.getLogger(AccountController.class.getName()).info(user.toString());
         user.setPhoto(String.valueOf(System.currentTimeMillis()));
+        userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         photoService.saveFileInFileSystem(user.getPhotoFile(), user.getPhoto());
         photoService.saveFileInDB(user.getPhoto(), user.getId());
         userService.updateUser(user);

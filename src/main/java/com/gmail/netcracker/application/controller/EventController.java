@@ -1,6 +1,8 @@
 package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.EventType;
+import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 
-import java.util.Iterator;
 import java.util.List;
 
 @Controller
@@ -38,8 +39,13 @@ public class EventController {
 
     @RequestMapping(value = "/eventlist", method = RequestMethod.GET)
     public ModelAndView eventList(ModelAndView modelAndView) {
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.addObject("eventList", eventService.eventList());
+        User authUser = userService.getAuthenticatedUser();
+        Long userId = authUser.getId();
+        modelAndView.addObject("auth_user", authUser);
+        modelAndView.addObject("publicEventList", eventService.findPublicEvents());
+        modelAndView.addObject("privateEventList", eventService.findPrivateEvents(userId));
+        modelAndView.addObject("friendsEventList", eventService.findFriendsEvents(userId));
+        modelAndView.addObject("drafts", eventService.findDrafts(userId));
         modelAndView.addObject("noteList", noteService.noteList());
         modelAndView.setViewName("event/eventList");
         return modelAndView;
@@ -57,6 +63,7 @@ public class EventController {
                                      BindingResult result,
                                      @RequestParam(value = "hidden") String hidden,
                                      ModelAndView modelAndView) {
+        //TODO fix problem with drafts (problem in jsp and controller)
         modelAndView.setViewName("event/createNewEvent");
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
@@ -122,7 +129,7 @@ public class EventController {
     }
 
     @ModelAttribute("eventTypes")
-    public List<Event> findAllEventTypes() {
-        return eventService.findAllEventTypes();
+    public List<EventType> getAllEventTypes() {
+        return eventService.getAllEventTypes();
     }
 }

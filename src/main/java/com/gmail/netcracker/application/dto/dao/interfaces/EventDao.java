@@ -15,7 +15,13 @@ public interface EventDao {
 
     List<Event> eventList();
 
-    List<Event> findAllEventTypes();
+    List<Event> findPublicEvents();
+
+    List<Event> findPrivateEvents(Long userId);
+
+    List<Event> findFriendsEvents(Long userId);
+
+    List<Event> findDrafts(Long userId);
 
     List<Event> getAllMyEvents(Long personId);
 
