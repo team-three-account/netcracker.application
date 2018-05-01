@@ -52,6 +52,26 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> findPublicEvents() {
+        return eventDao.findPublicEvents();
+    }
+
+    @Override
+    public List<Event> findPrivateEvents(Long userId) {
+        return eventDao.findPrivateEvents(userId);
+    }
+
+    @Override
+    public List<Event> findFriendsEvents(Long userId) {
+        return eventDao.findFriendsEvents(userId);
+    }
+
+    @Override
+    public List<Event> findDrafts(Long userId) {
+        return eventDao.findDrafts(userId);
+    }
+
+    @Override
     public List<EventType> getAllEventTypes() {
         return eventTypeDao.getAllEventTypes();
     }

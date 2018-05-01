@@ -12,10 +12,11 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.List;
 
+//TODO fix problem with inserting drafts
 @Repository
 public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.pkColumnName}")
-    private String PK_COLUMN_NAME = "event_id";
+    private String PK_COLUMN_NAME;
 
     @Value("${sql.event.add}")
     private String SQL_ADD;
@@ -29,8 +30,17 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.findListByCreator}")
     private String SQL_FIND_LIST_BY_CREATOR;
 
-    @Value("${sql.event.getEventTypes}")
-    private String SQL_GET_EVENT_TYPES;
+    @Value("${sql.event.findPublicEvents}")
+    private String SQL_FIND_PUBLIC_EVENTS;
+
+    @Value("${sql.event.findPrivateEvents}")
+    private String SQL_FIND_PRIVATE_EVENTS;
+
+    @Value("${sql.event.findFriendsEvents}")
+    private String SQL_FIND_FRIENDS_EVENTS;
+
+    @Value("${sql.event.findDrafts}")
+    private String SQL_FIND_DRAFTS;
 
     @Value("${sql.event.update}")
     private String SQL_UPDATE;
@@ -93,6 +103,26 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public List<Event> eventList() {
         return findEntityList(SQL_FIND_LIST_BY_CREATOR, rowMapper);
+    }
+
+    @Override
+    public List<Event> findPublicEvents() {
+        return findEntityList(SQL_FIND_PUBLIC_EVENTS, rowMapper);
+    }
+
+    @Override
+    public List<Event> findPrivateEvents(Long userId) {
+        return findEntityList(SQL_FIND_PRIVATE_EVENTS, rowMapper, userId);
+    }
+
+    @Override
+    public List<Event> findFriendsEvents(Long userId) {
+        return findEntityList(SQL_FIND_FRIENDS_EVENTS, rowMapper, userId, userId, userId);
+    }
+
+    @Override
+    public List<Event> findDrafts(Long userId) {
+        return findEntityList(SQL_FIND_DRAFTS, rowMapper, userId);
     }
 
     @Override

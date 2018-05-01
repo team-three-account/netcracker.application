@@ -17,6 +17,14 @@ public interface EventService {
 
     List<Event> eventList();
 
+    List<Event> findPublicEvents();
+
+    List<Event> findPrivateEvents(Long userId);
+
+    List<Event> findFriendsEvents(Long userId);
+
+    List<Event> findDrafts(Long userId);
+
     List<EventType> getAllEventTypes();
 
     void setPersonId(Event event);

@@ -21,7 +21,7 @@
             </div>
 
             <div class="card-body eventCard">
-                <c:forEach var="emp" items="${eventList}">
+                <c:forEach var="emp" items="${publicEventList}">
                     <a href="<c:url value='/account/eventList/event-${emp.eventId}' />">
                         <ul class="list-unstyled mt-3 mb-4 eventCardItem">
                             <li>${emp.name}</li>
@@ -41,15 +41,99 @@
             </div>
 
         </div>
+
+        <div class="card col-md-3 box-shadow eventCategory">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal eventCategory">Friend Events</h4>
+            </div>
+            <div class="card-body eventCard">
+
+                <div class="card-body eventCard">
+                    <c:forEach var="emp" items="${friendsEventList}">
+                        <a href="<c:url value='/account/eventList/event-${emp.eventId}' />">
+                            <ul class="list-unstyled mt-3 mb-4 eventCardItem">
+                                <li>${emp.name}</li>
+                                <li>Start ${emp.dateStart}</li>
+                                <li>End ${emp.dateEnd}</li>
+                            </ul>
+                        </a>
+
+                        <form action="/account/participate" method="POST">
+                            <button type="submit" class="btn btn-success">
+                                <input type="hidden" name="event_id" value="${emp.eventId}"/>
+                                Participate </span>
+                            </button>
+                        </form>
+
+                    </c:forEach>
+                </div>
+
+
+            </div>
+        </div>
+
         <div class="card col-md-3 box-shadow eventCategory">
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal eventCategory">Private Events</h4>
             </div>
             <div class="card-body eventCard">
 
+                <div class="card-body eventCard">
+                    <c:forEach var="emp" items="${privateEventList}">
+                        <a href="<c:url value='/account/eventList/event-${emp.eventId}' />">
+                            <ul class="list-unstyled mt-3 mb-4 eventCardItem">
+                                <li>${emp.name}</li>
+                                <li>Start ${emp.dateStart}</li>
+                                <li>End ${emp.dateEnd}</li>
+                            </ul>
+                        </a>
+
+                        <form action="/account/participate" method="POST">
+                            <button type="submit" class="btn btn-success">
+                                <input type="hidden" name="event_id" value="${emp.eventId}"/>
+                                Participate </span>
+                            </button>
+                        </form>
+
+                    </c:forEach>
+                </div>
+
 
             </div>
         </div>
+
+
+        <div class="card col-md-3 box-shadow eventCategory">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal eventCategory">Drafts</h4>
+            </div>
+            <div class="card-body eventCard">
+
+                <div class="card-body eventCard">
+                    <c:forEach var="emp" items="${drafts}">
+                        <a href="<c:url value='/account/eventList/event-${emp.eventId}' />">
+                            <ul class="list-unstyled mt-3 mb-4 eventCardItem">
+                                <li>${emp.name}</li>
+                                <li>Start ${emp.dateStart}</li>
+                                <li>End ${emp.dateEnd}</li>
+                            </ul>
+                        </a>
+
+                        <form action="/account/participate" method="POST">
+                            <button type="submit" class="btn btn-success">
+                                <input type="hidden" name="event_id" value="${emp.eventId}"/>
+                                Participate </span>
+                            </button>
+                        </form>
+
+                    </c:forEach>
+                </div>
+
+
+            </div>
+        </div>
+
+
         <div class="card col-md-3 box-shadow eventCategory">
             <div class="card-header">
                 <h4 class="my-0 font-weight-normal eventCategory">Notes</h4>
