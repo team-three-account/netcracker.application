@@ -1,4 +1,4 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: anyat
@@ -17,59 +17,46 @@
 <body>
 
 <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar menu">
-            <ul class="nav nav-sidebar">
-                <li><a href="/account">${auth_user.name} ${auth_user.surname}</a></li>
-                <li><a href="#">${auth_user.email}</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li style="background-color : #dee5fc"><a href="/account/friends">Friends</a></li>
-                <li><a href="/account/friends/incoming">Incoming requests</a></li>
-                <li><a href="/account/friends/outgoing">Outgoing requests</a></li>
-                <li><a href="#">Events</a></li>
-                <li><a href="#">Calendar</a></li>
-                <li><a href="#">Wish List</a></li>
-            </ul>
-        </div>
-        <div class="container" style="padding : 7%">
-            <div class="card card-register mx-auto mt-5 col-md-6">
-                <h1>Search for friends</h1>
-                    <form method="POST"
-                          class="forms_form" action="/account/friends/add">
+<div class="row">
+    <div class="col-md-3">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+    </div>
+    <div class="col-md-9">
+        <div class="card card-register">
+            <h1>Search for friends</h1>
+            <form method="POST"
+                  class="forms_form" action="/account/friends/add">
 
-                        <div class="form-group">
-                            <input name="search" id="search"  placeholder="Enter name or surname"/>
-                            <input type="submit" value="Search" class="btn btn-dark" href="/">
-                        </div>
-                    </form>
-
-                <table>
-                    <tr>
-                        <th>Photo (id) </th>
-                        <th>Name Surname </th>
-                        <th>Action</th>
-                    </tr>
-
-                    <c:forEach var="friend" items="${foundFriends}">
-                        <tr>
-                            <td>${friend.id}</td>
-                            <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
-                            <td>
-                                <form action="/account/friends/add-friend" method="POST">
-                                    <button type="submit" >
-                                        <input type="hidden" name="friend_id" value=${friend.id} />
-                                        Add </span>
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                    </c:forEach>
-
-                </table>
+                <div class="form-group">
+                    <input name="search" id="search" placeholder="Enter name or surname"/>
+                    <input type="submit" value="Search" class="btn btn-dark" href="/">
                 </div>
+            </form>
 
+            <table>
+                <tr>
+                    <th>Photo (id)</th>
+                    <th>Name Surname</th>
+                    <th>Action</th>
+                </tr>
+
+                <c:forEach var="friend" items="${foundFriends}">
+                    <tr>
+                        <td><img class="img-circle" style="width: 50px;height: 50px"
+                                 src="<c:url value="/account/image/${friend.photo}.jpg"/>"></td>
+                        <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
+                        <td>
+                            <form action="/account/friends/add-friend" method="POST">
+                                <button type="submit">
+                                    <input type="hidden" name="friend_id" value=${friend.id}/>
+                                    Add </span>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </c:forEach>
+
+            </table>
         </div>
     </div>
 </div>

@@ -78,11 +78,11 @@
 
                 <div class="form-group">
                     <label class="control-label">Date of birthday</label>
-                    <div class="input-group date" data-provide="datepicker">
-                        <form:input type="text" class="form-control" path="birthdayDate"/>
-                        <div class="input-group-addon">
-                            <span class="glyphicon glyphicon-th"></span>
-                        </div>
+                    <div class="form-group">
+                        <label>End_date: </label>
+                        <form:input path="birthdayDate" id="dateEnd" type="date" class="form-control"
+                                    placeholder="Enter event end date"/>
+                        <form:errors path="birthdayDate" cssClass="error"/>
                     </div>
                     <form:errors path="birthdayDate" cssClass="error"/>
                 </div>

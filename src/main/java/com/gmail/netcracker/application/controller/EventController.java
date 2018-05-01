@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.service.interfaces.EventService;
+import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +20,27 @@ import java.util.List;
 public class EventController {
 
     private final EventService eventService;
+    private final NoteService noteService;
 
     private final UserService userService;
 
     private final RegisterAndUpdateEventValidator eventValidator;
 
     @Autowired
-    public EventController(EventService eventService, UserService userService, RegisterAndUpdateEventValidator eventValidator) {
+    public EventController(EventService eventService, NoteService noteService, UserService userService,
+                           RegisterAndUpdateEventValidator eventValidator) {
         this.eventService = eventService;
+        this.noteService = noteService;
         this.userService = userService;
         this.eventValidator = eventValidator;
     }
+
 
     @RequestMapping(value = "/eventlist", method = RequestMethod.GET)
     public ModelAndView eventList(ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("eventList", eventService.eventList());
+        modelAndView.addObject("noteList", noteService.noteList());
         modelAndView.setViewName("event/eventList");
         return modelAndView;
     }

@@ -72,15 +72,6 @@ public class ExceptionController {
         );
     }
 
-
-    *//**
-     * Перехват BadRequestException
-     * исключения (http статус 400).
-     *
-     * @param exception Объект исключения BadRequestException.
-     * @param request   Объект интерфейса HttpServletRequest.
-     * @return Объект класса {@link ModelAndView}.
-     *//*
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ModelAndView badRequestException(
@@ -94,15 +85,7 @@ public class ExceptionController {
         );
     }
 
-    *//**
-     * Перехват ForbiddenException
-     * исключения (http статус 403).
-     *
-     * @param exception Объект исключения
-     *                  ForbiddenException.
-     * @param request   Объект интерфейса HttpServletRequest.
-     * @return Объект класса {@link ModelAndView}.
-     *//*
+
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ModelAndView forbiddenException(
@@ -116,12 +99,7 @@ public class ExceptionController {
         );
     }
 
-    *//**
-     * Перехват всех остальных
-     * исключения (http статус 500).
-     *
-     * @return Объект класса {@link ModelAndView}.
-     *//*
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView otherException(

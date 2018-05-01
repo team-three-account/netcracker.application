@@ -7,6 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<c:set var="catalina" value="<%!Sys%>]"/>
 <html>
 <head>
     <title>Info</title>
@@ -24,6 +25,10 @@
     <div class="col-md-9 content">
         <table class="table">
             <tbody>
+            <tr>
+                <td>Avatar:</td>
+                <td><img class="img-circle" style="width: 200px;height: 200px" src="<c:url value="/account/image/${auth_user.photo}.jpg"/>"></td>
+            </tr>
             <tr>
                 <td>Name:</td>
                 <td>${auth_user.name}</td>
@@ -45,7 +50,7 @@
                 <td>${auth_user.phone}</td>
             </tr>
             </tbody>
-            <a href="<c:url value="/account/settings"/>">
+            <a href="<c:url value="/account/settings-user/${auth_user.id}"/>">
                 <input type="button" class="btn btn-dark" value="Edit information">
             </a>
             <a href="<c:url value="/account/resetpassword"/>">

@@ -48,13 +48,6 @@
                                     placeholder="Enter event end date"/>
                         <form:errors path="dateEnd" cssClass="error"/>
                     </div>
-
-                        <%--<div class="form-group">--%>
-                        <%--<label>period</label>--%>
-                        <%--<form:input path="periodicity" id="periodicity" type="text" class="form-control"--%>
-                        <%--placeholder="Enter periodicity"/>--%>
-                        <%--<form:errors path="periodicity" cssClass="error"/>--%>
-                        <%--</div>--%>
                     <div class="form-group">
                         <label>Event type: </label>
                         <form:select path="type" class="form-control">
@@ -62,11 +55,6 @@
                         </form:select>
                     </div>
                 </div>
-                <%--<div class="form-group">--%>
-                <%--<label>Folder</label>--%>
-                <%--<form:input path="folder" id="folder" type="text" class="form-control" placeholder="Enter foler"/>--%>
-                <%--<form:errors path="folder" cssClass="error"/>--%>
-                <%--</div>--%>
                 <div class="col-md-6">
                     <form:input path="width" type="hidden" id="latitude"></form:input>
                     <form:input path="longitude" type="hidden" id="longitude"></form:input>

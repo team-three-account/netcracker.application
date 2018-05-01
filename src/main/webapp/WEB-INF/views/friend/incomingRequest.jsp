@@ -16,7 +16,6 @@
     <!-- Custom styles for this template-->
 </head>
 <body>
-
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
     <div class="col-md-3"
@@ -36,7 +35,8 @@
     <table class="table">
         <c:forEach var="friend" items="${incomingList}">
             <tr>
-                <td><img class="card-img-top" src="" alt="Card image cap"></td>
+                <td><img class="img-circle" style="width: 50px;height: 50px"
+                         src="<c:url value="/account/image/${friend.photo}.jpg"/>"></td>
                 <td><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></td>
                 <td>
                     <form action="/account/friends/accept-request" method="POST">
