@@ -1,14 +1,14 @@
 package com.gmail.netcracker.application.dto.model;
 
-public class Pereodicity {
+public class Periodicity {
     private String per_id;
     private String frequency;
     private int value;
 
-    public Pereodicity() {
+    public Periodicity() {
     }
 
-    public Pereodicity(String per_id, String frequency, int value) {
+    public Periodicity(String per_id, String frequency, int value) {
         this.per_id = per_id;
         this.frequency = frequency;
         this.value = value;
@@ -41,7 +41,7 @@ public class Pereodicity {
 
     @Override
     public String toString() {
-        return "Pereodicity{" +
+        return "Periodicity{" +
                 "per_id=" + per_id +
                 ", frequency='" + frequency + '\'' +
                 ", value='" + value + '\'' +
