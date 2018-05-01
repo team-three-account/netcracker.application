@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.List;
 
-//TODO fix problem with inserting drafts
 @Repository
 public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.pkColumnName}")
@@ -117,7 +116,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public List<Event> findFriendsEvents(Long userId) {
-        return findEntityList(SQL_FIND_FRIENDS_EVENTS, rowMapper, userId, userId, userId);
+        return findEntityList(SQL_FIND_FRIENDS_EVENTS, rowMapper, userId, userId);
     }
 
     @Override

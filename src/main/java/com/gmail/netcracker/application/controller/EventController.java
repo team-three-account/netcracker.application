@@ -63,6 +63,7 @@ public class EventController {
                                      BindingResult result,
                                      @RequestParam(value = "hidden") String hidden,
                                      ModelAndView modelAndView) {
+        //TODO fix problem with drafts (problem in jsp and controller)
         modelAndView.setViewName("event/createNewEvent");
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
