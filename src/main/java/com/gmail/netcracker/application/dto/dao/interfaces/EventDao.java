@@ -1,6 +1,7 @@
 package com.gmail.netcracker.application.dto.dao.interfaces;
 
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.User;
 
 import java.util.List;
 
@@ -26,4 +27,8 @@ public interface EventDao {
     List<Event> getAllMyEvents(Long personId);
 
     void participate(Long user_id, long event_id);
+
+    int getParticipantsCount(int eventId);
+
+    List<User> getParticipants(long event_id);
 }

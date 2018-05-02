@@ -133,10 +133,10 @@ public class RootConfig {
     public DataSource
     dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
-        driver.setDriverClassName(env.getProperty("postgres.driver"));
-        driver.setUrl(env.getProperty("postgres.url"));
-        driver.setUsername(env.getProperty("postgres.username"));
-        driver.setPassword(env.getProperty("postgres.password"));
+        driver.setDriverClassName(env.getProperty("postgre.driver"));
+        driver.setUrl(env.getProperty("postgre.url"));
+        driver.setUsername(env.getProperty("postgre.username"));
+        driver.setPassword(env.getProperty("postgre.password"));
         return driver;
 
     }
@@ -228,13 +228,25 @@ public class RootConfig {
     }
 
     @Bean
-    public RowMapper<Friend> friendRowMapper() {
+    public RowMapper<Friend> friendshipRowMapper() {
         return (resultSet, i) -> {
             Friend friendship = new Friend();
             friendship.setRecipient(resultSet.getLong("recipient"));
             friendship.setSender(resultSet.getLong("sender"));
             friendship.setAccepted(resultSet.getBoolean("isAccepted"));
             return friendship;
+        };
+    }
+
+    @Bean
+    public RowMapper<User> friendRowMapper() {
+        return (resultSet, i) -> {
+            User user = new User();
+            user.setId(resultSet.getLong("person_id"));
+            user.setName(resultSet.getString("name"));
+            user.setSurname(resultSet.getString("surname"));
+            user.setPhoto(resultSet.getString("photo"));
+            return user;
         };
     }
 

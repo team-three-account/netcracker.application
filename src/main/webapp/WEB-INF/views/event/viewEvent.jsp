@@ -29,6 +29,7 @@
                         <li>Start : ${event.dateStart}</li>
                         <li>End : ${event.dateEnd}</li>
                         <li>Place : ${event.eventPlaceName}</li>
+                        <li>Participants : <a href="/account/event-${event.eventId}/participants"> ${participants} people</a> </li>
                         <c:if test="${auth_user.id.equals(user_creator.id)}">
                             <li>
                                 <a href="/account/eventList/editevent-${event.eventId}">

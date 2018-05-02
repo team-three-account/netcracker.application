@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.service.interfaces;
 
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.EventType;
+import com.gmail.netcracker.application.dto.model.User;
 
 import java.util.List;
 
@@ -32,4 +33,8 @@ public interface EventService {
     List<Event> getAllMyEvents();
 
     void participate(Long user_id, long event_id);
+
+    int countParticipants(int eventId);
+
+    List<User> getParticipants(long event_id);
 }

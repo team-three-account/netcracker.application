@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.EventTypeDao;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.EventType;
+import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -89,6 +90,16 @@ public class EventServiceImpl implements EventService {
     @Override
     public void participate(Long user_id, long event_id) {
         eventDao.participate(user_id, event_id);
+    }
+
+    @Override
+    public int countParticipants(int eventId) {
+        return eventDao.getParticipantsCount(eventId);
+    }
+
+    @Override
+    public List<User> getParticipants(long event_id) {
+        return eventDao.getParticipants(event_id);
     }
 
 }
