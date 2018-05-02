@@ -14,6 +14,9 @@ import java.util.List;
 @Repository
 public class ItemDaoImpl extends ModelDao implements ItemDao {
 
+    @Value("${sql.item.pkColumnName}")
+    private String PK_COLUMN_NAME = "item_id";
+
     @Value("${sql.item.add}")
     private String ADD_ITEM;
 
@@ -32,7 +35,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.itemList}")
     private String ALL_ITEM;
 
-   private final RowMapper<Item> itemRowMapper;
+    private final RowMapper<Item> itemRowMapper;
 
     @Autowired
     public ItemDaoImpl(DataSource dataSource, RowMapper<Item> itemRowMapper) {
@@ -42,13 +45,13 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Override
     public void add(Item item) {
-        jdbcTemplate.update(ADD_ITEM, item.getItemId(), item.getPersonId(), item.getBooker(), item.getLink(),
-                item.getDueDate(), item.getPriority(), item.getRoot());
+        jdbcTemplate.update(ADD_ITEM, item.getPersonId(), item.getBooker(), item.getName(), item.getDescription(),
+                item.getLink(), item.getDueDate(), item.getPriority(), item.getRoot());
     }
 
     @Override
     public void update(Item item) {
-        jdbcTemplate.update(UPDATE_ITEM, item.getPersonId(), item.getBooker(), item.getName(), item.getLink(),
+        jdbcTemplate.update(UPDATE_ITEM, item.getPersonId(), item.getBooker(), item.getName(),item.getDescription(), item.getLink(),
                 item.getDueDate(), item.getPriority(), item.getRoot(), item.getItemId());
     }
 

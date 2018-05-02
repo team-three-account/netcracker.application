@@ -102,4 +102,15 @@ public class EventServiceImpl implements EventService {
         return eventDao.getParticipants(event_id);
     }
 
+    @Override
+    public boolean isParticipated(Long id, int eventId) {
+        int count = eventDao.isParticipated(id, eventId);
+        return count>0 ? true : false;
+    }
+
+    @Override
+    public void unsubscribe(long id, long event_id) {
+        eventDao.unsubscribe(id, event_id);
+    }
+
 }

@@ -110,4 +110,8 @@ public abstract class ModelDao {
     protected int countRows(String sql, int id) {
         return jdbcTemplate.queryForObject(sql, new Object[] { id }, Integer.class);
     }
+
+    protected int countRows(String sql, Long id, int eventId) {
+        return jdbcTemplate.queryForObject(sql, new Object[] { id, eventId }, Integer.class);
+    }
 }

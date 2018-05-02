@@ -37,4 +37,8 @@ public interface EventService {
     int countParticipants(int eventId);
 
     List<User> getParticipants(long event_id);
+
+    boolean isParticipated(Long id, int eventId);
+
+    void unsubscribe(long id, long event_id);
 }

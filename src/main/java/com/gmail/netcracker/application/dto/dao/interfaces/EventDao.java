@@ -31,4 +31,8 @@ public interface EventDao {
     int getParticipantsCount(int eventId);
 
     List<User> getParticipants(long event_id);
+
+    int isParticipated(Long id, int eventId);
+
+    void unsubscribe(long id, long event_id);
 }

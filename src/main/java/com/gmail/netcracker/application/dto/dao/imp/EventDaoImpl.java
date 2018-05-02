@@ -57,6 +57,12 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.getParticipants}")
     private String SQL_GET_PARTICIPANTS;
 
+    @Value("${sql.event.isParticipated}")
+    private String SQL_IS_PARTICIPATED;
+
+    @Value("${sql.event.unsubscribe}")
+    private String SQL_UNSUBSCRIBE;
+
     private final RowMapper<Event> rowMapper;
     private final RowMapper<User> participantRowMapper;
 
@@ -155,6 +161,16 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public List<User> getParticipants(long event_id) {
         return findEntityList(SQL_GET_PARTICIPANTS, participantRowMapper, event_id);
+    }
+
+    @Override
+    public int isParticipated(Long id, int eventId) {
+        return countRows(SQL_IS_PARTICIPATED, id, eventId);
+    }
+
+    @Override
+    public void unsubscribe(long id, long event_id) {
+        deleteEntity(SQL_UNSUBSCRIBE, id, event_id);
     }
 }
 

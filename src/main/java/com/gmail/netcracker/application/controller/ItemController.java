@@ -23,18 +23,18 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-        @RequestMapping(value = "/update/{itemName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/update-{itemName}", method = RequestMethod.GET)
     public String updateItemPage(@PathVariable("itemName") String itemName, Model model) {
-       model.addAttribute("update", itemService.getByItemName(itemName));
+        model.addAttribute("item", itemService.getByItemName(itemName));
         return "item/editItem";
     }
 
     @RequestMapping(value = "/updateItem", method = RequestMethod.POST)
-    public String updateItem(@ModelAttribute("item") Item item){
+    public String updateItem(@ModelAttribute("itemUpdate") Item item){
         itemService.update(item);
         return "redirect:/account/itemList";
     }
-    @RequestMapping(value = "/deleteItem/{itemId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/itemList/deleteItem-{itemId}", method = RequestMethod.GET)
     public String deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.delete(itemId);
         return "redirect:/account/itemList";
@@ -57,13 +57,13 @@ public class ItemController {
         return "item/itemList";
     }
 
-    @RequestMapping(value = "/item/{itemName}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getItem-{itemName}", method = RequestMethod.GET)
     public String getByItemName(@PathVariable("itemName") String itemName, Model model){
         model.addAttribute("item", itemService.getByItemName(itemName));
         return "item/findByName";
     }
 
-    @RequestMapping(value = {"/personItemList/{personId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/personItemList-{personId}"}, method = RequestMethod.GET)
     public String findItemByPersonId(@PathVariable("personId") Long personId, Model model) {
         model.addAttribute("personItemList", itemService.findItemByPersonId(personId));
         return "item/findItemByPersonId";
