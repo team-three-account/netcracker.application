@@ -137,7 +137,7 @@ public class EventController {
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
     public String deleteFriend(@RequestParam(value = "event_id") String event_id) {
         eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(event_id));
-        return "redirect:/account/myevents";
+        return "redirect:/account/viewEvent";
     }
 
     @RequestMapping(value = "/myevents", method = RequestMethod.GET)
@@ -158,5 +158,14 @@ public class EventController {
         List<User> participantList = eventService.getParticipants( Long.parseLong(eventId));
         model.addAttribute("participantList", participantList);
         return "event/participants";
+    }
+
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String newr( Model model) {
+        User auth_user = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        model.addAttribute("publicEventList", eventService.findPublicEvents());
+        model.addAttribute("friendsEventList", eventService.findFriendsEvents(auth_user.getId()));
+        return "event/new";
     }
 }
