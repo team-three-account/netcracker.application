@@ -28,29 +28,29 @@
     </tr>
     <c:forEach var="item" items="${itemList}">
         <tr>
-            <td><form method="update" action="/update/${item.name}">
+            <td><form method="update" action="/account/update-${item.name}">
                 <input type="submit" value="edit"></form></td>
             <td>${item.itemId}</td>
-            <td><a href="/personItemList/${item.personId}">${item.personId}</a></td>
+            <td><a href="/account/personItemList-${item.personId}">${item.personId}</a></td>
             <td>${item.booker}</td>
-            <td><a href="/update/${item.name}">${item.name}</a></td>
+            <td><a href="/account/getItem-${item.name}">${item.name}</a></td>
             <td>${item.description}</td>
             <td>${item.link}</td>
             <td><c:out value="${item.dueDate}" escapeXml="false"/></td>
             <td><c:out value="${item.priority}" escapeXml="false"/></td>
             <td><c:out value="${item.root}" escapeXml="false"/></td>
-            <%--<td><a href="/deleteItem/${item.itemId}">Delete</a></td>--%>
-            <td><form method="delete" action="/deleteItem/${item.itemId}">
+                <%--<td><a href="/deleteItem/${item.itemId}">Delete</a></td>--%>
+            <td><form method="delete" action="/account/itemList/deleteItem-${item.itemId}">
                 <input type="submit" value="✘"></form></td>
         </tr>
     </c:forEach>
 </table>
 
-<form method="link" action="/addItem">
+<form method="link" action="/account/addItem">
     <input type="submit" value="add Item">
 </form>
-    <form method="homeLink" action="/account">
-        <input type="submit" value="home">
+<form method="homeLink" action="/account">
+    <input type="submit" value="home">
 </form>
 </body>
 </html>

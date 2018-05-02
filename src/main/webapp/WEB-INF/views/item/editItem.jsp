@@ -11,16 +11,15 @@
     <title>Update item</title>
 </head>
 <body>
-
 <form name="item" action="/account/updateItem" method="post">
     <p>itemId</p>
-    <input title="itemId" type="number" name="itemId" value="${item.itemId}">
+    <p> value="${item.itemId}"</p>
     <p>personId</p>
     <input title="personId" type="number" name="personId" value="${item.personId}">
     <p>booker</p>
     <input title="booker" type="number" name="booker" value="${item.booker}">
-    <p>itemName</p>
-    <input title="itemName" type="text" name="itemName" value="${item.itemName}">
+    <p>item</p>
+    <input title="name" type="text" name="name" value="${item.name}">
     <p>description</p>
     <input title="description" type="text" name="description" value="${item.description}">
     <p>link</p>

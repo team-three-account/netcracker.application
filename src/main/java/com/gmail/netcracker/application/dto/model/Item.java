@@ -2,6 +2,8 @@ package com.gmail.netcracker.application.dto.model;
 
 import lombok.Data;
 
+import java.sql.Date;
+
 @Data
 public class Item {
     private Long itemId;
@@ -10,7 +12,7 @@ public class Item {
     private String name;
     private String description;
     private String link;
-    private String dueDate;
+    private Date dueDate;
     private int priority;
     private Long root;
 }

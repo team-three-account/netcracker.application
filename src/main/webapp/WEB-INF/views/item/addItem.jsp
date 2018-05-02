@@ -6,21 +6,18 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Add new item</title>
 </head>
 <body>
-<form name="item" action="/addItem" method="post">
-    <p>itemId</p>
-    <input title="itemId" type="number" name="itemId">
+<form name="item" action="/account/addItem" method="post">
     <p>personId</p>
     <input title="personId" type="number" name="personId">
     <p>booker</p>
     <input title="booker" type="number" name="booker">
     <p>itemName</p>
-    <input title="itemName" type="text" name="itemName">
+    <input title="itemName" type="text" name="name">
     <p>description</p>
     <input title="description" type="text" name="description">
     <p>link</p>

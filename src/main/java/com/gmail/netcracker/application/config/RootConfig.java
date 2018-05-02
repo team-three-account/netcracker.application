@@ -120,6 +120,12 @@ public class RootConfig {
     }
 
     @Bean
+    Item item() {return new Item();}
+
+    @Bean
+    ItemService itemService() {return new ItemServiceImpl();}
+
+    @Bean
     LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
@@ -264,10 +270,10 @@ public class RootConfig {
             item.setItemId(resultSet.getLong("item_id"));
             item.setPersonId(resultSet.getLong("person"));
             item.setBooker(resultSet.getLong("booker"));
-            item.setItemId(resultSet.getLong("name"));
+            item.setName(resultSet.getString("name"));
             item.setDescription(resultSet.getString("description"));
             item.setLink(resultSet.getString("link"));
-            item.setDueDate(resultSet.getString("due_date"));
+            item.setDueDate(resultSet.getDate("due_date"));
             item.setPriority(resultSet.getInt("priority"));
             item.setRoot(resultSet.getLong("root"));
             return item;

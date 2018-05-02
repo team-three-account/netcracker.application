@@ -27,7 +27,7 @@
     </tr>
     <tr>
         <td>Name</td>
-        <td>${item.itemName}</td>
+        <td>${item.name}</td>
     </tr>
     <tr>
         <td>Description</td>

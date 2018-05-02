@@ -32,7 +32,7 @@
             <td>${personItem.itemId}</td>
             <td>${personItem.personId}</td>
             <td><c:out value="${personItem.booker}" escapeXml="false"/></td>
-            <td>${personItem.itemName}</td>
+            <td>${personItem.name}</td>
             <td>${personItem.description}</td>
             <td><c:out value="${personItem.link}" escapeXml="false"/></td>
             <td><c:out value="${personItem.dueDate}" escapeXml="false"/></td>
@@ -43,3 +43,4 @@
 </table>
 </body>
 </html>
+
