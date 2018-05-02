@@ -4,10 +4,11 @@
 
 <html>
 <head>
-    <title>Create New Event </title>
+    <title>Create New Note </title>
 
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+
 </head>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
@@ -26,14 +27,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Note Name: </label>
-                        <form:input path="name" id="name" type="text" class="form-control"
+                        <form:input path="name" id="name" type="text" class="form-control decodingHtml"
                                     placeholder="Enter note name"/>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>Description: </label>
-                        <form:textarea path="description" id="description" type="text" class="form-control"
-                                    placeholder="Enter note description"/>
+                        <form:textarea path="description" id="description" type="text" class="form-control decodingHtml"
+                                       placeholder="Enter note description"/>
                         <form:errors path="description" cssClass="error"/>
                     </div>
 
@@ -45,4 +46,5 @@
     </div>
 </div>
 </body>
+<script src='${contextPath}/resources/js/pamCode.js'></script>
 </html>

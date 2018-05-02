@@ -6,6 +6,7 @@ import com.gmail.netcracker.application.service.imp.*;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
+import com.gmail.netcracker.application.validation.NoteValidator;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
@@ -111,6 +112,11 @@ public class RootConfig {
     @Bean
     NoteService noteService() {
         return new NoteServiceImpl();
+    }
+
+    @Bean
+    NoteValidator noteValidator() {
+        return new NoteValidator();
     }
 
     @Bean

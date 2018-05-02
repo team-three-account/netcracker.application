@@ -79,8 +79,7 @@
                 <div class="form-group">
                     <label class="control-label">Date of birthday</label>
                     <div class="form-group">
-                        <label>End_date: </label>
-                        <form:input path="birthdayDate" id="dateEnd" type="date" class="form-control"
+                        <form:input path="birthdayDate" id="dateEnd" type="date" class="form-control dateValid"
                                     placeholder="Enter event end date"/>
                         <form:errors path="birthdayDate" cssClass="error"/>
                     </div>
@@ -109,6 +108,6 @@
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 <script src="${contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
-<script src="${contextPath}/resources/js/google.js"></script>
+<script src='${contextPath}/resources/js/pamCode.js'></script>
 </body>
 </html>
