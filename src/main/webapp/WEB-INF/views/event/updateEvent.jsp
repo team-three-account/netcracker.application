@@ -22,7 +22,7 @@
     <div class="card card-register">
         <div class="card-header">Update Event</div>
         <div class="card-body">
-            <form:form method="POST" modelAttribute="editEvent" class="forms_form">
+            <form:form method="POST" modelAttribute="editEvent" class="forms_form" enctype="multipart/form-data">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Photo: </label>

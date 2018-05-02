@@ -107,7 +107,8 @@ public class EventController {
 
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.GET)
-    public ModelAndView editEvent(@PathVariable int eventId, ModelAndView modelAndView) {
+    public ModelAndView editEvent(@PathVariable int eventId,
+                                  ModelAndView modelAndView) {
         modelAndView.addObject("editEvent", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("event/updateEvent");
@@ -116,9 +117,13 @@ public class EventController {
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.POST)
     public ModelAndView updateEvent(@ModelAttribute("editEvent") Event event,
+                                    @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                     BindingResult result,
                                     ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        event.setPhoto(String.valueOf(System.currentTimeMillis()));
+        photoService.saveFileInFileSystem(multipartFile,event.getPhoto());
+        photoService.saveFileInDB(event.getPhoto(),Long.parseLong(String.valueOf(event.getEventId())));
         modelAndView.setViewName("event/updateEvent");
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
