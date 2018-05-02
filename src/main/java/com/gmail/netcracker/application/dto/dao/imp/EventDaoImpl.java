@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.Utilites;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,13 +51,23 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.participate}")
     private String SQL_PARTICIPATE;
 
+    @Value("${sql.event.countParticipants}")
+    private String SQL_COUNT_PARTICIPANTS;
+
+    @Value("${sql.event.getParticipants}")
+    private String SQL_GET_PARTICIPANTS;
+
     private final RowMapper<Event> rowMapper;
+    private final RowMapper<User> participantRowMapper;
+
 
     @Autowired
     public EventDaoImpl(DataSource dataSource,
-                        @Qualifier("eventRowMapper") RowMapper<Event> rowMapper) {
+                        @Qualifier("eventRowMapper") RowMapper<Event> rowMapper,
+                        @Qualifier("friendRowMapper") RowMapper<User> participantRowMapper) {
         super(dataSource);
         this.rowMapper = rowMapper;
+        this.participantRowMapper = participantRowMapper;
     }
 
     @Override
@@ -132,6 +143,16 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public void participate(Long user_id, long event_id) {
         updateEntity(SQL_PARTICIPATE, user_id, event_id);
+    }
+
+    @Override
+    public int getParticipantsCount(int eventId) {
+        return countRows(SQL_COUNT_PARTICIPANTS, eventId);
+    }
+
+    @Override
+    public List<User> getParticipants(long event_id) {
+        return findEntityList(SQL_GET_PARTICIPANTS, participantRowMapper, event_id);
     }
 }
 

@@ -106,4 +106,8 @@ public abstract class ModelDao {
     protected <E> Set<E> findEntitySet(String sql, RowMapper<E> rowMapper, Integer limit, Integer offset, Object... params) {
         return new HashSet<>(findEntityList(sql, rowMapper, limit, offset, params));
     }
+
+    protected int countRows(String sql, int id) {
+        return jdbcTemplate.queryForObject(sql, new Object[] { id }, Integer.class);
+    }
 }

@@ -9,6 +9,7 @@ import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -86,6 +87,8 @@ public class EventController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("event", eventService.getEvent(eventId));
         modelAndView.addObject("user_creator", userService.findUserById(eventService.getEvent(eventId).getCreator()));
+        int participants = eventService.countParticipants(eventId);
+        modelAndView.addObject("participants", participants );
         modelAndView.setViewName("event/viewEvent");
         return modelAndView;
     }
@@ -131,5 +134,12 @@ public class EventController {
     @ModelAttribute("eventTypes")
     public List<EventType> getAllEventTypes() {
         return eventService.getAllEventTypes();
+    }
+
+    @RequestMapping(value = "/event-{eventId}/participants", method = RequestMethod.GET)
+    public String getParticipants(@PathVariable(value = "eventId") String eventId, Model model) {
+        List<User> participantList = eventService.getParticipants( Long.parseLong(eventId));
+        model.addAttribute("participantList", participantList);
+        return "event/participants";
     }
 }

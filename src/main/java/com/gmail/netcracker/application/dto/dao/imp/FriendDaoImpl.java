@@ -22,8 +22,8 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
     @Value("${sql.friend.findUserByNameAndSurname}")
     private String SQL_FIND_USER_BY_NAME_AND_SURNAME;  //TODO use LIKE
 
-    @Value("${sql.friend.findRequestedUserById}")
-    private String SQL_FIND_REQUESTED_USER_BY_ID;
+    @Value("${sql.friend.findFriendshipById}")
+    private String SQL_FIND_FRIENDSHIP_BY_ID;
 
     @Value("${sql.friend.addRequestedUser}")
     private String SQL_ADD_REQUESTED_USER;
@@ -50,12 +50,12 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
     private String SQL_FIND_FRIEND_BY_NAME_AND_SURNAME;
 
     private final RowMapper<User> userRowMapper;
-    private final RowMapper<Friend> friendRowMapper;
+    private final RowMapper<Friend> friendshipRowMapper;
 
     @Autowired
-    public FriendDaoImpl(DataSource dataSource, RowMapper<Friend> friendRowMapper, RowMapper<User> userRowMapper) {
+    public FriendDaoImpl(DataSource dataSource, RowMapper<Friend> friendshipRowMapper, RowMapper<User> userRowMapper) {
         super(dataSource);
-        this.friendRowMapper = friendRowMapper;
+        this.friendshipRowMapper = friendshipRowMapper;
         this.userRowMapper = userRowMapper;
     }
 
@@ -83,7 +83,7 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
 
     @Override
     public Friend getFriendshipById(Long person_id, Long friend_id) {
-        return findEntity(SQL_FIND_REQUESTED_USER_BY_ID, friendRowMapper,
+        return findEntity(SQL_FIND_FRIENDSHIP_BY_ID, friendshipRowMapper,
                 person_id, friend_id, person_id, friend_id);
     }
 

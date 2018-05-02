@@ -102,7 +102,7 @@ public class FriendController {
     public String acceptRequest(Model model, @RequestParam(value = "friend_id") Long friend_id) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         friendService.acceptRequest(userService.getAuthenticatedUser().getId(), friend_id);
-        return "friend/incomingRequest";
+        return "redirect:/account/friends/incoming";
     }
 
     private static String amountOfFriendsMessage(int amount) {
