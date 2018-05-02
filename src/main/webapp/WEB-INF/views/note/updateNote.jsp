@@ -4,11 +4,10 @@
 
 <html>
 <head>
-    <title>Create New Event </title>
+    <title>Update Note </title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <div class="row">
@@ -26,13 +25,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Note Name: </label>
-                        <form:input path="name" id="nameNote" type="text" class="form-control"
+                        <form:input path="name" id="nameNote" type="text" class="form-control decodingHtml"
                                     placeholder="Enter Note name"/>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>Description: </label>
-                        <form:textarea path="description" id="descriptionNote" type="text" class="form-control"
+                        <form:textarea path="description" id="descriptionNote" type="text" class="form-control decodingHtml"
                                     placeholder="Enter Note description"/>
                         <form:errors path="description" cssClass="error"/>
                     </div>
@@ -42,6 +41,6 @@
         </div>
     </div>
 </div>
-
+<script src='${contextPath}/resources/js/pamCode.js'></script>
 </html>
 

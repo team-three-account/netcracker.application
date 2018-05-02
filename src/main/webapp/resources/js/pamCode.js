@@ -1,12 +1,32 @@
 // Декодування
 (function () {
-    if (document.getElementById('eventPlaceName')) {
-        var inputPlace = document.getElementById('eventPlaceName');
-        var inputPlaceText = inputPlace.value;
+    function decodingHTML(obj) {
+        var inputPlaceText = obj.value;
         if (inputPlaceText.length > 0) {
             var parser = new DOMParser;
-            var parserText = parser.parseFromString(inputPlaceText, 'text/html').body.textContent;
-            inputPlace.value = parserText;
+            obj.value = parser.parseFromString(inputPlaceText, 'text/html').body.textContent;
+        }
+    }
+    if (document.getElementsByClassName('decodingHtml')) {
+        var node = document.getElementsByClassName('decodingHtml');
+        for ( var i = 0; i < node.length; i++ ) {
+            decodingHTML(node[i]);
+        }
+    }
+})();
+
+// valid date
+(function () {
+    if ( document.getElementsByClassName('dateValid') ) { // перевірка на наявність інпутів які потрібно валідувати
+        var nodeDateInput = document.getElementsByClassName('dateValid'); // запис їх в змінну
+        for ( var i = 0; i < nodeDateInput.length; i++ ) { // проходження по всіх інпутах та вішання на них обробників подій change
+            nodeDateInput[i].addEventListener('change', function () {
+                var splitValue = this.value.split('-'); // розділення в масив (yyyy-mm-dd)
+                if (splitValue[0].length > 4) { // перевірка чи довжина  року перевищує 4 цифри
+                    splitValue[0] = splitValue[0].slice(0, 4); // якщо перевищує обрізаємо до 4 цифр
+                    this.value = splitValue.join('-'); // записуємо назад
+                }
+            }, false);
         }
     }
 })();
@@ -112,17 +132,6 @@ function getFormattedAddress(latitude, longitude) {
         request.send();
     });
 };
-
-
-// function getMyMYMYadress(latitude, longitude) {
-//     var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM';
-//     $.getJSON(url, function (data) {
-//         for (var i = 0; i < data.results.length; i++) {
-//             var adress = data.results[i].formatted_address;
-//             alert(adress);
-//         }
-//     });
-// }
 
 
 

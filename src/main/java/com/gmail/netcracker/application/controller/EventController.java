@@ -5,6 +5,7 @@ import com.gmail.netcracker.application.dto.model.EventType;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
+import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/account")
@@ -24,15 +27,17 @@ public class EventController {
     private final EventService eventService;
     private final NoteService noteService;
 
+    private final PhotoService photoService;
     private final UserService userService;
 
     private final RegisterAndUpdateEventValidator eventValidator;
 
     @Autowired
-    public EventController(EventService eventService, NoteService noteService, UserService userService,
+    public EventController(EventService eventService, NoteService noteService, PhotoService photoService, UserService userService,
                            RegisterAndUpdateEventValidator eventValidator) {
         this.eventService = eventService;
         this.noteService = noteService;
+        this.photoService = photoService;
         this.userService = userService;
         this.eventValidator = eventValidator;
     }
@@ -63,13 +68,18 @@ public class EventController {
     public ModelAndView saveNewEvent(@ModelAttribute("createNewEvent") Event event,
                                      BindingResult result,
                                      @RequestParam(value = "hidden") String hidden,
+                                     @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                      ModelAndView modelAndView) {
-        //TODO fix problem with drafts (problem in jsp and controller)
         modelAndView.setViewName("event/createNewEvent");
+        event.setPhoto(String.valueOf(System.currentTimeMillis()));
+        event.setDraft(Boolean.valueOf(hidden));
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
             return modelAndView;
         }
+        Logger.getLogger(EventController.class.getName()).info(event.toString());
+        photoService.saveFileInDB(event.getPhoto(),Long.parseLong(String.valueOf(event.getEventId())));
+        photoService.saveFileInFileSystem(multipartFile,event.getPhoto());
         eventService.insertEvent(event);
         modelAndView.setViewName("redirect:/account/eventlist");
         return modelAndView;
@@ -86,6 +96,8 @@ public class EventController {
     public ModelAndView viewEvent(@PathVariable("eventId") int eventId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("event", eventService.getEvent(eventId));
+        modelAndView.addObject("photo", eventService.getEvent(eventId).getPhoto());
+        Logger.getLogger(EventController.class.getName()).info(eventService.getEvent(eventId).getPhoto());
         modelAndView.addObject("user_creator", userService.findUserById(eventService.getEvent(eventId).getCreator()));
         int participants = eventService.countParticipants(eventId);
         modelAndView.addObject("participants", participants );
@@ -95,7 +107,8 @@ public class EventController {
 
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.GET)
-    public ModelAndView editEvent(@PathVariable int eventId, ModelAndView modelAndView) {
+    public ModelAndView editEvent(@PathVariable int eventId,
+                                  ModelAndView modelAndView) {
         modelAndView.addObject("editEvent", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("event/updateEvent");
@@ -104,9 +117,13 @@ public class EventController {
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.POST)
     public ModelAndView updateEvent(@ModelAttribute("editEvent") Event event,
+                                    @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                     BindingResult result,
                                     ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        event.setPhoto(String.valueOf(System.currentTimeMillis()));
+        photoService.saveFileInFileSystem(multipartFile,event.getPhoto());
+        photoService.saveFileInDB(event.getPhoto(),Long.parseLong(String.valueOf(event.getEventId())));
         modelAndView.setViewName("event/updateEvent");
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
@@ -120,7 +137,7 @@ public class EventController {
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
     public String deleteFriend(@RequestParam(value = "event_id") String event_id) {
         eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(event_id));
-        return "redirect:/account/myevents";
+        return "redirect:/account/viewEvent";
     }
 
     @RequestMapping(value = "/myevents", method = RequestMethod.GET)
@@ -141,5 +158,14 @@ public class EventController {
         List<User> participantList = eventService.getParticipants( Long.parseLong(eventId));
         model.addAttribute("participantList", participantList);
         return "event/participants";
+    }
+
+    @RequestMapping(value = "/new", method = RequestMethod.GET)
+    public String newr( Model model) {
+        User auth_user = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        model.addAttribute("publicEventList", eventService.findPublicEvents());
+        model.addAttribute("friendsEventList", eventService.findFriendsEvents(auth_user.getId()));
+        return "event/new";
     }
 }

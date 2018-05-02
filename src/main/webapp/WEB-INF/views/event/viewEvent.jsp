@@ -23,6 +23,8 @@
                 </div>
                 <div class="panel-body viewEvent">
                     <ul class="list-unstyled mt-3 mb-4">
+                        <li>Photo: <img class="img-circle" style="width: 200px;height: 200px"
+                                        src="<c:url value="/account/image/${photo}.jpg"/>"></li>
                         <li>Name : ${event.name}</li>
                         <li>Creator : ${user_creator.name} ${user_creator.surname}</li>
                         <li>Description : ${event.description}</li>
@@ -30,14 +32,31 @@
                         <li>End : ${event.dateEnd}</li>
                         <li>Place : ${event.eventPlaceName}</li>
                         <li>Participants : <a href="/account/event-${event.eventId}/participants"> ${participants} people</a> </li>
-                        <c:if test="${auth_user.id.equals(user_creator.id)}">
+                        <c:choose>
+                        <c:when  test="${auth_user.id.equals(user_creator.id)}">
                             <li>
                                 <a href="/account/eventList/editevent-${event.eventId}">
                                     <input type="submit" class="btn btn-success text-center" value="Edit event"></a>
                                 <a href="/account/eventList/deleteEvent-${event.eventId}">
                                     <input type="submit" class="btn btn-danger text-center" value="Delete event"></a>
                             </li>
-                        </c:if>
+                        </c:when>
+                            <c:otherwise>
+                                <c:choose>
+                                    <c:when  test="true">
+                                        <li>true</li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <form action="/account/participate" method="POST">
+                                            <button type="submit" class="btn btn-success">
+                                                <input type="hidden" name="event_id" value="${event.eventId}"/>
+                                                Participate </span>
+                                            </button>
+                                        </form>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:otherwise>
+                        </c:choose>
                     </ul>
                 </div>
             </div>

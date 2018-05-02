@@ -40,6 +40,7 @@
 
                     <td><img class="img-circle" style="width: 200px;height: 200px"
                              src="<c:url value="/account/image/${auth_user.photo}.jpg"/>">
+                        <input type="hidden" name="photo" value="${auth_user.photo}">
                         <br><span class="btn btn-default btn-file">
     Browse <input type="file" name="photoFile" accept="image/*">
 </span>
@@ -49,7 +50,7 @@
                     <th>Name:</th>
                     <td>
                         <input type="hidden" name="id" value="${auth_user.id}" required>
-                        <input name="name" class="form-control"
+                        <input name="name decodingHtml" class="form-control"
                                readonly="readonly" value="${auth_user.name}"
                                placeholder="Enter name" required>
                     </td>
@@ -58,7 +59,7 @@
                     <th>Surname:</th>
                     <td>
                         <input class="form-control"
-                               name="surname" maxlength="500" required value="${auth_user.surname}">
+                               name="surname decodingHtml" maxlength="500" required value="${auth_user.surname}">
                     </td>
                 </tr>
                 <tr>
@@ -102,5 +103,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 <script src="${contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="${contextPath}/resources/js/google.js"></script>
+<script src='${contextPath}/resources/js/pamCode.js'></script>
 </body>
 </html>

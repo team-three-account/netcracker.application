@@ -6,6 +6,7 @@ import com.gmail.netcracker.application.service.imp.*;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
+import com.gmail.netcracker.application.validation.NoteValidator;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
@@ -114,6 +115,11 @@ public class RootConfig {
     }
 
     @Bean
+    NoteValidator noteValidator() {
+        return new NoteValidator();
+    }
+
+    @Bean
     LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
@@ -133,10 +139,10 @@ public class RootConfig {
     public DataSource
     dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
-        driver.setDriverClassName(env.getProperty("postgre.driver"));
-        driver.setUrl(env.getProperty("postgre.url"));
-        driver.setUsername(env.getProperty("postgre.username"));
-        driver.setPassword(env.getProperty("postgre.password"));
+        driver.setDriverClassName(env.getProperty("postgres.driver"));
+        driver.setUrl(env.getProperty("postgres.url"));
+        driver.setUsername(env.getProperty("postgres.username"));
+        driver.setPassword(env.getProperty("postgres.password"));
         return driver;
 
     }
@@ -199,8 +205,8 @@ public class RootConfig {
             event.setWidth(rs.getDouble("width"));
             event.setLongitude(rs.getDouble("longitude"));
             event.setEventPlaceName(rs.getString("eventplacename"));
-            event.setPeriodicity(rs.getString("periodicity"));
-            event.setPriority(rs.getString("priority"));
+            event.setPeriodicity(rs.getInt("periodicity"));
+            event.setPhoto(rs.getString("photo"));
             return event;
         };
     }

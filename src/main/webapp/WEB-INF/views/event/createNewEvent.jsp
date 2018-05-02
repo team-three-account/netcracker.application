@@ -19,30 +19,41 @@
         <div class="card-header">Create New Event</div>
         <div class="card-body">
             <%--action="/account/eventList/createNewEvent"--%>
-            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form">
+            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label>Photo: </label>
+                            <img class="img-circle" style="width: 200px;height: 200px"
+                                 src="<c:url value="/account/image/${createNewEvent.photo}.jpg"/>">
+                            <input type="hidden" name="photo" value="${createNewEvent.photo}">
+                            <br><span class="btn btn-default btn-file">
+                            Browse <input type="file" name="photoFile" accept="image/*">
+                            </span>
+                            <form:errors path="name" cssClass="error"/>
+                        </div>
+                        <div class="form-group">
                             <label>Event Name: </label>
-                            <form:input path="name" id="name" type="text" class="form-control"
+                            <form:input path="name" id="name" type="text" class="form-control decodingHtml"
                                         placeholder="Enter event name"/>
                             <form:errors path="name" cssClass="error"/>
                         </div>
                         <div class="form-group">
                             <label>Description: </label>
-                            <form:input path="description" id="description" type="text" class="form-control"
+                            <form:input path="description" id="description" type="text"
+                                        class="form-control decodingHtml"
                                         placeholder="Enter event description"/>
                             <form:errors path="description" cssClass="error"/>
                         </div>
                         <div class="form-group">
                             <label>Start_date: </label>
-                            <form:input path="dateStart" id="dateStart" type="date" class="form-control"
+                            <form:input path="dateStart" id="dateStart" type="date" class="form-control dateValid"
                                         placeholder="Enter event start date"/>
                             <form:errors path="dateStart" cssClass="error"/>
                         </div>
                         <div class="form-group">
                             <label>End_date: </label>
-                            <form:input path="dateEnd" id="dateEnd" type="date" class="form-control"
+                            <form:input path="dateEnd" id="dateEnd" type="date" class="form-control dateValid"
                                         placeholder="Enter event end date"/>
                             <form:errors path="dateEnd" cssClass="error"/>
                         </div>
@@ -60,7 +71,7 @@
                         <form:input path="longitude" type="hidden" id="longitude"></form:input>
                         <div class="form-group">
                             <label>Event place</label>
-                            <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
+                            <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control decodingHtml"/>
                             <form:errors path="eventPlaceName" cssClass="error"/>
                             <div id="map"></div>
                             <script src='${contextPath}/resources/js/pamCode.js'></script>

@@ -6,15 +6,10 @@ import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @Controller
 public class RegistrationController {
@@ -81,6 +76,7 @@ public class RegistrationController {
             (@PathVariable(value = "token") String token) {
         verificationToken = userService.getVerificationToken(token);
         user = verificationToken.getUser();
+        user.setPhoto("1");
         userService.saveRegisteredUser(user);
         userService.deleteVerificationToken(verificationToken);
         return "user/registration/successfulRegistration";
