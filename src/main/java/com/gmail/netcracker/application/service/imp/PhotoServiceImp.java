@@ -20,7 +20,7 @@ public class PhotoServiceImp implements PhotoService, Serializable {
     private PhotoDao photoDao;
 
 
-    public static final String PATH = "E:\\Programs\\apache-tomcat-7.0.82\\webapps\\ROOT\\resources\\img";
+    public static final String PATH = System.getenv("CATALINA_HOME") + "\\webapps\\ROOT\\resources\\img\\";
 
 
     @Override
