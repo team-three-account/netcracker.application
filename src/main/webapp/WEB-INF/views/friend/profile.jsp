@@ -25,28 +25,39 @@
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
     <div class="col-md-9 content ">
-
-        <div class="col-md-6">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Profile</h3>
-                </div>
-                <div class="panel-body viewEvent">
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li><img class="img-circle" style="width: 200px;height: 200px"
-                                 src="<c:url value="/account/image/${friend.photo}.jpg"/>"></li>
-                        <li>Name : ${friend.name} </li>
-                        <li>Surname : ${friend.surname}</li>
-                        <li>Email : ${friend.email}</li>
-                        <li>Birthday : ${friend.phone}</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        <table class="table">
+            <tbody>
+            <tr>
+                <td>Avatar:</td>
+                <td><img class="img-circle" style="width: 200px;height: 200px"
+                         src="<c:url value="/account/image/${friend.photo}.jpg"/>"></td>
+            </tr>
+            <tr>
+                <td>Name:</td>
+                <td>${friend.name}</td>
+            </tr>
+            <tr>
+                <td>Surname</td>
+                <td>${friend.surname}</td>
+            </tr>
+            <tr>
+                <td>Date of Birth</td>
+                <td>${friend.birthdayDate}</td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td>${friend.email}</td>
+            </tr>
+            <tr>
+                <td>Phone Number</td>
+                <td>${friend.phone}</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
-
-    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
-    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
-    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
+</div>
+<script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </body>
 </html>

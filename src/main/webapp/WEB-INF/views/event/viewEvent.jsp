@@ -23,6 +23,8 @@
                 </div>
                 <div class="panel-body viewEvent">
                     <ul class="list-unstyled mt-3 mb-4">
+                        <li>Photo: <img class="img-circle" style="width: 200px;height: 200px"
+                                        src="<c:url value="/account/image/${photo}.jpg"/>"></li>
                         <li>Name : ${event.name}</li>
                         <li>Creator : ${user_creator.name} ${user_creator.surname}</li>
                         <li>Description : ${event.description}</li>

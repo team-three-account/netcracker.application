@@ -40,6 +40,7 @@
 
                     <td><img class="img-circle" style="width: 200px;height: 200px"
                              src="<c:url value="/account/image/${auth_user.photo}.jpg"/>">
+                        <input type="hidden" name="photo" value="${auth_user.photo}">
                         <br><span class="btn btn-default btn-file">
     Browse <input type="file" name="photoFile" accept="image/*">
 </span>

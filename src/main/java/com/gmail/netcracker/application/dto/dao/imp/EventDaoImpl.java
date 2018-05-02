@@ -82,6 +82,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
                 event.getWidth(),
                 event.getLongitude(),
                 event.getEventPlaceName(),
+                event.getPhoto(),
                 event.getEventId());
     }
 
@@ -102,7 +103,8 @@ public class EventDaoImpl extends ModelDao implements EventDao {
                 event.getLongitude(),
                 event.getEventPlaceName(),
                 Utilites.parseStringToInt(event.getType()),
-                event.isDraft());
+                event.isDraft(),
+                event.getPhoto());
     }
 
     @Override

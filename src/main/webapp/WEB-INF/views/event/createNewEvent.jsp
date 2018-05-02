@@ -19,9 +19,19 @@
         <div class="card-header">Create New Event</div>
         <div class="card-body">
             <%--action="/account/eventList/createNewEvent"--%>
-            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form">
+            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Photo: </label>
+                            <img class="img-circle" style="width: 200px;height: 200px"
+                                 src="<c:url value="/account/image/${createNewEvent.photo}.jpg"/>">
+                            <input type="hidden" name="photo" value="${createNewEvent.photo}">
+                            <br><span class="btn btn-default btn-file">
+                            Browse <input type="file" name="photoFile" accept="image/*">
+                            </span>
+                            <form:errors path="name" cssClass="error"/>
+                        </div>
                         <div class="form-group">
                             <label>Event Name: </label>
                             <form:input path="name" id="name" type="text" class="form-control"

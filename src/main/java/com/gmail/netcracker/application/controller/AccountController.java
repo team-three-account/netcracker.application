@@ -119,18 +119,19 @@ public class AccountController {
                               @RequestParam(value = "name") final String name,
                               @RequestParam(value = "surname") final String surname,
                               @RequestParam(value = "phone") final String phone,
+                              @RequestParam(value = "photo") String photo,
                               @RequestParam(value = "photoFile") final MultipartFile photoFile,
                               final ModelAndView modelAndView) {
+
         User user = userService.findUserById(id);
         Logger.getLogger(AccountController.class.getName()).info(user.toString());
         user.setName(name);
         user.setSurname(surname);
         user.setPhone(phone);
         user.setPhotoFile(photoFile);
-        Logger.getLogger(AccountController.class.getName()).info(user.toString());
-        user.setPhoto(String.valueOf(System.currentTimeMillis()));
+        user.setPhoto(photo);
         userService.getAuthenticatedUser().setPhoto(user.getPhoto());
-        photoService.saveFileInFileSystem(user.getPhotoFile(), user.getPhoto());
+        photoService.saveFileInFileSystem(user.getPhotoFile(),user.getPhoto());
         photoService.saveFileInDB(user.getPhoto(), user.getId());
         userService.updateUser(user);
         Logger.getLogger(AccountController.class.getName()).info(user.toString());
@@ -141,7 +142,7 @@ public class AccountController {
     @ResponseBody
     @RequestMapping(value = "/image/{id}", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
     public byte[] testphoto(@PathVariable(value = "id") Long id) throws IOException {
-        InputStream inputStream = new FileInputStream(new File( PhotoServiceImp.PATH+ id+".jpg" ));
+        InputStream inputStream = new FileInputStream(new File(PhotoServiceImp.PATH + id + ".jpg"));
         return IOUtils.toByteArray(inputStream);
     }
 }
