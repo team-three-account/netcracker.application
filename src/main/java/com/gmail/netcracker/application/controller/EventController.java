@@ -60,6 +60,7 @@ public class EventController {
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
     public ModelAndView createNewEvent(@ModelAttribute(value = "createNewEvent") Event event, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        event.setPhoto("1");
         modelAndView.setViewName("event/createNewEvent");
         return modelAndView;
     }
@@ -68,19 +69,22 @@ public class EventController {
     public ModelAndView saveNewEvent(@ModelAttribute("createNewEvent") Event event,
                                      BindingResult result,
                                      @RequestParam(value = "hidden") String hidden,
+                                     @RequestParam(value = "photoInput") String photo,
                                      @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                      ModelAndView modelAndView) {
         modelAndView.setViewName("event/createNewEvent");
-        event.setPhoto(String.valueOf(System.currentTimeMillis()));
         event.setDraft(Boolean.valueOf(hidden));
+        event.setPhoto(photo);
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
             return modelAndView;
         }
-        Logger.getLogger(EventController.class.getName()).info(event.toString());
-        photoService.saveFileInDB(event.getPhoto(),Long.parseLong(String.valueOf(event.getEventId())));
-        photoService.saveFileInFileSystem(multipartFile,event.getPhoto());
+        if (!photo.equals(1)) {
+            photoService.saveFileInFileSystem(multipartFile,String.valueOf(System.currentTimeMillis()));
+        }
+        photoService.saveFileInDB(event.getPhoto(), Long.parseLong(String.valueOf(event.getEventId())));
         eventService.insertEvent(event);
+        eventService.participate(userService.getAuthenticatedUser().getId(),Long.parseLong(String.valueOf(eventService.getMaxId())));
         modelAndView.setViewName("redirect:/account/eventlist");
         return modelAndView;
     }
@@ -153,6 +157,7 @@ public class EventController {
     public String getParticipants(@PathVariable(value = "eventId") String eventId, Model model) {
         List<User> participantList = eventService.getParticipants( Long.parseLong(eventId));
         model.addAttribute("participantList", participantList);
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
         return "event/participants";
     }
 

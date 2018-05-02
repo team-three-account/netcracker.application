@@ -124,14 +124,17 @@ public class AccountController {
                               final ModelAndView modelAndView) {
 
         User user = userService.findUserById(id);
-        Logger.getLogger(AccountController.class.getName()).info(user.toString());
+        Logger.getLogger(AccountController.class.getName()).info(photo.toString());
         user.setName(name);
         user.setSurname(surname);
         user.setPhone(phone);
         user.setPhotoFile(photoFile);
-        user.setPhoto(photo);
         userService.getAuthenticatedUser().setPhoto(user.getPhoto());
-        photoService.saveFileInFileSystem(user.getPhotoFile(),user.getPhoto());
+        if(!photo.equals(1)) {
+            user.setPhoto(String.valueOf(System.currentTimeMillis()));
+            photoService.saveFileInFileSystem(user.getPhotoFile(),user.getPhoto());
+            userService.getAuthenticatedUser().setPhoto(user.getPhoto());
+        }
         photoService.saveFileInDB(user.getPhoto(), user.getId());
         userService.updateUser(user);
         Logger.getLogger(AccountController.class.getName()).info(user.toString());

@@ -63,6 +63,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.unsubscribe}")
     private String SQL_UNSUBSCRIBE;
 
+    @Value("${sql.event.maxid}")
+    private String SQL_MAX_ID;
+
     private final RowMapper<Event> rowMapper;
     private final RowMapper<User> participantRowMapper;
 
@@ -171,6 +174,11 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public void unsubscribe(long id, long event_id) {
         deleteEntity(SQL_UNSUBSCRIBE, id, event_id);
+    }
+
+    @Override
+    public int getMaxId() {
+        return maxIdValue(SQL_MAX_ID);
     }
 }
 
