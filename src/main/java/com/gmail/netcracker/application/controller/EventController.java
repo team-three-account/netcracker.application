@@ -94,13 +94,16 @@ public class EventController {
 
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.GET)
     public ModelAndView viewEvent(@PathVariable("eventId") int eventId, ModelAndView modelAndView) {
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        User auth_user = userService.getAuthenticatedUser();
+        modelAndView.addObject("auth_user", auth_user);
         modelAndView.addObject("event", eventService.getEvent(eventId));
         modelAndView.addObject("photo", eventService.getEvent(eventId).getPhoto());
         Logger.getLogger(EventController.class.getName()).info(eventService.getEvent(eventId).getPhoto());
         modelAndView.addObject("user_creator", userService.findUserById(eventService.getEvent(eventId).getCreator()));
         int participants = eventService.countParticipants(eventId);
         modelAndView.addObject("participants", participants );
+        boolean isParticipated = eventService.isParticipated(auth_user.getId(), eventId);
+        modelAndView.addObject("isParticipated", isParticipated );
         modelAndView.setViewName("event/viewEvent");
         return modelAndView;
     }
@@ -135,9 +138,10 @@ public class EventController {
     }
 
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
-    public String deleteFriend(@RequestParam(value = "event_id") String event_id) {
+    public String deleteFriend(@RequestParam(value = "event_id") String event_id, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
         eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(event_id));
-        return "redirect:/account/viewEvent";
+        return "redirect:/account/eventList/event-"+ event_id;
     }
 
     @RequestMapping(value = "/myevents", method = RequestMethod.GET)
@@ -167,5 +171,13 @@ public class EventController {
         model.addAttribute("publicEventList", eventService.findPublicEvents());
         model.addAttribute("friendsEventList", eventService.findFriendsEvents(auth_user.getId()));
         return "event/new";
+    }
+
+    @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
+    public String unsubscribe(@RequestParam(value = "event_id") String event_id, Model model) {
+        User auth_user =userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        eventService.unsubscribe(auth_user.getId(), Long.parseLong(event_id));
+        return "redirect:/account/eventList/event-"+ event_id;
     }
 }

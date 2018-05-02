@@ -42,19 +42,22 @@
                             </li>
                         </c:when>
                             <c:otherwise>
-                                <c:choose>
-                                    <c:when  test="true">
-                                        <li>true</li>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <form action="/account/participate" method="POST">
-                                            <button type="submit" class="btn btn-success">
-                                                <input type="hidden" name="event_id" value="${event.eventId}"/>
-                                                Participate </span>
-                                            </button>
-                                        </form>
-                                    </c:otherwise>
-                                </c:choose>
+                                <c:if test="${isParticipated == true}">
+                                    <form action="/account/unsubscribe" method="POST">
+                                        <button type="submit" class="btn btn-danger text-center">
+                                            <input type="hidden" name="event_id" value="${event.eventId}"/>
+                                            Unsubscribe </span>
+                                        </button>
+                                    </form>
+                                </c:if>
+                                <c:if test="${isParticipated == false}">
+                                    <form action="/account/participate" method="POST">
+                                        <button type="submit" class="btn btn-success">
+                                            <input type="hidden" name="event_id" value="${event.eventId}"/>
+                                            Subscribe </span>
+                                        </button>
+                                    </form>
+                                </c:if>
                             </c:otherwise>
                         </c:choose>
                     </ul>
