@@ -50,7 +50,7 @@
                     <th>Name:</th>
                     <td>
                         <input type="hidden" name="id" value="${auth_user.id}" required>
-                        <input name="name decodingHtml" class="form-control"
+                        <input name="name" class="form-control decodingHtml"
                                readonly="readonly" value="${auth_user.name}"
                                placeholder="Enter name" required>
                     </td>
@@ -59,7 +59,7 @@
                     <th>Surname:</th>
                     <td>
                         <input class="form-control"
-                               name="surname decodingHtml" maxlength="500" required value="${auth_user.surname}">
+                               name="surname" class="decodingHtml" maxlength="500" required value="${auth_user.surname}">
                     </td>
                 </tr>
                 <tr>
