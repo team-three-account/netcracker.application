@@ -144,14 +144,6 @@ public class EventController {
         return "redirect:/account/eventList/event-"+ event_id;
     }
 
-    @RequestMapping(value = "/myevents", method = RequestMethod.GET)
-    public ModelAndView getMyEvent(ModelAndView modelAndView) {
-        modelAndView.addObject("personalEventList", eventService.getAllMyEvents());
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.setViewName("event/personalEvents");
-        return modelAndView;
-    }
-
     @ModelAttribute("eventTypes")
     public List<EventType> getAllEventTypes() {
         return eventService.getAllEventTypes();
@@ -164,13 +156,13 @@ public class EventController {
         return "event/participants";
     }
 
-    @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newr( Model model) {
+    @RequestMapping(value = "/available", method = RequestMethod.GET)
+    public String available( Model model) {
         User auth_user = userService.getAuthenticatedUser();
         model.addAttribute("auth_user", auth_user);
         model.addAttribute("publicEventList", eventService.findPublicEvents());
         model.addAttribute("friendsEventList", eventService.findFriendsEvents(auth_user.getId()));
-        return "event/new";
+        return "event/available";
     }
 
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
@@ -179,5 +171,26 @@ public class EventController {
         model.addAttribute("auth_user", auth_user);
         eventService.unsubscribe(auth_user.getId(), Long.parseLong(event_id));
         return "redirect:/account/eventList/event-"+ event_id;
+    }
+
+    @RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
+    public String getSubscriptions(Model model) {
+        List<Event> eventList = eventService.getAllMyEvents();
+        model.addAttribute("eventList", eventList);
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        if (eventList.isEmpty()) model.addAttribute("message", "You have not any subscription");
+        else model.addAttribute("message", "You are subscribed on following events :");
+        return "event/subscriptions";
+    }
+
+    @RequestMapping(value = "/draft", method = RequestMethod.GET)
+    public String draft(Model model) {
+        User auth_user =userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        List<Event> draftList = eventService.findDrafts(auth_user.getId());
+        model.addAttribute("draftList", draftList);
+        if (draftList.isEmpty()) model.addAttribute("message", "You have not any draft");
+        else model.addAttribute("message", "You're drafts :");
+        return "event/draft";
     }
 }
