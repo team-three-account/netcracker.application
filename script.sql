@@ -219,3 +219,10 @@ INSERT INTO public."Type"(value)
 VALUES ('public');
 INSERT INTO public."Type"(value)
 VALUES ('only_for_friends');
+
+INSERT INTO public."Priority"(value)
+VALUES ('urgent');
+INSERT INTO public."Priority"(value)
+VALUES ('normal');
+INSERT INTO public."Priority"(value)
+VALUES ('low');
