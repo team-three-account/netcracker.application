@@ -28,7 +28,7 @@
     <div class="card-deck mb-3 text-center">
         <div class="card col-md-3 box-shadow eventCategory">
             <div class="card-header">
-                <h4 class="my-0 font-weight-normal eventCategory">Public Events</h4>
+                <h4 class="my-0 font-weight-normal eventCategory">Public events</h4>
             </div>
 
             <div class="card-body eventCard">
@@ -49,7 +49,7 @@
 
         <div class="card col-md-3 box-shadow eventCategory">
             <div class="card-header">
-                <h4 class="my-0 font-weight-normal eventCategory">Friend Events</h4>
+                <h4 class="my-0 font-weight-normal eventCategory">Only for friends events</h4>
             </div>
             <div class="card-body eventCard">
 
@@ -70,7 +70,7 @@
 
         <div class="card col-md-3 box-shadow eventCategory">
             <div class="card-header">
-                <h4 class="my-0 font-weight-normal eventCategory">Private Events</h4>
+                <h4 class="my-0 font-weight-normal eventCategory">Private events</h4>
             </div>
             <div class="card-body eventCard">
 
