@@ -126,7 +126,7 @@ create table "Participant"
     references "Person"
     ON UPDATE cascade
     ON DELETE cascade,
-  eventId       integer not null
+  event       integer not null
     constraint "Participant_fk1"
     references "Event"
     ON UPDATE cascade
