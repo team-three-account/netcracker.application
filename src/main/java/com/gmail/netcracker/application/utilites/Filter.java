@@ -8,6 +8,6 @@ import java.util.List;
 @Getter
 @Setter
 public class Filter {
-    List<String> priorities;
-    List<String> eventTypes;
+    List<Integer> priorities;
+    List<Integer> eventTypes;
 }

@@ -83,7 +83,32 @@
                 </div>
             </div>
         </div>
+        <c:choose>
+        <c:when test="${isParticipated == true}">
+        <div class="col-md-6 pointer">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Priority</h3>
+                </div>
+                <div class="panel-body viewEvent">
+                    <div class="form-group">
+                        <label>Priority</label>
+                        <td>
+                            <form:form method="POST" modelAttribute="participant">
+                                <tr>
+                                    <form:radiobuttons path="priority" items="${priorities}" itemValue="priorityId" itemLabel="name"/>
+                                </tr>
+                                <input type="submit" name="submit" value="Submit">
+                            </form:form>
+                        </td>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+    </c:when>
+    <c:otherwise></c:otherwise>
+    </c:choose>
 </div>
 </body>
 </html>

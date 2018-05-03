@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface CalendarService {
 
-    public List<Event> filterOfPriority(List<String> validPriorities);
+    List<Event> filterOfPriority(List<Integer> validPriorities);
 }

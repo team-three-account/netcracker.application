@@ -19,10 +19,10 @@ public class CalendarServiceImpl implements CalendarService {
     private EventService eventService;
 
     @Override
-    public List<Event> filterOfPriority(List<String> validPriorities) {
-        Map<Event, String> eventWithPriority = eventService.getMyEventWithPriority();
+    public List<Event> filterOfPriority(List<Integer> validPriorities) {
+        Map<Event, Integer> eventWithPriority = eventService.getMyEventWithPriority();
         List<Event> filterEvents = new ArrayList<>();
-        for (Map.Entry<Event, String> entry: eventWithPriority.entrySet()){
+        for (Map.Entry<Event, Integer> entry: eventWithPriority.entrySet()){
             if(validPriorities.contains(entry.getValue())) filterEvents.add(entry.getKey());
         }
         return filterEvents;

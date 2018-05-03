@@ -44,15 +44,14 @@ public class CalendarController {
     public ModelAndView calendarHome(ModelAndView modelAndView) {
         List<Event> events = eventService.getAllMyEvents();
         String eventList = gson.toJson(eventService.getAllMyEvents());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("eventList", eventList);
         modelAndView.addObject("priorities", eventService.getAllPriorities());
         modelAndView.addObject("filter", new Filter());
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("calendar/calendar");
         return modelAndView;
     }
 
-    //    //TODO Post Controller to Calendar
     @RequestMapping(value = "/calendar", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView calendarWithFilter(@ModelAttribute("properties") Filter filter,
@@ -60,6 +59,7 @@ public class CalendarController {
                                            ModelAndView modelAndView) {
 
         String eventList = gson.toJson(calendarService.filterOfPriority(filter.getPriorities()));
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("eventList", eventList);
         modelAndView.addObject("priorities", eventService.getAllPriorities());
         modelAndView.addObject("filter", filter);

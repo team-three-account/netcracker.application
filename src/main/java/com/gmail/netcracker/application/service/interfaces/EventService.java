@@ -39,9 +39,9 @@ public interface EventService {
 
     List<Participant> getPriorityForMyEvents();
 
-    Map<Event, String> getMyEventWithPriority();
+    Map<Event, Integer> getMyEventWithPriority();
 
-    List<String> getAllPriorities();
+    List<Priority> getAllPriorities();
 
     boolean isParticipated(Long id, int eventId);
 
@@ -53,9 +53,16 @@ public interface EventService {
 
     int getMaxId();
 
-    String getPriority(int event_id, Long person_id);
+    Integer getPriority(int event_id, Long person_id);
 
-    String getPriority(int event_id);
+    Integer getPriority(int event_id);
+
+    void setPriority(Integer priority, int event_id, Long user_id);
+
+    Participant getParticipant(int event_id, Long person_id);
+
+    Participant getParticipant(int event_id);
+
 
     boolean allowAccess(Long person_id, int event_id);
 }

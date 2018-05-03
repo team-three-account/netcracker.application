@@ -247,7 +247,7 @@ public class RootConfig {
         return (resultSet, i) -> {
             Participant participant = new Participant();
             participant.setEventId(resultSet.getInt("event"));
-            participant.setPriority(resultSet.getString("value"));
+            participant.setPriority(resultSet.getInt("priority"));
             return participant;
         };
     }

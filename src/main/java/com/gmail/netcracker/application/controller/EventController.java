@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.EventType;
+import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
@@ -110,12 +111,23 @@ public class EventController {
             int participants = eventService.countParticipants(eventId);
             modelAndView.addObject("participants", participants);
             boolean isParticipated = eventService.isParticipated(auth_user.getId(), eventId);
-            modelAndView.addObject("isParticipated", isParticipated);
+            modelAndView.addObject("participant", eventService.getParticipant(eventId));
+            modelAndView.addObject("isParticipated", isParticipated );
+            modelAndView.addObject("priorities", eventService.getAllPriorities());
             modelAndView.setViewName("event/viewEvent");
         }
         return modelAndView;
     }
 
+    @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.POST)
+    public String editPriority(@PathVariable("eventId") int eventId,
+                               @ModelAttribute(value = "participant") Participant participant,
+                               Model model) {
+
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        eventService.setPriority(participant.getPriority(), eventId, userService.getAuthenticatedUser().getId());
+        return "redirect:/account/eventList/event-"+ eventId;
+    }
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView editEvent(@PathVariable int eventId,
