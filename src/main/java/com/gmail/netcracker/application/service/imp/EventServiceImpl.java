@@ -144,7 +144,8 @@ public class EventServiceImpl implements EventService {
                 break;
             case 2 : // public
                 access = true;
-            case 3: // for friends
+            case 3:
+                access=true;// for friends
                 break;
         }
        return access;
