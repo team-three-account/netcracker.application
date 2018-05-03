@@ -33,48 +33,49 @@
     </div>
 
     <div class="col-md-9 content">
-        <form action="<c:url value="/account/update"/>" method="post" enctype="multipart/form-data">
+        <form:form method="POST" modelAttribute="auth_user" enctype="multipart/form-data" action="/account/settings-user">
             <table class="table">
                 <tr>
                     <td>Avatar:</td>
-
                     <td><img class="img-circle" style="width: 200px;height: 200px"
                              src="<c:url value="/account/image/${auth_user.photo}.jpg"/>">
-                        <input type="hidden" name="photo" value="${auth_user.photo}">
+                        <input type="hidden" name="photo" value="${auth_user.photo}" path="photo"/>
                         <br><span class="btn btn-default btn-file">
     Browse <input type="file" name="photoFile" accept="image/*">
 </span>
+                        <span class="has-error">${message}</span>
                     </td>
                 </tr>
                 <tr>
                     <th>Name:</th>
                     <td>
-                        <input type="hidden" name="id" value="${auth_user.id}" required>
-                        <input name="name" class="form-control"
+                        <form:input type="hidden" name="id" value="${auth_user.id}" path="id"/>
+                        <form:input name="name" class="form-control"
                                readonly="readonly" value="${auth_user.name}"
-                               placeholder="Enter name" required>
+                               placeholder="Enter name"  path="name"/>
                     </td>
                 </tr>
                 <tr>
                     <th>Surname:</th>
                     <td>
-                        <input class="form-control"
-                               name="surname" maxlength="500" required value="${auth_user.surname}">
+                        <form:input class="form-control"
+                               name="surname" maxlength="500"  value="${auth_user.surname}" path="surname"/>
                     </td>
                 </tr>
                 <tr>
                     <th>Email:</th>
                     <td>
-                        <input class="form-control" name="email"
-                               readonly="readonly" maxlength="500" required value="${auth_user.email}">
+                        <form:input class="form-control" name="email"
+                               readonly="readonly" maxlength="500"  value="${auth_user.email}" path="email"/>
                     </td>
                 </tr>
+
                 <tr>
                     <th>Phone</th>
                     <td>
-                        <input name="phone" class="form-control phone"
+                        <form:input name="phone" class="form-control phone"
                                type="phone" value="${auth_user.phone}"
-                               placeholder="Enter phone" required>
+                               placeholder="Enter phone"  path="phone"/>
 
                     </td>
                 </tr>
@@ -87,7 +88,7 @@
                     </td>
                 </tr>
             </table>
-        </form>
+        </form:form>
     </div>
 
 </div>

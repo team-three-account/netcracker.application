@@ -32,6 +32,7 @@
                         <br><span class="btn btn-default btn-file">
                             Browse <input type="file" name="photoFile" accept="image/*">
                             </span>
+                        <span class="has-error">${message}</span>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                     <div class="form-group">

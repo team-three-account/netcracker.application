@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.EventType;
 import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.PhotoService;
@@ -28,13 +29,13 @@ public class EventController {
     private final EventService eventService;
     private final NoteService noteService;
 
-    private final PhotoService photoService;
+    private final PhotoServiceImp photoService;
     private final UserService userService;
 
     private final RegisterAndUpdateEventValidator eventValidator;
 
     @Autowired
-    public EventController(EventService eventService, NoteService noteService, PhotoService photoService, UserService userService,
+    public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService, UserService userService,
                            RegisterAndUpdateEventValidator eventValidator) {
         this.eventService = eventService;
         this.noteService = noteService;
@@ -77,10 +78,14 @@ public class EventController {
         event.setDraft(Boolean.valueOf(hidden));
         event.setPhoto(photo);
         eventValidator.validate(event, result);
-        if (result.hasErrors()) {
+        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
+            modelAndView.addObject("message","Image type don't supported");
             return modelAndView;
         }
-        if (!photo.equals(1)) {
+        if (!photo.equals(photoService.getDefaultImage())) {
             photoService.saveFileInFileSystem(multipartFile, String.valueOf(System.currentTimeMillis()));
         }
         photoService.saveFileInDB(event.getPhoto(), Long.parseLong(String.valueOf(event.getEventId())));
@@ -145,6 +150,18 @@ public class EventController {
                                     BindingResult result,
                                     ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+
+        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
+
+            modelAndView.addObject("message","Image type don't supported");
+            modelAndView.setViewName("event/updateEvent");
+            return modelAndView;
+        }
+
+
         if (multipartFile.isEmpty()) {
             event.setPhoto(photo);
         } else {
