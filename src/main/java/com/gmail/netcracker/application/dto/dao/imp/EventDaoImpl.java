@@ -72,6 +72,12 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.maxid}")
     private String SQL_MAX_ID;
 
+    @Value("${sql.event.getEventType}")
+    private String SQL_GET_EVENT_TYPE;
+
+    @Value("${sql.event.isCreator}")
+    private String SQL_IS_CREATOR;
+
     private final RowMapper<Event> rowMapper;
     private final RowMapper<User> participantRowMapper;
 
@@ -195,6 +201,16 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public int getMaxId() {
         return maxIdValue(SQL_MAX_ID);
+    }
+
+    @Override
+    public int getEventType(int event_id) {
+        return countRows(SQL_GET_EVENT_TYPE, event_id);
+    }
+
+    @Override
+    public int isCreator(Long person_id, int event_id) {
+        return countRows(SQL_IS_CREATOR, person_id, event_id);
     }
 }
 

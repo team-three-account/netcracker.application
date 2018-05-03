@@ -41,4 +41,8 @@ public interface EventDao {
     List<Event> findCreatedPublicEvents(Long id);
 
     int getMaxId();
+
+    int getEventType(int event_id);
+
+    int isCreator(Long person_id, int event_id);
 }

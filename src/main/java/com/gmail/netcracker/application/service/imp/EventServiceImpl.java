@@ -136,6 +136,26 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public boolean allowAccess(Long person_id, int event_id) {
+        boolean access = false;
+        switch( eventDao.getEventType(event_id) ) {
+            case 1: // private
+                access = isCreator(person_id, event_id);
+                break;
+            case 2 : // public
+                access = true;
+            case 3: // for friends
+                break;
+        }
+       return access;
+    }
+
+    public boolean isCreator(Long person_id, int event_id){
+        int count = eventDao.isCreator(person_id, event_id);
+        return count>0 ? true : false;
+    }
+
+    @Override
     public List<Participant> getPriorityForMyEvents() {
         return participantDao.getPriorityForUserEvents(userService.getAuthenticatedUser().getId());
     }

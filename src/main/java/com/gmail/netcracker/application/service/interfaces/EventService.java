@@ -56,4 +56,6 @@ public interface EventService {
     String getPriority(int event_id, Long person_id);
 
     String getPriority(int event_id);
+
+    boolean allowAccess(Long person_id, int event_id);
 }
