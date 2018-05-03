@@ -71,7 +71,7 @@
                         <form:input path="longitude" type="hidden" id="longitude"></form:input>
                         <div class="form-group">
                             <label>Event place</label>
-                            <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
+                            <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control decodingHtml"/>
                             <form:errors path="eventPlaceName" cssClass="error"/>
                             <div id="map"></div>
                             <script src='${contextPath}/resources/js/pamCode.js'></script>
