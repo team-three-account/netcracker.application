@@ -9,17 +9,17 @@ public interface FriendService {
 
     List<User> searchFriends(Long id, String search);
 
-    void addFriend(Long person_id, Long friend_id);
+    void addFriend(Long personId, Long friendId);
 
     List<User> getOutgoingRequests(Long id);
 
-    void cancelRequest(Long id, Long friend_id);
+    void cancelRequest(Long id, Long friendId);
 
     List<User> getIncomingRequests(Long id);
 
-    void acceptRequest(Long id, Long friend_id);
+    void acceptRequest(Long id, Long friendId);
 
-    void deleteFriend(Long id, Long friend_id);
+    void deleteFriend(Long id, Long friendId);
 
     List<User> searchUsers(Long id, String search);
 

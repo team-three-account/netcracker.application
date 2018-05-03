@@ -14,7 +14,7 @@ public class FriendServiceImpl implements FriendService {
     private FriendDao friendDao;
 
     @Autowired
-    Friend friendship;
+    private Friend friendship;
 
     @Override
     public List<User> getAllFriends(Long id) {
@@ -29,10 +29,10 @@ public class FriendServiceImpl implements FriendService {
 
 
     @Override
-    public void addFriend(Long person_id, Long friend_id) {
-        friendship = friendDao.getFriendshipById(person_id, friend_id);
+    public void addFriend(Long personId, Long friendId) {
+        friendship = friendDao.getFriendshipById(personId, friendId);
         if (friendship == null) {
-            friendDao.addFriend(person_id, friend_id);
+            friendDao.addFriend(personId, friendId);
         }
     }
 
@@ -42,8 +42,8 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public void cancelRequest(Long id, Long friend_id) {
-        friendDao.cancelRequest(id, friend_id);
+    public void cancelRequest(Long id, Long friendId) {
+        friendDao.cancelRequest(id, friendId);
     }
 
     @Override
@@ -52,13 +52,13 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public void acceptRequest(Long id, Long friend_id) {
-        friendDao.acceptRequest(id, friend_id);
+    public void acceptRequest(Long id, Long friendId) {
+        friendDao.acceptRequest(id, friendId);
     }
 
     @Override
-    public void deleteFriend(Long id, Long friend_id) {
-        friendDao.deleteFriend(id, friend_id);
+    public void deleteFriend(Long id, Long friendId) {
+        friendDao.deleteFriend(id, friendId);
     }
 
     @Override

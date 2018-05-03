@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.Utilites;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,15 +80,17 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     private String SQL_IS_CREATOR;
 
     private final RowMapper<Event> rowMapper;
-    private final RowMapper<User> participantRowMapper;
-
+    private final RowMapper<User> friendRowMapper;
+    private final RowMapper<Participant> participantRowMapper;
 
     @Autowired
     public EventDaoImpl(DataSource dataSource,
                         @Qualifier("eventRowMapper") RowMapper<Event> rowMapper,
-                        @Qualifier("friendRowMapper") RowMapper<User> participantRowMapper) {
+                        @Qualifier("friendRowMapper") RowMapper<User> friendRowMapper,
+                        RowMapper<Participant> participantRowMapper) {
         super(dataSource);
         this.rowMapper = rowMapper;
+        this.friendRowMapper = friendRowMapper;
         this.participantRowMapper = participantRowMapper;
     }
 
@@ -164,8 +167,8 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public void participate(Long user_id, long event_id) {
-        updateEntity(SQL_PARTICIPATE, user_id, event_id);
+    public void participate(Long userId, long eventId) {
+        updateEntity(SQL_PARTICIPATE, userId, eventId);
     }
 
     @Override
@@ -174,18 +177,18 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public List<User> getParticipants(long event_id) {
-        return findEntityList(SQL_GET_PARTICIPANTS, participantRowMapper, event_id);
+    public List<User> getParticipants(long eventId) {
+        return findEntityList(SQL_GET_PARTICIPANTS, friendRowMapper, eventId);
     }
 
     @Override
-    public int isParticipated(Long id, int eventId) {
-        return countRows(SQL_IS_PARTICIPATED, id, eventId);
+    public Participant isParticipated(Long id, int eventId) {
+        return findEntity(SQL_IS_PARTICIPATED, participantRowMapper, id, eventId);
     }
 
     @Override
-    public void unsubscribe(long id, long event_id) {
-        deleteEntity(SQL_UNSUBSCRIBE, id, event_id);
+    public void unsubscribe(long id, long eventId) {
+        deleteEntity(SQL_UNSUBSCRIBE, id, eventId);
     }
 
     @Override
@@ -204,13 +207,13 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public int getEventType(int event_id) {
-        return countRows(SQL_GET_EVENT_TYPE, event_id);
+    public int getEventType(int eventId) {
+        return countRows(SQL_GET_EVENT_TYPE, eventId);
     }
 
     @Override
-    public int isCreator(Long person_id, int event_id) {
-        return countRows(SQL_IS_CREATOR, person_id, event_id);
+    public int isCreator(Long personId, int eventId) {
+        return countRows(SQL_IS_CREATOR, personId, eventId);
     }
 }
 

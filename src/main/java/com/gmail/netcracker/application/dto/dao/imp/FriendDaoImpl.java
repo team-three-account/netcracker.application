@@ -82,14 +82,14 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
     }
 
     @Override
-    public Friend getFriendshipById(Long person_id, Long friend_id) {
+    public Friend getFriendshipById(Long personId, Long friendId) {
         return findEntity(SQL_FIND_FRIENDSHIP_BY_ID, friendshipRowMapper,
-                person_id, friend_id, person_id, friend_id);
+                personId, friendId, personId, friendId);
     }
 
     @Override
-    public void addFriend(Long person_id, Long friend_id) {
-        updateEntity(SQL_ADD_REQUESTED_USER, person_id, friend_id);
+    public void addFriend(Long personId, Long friendId) {
+        updateEntity(SQL_ADD_REQUESTED_USER, personId, friendId);
     }
 
     @Override
@@ -98,8 +98,8 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
     }
 
     @Override
-    public void cancelRequest(Long id, Long friend_id) {
-        updateEntity(SQL_CANCEL_REQUEST, id, friend_id, id, friend_id);
+    public void cancelRequest(Long id, Long friendId) {
+        updateEntity(SQL_CANCEL_REQUEST, id, friendId, id, friendId);
     }
 
     @Override
@@ -108,8 +108,8 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
     }
 
     @Override
-    public void acceptRequest(Long id, Long friend_id) {
-        updateEntity(SQL_ACCEPT_REQUEST, id, friend_id, id, friend_id);
+    public void acceptRequest(Long id, Long friendId) {
+        updateEntity(SQL_ACCEPT_REQUEST, id, friendId, id, friendId);
     }
 
     @Override
