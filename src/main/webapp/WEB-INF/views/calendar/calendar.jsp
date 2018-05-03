@@ -1,3 +1,4 @@
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Alina
@@ -14,15 +15,17 @@
     <script src='../resources/calendar/js/moment.min.js'></script>
     <script src='../resources/calendar/js/jquery.min.js'></script>
     <script src='../resources/calendar/js/fullcalendar.min.js'></script>
+    <script src='../resourses/calendar/js/gcal.js'></script>
+
     <script>
 
         $(document).ready(function() {
 
             $('#calendar').fullCalendar({
-                defaultDate: '2018-03-12',
-                editable: true,
+                editable: false,
                 eventLimit: true, // allow "more" link when too many events
                 events: ${eventList}
+
             });
 
         });
@@ -38,16 +41,42 @@
         }
 
         #calendar {
-            max-width: 900px;
+            max-width: 700px;
             margin: 0 auto;
         }
 
     </style>
+    <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 </head>
 <body>
 
-<div id='calendar'></div>
+<div class="row">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
+    <div class="col-md-3"
+    <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+</div>
 
+<div class="col-md-9 content">
+    <form:form method="POST" modelAttribute="filter">
+        <table>
+            <tr>
+                <td>Choose the priority you like:</td>
+                <td><form:checkboxes path="priorities" items="${priorities}" />
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="submit" value="Submit"></td>
+            </tr>
+            <tr>
+        </table>
+    </form:form>
+
+
+    <div id='calendar'></div>
+</div>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
 </body>
 </html>
 

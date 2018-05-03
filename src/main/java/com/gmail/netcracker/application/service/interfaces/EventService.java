@@ -1,10 +1,9 @@
 package com.gmail.netcracker.application.service.interfaces;
 
-import com.gmail.netcracker.application.dto.model.Event;
-import com.gmail.netcracker.application.dto.model.EventType;
-import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.dto.model.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EventService {
 
@@ -38,9 +37,19 @@ public interface EventService {
 
     List<User> getParticipants(long event_id);
 
+    List<Participant> getPriorityForMyEvents();
+
+    Map<Event, String> getMyEventWithPriority();
+
+    List<String> getAllPriorities();
+
     boolean isParticipated(Long id, int eventId);
 
     void unsubscribe(long id, long event_id);
 
     int getMaxId();
+
+    String getPriority(int event_id, Long person_id);
+
+    String getPriority(int event_id);
 }

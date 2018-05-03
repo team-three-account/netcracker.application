@@ -5,6 +5,7 @@ import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.*;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.NoteValidator;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
@@ -94,6 +95,10 @@ public class RootConfig {
         return new ResetConfirmPasswordValidator();
     }
 
+    @Bean
+    public EventSerializer eventSerializer(){
+        return new EventSerializer();
+    }
     @Bean
     Event event() {
         return new Event();
@@ -211,7 +216,7 @@ public class RootConfig {
             event.setWidth(rs.getDouble("width"));
             event.setLongitude(rs.getDouble("longitude"));
             event.setEventPlaceName(rs.getString("eventplacename"));
-            event.setPeriodicity(rs.getInt("periodicity"));
+            event.setPeriodicity(rs.getString("periodicity"));
             event.setPhoto(rs.getString("photo"));
             return event;
         };
@@ -234,6 +239,16 @@ public class RootConfig {
             priority.setPriorityId(resultSet.getInt("priority_id"));
             priority.setName(resultSet.getString("value"));
             return priority;
+        };
+    }
+
+    @Bean
+    public RowMapper<Participant> participantRowMapper() {
+        return (resultSet, i) -> {
+            Participant participant = new Participant();
+            participant.setEventId(resultSet.getInt("event"));
+            participant.setPriority(resultSet.getString("value"));
+            return participant;
         };
     }
 

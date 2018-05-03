@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.List;
 
-@Repository//TODO добавить priority в запросы
+@Repository
 public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.pkColumnName}")
     private String PK_COLUMN_NAME;

@@ -13,7 +13,6 @@ public class Event {
     private String placeId;
     private String placeAddress;
     private String periodicity;
-    private String priority;
     private String type;
     private boolean draft;
     private int folder;

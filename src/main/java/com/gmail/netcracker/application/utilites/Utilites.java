@@ -35,6 +35,14 @@ public class Utilites {
         return df.format(date);
     }
 
+    public static String parseDateIntoString(Long date) {
+        if (date == null) {
+            return "";
+        }
+        Format df = new SimpleDateFormat("yyyy-MM-dd");
+        return df.format(new Date(date));
+    }
+
     public static Timestamp parseTime(String str_date) {
         if (str_date != null) {
             try {
