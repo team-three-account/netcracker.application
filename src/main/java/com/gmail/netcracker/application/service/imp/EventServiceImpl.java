@@ -125,13 +125,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Integer getPriority(int event_id, Long person_id) {
-        return participantDao.getParticipant(event_id, person_id).getPriority();
+    public Integer getPriority(int eventId, Long personId) {
+        return participantDao.getParticipant(eventId, personId).getPriority();
     }
 
     @Override
-    public Integer getPriority(int event_id) {
-        return getPriority(event_id, userService.getAuthenticatedUser().getId());
+    public Integer getPriority(int eventId) {
+        return getPriority(eventId, userService.getAuthenticatedUser().getId());
     }
 
     @Override
@@ -156,18 +156,18 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void setPriority(Integer priority, int event_id, Long user_id) {
-        participantDao.setPriority(priority, event_id, user_id);
+    public void setPriority(Integer priority, int eventId, Long user_id) {
+        participantDao.setPriority(priority, eventId, user_id);
     }
 
     @Override
-    public Participant getParticipant(int event_id, Long person_id) {
-        return participantDao.getParticipant(event_id, person_id);
+    public Participant getParticipant(int eventId, Long personId) {
+        return participantDao.getParticipant(eventId, personId);
     }
 
     @Override
-    public Participant getParticipant(int event_id) {
-        return getParticipant(event_id, userService.getAuthenticatedUser().getId());
+    public Participant getParticipant(int eventId) {
+        return getParticipant(eventId, userService.getAuthenticatedUser().getId());
     }
 
     @Override

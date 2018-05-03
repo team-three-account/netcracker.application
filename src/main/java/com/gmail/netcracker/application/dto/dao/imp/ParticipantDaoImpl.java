@@ -33,18 +33,18 @@ public class ParticipantDaoImpl extends ModelDao implements ParticipantDao {
 
 
     @Override
-    public void setPriority(Integer priority, int event_id, Long user_id) {
-        updateEntity(SQL_SET_PRIORITY, priority, event_id, user_id);
+    public void setPriority(Integer priority, int eventId, Long userId) {
+        updateEntity(SQL_SET_PRIORITY, priority, eventId, userId);
     }
 
     @Override
-    public List<Participant> getPriorityForUserEvents(Long user_id) {
-        return findEntityList(SQL_GET_EVENT_PRIORITY, rowMapper, user_id);
+    public List<Participant> getPriorityForUserEvents(Long userId) {
+        return findEntityList(SQL_GET_EVENT_PRIORITY, rowMapper, userId);
     }
 
     @Override
-    public Participant getParticipant(int event_id, Long user_id) {
-        return findEntity(SQL_GET_PARTICIPANT, rowMapper, event_id, user_id);
+    public Participant getParticipant(int eventId, Long userId) {
+        return findEntity(SQL_GET_PARTICIPANT, rowMapper, eventId, userId);
     }
 
 

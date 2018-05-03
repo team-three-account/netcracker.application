@@ -99,18 +99,18 @@ public class EventController {
 
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.GET)
     public ModelAndView viewEvent(@PathVariable("eventId") int eventId, ModelAndView modelAndView) {
-        User auth_user = userService.getAuthenticatedUser();
-        if (!eventService.allowAccess(auth_user.getId(), eventId)) {
+        User authUser = userService.getAuthenticatedUser();
+        if (!eventService.allowAccess(authUser.getId(), eventId)) {
             modelAndView.setViewName("accessDenied");
         } else {
-            modelAndView.addObject("auth_user", auth_user);
+            modelAndView.addObject("auth_user", authUser);
             modelAndView.addObject("event", eventService.getEvent(eventId));
             modelAndView.addObject("photo", eventService.getEvent(eventId).getPhoto());
             Logger.getLogger(EventController.class.getName()).info(eventService.getEvent(eventId).getPhoto());
             modelAndView.addObject("user_creator", userService.findUserById(eventService.getEvent(eventId).getCreator()));
             int participants = eventService.countParticipants(eventId);
             modelAndView.addObject("participants", participants);
-            boolean isParticipated = eventService.isParticipated(auth_user.getId(), eventId);
+            boolean isParticipated = eventService.isParticipated(authUser.getId(), eventId);
             modelAndView.addObject("participant", eventService.getParticipant(eventId));
             modelAndView.addObject("isParticipated", isParticipated );
             modelAndView.addObject("priorities", eventService.getAllPriorities());
@@ -185,18 +185,18 @@ public class EventController {
 
     @RequestMapping(value = "/available", method = RequestMethod.GET)
     public String available(Model model) {
-        User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
+        User authUser = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", authUser);
         model.addAttribute("publicEventList", eventService.findPublicEvents());
-        model.addAttribute("friendsEventList", eventService.findFriendsEvents(auth_user.getId()));
+        model.addAttribute("friendsEventList", eventService.findFriendsEvents(authUser.getId()));
         return "event/available";
     }
 
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
     public String unsubscribe(@RequestParam(value = "event_id") String eventId, Model model) {
-        User auth_user =userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
-        eventService.unsubscribe(auth_user.getId(), Long.parseLong(eventId));
+        User authUser =userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", authUser);
+        eventService.unsubscribe(authUser.getId(), Long.parseLong(eventId));
         return "redirect:/account/eventList/event-"+ eventId;
     }
 
@@ -212,9 +212,9 @@ public class EventController {
 
     @RequestMapping(value = "/draft", method = RequestMethod.GET)
     public String draft(Model model) {
-        User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
-        List<Event> draftList = eventService.findDrafts(auth_user.getId());
+        User authUser = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", authUser);
+        List<Event> draftList = eventService.findDrafts(authUser.getId());
         model.addAttribute("draftList", draftList);
         if (draftList.isEmpty()) model.addAttribute("message", "You have not any draft");
         else model.addAttribute("message", "You're drafts :");
@@ -223,11 +223,11 @@ public class EventController {
 
     @RequestMapping(value = "/managed", method = RequestMethod.GET)
     public String managed(Model model) {
-        User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
-        List<Event> publicEventList = eventService.findCreatedPublicEvents(auth_user.getId()); //!!!!
-        List<Event> privateEventList = eventService.findPrivateEvents(auth_user.getId());
-        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(auth_user.getId()); //!!!
+        User authUser = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", authUser);
+        List<Event> publicEventList = eventService.findCreatedPublicEvents(authUser.getId()); //!!!!
+        List<Event> privateEventList = eventService.findPrivateEvents(authUser.getId());
+        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(authUser.getId()); //!!!
         model.addAttribute("publicEventList", publicEventList);
         model.addAttribute("friendsEventList", friendsEventList);
         model.addAttribute("privateEventList", privateEventList);
