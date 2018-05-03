@@ -23,14 +23,14 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @RequestMapping(value = "/update-{itemName}", method = RequestMethod.GET)
-    public String updateItemPage(@PathVariable("itemName") String itemName, Model model) {
+    @RequestMapping(value = "/update-{name}", method = RequestMethod.GET)
+    public String updateItemPage(@PathVariable("name") String itemName, Model model) {
         model.addAttribute("item", itemService.getByItemName(itemName));
         return "item/editItem";
     }
 
     @RequestMapping(value = "/updateItem", method = RequestMethod.POST)
-    public String updateItem(@ModelAttribute("itemUpdate") Item item){
+    public String updateItem(@ModelAttribute("item") Item item){
         itemService.update(item);
         return "redirect:/account/itemList";
     }

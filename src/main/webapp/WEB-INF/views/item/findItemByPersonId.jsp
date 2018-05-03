@@ -36,8 +36,8 @@
             <td>${personItem.description}</td>
             <td><c:out value="${personItem.link}" escapeXml="false"/></td>
             <td><c:out value="${personItem.dueDate}" escapeXml="false"/></td>
-            <td> <c:out value="${personItem.priority}" escapeXml="false"/> </td>
-            <td <c:out value="${personItem.root}" escapeXml="false"/> </td>
+            <td><c:out value="${personItem.priority}" escapeXml="false"/> </td>
+            <td><c:out value="${personItem.root}" escapeXml="false"/> </td>
         </tr>
     </c:forEach>
 </table>

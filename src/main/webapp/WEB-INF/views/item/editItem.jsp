@@ -12,8 +12,7 @@
 </head>
 <body>
 <form name="item" action="/account/updateItem" method="post">
-    <p>itemId</p>
-    <p> value="${item.itemId}"</p>
+    <h2><b>itemID - ${item.itemId}</b></h2>
     <p>personId</p>
     <input title="personId" type="number" name="personId" value="${item.personId}">
     <p>booker</p>
