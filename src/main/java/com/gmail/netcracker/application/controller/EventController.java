@@ -85,7 +85,7 @@ public class EventController {
         photoService.saveFileInDB(event.getPhoto(), Long.parseLong(String.valueOf(event.getEventId())));
         eventService.insertEvent(event);
         eventService.participate(userService.getAuthenticatedUser().getId(),Long.parseLong(String.valueOf(eventService.getMaxId())));
-        modelAndView.setViewName("redirect:/account/eventlist");
+        modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }
 
@@ -93,7 +93,7 @@ public class EventController {
     @RequestMapping(value = {"/eventList/deleteEvent-{eventId}"}, method = RequestMethod.GET)
     public String deleteEvent(@PathVariable int eventId) {
         eventService.delete(eventId);
-        return "redirect:/account/eventlist";
+        return "redirect:/account/managed";
     }
 
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.GET)
@@ -137,7 +137,7 @@ public class EventController {
             return modelAndView;
         }
         eventService.update(event);
-        modelAndView.setViewName("redirect:/account/eventlist");
+        modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }
 
