@@ -164,10 +164,10 @@ public class EventController {
     }
 
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
-    public String participate(@RequestParam(value = "event_id") String event_id, Model model) {
+    public String participate(@RequestParam(value = "event_id") String eventId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(event_id));
-        return "redirect:/account/eventList/event-" + event_id;
+        eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(eventId));
+        return "redirect:/account/eventList/event-"+ eventId;
     }
 
     @ModelAttribute("eventTypes")
@@ -193,11 +193,11 @@ public class EventController {
     }
 
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
-    public String unsubscribe(@RequestParam(value = "event_id") String event_id, Model model) {
-        User auth_user = userService.getAuthenticatedUser();
+    public String unsubscribe(@RequestParam(value = "event_id") String eventId, Model model) {
+        User auth_user =userService.getAuthenticatedUser();
         model.addAttribute("auth_user", auth_user);
-        eventService.unsubscribe(auth_user.getId(), Long.parseLong(event_id));
-        return "redirect:/account/eventList/event-" + event_id;
+        eventService.unsubscribe(auth_user.getId(), Long.parseLong(eventId));
+        return "redirect:/account/eventList/event-"+ eventId;
     }
 
     @RequestMapping(value = "/subscriptions", method = RequestMethod.GET)

@@ -95,8 +95,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void participate(Long user_id, long event_id) {
-        eventDao.participate(user_id, event_id);
+    public void participate(Long userId, long eventId) {
+        eventDao.participate(userId, eventId);
     }
 
     @Override
@@ -105,19 +105,18 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<User> getParticipants(long event_id) {
-        return eventDao.getParticipants(event_id);
+    public List<User> getParticipants(long eventId) {
+        return eventDao.getParticipants(eventId);
     }
 
     @Override
     public boolean isParticipated(Long id, int eventId) {
-        int count = eventDao.isParticipated(id, eventId);
-        return count>0 ? true : false;
+        return eventDao.isParticipated(id, eventId) != null ;
     }
 
     @Override
-    public void unsubscribe(long id, long event_id) {
-        eventDao.unsubscribe(id, event_id);
+    public void unsubscribe(long id, long eventId) {
+        eventDao.unsubscribe(id, eventId);
     }
 
     @Override
@@ -136,24 +135,24 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean allowAccess(Long person_id, int event_id) {
+    public boolean allowAccess(Long personId, int eventId) {
         boolean access = false;
-        switch( eventDao.getEventType(event_id) ) {
+        switch( eventDao.getEventType(eventId) ) {
             case 1: // private
-                access = isCreator(person_id, event_id);
+                access = isCreator(personId, eventId);
                 break;
             case 2 : // public
                 access = true;
+                break;
             case 3:
-                access=true;// for friends
+                access = true;// for friends
                 break;
         }
        return access;
     }
 
-    public boolean isCreator(Long person_id, int event_id){
-        int count = eventDao.isCreator(person_id, event_id);
-        return count>0 ? true : false;
+    public boolean isCreator(Long personId, int eventId){
+        return eventDao.isCreator(personId, eventId) >0 ;
     }
 
     @Override
@@ -199,6 +198,5 @@ public class EventServiceImpl implements EventService {
     public List<Event> findCreatedPublicEvents(Long id) {
         return eventDao.findCreatedPublicEvents(id);
     }
-
 
 }

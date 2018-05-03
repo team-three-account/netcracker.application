@@ -1,6 +1,7 @@
 package com.gmail.netcracker.application.dto.dao.interfaces;
 
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
 
 import java.util.List;
@@ -26,15 +27,15 @@ public interface EventDao {
 
     List<Event> getAllMyEvents(Long personId);
 
-    void participate(Long user_id, long event_id);
+    void participate(Long userId, long eventId);
 
     int getParticipantsCount(int eventId);
 
-    List<User> getParticipants(long event_id);
+    List<User> getParticipants(long eventId);
 
-    int isParticipated(Long id, int eventId);
+    Participant isParticipated(Long id, int eventId);
 
-    void unsubscribe(long id, long event_id);
+    void unsubscribe(long id, long eventId);
 
     List<Event> findCreatedFriendsEvents(Long id);
 
@@ -42,7 +43,7 @@ public interface EventDao {
 
     int getMaxId();
 
-    int getEventType(int event_id);
+    int getEventType(int eventId);
 
-    int isCreator(Long person_id, int event_id);
+    int isCreator(Long personId, int eventId);
 }

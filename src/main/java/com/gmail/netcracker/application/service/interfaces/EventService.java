@@ -31,11 +31,11 @@ public interface EventService {
 
     List<Event> getAllMyEvents();
 
-    void participate(Long user_id, long event_id);
+    void participate(Long userId, long eventId);
 
     int countParticipants(int eventId);
 
-    List<User> getParticipants(long event_id);
+    List<User> getParticipants(long eventId);
 
     List<Participant> getPriorityForMyEvents();
 
@@ -45,7 +45,7 @@ public interface EventService {
 
     boolean isParticipated(Long id, int eventId);
 
-    void unsubscribe(long id, long event_id);
+    void unsubscribe(long id, long eventId);
 
     List<Event> findCreatedFriendsEvents(Long id);
 
@@ -53,16 +53,18 @@ public interface EventService {
 
     int getMaxId();
 
-    Integer getPriority(int event_id, Long person_id);
+    Integer getPriority(int eventId, Long personId);
 
-    Integer getPriority(int event_id);
+    Integer getPriority(int eventId);
 
-    void setPriority(Integer priority, int event_id, Long user_id);
+    void setPriority(Integer priority, int eventId, Long userId);
 
-    Participant getParticipant(int event_id, Long person_id);
+    Participant getParticipant(int eventId, Long personId);
 
-    Participant getParticipant(int event_id);
+    Participant getParticipant(int eventId);
 
 
-    boolean allowAccess(Long person_id, int event_id);
+    boolean allowAccess(Long personId, int eventId);
+
+    boolean isCreator(Long personId, int eventId);
 }

@@ -40,22 +40,22 @@ public class FriendController {
     }
 
     @RequestMapping(value = "/{friend_id}", method = RequestMethod.GET)
-    public ModelAndView friendAccount(@PathVariable(value = "friend_id") String friend_id, ModelAndView model) {
+    public ModelAndView friendAccount(@PathVariable(value = "friend_id") String friendId, ModelAndView model) {
         model.addObject("auth_user", userService.getAuthenticatedUser());
-        model.addObject("friend", userService.findUserById(Long.parseLong(friend_id)));
+        model.addObject("friend", userService.findUserById(Long.parseLong(friendId)));
         model.setViewName("friend/profile");
         return model;
     }
 
     @RequestMapping(value = "/delete-friend", method = RequestMethod.POST)
-    public String deleteFriend(@RequestParam(value = "friend_id") String friend_id) {
-        friendService.deleteFriend(userService.getAuthenticatedUser().getId(), Long.parseLong(friend_id));
+    public String deleteFriend(@RequestParam(value = "friend_id") String friendId) {
+        friendService.deleteFriend(userService.getAuthenticatedUser().getId(), Long.parseLong(friendId));
         return "redirect:/account/friends";
     }
 
     @RequestMapping(value = "/friends/add-friend", method = RequestMethod.POST)
-    public String addFriend(@RequestParam(value = "friend_id") Long friend_id) {
-        friendService.addFriend(userService.getAuthenticatedUser().getId(), friend_id);
+    public String addFriend(@RequestParam(value = "friend_id") Long friendId) {
+        friendService.addFriend(userService.getAuthenticatedUser().getId(), friendId);
         return "redirect:/account/friends/outgoing";
     }
 
@@ -83,9 +83,9 @@ public class FriendController {
     }
 
     @RequestMapping(value = "/friends/cancel-request", method = RequestMethod.POST)
-    public String cancelRequest(Model model, @RequestParam(value = "friend_id") Long friend_id) {
+    public String cancelRequest(Model model, @RequestParam(value = "friend_id") Long friendId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        friendService.cancelRequest(userService.getAuthenticatedUser().getId(), friend_id);
+        friendService.cancelRequest(userService.getAuthenticatedUser().getId(), friendId);
         return "redirect:/account/friends/outgoing";
     }
 
@@ -99,9 +99,9 @@ public class FriendController {
     }
 
     @RequestMapping(value = "/friends/accept-request", method = RequestMethod.POST)
-    public String acceptRequest(Model model, @RequestParam(value = "friend_id") Long friend_id) {
+    public String acceptRequest(Model model, @RequestParam(value = "friend_id") Long friendId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        friendService.acceptRequest(userService.getAuthenticatedUser().getId(), friend_id);
+        friendService.acceptRequest(userService.getAuthenticatedUser().getId(), friendId);
         return "redirect:/account/friends/incoming";
     }
 

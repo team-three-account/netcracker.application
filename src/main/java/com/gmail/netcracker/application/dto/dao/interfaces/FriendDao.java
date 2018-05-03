@@ -12,17 +12,17 @@ public interface FriendDao {
     List<User> getFriendsByNameOrSurname(Long id, String input);
     List<User> getFriendsByNameAndSurname(Long id, String name, String surname);
 
-    Friend getFriendshipById(Long person_id, Long friend_id);
+    Friend getFriendshipById(Long personId, Long friendId);
 
-    void addFriend(Long person_id, Long friend_id);
+    void addFriend(Long personId, Long friendId);
 
     List<User> getOutgoingRequests(Long id);
 
-    void cancelRequest(Long id, Long friend_id);
+    void cancelRequest(Long id, Long friendId);
 
     List<User> getIncomingRequests(Long id);
 
-    void acceptRequest(Long id, Long friend_id);
+    void acceptRequest(Long id, Long friendId);
 
     List<User> searchUsersByNameAndSurname(Long id, String name, String surname);
     List<User> searchUsersByNameOrSurname(Long id, String search);
