@@ -198,4 +198,22 @@ public class EventController {
         else model.addAttribute("message", "You're drafts :");
         return "event/draft";
     }
+
+    @RequestMapping(value = "/managed", method = RequestMethod.GET)
+    public String managed(Model model) {
+        User auth_user =userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", auth_user);
+        List<Event> publicEventList = eventService.findCreatedPublicEvents(auth_user.getId()); //!!!!
+        List<Event> privateEventList = eventService.findPrivateEvents(auth_user.getId());
+        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(auth_user.getId()); //!!!
+        model.addAttribute("publicEventList", publicEventList);
+        model.addAttribute("friendsEventList", friendsEventList);
+        model.addAttribute("privateEventList", privateEventList);
+
+        if (publicEventList.isEmpty() && friendsEventList.isEmpty() && privateEventList.isEmpty()){
+            model.addAttribute("message", "You have not created any event");
+        }
+        else model.addAttribute("message", "Created events :");
+        return "event/managed";
+    }
 }

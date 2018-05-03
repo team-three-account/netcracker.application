@@ -158,4 +158,14 @@ public class EventServiceImpl implements EventService {
         return priority;
     }
 
+    @Override
+    public List<Event> findCreatedFriendsEvents(Long id) {
+        return eventDao.findCreatedFriendsEvents(id);
+    }
+
+    @Override
+    public List<Event> findCreatedPublicEvents(Long id) {
+        return eventDao.findCreatedPublicEvents(id);
+    }
+
 }

@@ -47,6 +47,10 @@ public interface EventService {
 
     void unsubscribe(long id, long event_id);
 
+    List<Event> findCreatedFriendsEvents(Long id);
+
+    List<Event> findCreatedPublicEvents(Long id);
+
     int getMaxId();
 
     String getPriority(int event_id, Long person_id);

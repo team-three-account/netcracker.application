@@ -36,5 +36,9 @@ public interface EventDao {
 
     void unsubscribe(long id, long event_id);
 
+    List<Event> findCreatedFriendsEvents(Long id);
+
+    List<Event> findCreatedPublicEvents(Long id);
+
     int getMaxId();
 }

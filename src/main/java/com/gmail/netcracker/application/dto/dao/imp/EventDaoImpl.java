@@ -46,7 +46,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     private String SQL_UPDATE;
 
     @Value("${sql.event.findPersonEvents}")
-    private String SQL_FIND_PERSON_EVENTS;//TODO не учитывает isDraft;
+    private String SQL_FIND_PERSON_EVENTS;
 
     @Value("${sql.event.participate}")
     private String SQL_PARTICIPATE;
@@ -62,6 +62,12 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Value("${sql.event.unsubscribe}")
     private String SQL_UNSUBSCRIBE;
+
+    @Value("${sql.event.findCreatedFriendsEvents}")
+    private String SQL_FIND_CREATED_FRIENDS_EVENTS;
+
+    @Value("${sql.event.findCreatedPublicEvents}")
+    private String SQL_FIND_CREATED_PUBLIC_EVENTS;
 
     @Value("${sql.event.maxid}")
     private String SQL_MAX_ID;
@@ -174,6 +180,16 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public void unsubscribe(long id, long event_id) {
         deleteEntity(SQL_UNSUBSCRIBE, id, event_id);
+    }
+
+    @Override
+    public List<Event> findCreatedFriendsEvents(Long id) {
+        return findEntityList(SQL_FIND_CREATED_FRIENDS_EVENTS, rowMapper, id);
+    }
+
+    @Override
+    public List<Event> findCreatedPublicEvents(Long id) {
+        return findEntityList(SQL_FIND_CREATED_PUBLIC_EVENTS, rowMapper, id);
     }
 
     @Override
