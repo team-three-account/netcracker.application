@@ -35,25 +35,25 @@
                         </div>
                         <div class="form-group">
                             <label>Event Name: </label>
-                            <form:input path="name" id="name" type="text" class="form-control"
+                            <form:input path="name" id="name" type="text" class="form-control decodingHtml"
                                         placeholder="Enter event name"/>
                             <form:errors path="name" cssClass="error"/>
                         </div>
                         <div class="form-group">
                             <label>Description: </label>
-                            <form:input path="description" id="description" type="text" class="form-control"
+                            <form:input path="description" id="description" type="text" class="form-control decodingHtml"
                                         placeholder="Enter event description"/>
                             <form:errors path="description" cssClass="error"/>
                         </div>
                         <div class="form-group">
                             <label>Start_date: </label>
-                            <form:input path="dateStart" id="dateStart" type="date" class="form-control"
+                            <form:input path="dateStart" id="dateStart" type="date" class="form-control dateValid "
                                         placeholder="Enter event start date"/>
                             <form:errors path="dateStart" cssClass="error"/>
                         </div>
                         <div class="form-group">
                             <label>End_date: </label>
-                            <form:input path="dateEnd" id="dateEnd" type="date" class="form-control"
+                            <form:input path="dateEnd" id="dateEnd" type="date" class="form-control dateValid"
                                         placeholder="Enter event end date"/>
                             <form:errors path="dateEnd" cssClass="error"/>
                         </div>
