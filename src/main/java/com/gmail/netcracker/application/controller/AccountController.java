@@ -99,8 +99,6 @@ public class AccountController {
 
     @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
     public String profile(@PathVariable(value = "id") Long id, Model model) {
-        User user = userService.findUserById(id);
-
         model.addAttribute("auth_user", userService.findUserById(id));
         return "account/profile";
     }
@@ -108,7 +106,6 @@ public class AccountController {
     @RequestMapping(value = "/settings-user/{id}", method = RequestMethod.GET)
     public ModelAndView settings(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.findUserById(id));
-        Logger.getLogger(AccountController.class.getName()).info(userService.findUserById(id).toString());
         modelAndView.setViewName("account/edit");
         return modelAndView;
     }
@@ -124,7 +121,6 @@ public class AccountController {
                               final ModelAndView modelAndView) {
 
         User user = userService.findUserById(id);
-        Logger.getLogger(AccountController.class.getName()).info(photo.toString());
         user.setName(name);
         user.setSurname(surname);
         user.setPhone(phone);
@@ -137,7 +133,6 @@ public class AccountController {
         }
         photoService.saveFileInDB(user.getPhoto(), user.getId());
         userService.updateUser(user);
-        Logger.getLogger(AccountController.class.getName()).info(user.toString());
         modelAndView.setViewName("redirect:/account/profile/" + id);
         return modelAndView;
     }
