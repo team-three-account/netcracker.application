@@ -80,11 +80,11 @@ public class EventController {
             return modelAndView;
         }
         if (!photo.equals(1)) {
-            photoService.saveFileInFileSystem(multipartFile,String.valueOf(System.currentTimeMillis()));
+            photoService.saveFileInFileSystem(multipartFile, String.valueOf(System.currentTimeMillis()));
         }
         photoService.saveFileInDB(event.getPhoto(), Long.parseLong(String.valueOf(event.getEventId())));
         eventService.insertEvent(event);
-        eventService.participate(userService.getAuthenticatedUser().getId(),Long.parseLong(String.valueOf(eventService.getMaxId())));
+        eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(String.valueOf(eventService.getMaxId())));
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }
@@ -99,10 +99,9 @@ public class EventController {
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.GET)
     public ModelAndView viewEvent(@PathVariable("eventId") int eventId, ModelAndView modelAndView) {
         User auth_user = userService.getAuthenticatedUser();
-        if( !eventService.allowAccess(auth_user.getId(), eventId)) {
+        if (!eventService.allowAccess(auth_user.getId(), eventId)) {
             modelAndView.setViewName("accessDenied");
-        }
-        else {
+        } else {
             modelAndView.addObject("auth_user", auth_user);
             modelAndView.addObject("event", eventService.getEvent(eventId));
             modelAndView.addObject("photo", eventService.getEvent(eventId).getPhoto());
@@ -134,11 +133,14 @@ public class EventController {
                                     BindingResult result,
                                     ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        if(!photo.equals(event.getPhoto())){
+        if (multipartFile.isEmpty()) {
+            event.setPhoto(photo);
+        } else {
             event.setPhoto(String.valueOf(System.currentTimeMillis()));
-            photoService.saveFileInFileSystem(multipartFile,event.getPhoto());
-            photoService.saveFileInDB(event.getPhoto(),Long.parseLong(String.valueOf(event.getEventId())));
         }
+        photoService.saveFileInFileSystem(multipartFile, event.getPhoto());
+        photoService.saveFileInDB(event.getPhoto(), Long.parseLong(String.valueOf(event.getEventId())));
+
         modelAndView.setViewName("event/updateEvent");
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
@@ -153,7 +155,7 @@ public class EventController {
     public String participate(@RequestParam(value = "event_id") String event_id, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(event_id));
-        return "redirect:/account/eventList/event-"+ event_id;
+        return "redirect:/account/eventList/event-" + event_id;
     }
 
     @ModelAttribute("eventTypes")
@@ -163,14 +165,14 @@ public class EventController {
 
     @RequestMapping(value = "/event-{eventId}/participants", method = RequestMethod.GET)
     public String getParticipants(@PathVariable(value = "eventId") String eventId, Model model) {
-        List<User> participantList = eventService.getParticipants( Long.parseLong(eventId));
+        List<User> participantList = eventService.getParticipants(Long.parseLong(eventId));
         model.addAttribute("participantList", participantList);
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         return "event/participants";
     }
 
     @RequestMapping(value = "/available", method = RequestMethod.GET)
-    public String available( Model model) {
+    public String available(Model model) {
         User auth_user = userService.getAuthenticatedUser();
         model.addAttribute("auth_user", auth_user);
         model.addAttribute("publicEventList", eventService.findPublicEvents());
@@ -180,10 +182,10 @@ public class EventController {
 
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
     public String unsubscribe(@RequestParam(value = "event_id") String event_id, Model model) {
-        User auth_user =userService.getAuthenticatedUser();
+        User auth_user = userService.getAuthenticatedUser();
         model.addAttribute("auth_user", auth_user);
         eventService.unsubscribe(auth_user.getId(), Long.parseLong(event_id));
-        return "redirect:/account/eventList/event-"+ event_id;
+        return "redirect:/account/eventList/event-" + event_id;
     }
 
     @RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
@@ -198,7 +200,7 @@ public class EventController {
 
     @RequestMapping(value = "/draft", method = RequestMethod.GET)
     public String draft(Model model) {
-        User auth_user =userService.getAuthenticatedUser();
+        User auth_user = userService.getAuthenticatedUser();
         model.addAttribute("auth_user", auth_user);
         List<Event> draftList = eventService.findDrafts(auth_user.getId());
         model.addAttribute("draftList", draftList);
@@ -209,7 +211,7 @@ public class EventController {
 
     @RequestMapping(value = "/managed", method = RequestMethod.GET)
     public String managed(Model model) {
-        User auth_user =userService.getAuthenticatedUser();
+        User auth_user = userService.getAuthenticatedUser();
         model.addAttribute("auth_user", auth_user);
         List<Event> publicEventList = eventService.findCreatedPublicEvents(auth_user.getId()); //!!!!
         List<Event> privateEventList = eventService.findPrivateEvents(auth_user.getId());
@@ -218,10 +220,9 @@ public class EventController {
         model.addAttribute("friendsEventList", friendsEventList);
         model.addAttribute("privateEventList", privateEventList);
 
-        if (publicEventList.isEmpty() && friendsEventList.isEmpty() && privateEventList.isEmpty()){
+        if (publicEventList.isEmpty() && friendsEventList.isEmpty() && privateEventList.isEmpty()) {
             model.addAttribute("message", "You have not created any event");
-        }
-        else model.addAttribute("message", "Created events :");
+        } else model.addAttribute("message", "Created events :");
         return "event/managed";
     }
 }
