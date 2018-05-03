@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Add new item</title>
+    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <form name="item" action="/account/addItem" method="post">

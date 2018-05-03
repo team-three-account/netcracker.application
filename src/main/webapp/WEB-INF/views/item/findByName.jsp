@@ -9,6 +9,7 @@
 <html>
 <head>
     <title>Title</title>
+    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <h1>Item info</h1>

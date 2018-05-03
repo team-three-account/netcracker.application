@@ -10,6 +10,7 @@
 <html>
 <head>
     <title>All items</title>
+    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <h1>Item list</h1>
