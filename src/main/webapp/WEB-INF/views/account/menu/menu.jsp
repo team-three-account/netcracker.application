@@ -21,10 +21,9 @@
                 </li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="/account/eventlist">Events</a></li>
-                <li><a href="/account/myevents">My Events</a></li>
-                <li><a href="/account/new">new</a></li>
+                <li><a href="/account/available">Events</a></li>
                 <li><a href="/account/friends">Friends</a></li>
+                <li><a href="/account/allNotes">Notes</a></li>
                 <li><a href="/account/itemList">Wish List</a></li>
                 <li><a href="#">Calendar</a></li>
             </ul>

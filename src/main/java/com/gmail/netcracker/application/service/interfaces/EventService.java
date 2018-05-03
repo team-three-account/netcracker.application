@@ -41,4 +41,6 @@ public interface EventService {
     boolean isParticipated(Long id, int eventId);
 
     void unsubscribe(long id, long event_id);
+
+    int getMaxId();
 }

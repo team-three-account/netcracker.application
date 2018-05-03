@@ -26,12 +26,12 @@
 
 <div class="col-md-9 content">
     <p>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/friends" role="button">All events</a>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/friends/incoming" role="button">Subscriptions</a>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/friends/outgoing" role="button">Managed events</a>
+        <a class="btn btn-primary" data-toggle="collapse" href="/account/available" role="button">All events</a>
+        <a class="btn btn-primary" data-toggle="collapse" href="/account/subscriptions" role="button">Subscriptions</a>
+        <a class="btn btn-primary" data-toggle="collapse" href="/account/managed" role="button">Managed events</a>
+        <a class="btn btn-primary" data-toggle="collapse" href="/account/draft" role="button">Drafts</a>
     </p>
-    <h1>${message}</h1>
-    <h3>Search for friends</h3>
+    <h3>Search for events</h3>
     <form method="POST"
           class="forms_form" action="">
 
@@ -40,7 +40,7 @@
             <input type="submit" value="Search" class="btn btn-dark" href="/" style="margin-top: 15px; margin-bottom: 15px">
         </div>
     </form>
-
+    <h3>Events feed</h3>
    <div class="row">
        <table class="table">
            <c:forEach var="event" items="${publicEventList}">

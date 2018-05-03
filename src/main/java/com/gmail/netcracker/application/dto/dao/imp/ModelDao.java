@@ -114,4 +114,8 @@ public abstract class ModelDao {
     protected int countRows(String sql, Long id, int eventId) {
         return jdbcTemplate.queryForObject(sql, new Object[] { id, eventId }, Integer.class);
     }
+    protected int maxIdValue(String sql) {
+        return jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
+    }
+
 }

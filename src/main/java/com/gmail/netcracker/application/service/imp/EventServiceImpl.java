@@ -113,4 +113,9 @@ public class EventServiceImpl implements EventService {
         eventDao.unsubscribe(id, event_id);
     }
 
+    @Override
+    public int getMaxId() {
+        return eventDao.getMaxId();
+    }
+
 }
