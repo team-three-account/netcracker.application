@@ -1,4 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -27,13 +26,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Note Name: </label>
-                        <form:input path="name" id="name" type="text" class="form-control decodingHtml"
+                        <form:input path="name" id="name" type="text" class="form-control"
                                     placeholder="Enter note name"/>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>Description: </label>
-                        <form:textarea path="description" id="description" type="text" class="form-control decodingHtml"
+                        <form:textarea path="description" id="description" type="text" class="form-control"
                                        placeholder="Enter note description"/>
                         <form:errors path="description" cssClass="error"/>
                     </div>

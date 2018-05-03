@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -36,13 +36,13 @@
                     </div>
                     <div class="form-group">
                         <label>Event Name: </label>
-                        <form:input path="name" id="name" type="text" class="form-control decodingHtml"
+                        <form:input path="name" id="name" type="text" class="form-control"
                                     placeholder="Enter event name"/>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>Description: </label>
-                        <form:input path="description" id="description" type="text" class="form-control decodingHtml"
+                        <form:input path="description" id="description" type="text" class="form-control"
                                     placeholder="Enter event description"/>
                         <form:errors path="description" cssClass="error"/>
                     </div>
@@ -70,7 +70,7 @@
                     <form:input path="longitude" type="hidden" id="longitude"></form:input>
                     <div class="form-group">
                         <label>Event place</label>
-                        <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control decodingHtml"/>
+                        <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
                         <div id="map"></div>
                         <script src='${contextPath}/resources/js/pamCode.js' async defer></script>
                         <script async defer
