@@ -3,6 +3,7 @@ package com.gmail.netcracker.application.controller;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.service.interfaces.CalendarService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
+import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.Filter;
 import com.gmail.netcracker.application.utilites.Utilites;
@@ -29,6 +30,9 @@ public class CalendarController {
     private EventService eventService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private CalendarService calendarService;
 
     private Gson gson = new GsonBuilder()
@@ -37,22 +41,23 @@ public class CalendarController {
 
     @RequestMapping(value = "/calendar", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView calendarHome(ModelAndView modelAndView){
+    public ModelAndView calendarHome(ModelAndView modelAndView) {
         List<Event> events = eventService.getAllMyEvents();
         String eventList = gson.toJson(eventService.getAllMyEvents());
         modelAndView.addObject("eventList", eventList);
         modelAndView.addObject("priorities", eventService.getAllPriorities());
         modelAndView.addObject("filter", new Filter());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("calendar/calendar");
         return modelAndView;
     }
 
-//    //TODO Post Controller to Calendar
+    //    //TODO Post Controller to Calendar
     @RequestMapping(value = "/calendar", method = RequestMethod.POST)
     @ResponseBody
     public ModelAndView calendarWithFilter(@ModelAttribute("properties") Filter filter,
                                            BindingResult result,
-                                           ModelAndView modelAndView){
+                                           ModelAndView modelAndView) {
 
         String eventList = gson.toJson(calendarService.filterOfPriority(filter.getPriorities()));
         modelAndView.addObject("eventList", eventList);
