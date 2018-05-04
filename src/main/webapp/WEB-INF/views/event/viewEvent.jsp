@@ -84,7 +84,7 @@
                         <div id="map" disabled=""></div>
                         <input type="hidden" value="${event.width}" id="latitude">
                         <input type="hidden" value="${event.longitude}" id="longitude">
-                        <script src='${contextPath}/resources/js/showPlace.js'></script>
+                        <script src='${contextPath}/resources/js/pamCode.js'></script>
                         <script
                                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&callback=initMap&language=en">
                         </script>

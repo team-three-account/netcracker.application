@@ -74,8 +74,9 @@
                         <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
                         <div id="map"></div>
                         <script src='${contextPath}/resources/js/pamCode.js' async defer></script>
-                        <script async defer
-                                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&callback=initMap&language=en">
+                        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
+                        <script>
+                            setMarkerFromInput();
                         </script>
                     </div>
                 </div>

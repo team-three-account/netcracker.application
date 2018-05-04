@@ -42,12 +42,68 @@ function initMap() {
             zoom: 11,
             center: {lat: 50.449420, lng: 30.522503}
         });
-    map.addListener('click', function (e) {//event click коли натискання на карту відбувається виклик функції e а вона в свою чергу кличе placeMarker...
-        placeMarkerAndPanTo(e.latLng);
-    });
+    var inputSearch = document.getElementById('eventPlaceName');
+    if (inputSearch) {
+        initSearchBox(inputSearch);
+        map.addListener('click', function (e) {//event click коли натискання на карту відбувається виклик функції e а вона в свою чергу кличе placeMarker...
+            placeMarkerAndPanTo(e.latLng);
+        });
+    }
+    if (document.getElementById('latitude') && document.getElementById('latitude').value.length > 3) {
+        setMarkerFromInput();
+    }
+}
 
-    setMarkerFromInput();
-    //dlya update
+function initSearchBox(inputSearch) {
+    // google search
+    var autocomplete = new google.maps.places.Autocomplete(inputSearch);
+    autocomplete.bindTo('bounds', map);
+    var infowindow = new google.maps.InfoWindow();
+    autocomplete.addListener('place_changed', function() {
+        infowindow.close();
+        if (!!marker) {
+            marker.setMap(null)
+        }
+        marker = new google.maps.Marker({
+            animation: google.maps.Animation.DROP,
+            // draggable:true,
+            map: map,
+            draggable:false// setCurrentMap
+        });
+        marker.setVisible(false);
+        var place = autocomplete.getPlace();
+        if (!place.geometry) {
+            // User entered the name of a Place that was not suggested and
+            // pressed the Enter key, or the Place Details request failed.
+            window.alert("No details available for input: '" + place.name + "'");
+            return;
+        }
+
+        // If the place has a geometry, then present it on a map.
+        if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport);
+        }
+        map.setCenter(place.geometry.location);
+        marker.setPosition(place.geometry.location);
+        marker.setVisible(true);
+
+        var latInput = document.getElementById('latitude');
+        var lngInput = document.getElementById('longitude');
+        latInput.value = place.geometry.location.lat();
+        lngInput.value = place.geometry.location.lng();
+
+        var address = '';
+        if (place.address_components) {
+            address = [
+                (place.address_components[0] && place.address_components[0].short_name || ''),
+                (place.address_components[1] && place.address_components[1].short_name || ''),
+                (place.address_components[2] && place.address_components[2].short_name || '')
+            ].join(' ');
+        }
+
+        infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+        infowindow.open(map, marker);
+    });
 }
 
 function placeMarkerAndPanTo(latLng) {
@@ -69,35 +125,42 @@ function placeMarkerAndPanTo(latLng) {
         var latInput = document.getElementById('latitude');
         var lngInput = document.getElementById('longitude');
         //  сетимо значення які дістаємо з eventa - 'click'
-        latInput.value = latLng.lat();
-        lngInput.value = latLng.lng();
+        if ( typeof latLng.lat === 'function') {
+            latInput.value = latLng.lat();
+            lngInput.value = latLng.lng();
+        } else {
+            latInput.value = latLng.lat;
+            lngInput.value = latLng.lng;
+        }
+
         getAddress();
-
     }
-
 }
 
 function setMarkerFromInput() {
     var latInput = document.getElementById('latitude');
     var lngInput = document.getElementById('longitude');
-    if (latInput && lngInput) {//якщо вони обоє існтують маємо true
-        placeMarkerAndPanTo({lat: +latInput.value, lng: +lngInput.value}); //виклик функції placeMarkerAndPanTo  і приводимо  наші змінні до NUMBER за доп.+
-    }
+    var location = {lat: +latInput.value, lng: +lngInput.value};
+    map.setCenter(location);
+    placeMarkerAndPanTo(location); //виклик функції placeMarkerAndPanTo  і приводимо  наші змінні до NUMBER за доп.+
 }
 
 // для create щоб записати в string eventPlaceAdress
 function getAddress() {
     var pos = marker.getPosition(); // отримаємо позишн нашого маркера
     var eventName = document.getElementById('eventPlaceName');
-    getFormattedAddress(pos.lat(), pos.lng()) // дана функція створює проміс, а проміс потрібен для того щоб
-    // у проміса є парамтери then and catch
-    // якщо дана функція повертає хорошення виконання проміса то результат сетиться у then,якщо ж повертається reject то результат сетиться у catch
-        .then(function (data) {
-            eventName.value = data
-        })
-        .catch(function (data) {
-            alert(data)
-        });
+    if (eventName) {
+        getFormattedAddress(pos.lat(), pos.lng()) // дана функція створює проміс, а проміс потрібен для того щоб
+        // у проміса є парамтери then and catch
+        // якщо дана функція повертає хорошення виконання проміса то результат сетиться у then,якщо ж повертається reject то результат сетиться у catch
+            .then(function (data) {
+                eventName.value = data
+            })
+            .catch(function (data) {
+                console.log('Error: ' + data);
+            });
+
+    }
 
 }
 
@@ -118,8 +181,6 @@ function getFormattedAddress(latitude, longitude) {
                 if (request.status == 200) {
                     // якщо у нас отримався респонс то ми парсимо нашу строку адреси в string
                     var data = JSON.parse(request.responseText);
-                    console.log(data);
-                    console.log(request.responseText);
                     // adress це data v then and catch
                     var address = data.results[0].formatted_address;
                     resolve(address);

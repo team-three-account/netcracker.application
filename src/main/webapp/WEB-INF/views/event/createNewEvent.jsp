@@ -75,12 +75,8 @@
                             <form:errors path="eventPlaceName" cssClass="error"/>
                             <div id="map"></div>
                             <script src='${contextPath}/resources/js/pamCode.js'></script>
-                            <script
-                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&callback=initMap&language=en">
-                            </script>
-                            <script>
-                                setMarkerFromInput();
-                            </script>
+                            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
+
                         </div>
                     </div>
                 </div>
