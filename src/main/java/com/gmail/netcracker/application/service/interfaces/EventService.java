@@ -71,4 +71,6 @@ public interface EventService {
     List<User> getUsersToInvite(Long id, int eventId);
 
     List<User> subtraction(List<User> minuend, List<User> subtrahend);
+
+    List<User> getFriendsToInvite(Long id, int eventId);
 }

@@ -22,7 +22,6 @@
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
-
 <div class="col-md-9 content">
     <p>
     <a href="/account/eventList/event-${eventId}">
@@ -42,27 +41,6 @@
                             <button type="submit"  class="btn btn-success">
                                 <input type="hidden" name="userId" value=${user.id} />
                                 Invite </span>
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-            </c:forEach>
-        </table>
-    </div>
-
-    <div class="row">
-        <table class="table">
-
-            <c:forEach var="user" items="${intersectionUsers}">
-                <tr>
-                    <td><img class="img-circle" style="width: 200px;height: 200px"
-                             src="<c:url value="/account/image/${user.photo}.jpg"/>"></td>
-                    <td><a href="/account/${user.id}">${user.name} ${user.surname}</a></td>
-                    <td>
-                        <form action="/account/friends/add-friend" method="POST">
-                            <button type="submit"  class="btn btn-success">
-                                <input type="hidden" name="friend_id" value=${user.id} />
-                                Add to friendlist </span>
                             </button>
                         </form>
                     </td>

@@ -6,6 +6,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.ParticipantDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.PriorityDao;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.interfaces.EventService;
+import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,16 @@ public class EventServiceImpl implements EventService {
     private ParticipantDao participantDao;
     private EventTypeDao eventTypeDao;
     private UserService userService;
+    private FriendService friendService;
     @Autowired
     private PriorityDao priorityDao;
 
     @Autowired
-    public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService) {
+    public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService, FriendService friendService) {
         this.eventDao = eventDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
+        this.friendService = friendService;
     }
 
     @Override
@@ -207,6 +210,13 @@ public class EventServiceImpl implements EventService {
             }
         }
         return minuend;
+    }
+
+    @Override
+    public List<User> getFriendsToInvite(Long id, int eventId) {
+        List<User> minuend = friendService.getAllFriends(id);
+        List<User> subtrahend = getParticipants(eventId);
+        return subtraction(minuend, subtrahend);
     }
 
     @Override

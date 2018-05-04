@@ -75,7 +75,7 @@
                     <form action="/account/friends/add-friend" method="POST">
                         <button type="submit"  class="btn btn-success">
                             <input type="hidden" name="friend_id" value=${user.id} />
-                            Add to friendlist </span>
+                            Add to friends </span>
                         </button>
                     </form>
                 </td>

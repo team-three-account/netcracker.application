@@ -269,13 +269,16 @@ public class EventController {
         eventService.participate(userId,eventId);
         return "redirect:/account/public/event-"+ eventId +"/invite";
     }
-//    @RequestMapping(value = "/for-friends/event-{eventId}/invite", method = RequestMethod.GET)
-////    public String inviteToForFriends(Model model, @PathVariable(value = "eventId") int eventId) {
-////        model.addAttribute("auth_user", authUser);
-////        List<User> friendsList =friendService.getAllFriends(authUser.getId());
-////        List<User> participantList = eventService.getParticipants(eventId);
-////        List<User> friendsToInvite = eventService.getFriendsToInvite(authUser.getId(), eventId);
-////        return "redirect:/account/for-friends/event-"+ eventId +"/invite";
-////    }
+
+    @RequestMapping(value = "/for-friends/event-{eventId}/invite", method = RequestMethod.GET)
+    public String inviteToForFriends(Model model, @PathVariable(value = "eventId") int eventId) {
+        model.addAttribute("auth_user", authUser);
+        List<User> friendsToInvite = eventService.getFriendsToInvite(authUser.getId(), eventId);
+        model.addAttribute("friendsToInvite", friendsToInvite);
+        String message =friendsToInvite.size() >0 ? "Invite users" : "All your friends are subscribed on this event";
+        model.addAttribute("message", message);
+        model.addAttribute("eventId", eventId);
+        return "/event/inviteToEventForFriends";
+    }
 
 }
