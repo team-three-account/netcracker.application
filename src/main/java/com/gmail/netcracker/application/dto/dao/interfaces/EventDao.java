@@ -45,5 +45,7 @@ public interface EventDao {
 
     int getEventType(int eventId);
 
-    int isCreator(Long personId, int eventId);
+    User getCreator(int eventId);
+
+    Event checkCreatorById(Long personId, int eventId);
 }

@@ -41,6 +41,8 @@ public class FriendServiceImpl implements FriendService {
         return friendDao.getOutgoingRequests(id);
     }
 
+    public Friend getFriendshipById(Long personId, Long friendId){return friendDao.getFriendshipById(personId, friendId);}
+
     @Override
     public void cancelRequest(Long id, Long friendId) {
         friendDao.cancelRequest(id, friendId);

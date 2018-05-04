@@ -114,7 +114,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public boolean isParticipated(Long id, int eventId) {
-        return eventDao.isParticipated(id, eventId) != null ;
+        return eventDao.isParticipated(id, eventId) != null;
     }
 
     @Override
@@ -140,22 +140,26 @@ public class EventServiceImpl implements EventService {
     @Override
     public boolean allowAccess(Long personId, int eventId) {
         boolean access = false;
-        switch( eventDao.getEventType(eventId) ) {
+        switch (eventDao.getEventType(eventId)) {
             case 1: // private
                 access = isCreator(personId, eventId);
                 break;
-            case 2 : // public
+            case 2: // public
                 access = true;
                 break;
-            case 3:
-                access = true;// for friends
+            case 3: // for friends
+                access = friendService.getFriendshipById(personId, getCreatorId(eventId)) != null || isCreator(personId, eventId);
                 break;
         }
-       return access;
+        return access;
     }
 
-    public boolean isCreator(Long personId, int eventId){
-        return eventDao.isCreator(personId, eventId) >0 ;
+    public boolean isCreator(Long personId, int eventId) {
+        return eventDao.checkCreatorById(personId, eventId) != null;
+    }
+
+    private long getCreatorId(int eventId) {
+        return eventDao.getCreator(eventId).getId();
     }
 
     @Override
@@ -179,9 +183,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Map<Event, Integer> getMyEventWithPriority(){
+    public Map<Event, Integer> getMyEventWithPriority() {
         Map<Event, Integer> eventWithPriority = new HashMap<>();
-        for(Participant participant: getPriorityForMyEvents()){
+        for (Participant participant : getPriorityForMyEvents()) {
             eventWithPriority.put(getEvent(participant.getEventId()), participant.getPriority());
         }
         return eventWithPriority;

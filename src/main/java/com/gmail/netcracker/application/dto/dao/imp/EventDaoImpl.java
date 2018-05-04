@@ -76,8 +76,11 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.getEventType}")
     private String SQL_GET_EVENT_TYPE;
 
-    @Value("${sql.event.isCreator}")
-    private String SQL_IS_CREATOR;
+    @Value("${sql.event.getCreator}")
+    private String SQL_GET_CREATOR;
+
+    @Value("${sql.event.checkCreator}")
+    private String SQL_CHECK_CREATOR;
 
     private final RowMapper<Event> rowMapper;
     private final RowMapper<User> friendRowMapper;
@@ -212,8 +215,13 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public int isCreator(Long personId, int eventId) {
-        return countRows(SQL_IS_CREATOR, personId, eventId);
+    public User getCreator(int eventId) {
+        return findEntity(SQL_GET_CREATOR, friendRowMapper, eventId);
+    }
+
+    @Override
+    public Event checkCreatorById(Long personId, int eventId) {
+        return findEntity(SQL_CHECK_CREATOR, rowMapper, personId, eventId);
     }
 }
 
