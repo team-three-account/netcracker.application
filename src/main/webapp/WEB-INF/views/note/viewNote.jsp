@@ -23,7 +23,7 @@
                 <div class="panel-body viewEvent">
                     <ul class="list-unstyled mt-3 mb-4">
                         <li>Name : ${note.name}</li>
-                        <li>Description : ${note.description}</li>
+                        <li>Description : <span class="description-block">${note.description}</span></li>
                         <c:if test="${auth_user.id.equals(user_creator.id)}">
                             <li>
                                 <a href="/account/eventList/editNote-${note.noteId}">

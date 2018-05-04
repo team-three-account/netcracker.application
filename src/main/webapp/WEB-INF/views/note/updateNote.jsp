@@ -40,6 +40,7 @@
         </div>
     </div>
 </div>
-<script src='${contextPath}/resources/js/pamCode.js'></script>
+<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script src='${contextPath}/resources/js/textEditorInit.js'></script>
 </html>
 

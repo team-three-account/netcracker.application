@@ -191,35 +191,55 @@ article > p {
     background-color: white;
     border-radius: 10px;
 }
-.eventCard a{
+
+.eventCard a {
     color: black;
 }
+
 .eventCard a:hover {
-    color:black;
+    color: black;
     text-decoration: none;
 
 }
-.viewEvent{
+
+.viewEvent {
     background: whitesmoke;
 
-
 }
-.viewEvent ul{
+
+.viewEvent ul {
     padding: 1%;
     background: whitesmoke;
 }
-.viewEvent li{
-    font-size: 18;
+
+.viewEvent li {
+    font-size: 18px;
     margin: 2%;
     padding: 10px;
     background-color: whitesmoke;
     border-radius: 10px;
     border: grey 3px double;
 }
+
+.description-block {
+    display: inline-block;
+    width: 100%;
+    padding: 20px;
+}
+
+.viewEvent .description-block * {
+    border: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+}
+
 .btn-file {
     position: relative;
     overflow: hidden;
 }
+
 .btn-file input[type=file] {
     position: absolute;
     top: 0;
@@ -236,6 +256,4 @@ article > p {
     display: block;
 }
 
-
-
-pointer-events: none;
+pointer-events:none;
