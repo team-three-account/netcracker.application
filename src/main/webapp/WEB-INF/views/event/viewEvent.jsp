@@ -35,6 +35,15 @@
                         <c:choose>
                         <c:when  test="${auth_user.id.equals(user_creator.id)}">
                             <li>
+                                <c:if test="${event.type == '2'}">
+                                    <a href="/account/public/event-${event.eventId}/invite">
+                                        <input type="submit" class="btn btn-success text-center" value="Invite user"></a>
+                                </c:if>
+                                <c:if test="${event.type == '3'}">
+                                    <a href="/account/for-friends/event-${event.eventId}/invite">
+                                        <input type="submit" class="btn btn-success text-center" value="Invite friend"></a>
+                                </c:if>
+
                                 <a href="/account/eventList/editevent-${event.eventId}">
                                     <input type="submit" class="btn btn-success text-center" value="Edit event"></a>
                                 <a href="/account/eventList/deleteEvent-${event.eventId}">

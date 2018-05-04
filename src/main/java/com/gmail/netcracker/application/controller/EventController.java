@@ -31,6 +31,7 @@ public class EventController {
     private final PhotoService photoService;
     private final UserService userService;
 
+    private final User authUser;
     private final RegisterAndUpdateEventValidator eventValidator;
 
     @Autowired
@@ -41,6 +42,7 @@ public class EventController {
         this.photoService = photoService;
         this.userService = userService;
         this.eventValidator = eventValidator;
+        authUser = userService.getAuthenticatedUser();
     }
 
 
@@ -165,8 +167,8 @@ public class EventController {
 
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
     public String participate(@RequestParam(value = "event_id") String eventId, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(eventId));
+        model.addAttribute("auth_user", authUser);
+        eventService.participate(authUser.getId(), Long.parseLong(eventId));
         return "redirect:/account/eventList/event-"+ eventId;
     }
 
@@ -179,24 +181,22 @@ public class EventController {
     public String getParticipants(@PathVariable(value = "eventId") String eventId, Model model) {
         List<User> participantList = eventService.getParticipants(Long.parseLong(eventId));
         model.addAttribute("participantList", participantList);
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("auth_user", authUser);
         return "event/participants";
     }
 
     @RequestMapping(value = "/available", method = RequestMethod.GET)
     public String available(Model model) {
-        User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
+        model.addAttribute("auth_user", authUser);
         model.addAttribute("publicEventList", eventService.findPublicEvents());
-        model.addAttribute("friendsEventList", eventService.findFriendsEvents(auth_user.getId()));
+        model.addAttribute("friendsEventList", eventService.findFriendsEvents(authUser.getId()));
         return "event/available";
     }
 
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
     public String unsubscribe(@RequestParam(value = "event_id") String eventId, Model model) {
-        User auth_user =userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
-        eventService.unsubscribe(auth_user.getId(), Long.parseLong(eventId));
+        model.addAttribute("auth_user", authUser);
+        eventService.unsubscribe(authUser.getId(), Long.parseLong(eventId));
         return "redirect:/account/eventList/event-"+ eventId;
     }
 
@@ -204,7 +204,7 @@ public class EventController {
     public String getSubscriptions(Model model) {
         List<Event> eventList = eventService.getAllMyEvents();
         model.addAttribute("eventList", eventList);
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("auth_user", authUser);
         if (eventList.isEmpty()) model.addAttribute("message", "You have not any subscription");
         else model.addAttribute("message", "You are subscribed on following events :");
         return "event/subscriptions";
@@ -212,9 +212,8 @@ public class EventController {
 
     @RequestMapping(value = "/draft", method = RequestMethod.GET)
     public String draft(Model model) {
-        User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
-        List<Event> draftList = eventService.findDrafts(auth_user.getId());
+        model.addAttribute("auth_user", authUser);
+        List<Event> draftList = eventService.findDrafts(authUser.getId());
         model.addAttribute("draftList", draftList);
         if (draftList.isEmpty()) model.addAttribute("message", "You have not any draft");
         else model.addAttribute("message", "You're drafts :");
@@ -223,11 +222,10 @@ public class EventController {
 
     @RequestMapping(value = "/managed", method = RequestMethod.GET)
     public String managed(Model model) {
-        User auth_user = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
-        List<Event> publicEventList = eventService.findCreatedPublicEvents(auth_user.getId()); //!!!!
-        List<Event> privateEventList = eventService.findPrivateEvents(auth_user.getId());
-        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(auth_user.getId()); //!!!
+        model.addAttribute("auth_user", authUser);
+        List<Event> publicEventList = eventService.findCreatedPublicEvents(authUser.getId()); //!!!!
+        List<Event> privateEventList = eventService.findPrivateEvents(authUser.getId());
+        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(authUser.getId()); //!!!
         model.addAttribute("publicEventList", publicEventList);
         model.addAttribute("friendsEventList", friendsEventList);
         model.addAttribute("privateEventList", privateEventList);
@@ -236,5 +234,12 @@ public class EventController {
             model.addAttribute("message", "You have not created any event");
         } else model.addAttribute("message", "Created events :");
         return "event/managed";
+    }
+
+    @RequestMapping(value = "/public/event-{eventId}/invite", method = RequestMethod.GET)
+    public String inviteToPublic(Model model, @PathVariable(value = "eventId") String eventId) {
+        model.addAttribute("auth_user", authUser);
+
+        return "redirect:/account/event-"+ eventId +"/invite";
     }
 }
