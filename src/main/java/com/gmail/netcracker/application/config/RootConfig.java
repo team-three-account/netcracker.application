@@ -25,6 +25,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import javax.sql.DataSource;
 import java.util.Locale;
 
+import static com.gmail.netcracker.application.utilites.ResultSetColumnValueExtractor.*;
 import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoString;
 
 @Configuration
@@ -96,9 +97,10 @@ public class RootConfig {
     }
 
     @Bean
-    public EventSerializer eventSerializer(){
+    public EventSerializer eventSerializer() {
         return new EventSerializer();
     }
+
     @Bean
     Event event() {
         return new Event();
@@ -125,10 +127,14 @@ public class RootConfig {
     }
 
     @Bean
-    Item item() {return new Item();}
+    Item item() {
+        return new Item();
+    }
 
     @Bean
-    ItemService itemService() {return new ItemServiceImpl();}
+    ItemService itemService() {
+        return new ItemServiceImpl();
+    }
 
     @Bean
     LocaleResolver localeResolver() {
@@ -147,16 +153,24 @@ public class RootConfig {
     }
 
     @Bean
-    public DataSource
-    dataSource() {
+    public DataSource dataSource() {
         DriverManagerDataSource driver = new DriverManagerDataSource();
         driver.setDriverClassName(env.getProperty("postgres.driver"));
         driver.setUrl(env.getProperty("postgres.url"));
         driver.setUsername(env.getProperty("postgres.username"));
         driver.setPassword(env.getProperty("postgres.password"));
         return driver;
-
     }
+
+//    @Bean(initMethod = "migrate")
+//    @Autowired
+//    public Flyway flyway(DataSource dataSource) {
+//        Flyway flyway = new Flyway();
+//        flyway.setBaselineOnMigrate(true);
+//        flyway.setLocations(env.getProperty("flyway.migration.path"));
+//        flyway.setDataSource(dataSource);
+//        return flyway;
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -168,15 +182,15 @@ public class RootConfig {
     public RowMapper<User> userRowMapper() {
         return (resultSet, i) -> {
             User user = new User();
-            user.setId(resultSet.getLong("person_id"));
-            user.setName(resultSet.getString("name"));
-            user.setSurname(resultSet.getString("surname"));
-            user.setEmail(resultSet.getString("email"));
-            user.setPassword(resultSet.getString("password"));
-            user.setRole(resultSet.getString("role"));
-            user.setPhone(resultSet.getString("phone"));
-            user.setBirthdayDate(parseDateIntoString(resultSet.getDate("birthday")));
-            user.setPhoto(resultSet.getString("photo"));
+            user.setId(getLong(resultSet, "person_id"));
+            user.setName(getString(resultSet, "name"));
+            user.setSurname(getString(resultSet, "surname"));
+            user.setEmail(getString(resultSet, "email"));
+            user.setPassword(getString(resultSet, "password"));
+            user.setRole(getString(resultSet, "role"));
+            user.setPhone(getString(resultSet, "phone"));
+            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthday")));
+            user.setPhoto(getString(resultSet, "photo"));
             return user;
         };
     }
@@ -186,15 +200,15 @@ public class RootConfig {
         return (resultSet, i) -> {
             VerificationToken verificationToken = new VerificationToken();
             User user = new User();
-            verificationToken.setId(resultSet.getString("token_id"));
-            user.setId(resultSet.getLong("user_id"));
-            user.setName(resultSet.getString("name"));
-            user.setSurname(resultSet.getString("surname"));
-            user.setEmail(resultSet.getString("email"));
-            user.setPassword(resultSet.getString("password"));
-            user.setRole(resultSet.getString("role"));
-            user.setPhone(resultSet.getString("phone"));
-            user.setBirthdayDate(parseDateIntoString(resultSet.getDate("birthday")));
+            verificationToken.setId(getString(resultSet, "token_id"));
+            user.setId(getLong(resultSet, "user_id"));
+            user.setName(getString(resultSet, "name"));
+            user.setSurname(getString(resultSet, "surname"));
+            user.setEmail(getString(resultSet, "email"));
+            user.setPassword(getString(resultSet, "password"));
+            user.setRole(getString(resultSet, "role"));
+            user.setPhone(getString(resultSet, "phone"));
+            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthday")));
             verificationToken.setUser(user);
             return verificationToken;
         };
@@ -204,20 +218,20 @@ public class RootConfig {
     public RowMapper<Event> eventRowMapper() {
         return (rs, i) -> {
             Event event = new Event();
-            event.setEventId(rs.getInt("event_id"));
-            event.setName(rs.getString("name"));
-            event.setDescription(rs.getString("description"));
-            event.setCreator(rs.getLong("creator"));
-            event.setDateStart(rs.getString("start_date"));
-            event.setDateEnd(rs.getString("end_date"));
-            event.setType(rs.getString("type"));
-            event.setDraft(rs.getBoolean("is_draft"));
-            event.setFolder(rs.getInt("folder"));
-            event.setWidth(rs.getDouble("width"));
-            event.setLongitude(rs.getDouble("longitude"));
-            event.setEventPlaceName(rs.getString("eventplacename"));
-            event.setPeriodicity(rs.getString("periodicity"));
-            event.setPhoto(rs.getString("photo"));
+            event.setEventId(getInt(rs, "event_id"));
+            event.setName(getString(rs, "name"));
+            event.setDescription(getString(rs, "description"));
+            event.setCreator(getLong(rs, "creator"));
+            event.setDateStart(getString(rs, "start_date"));
+            event.setDateEnd(getString(rs, "end_date"));
+            event.setType(getString(rs, "type"));
+            event.setDraft(getBoolean(rs, "is_draft"));
+            event.setFolder(getInt(rs, "folder"));
+            event.setWidth(getDouble(rs, "width"));
+            event.setLongitude(getDouble(rs, "longitude"));
+            event.setEventPlaceName(getString(rs, "eventplacename"));
+            event.setPeriodicity(getString(rs, "periodicity"));
+            event.setPhoto(getString(rs, "photo"));
             return event;
         };
     }
@@ -226,8 +240,8 @@ public class RootConfig {
     public RowMapper<EventType> eventTypeRowMapper() {
         return (resultSet, i) -> {
             EventType eventType = new EventType();
-            eventType.setTypeId(resultSet.getInt("type_id"));
-            eventType.setName(resultSet.getString("value"));
+            eventType.setTypeId(getInt(resultSet, "type_id"));
+            eventType.setName(getString(resultSet, "value"));
             return eventType;
         };
     }
@@ -236,8 +250,8 @@ public class RootConfig {
     public RowMapper<Priority> priorityRowMapper() {
         return (resultSet, i) -> {
             Priority priority = new Priority();
-            priority.setPriorityId(resultSet.getInt("priority_id"));
-            priority.setName(resultSet.getString("value"));
+            priority.setPriorityId(getInt(resultSet, "priority_id"));
+            priority.setName(getString(resultSet, "value"));
             return priority;
         };
     }
@@ -246,8 +260,8 @@ public class RootConfig {
     public RowMapper<Participant> participantRowMapper() {
         return (resultSet, i) -> {
             Participant participant = new Participant();
-            participant.setEventId(resultSet.getInt("event"));
-            participant.setPriority(resultSet.getInt("priority"));
+            participant.setEventId(getInt(resultSet, "event"));
+            participant.setPriority(getInt(resultSet, "priority"));
             return participant;
         };
     }
@@ -256,11 +270,11 @@ public class RootConfig {
     public RowMapper<Note> noteRowMapper() {
         return (rs, i) -> {
             Note note = new Note();
-            note.setNoteId(rs.getInt("note_id"));
-            note.setName(rs.getString("name"));
-            note.setDescription(rs.getString("description"));
-            note.setCreator(rs.getLong("creator"));
-            note.setFolder(rs.getInt("folder"));
+            note.setNoteId(getInt(rs, "note_id"));
+            note.setName(getString(rs, "name"));
+            note.setDescription(getString(rs, "description"));
+            note.setCreator(getLong(rs, "creator"));
+            note.setFolder(getInt(rs, "folder"));
             return note;
         };
     }
@@ -269,9 +283,9 @@ public class RootConfig {
     public RowMapper<Friend> friendshipRowMapper() {
         return (resultSet, i) -> {
             Friend friendship = new Friend();
-            friendship.setRecipient(resultSet.getLong("recipient"));
-            friendship.setSender(resultSet.getLong("sender"));
-            friendship.setAccepted(resultSet.getBoolean("isAccepted"));
+            friendship.setRecipient(getLong(resultSet, "recipient"));
+            friendship.setSender(getLong(resultSet, "sender"));
+            friendship.setAccepted(getBoolean(resultSet, "isAccepted"));
             return friendship;
         };
     }
@@ -280,10 +294,10 @@ public class RootConfig {
     public RowMapper<User> friendRowMapper() {
         return (resultSet, i) -> {
             User user = new User();
-            user.setId(resultSet.getLong("person_id"));
-            user.setName(resultSet.getString("name"));
-            user.setSurname(resultSet.getString("surname"));
-            user.setPhoto(resultSet.getString("photo"));
+            user.setId(getLong(resultSet, "person_id"));
+            user.setName(getString(resultSet, "name"));
+            user.setSurname(getString(resultSet, "surname"));
+            user.setPhoto(getString(resultSet, "photo"));
             return user;
         };
     }
@@ -292,15 +306,15 @@ public class RootConfig {
     public RowMapper<Item> itemRowMapper() {
         return (resultSet, i) -> {
             Item item = new Item();
-            item.setItemId(resultSet.getLong("item_id"));
-            item.setPersonId(resultSet.getLong("person"));
-            item.setBooker(resultSet.getLong("booker"));
-            item.setName(resultSet.getString("name"));
-            item.setDescription(resultSet.getString("description"));
-            item.setLink(resultSet.getString("link"));
-            item.setDueDate(resultSet.getDate("due_date"));
-            item.setPriority(resultSet.getInt("priority"));
-            item.setRoot(resultSet.getLong("root"));
+            item.setItemId(getLong(resultSet, "item_id"));
+            item.setPersonId(getLong(resultSet, "person"));
+            item.setBooker(getLong(resultSet, "booker"));
+            item.setName(getString(resultSet, "name"));
+            item.setDescription(getString(resultSet, "description"));
+            item.setLink(getString(resultSet, "link"));
+            item.setDueDate(getDate(resultSet, "due_date"));
+            item.setPriority(getInt(resultSet, "priority"));
+            item.setRoot(getLong(resultSet, "root"));
             return item;
         };
     }
