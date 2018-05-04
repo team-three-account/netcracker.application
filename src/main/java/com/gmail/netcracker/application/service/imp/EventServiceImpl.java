@@ -199,4 +199,21 @@ public class EventServiceImpl implements EventService {
         return eventDao.findCreatedPublicEvents(id);
     }
 
+    @Override
+    public List<User> subtraction(List<User> minuend, List<User> subtrahend) {
+        for (User item : subtrahend) {
+            if (minuend.contains(item)) {
+                minuend.remove(item);
+            }
+        }
+        return minuend;
+    }
+
+    @Override
+    public List<User> getUsersToInvite(Long currentId, int eventId) {
+        List<User> minuend = userService.getAllUsers(currentId);
+        List<User> subtrahend = getParticipants(eventId);
+        return subtraction(minuend, subtrahend);
+    }
+
 }

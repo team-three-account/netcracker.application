@@ -5,10 +5,7 @@ import com.gmail.netcracker.application.dto.model.EventType;
 import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
-import com.gmail.netcracker.application.service.interfaces.EventService;
-import com.gmail.netcracker.application.service.interfaces.NoteService;
-import com.gmail.netcracker.application.service.interfaces.PhotoService;
-import com.gmail.netcracker.application.service.interfaces.UserService;
+import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,19 +28,21 @@ public class EventController {
 
     private final PhotoServiceImp photoService;
     private final UserService userService;
+    private final FriendService friendService;
 
-    private final User authUser;
+    private User authUser;
     private final RegisterAndUpdateEventValidator eventValidator;
 
     @Autowired
-    public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService, UserService userService,
+    public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService,
+                           UserService userService, FriendService friendService,
                            RegisterAndUpdateEventValidator eventValidator) {
         this.eventService = eventService;
         this.noteService = noteService;
         this.photoService = photoService;
         this.userService = userService;
         this.eventValidator = eventValidator;
-        authUser = userService.getAuthenticatedUser();
+        this.friendService=friendService;
     }
 
 
@@ -204,6 +203,7 @@ public class EventController {
 
     @RequestMapping(value = "/available", method = RequestMethod.GET)
     public String available(Model model) {
+        authUser = userService.getAuthenticatedUser();
         model.addAttribute("auth_user", authUser);
         model.addAttribute("publicEventList", eventService.findPublicEvents());
         model.addAttribute("friendsEventList", eventService.findFriendsEvents(authUser.getId()));
@@ -254,9 +254,28 @@ public class EventController {
     }
 
     @RequestMapping(value = "/public/event-{eventId}/invite", method = RequestMethod.GET)
-    public String inviteToPublic(Model model, @PathVariable(value = "eventId") String eventId) {
+    public String inviteListToPublic(Model model, @PathVariable(value = "eventId") int eventId) {
         model.addAttribute("auth_user", authUser);
-
-        return "redirect:/account/event-"+ eventId +"/invite";
+        List<User> usersToInvite = eventService.getUsersToInvite(authUser.getId(), eventId);
+        model.addAttribute("usersToInvite", usersToInvite);
+        String message =usersToInvite.size() >0 ? "Invite users" : "All users are subscribed on this event";
+        model.addAttribute("message", message);
+        model.addAttribute("eventId", eventId);
+        return "/event/inviteToPublicEvent";
     }
+
+    @RequestMapping(value = "{eventId}/invite-to-public", method = RequestMethod.POST)
+    public String inviteToPublic(@PathVariable(value = "eventId") int eventId, @RequestParam(value = "userId") Long userId) {
+        eventService.participate(userId,eventId);
+        return "redirect:/account/public/event-"+ eventId +"/invite";
+    }
+//    @RequestMapping(value = "/for-friends/event-{eventId}/invite", method = RequestMethod.GET)
+////    public String inviteToForFriends(Model model, @PathVariable(value = "eventId") int eventId) {
+////        model.addAttribute("auth_user", authUser);
+////        List<User> friendsList =friendService.getAllFriends(authUser.getId());
+////        List<User> participantList = eventService.getParticipants(eventId);
+////        List<User> friendsToInvite = eventService.getFriendsToInvite(authUser.getId(), eventId);
+////        return "redirect:/account/for-friends/event-"+ eventId +"/invite";
+////    }
+
 }

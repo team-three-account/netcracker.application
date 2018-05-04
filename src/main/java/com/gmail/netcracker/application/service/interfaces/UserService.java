@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 
 import javax.jws.soap.SOAPBinding;
+import java.util.List;
 
 public interface UserService {
 
@@ -26,4 +27,6 @@ public interface UserService {
     void updateUser(User user);
 
     User findUserById(Long id);
+
+    List<User> getAllUsers(Long currentId);
 }

@@ -16,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Logger;
 
 
@@ -94,6 +95,11 @@ public class UserServiceImp implements UserService, UserDetailsService {
     @Override
     public User findUserById(Long id){
        return userDao.findUserById(id);
+    }
+
+    @Override
+    public List<User> getAllUsers(Long currentId) {
+        return userDao.getAllUsers(currentId);
     }
 
 }

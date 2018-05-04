@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 
+import java.util.List;
+
 import static com.gmail.netcracker.application.utilites.Utilites.parseStringIntoDate;
 
 @Repository
@@ -33,12 +35,17 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Value("${sql.user.changePassword}")
     private String SQL_CHANGE_PASSWORD;
 
-    private final RowMapper<User> rowMapper;
+    @Value("${sql.user.getAllUsers}")
+    private String SQL_GET_ALL_USERS;
 
+    private final RowMapper<User> rowMapper;
+    private final RowMapper<User> userRowMapper;
     @Autowired
-    public UserDaoImp(DataSource dataSource, @Qualifier("userRowMapper") RowMapper<User> rowMapper) {
+    public UserDaoImp(DataSource dataSource, @Qualifier("userRowMapper") RowMapper<User> rowMapper,
+                      @Qualifier("friendRowMapper") RowMapper<User> userRowMapper) {
         super(dataSource);
         this.rowMapper = rowMapper;
+        this.userRowMapper=userRowMapper;
     }
 
     //TODO don't hardcode role!!!
@@ -74,6 +81,11 @@ public class UserDaoImp extends ModelDao implements UserDao {
                 user.getSurname(),
                 user.getPhone(),
                 user.getId());
+    }
+
+    @Override
+    public List<User> getAllUsers(Long currentId) {
+        return findEntityList(SQL_GET_ALL_USERS, userRowMapper, currentId);
     }
 
     @Override

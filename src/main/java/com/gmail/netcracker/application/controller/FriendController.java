@@ -22,19 +22,18 @@ public class FriendController {
     private final UserService userService;
 
     private final FriendService friendService;
-
-    private final User authUser;
+    private User authUser;
 
     @Autowired
     public FriendController(UserService userService, FriendService friendService) {
         this.userService = userService;
         this.friendService = friendService;
-        authUser = userService.getAuthenticatedUser();
     }
 
 
     @RequestMapping(value = "/friends", method = RequestMethod.GET)
     public String viewFriends(Model model) {
+        authUser=userService.getAuthenticatedUser();
         List<User> friendList = friendService.getAllFriends(userService.getAuthenticatedUser().getId());
         model.addAttribute("auth_user", authUser);
         model.addAttribute("friendList", friendList);

@@ -67,4 +67,8 @@ public interface EventService {
     boolean allowAccess(Long personId, int eventId);
 
     boolean isCreator(Long personId, int eventId);
+
+    List<User> getUsersToInvite(Long id, int eventId);
+
+    List<User> subtraction(List<User> minuend, List<User> subtrahend);
 }
