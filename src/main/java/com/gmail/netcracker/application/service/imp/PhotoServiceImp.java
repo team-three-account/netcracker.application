@@ -1,26 +1,38 @@
 package com.gmail.netcracker.application.service.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.PhotoDao;
-
 import com.gmail.netcracker.application.service.interfaces.PhotoService;
-
-import org.apache.commons.io.IOUtils;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-
 import java.io.*;
 
 @Service
+@Data
+@PropertySource("classpath:image.properties")
 public class PhotoServiceImp implements PhotoService, Serializable {
 
     @Autowired
     private PhotoDao photoDao;
 
-
     public static final String PATH = System.getenv("CATALINA_HOME") + "\\webapps\\ROOT\\resources\\img\\";
+
+    @Value("${image.default}")
+    private String defaultImage;
+
+    @Value("${image.type.png}")
+    private String imageTypePng;
+
+
+    @Value("${image.type.jpeg}")
+    private String imageTypeJpeg;
+
+
+    @Value("${image.type.jpg}")
+    private String imageTypeJpg;
 
 
     @Override

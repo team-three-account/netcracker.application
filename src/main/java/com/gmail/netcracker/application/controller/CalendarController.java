@@ -1,12 +1,11 @@
 package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.Event;
-import com.gmail.netcracker.application.service.interfaces.CalendarService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
+import com.gmail.netcracker.application.service.interfaces.FilterService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.Filter;
-import com.gmail.netcracker.application.utilites.Utilites;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Controller
@@ -33,7 +30,7 @@ public class CalendarController {
     private UserService userService;
 
     @Autowired
-    private CalendarService calendarService;
+    private FilterService filterService;
 
     private Gson gson = new GsonBuilder()
             .registerTypeAdapter(Event.class, new EventSerializer())
@@ -58,7 +55,7 @@ public class CalendarController {
                                            BindingResult result,
                                            ModelAndView modelAndView) {
 
-        String eventList = gson.toJson(calendarService.filterOfPriority(filter.getPriorities()));
+        String eventList = gson.toJson(filterService.filterOfPriority(filter.getPriorities()));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("eventList", eventList);
         modelAndView.addObject("priorities", eventService.getAllPriorities());

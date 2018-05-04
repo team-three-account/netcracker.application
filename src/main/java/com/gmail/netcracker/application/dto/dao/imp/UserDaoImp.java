@@ -72,7 +72,6 @@ public class UserDaoImp extends ModelDao implements UserDao {
         updateEntity(SQL_UPDATE,
                 user.getName(),
                 user.getSurname(),
-                Utilites.parseStringIntoDate(user.getBirthdayDate()),
                 user.getPhone(),
                 user.getId());
     }

@@ -1,10 +1,5 @@
 package com.gmail.netcracker.application.utilites;
 
-import com.gmail.netcracker.application.dto.model.Event;
-import org.springframework.jdbc.core.RowMapper;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.Format;
@@ -14,6 +9,7 @@ import java.util.Date;
 
 public class Utilites {
 
+    //TODO удалить один парсер
     public static Timestamp parseStringIntoDate(String str_date) {
         try {
             DateFormat formatter;

@@ -90,8 +90,8 @@ public class NoteController {
 
     @RequestMapping(value = "/allNotes", method = RequestMethod.GET)
     public String allNotes(Model model) {
-        User auth_user =userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", auth_user);
+        User authUser =userService.getAuthenticatedUser();
+        model.addAttribute("auth_user", authUser);
         model.addAttribute("noteList", noteService.noteList());
         return "note/allNotes";
     }

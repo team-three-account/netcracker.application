@@ -76,7 +76,6 @@ public class RegistrationController {
             (@PathVariable(value = "token") String token) {
         verificationToken = userService.getVerificationToken(token);
         user = verificationToken.getUser();
-        user.setPhoto("1");
         userService.saveRegisteredUser(user);
         userService.deleteVerificationToken(verificationToken);
         return "user/registration/successfulRegistration";

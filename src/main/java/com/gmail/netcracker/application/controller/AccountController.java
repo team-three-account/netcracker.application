@@ -40,10 +40,10 @@ public class AccountController {
 
     private ResetConfirmPasswordValidator resetConfirmPasswordValidator;
 
-    private PhotoService photoService;
+    private PhotoServiceImp photoService;
 
     @Autowired
-    public AccountController(User user, EmailConcructor emailConcructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoService photoService) {
+    public AccountController(User user, EmailConcructor emailConcructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService) {
         this.user = user;
         this.emailConcructor = emailConcructor;
         this.userService = userService;
@@ -110,36 +110,38 @@ public class AccountController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public @ResponseBody
-    ModelAndView saveSettings(@RequestParam(value = "id") final Long id,
-                              @RequestParam(value = "name") final String name,
-                              @RequestParam(value = "surname") final String surname,
-                              @RequestParam(value = "phone") final String phone,
-                              @RequestParam(value = "photo") String photo,
-                              @RequestParam(value = "photoFile") final MultipartFile photoFile,
-                              final ModelAndView modelAndView) {
+    @RequestMapping(value = "/settings-user", method = RequestMethod.POST)
+    public ModelAndView saveSettings(@ModelAttribute(value = "auth_user") User user,
+                                     @RequestParam(value = "photo") String photo,
+                                     @RequestParam(value = "photoFile") final MultipartFile photoFile,
+                                     final ModelAndView modelAndView) {
 
-        User user = userService.findUserById(id);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setPhone(phone);
         user.setPhotoFile(photoFile);
+        if (!photoFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !photoFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !photoFile.getContentType().equals(photoService.getImageTypePng())
+                && !photoFile.isEmpty()) {
+            modelAndView.addObject("message", "Image type don't supported");
+            modelAndView.setViewName("account/edit");
+            return modelAndView;
+        }
         userService.getAuthenticatedUser().setPhoto(user.getPhoto());
-        if(!photo.equals(1)) {
+        if (photoFile.isEmpty()) {
+            user.setPhoto(photo);
+        } else {
             user.setPhoto(String.valueOf(System.currentTimeMillis()));
-            photoService.saveFileInFileSystem(user.getPhotoFile(),user.getPhoto());
+            photoService.saveFileInFileSystem(user.getPhotoFile(), user.getPhoto());
             userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         }
         photoService.saveFileInDB(user.getPhoto(), user.getId());
         userService.updateUser(user);
-        modelAndView.setViewName("redirect:/account/profile/" + id);
+        modelAndView.setViewName("redirect:/account/profile/" + user.getId());
         return modelAndView;
     }
 
     @ResponseBody
     @RequestMapping(value = "/image/{id}", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
-    public byte[] testphoto(@PathVariable(value = "id") Long id) throws IOException {
+    public byte[] testPhoto(@PathVariable(value = "id") Long id) throws IOException {
         InputStream inputStream = new FileInputStream(new File(PhotoServiceImp.PATH + id + ".jpg"));
         return IOUtils.toByteArray(inputStream);
     }

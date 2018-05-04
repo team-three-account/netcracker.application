@@ -7,10 +7,10 @@ import java.util.List;
 
 public interface ParticipantDao {
 
-    void setPriority(Integer priority, int event_id, Long user_id);
+    void setPriority(Integer priority, int eventId, Long userId);
 
-    List<Participant> getPriorityForUserEvents(Long user_id);
+    List<Participant> getPriorityForUserEvents(Long userId);
 
-    Participant getParticipant(int event_id, Long user_id);
+    Participant getParticipant(int eventId, Long userId);
 
 }
