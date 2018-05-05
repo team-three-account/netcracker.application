@@ -14,11 +14,16 @@ public class Event {
     private String placeAddress;
     private String periodicity;
     private String type;
-    private boolean draft;
-    private int folder;
-    private int typeId;
-    private double width;
-    private double longitude;
+    private Boolean draft;
+    private Integer folder;
+    private Integer typeId;
+    private Double width;
+    private Double longitude;
     private String eventPlaceName;
     private String photo;
+    private String priority;
+
+    public Boolean isDraft(){
+        return draft;
+    }
 }
