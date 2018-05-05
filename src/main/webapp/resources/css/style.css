@@ -171,6 +171,51 @@ article > p {
     width: 100%;
 }
 
+.itemCardBody{
+    margin-bottom: 40px;
+}
+
+.itemCategory {
+    padding: 5px;
+    border-radius: 50px;
+    margin: 200px;
+
+    background-color: whitesmoke;
+}
+
+.itemCard {
+    font-family: "OpenSans-Regular", sans-serif;
+    font-size: 1em;
+    margin: 25px;
+    padding: 8px;
+    border: 3px #5e9597 groove;
+    background-color: white;
+    border-radius: 50px;
+}
+
+.center{
+    /*width: 900px;*/
+    /*height: 900px;*/
+    position: absolute;
+    top: 10px;
+    left: 180px;
+    /*overflow: auto;*/
+}
+
+/*@media (min-width: 992px) {*/
+    /*.card-columns {*/
+        /*-webkit-column-count: 2;*/
+        /*column-count: 2*/
+
+    /*}*/
+/*}*/
+
+.viewItem{
+    background: whitesmoke;
+
+
+}
+
 .eventCategory {
     border-radius: 10px;
     margin: 10px;
