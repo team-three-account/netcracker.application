@@ -6,7 +6,6 @@ import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.Utilites;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -82,18 +81,16 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.checkCreator}")
     private String SQL_CHECK_CREATOR;
 
-    private final RowMapper<Event> rowMapper;
+    private final RowMapper<Event> eventRowMapper;
     private final RowMapper<User> friendRowMapper;
     private final RowMapper<Participant> participantRowMapper;
 
     @Autowired
-    public EventDaoImpl(DataSource dataSource,
-                        @Qualifier("eventRowMapper") RowMapper<Event> rowMapper,
-                        @Qualifier("friendRowMapper") RowMapper<User> friendRowMapper,
+    public EventDaoImpl(DataSource dataSource, RowMapper<Event> eventRowMapper, RowMapper<User> userRowMapper,
                         RowMapper<Participant> participantRowMapper) {
         super(dataSource);
-        this.rowMapper = rowMapper;
-        this.friendRowMapper = friendRowMapper;
+        this.eventRowMapper = eventRowMapper;
+        this.friendRowMapper = userRowMapper;
         this.participantRowMapper = participantRowMapper;
     }
 
@@ -136,37 +133,37 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public Event getEvent(int eventId) {
-        return findEntity(SQL_FIND, rowMapper, eventId);
+        return findEntity(SQL_FIND, eventRowMapper, eventId);
     }
 
     @Override
     public List<Event> eventList() {
-        return findEntityList(SQL_FIND_LIST_BY_CREATOR, rowMapper);
+        return findEntityList(SQL_FIND_LIST_BY_CREATOR, eventRowMapper);
     }
 
     @Override
     public List<Event> findPublicEvents() {
-        return findEntityList(SQL_FIND_PUBLIC_EVENTS, rowMapper);
+        return findEntityList(SQL_FIND_PUBLIC_EVENTS, eventRowMapper);
     }
 
     @Override
     public List<Event> findPrivateEvents(Long userId) {
-        return findEntityList(SQL_FIND_PRIVATE_EVENTS, rowMapper, userId);
+        return findEntityList(SQL_FIND_PRIVATE_EVENTS, eventRowMapper, userId);
     }
 
     @Override
     public List<Event> findFriendsEvents(Long userId) {
-        return findEntityList(SQL_FIND_FRIENDS_EVENTS, rowMapper, userId, userId);
+        return findEntityList(SQL_FIND_FRIENDS_EVENTS, eventRowMapper, userId, userId);
     }
 
     @Override
     public List<Event> findDrafts(Long userId) {
-        return findEntityList(SQL_FIND_DRAFTS, rowMapper, userId);
+        return findEntityList(SQL_FIND_DRAFTS, eventRowMapper, userId);
     }
 
     @Override
     public List<Event> getAllMyEvents(Long personId) {
-        return findEntityList(SQL_FIND_PERSON_EVENTS, rowMapper, personId);
+        return findEntityList(SQL_FIND_PERSON_EVENTS, eventRowMapper, personId);
     }
 
     @Override
@@ -196,12 +193,12 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public List<Event> findCreatedFriendsEvents(Long id) {
-        return findEntityList(SQL_FIND_CREATED_FRIENDS_EVENTS, rowMapper, id);
+        return findEntityList(SQL_FIND_CREATED_FRIENDS_EVENTS, eventRowMapper, id);
     }
 
     @Override
     public List<Event> findCreatedPublicEvents(Long id) {
-        return findEntityList(SQL_FIND_CREATED_PUBLIC_EVENTS, rowMapper, id);
+        return findEntityList(SQL_FIND_CREATED_PUBLIC_EVENTS, eventRowMapper, id);
     }
 
     @Override
@@ -221,7 +218,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public Event checkCreatorById(Long personId, int eventId) {
-        return findEntity(SQL_CHECK_CREATOR, rowMapper, personId, eventId);
+        return findEntity(SQL_CHECK_CREATOR, eventRowMapper, personId, eventId);
     }
 }
 

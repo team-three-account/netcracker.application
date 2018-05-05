@@ -11,6 +11,7 @@ import com.gmail.netcracker.application.validation.NoteValidator;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
+import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -162,15 +163,15 @@ public class RootConfig {
         return driver;
     }
 
-//    @Bean(initMethod = "migrate")
-//    @Autowired
-//    public Flyway flyway(DataSource dataSource) {
-//        Flyway flyway = new Flyway();
-//        flyway.setBaselineOnMigrate(true);
-//        flyway.setLocations(env.getProperty("flyway.migration.path"));
-//        flyway.setDataSource(dataSource);
-//        return flyway;
-//    }
+    @Bean(initMethod = "migrate")
+    @Autowired
+    public Flyway flyway(DataSource dataSource) {
+        Flyway flyway = new Flyway();
+        flyway.setBaselineOnMigrate(true);
+        flyway.setLocations(env.getProperty("flyway.migration.path"));
+        flyway.setDataSource(dataSource);
+        return flyway;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -182,14 +183,14 @@ public class RootConfig {
     public RowMapper<User> userRowMapper() {
         return (resultSet, i) -> {
             User user = new User();
-            user.setId(getLong(resultSet, "person_id"));
+            user.setId(getLong(resultSet, "user_id"));
             user.setName(getString(resultSet, "name"));
             user.setSurname(getString(resultSet, "surname"));
             user.setEmail(getString(resultSet, "email"));
             user.setPassword(getString(resultSet, "password"));
             user.setRole(getString(resultSet, "role"));
             user.setPhone(getString(resultSet, "phone"));
-            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthday")));
+            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthdate")));
             user.setPhoto(getString(resultSet, "photo"));
             return user;
         };
@@ -208,7 +209,7 @@ public class RootConfig {
             user.setPassword(getString(resultSet, "password"));
             user.setRole(getString(resultSet, "role"));
             user.setPhone(getString(resultSet, "phone"));
-            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthday")));
+            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthdate")));
             verificationToken.setUser(user);
             return verificationToken;
         };
@@ -221,15 +222,15 @@ public class RootConfig {
             event.setEventId(getInt(rs, "event_id"));
             event.setName(getString(rs, "name"));
             event.setDescription(getString(rs, "description"));
-            event.setCreator(getLong(rs, "creator"));
+            event.setCreator(getLong(rs, "creator_id"));
             event.setDateStart(getString(rs, "start_date"));
             event.setDateEnd(getString(rs, "end_date"));
-            event.setType(getString(rs, "type"));
+            event.setTypeId(getInt(rs, "type_id"));
             event.setDraft(getBoolean(rs, "is_draft"));
-            event.setFolder(getInt(rs, "folder"));
-            event.setWidth(getDouble(rs, "width"));
+            event.setFolder(getInt(rs, "folder_id"));
+            event.setWidth(getDouble(rs, "latitude"));
             event.setLongitude(getDouble(rs, "longitude"));
-            event.setEventPlaceName(getString(rs, "eventplacename"));
+            event.setEventPlaceName(getString(rs, "place_name"));
             event.setPeriodicity(getString(rs, "periodicity"));
             event.setPhoto(getString(rs, "photo"));
             return event;
@@ -241,7 +242,7 @@ public class RootConfig {
         return (resultSet, i) -> {
             EventType eventType = new EventType();
             eventType.setTypeId(getInt(resultSet, "type_id"));
-            eventType.setName(getString(resultSet, "value"));
+            eventType.setName(getString(resultSet, "name"));
             return eventType;
         };
     }
@@ -251,7 +252,7 @@ public class RootConfig {
         return (resultSet, i) -> {
             Priority priority = new Priority();
             priority.setPriorityId(getInt(resultSet, "priority_id"));
-            priority.setName(getString(resultSet, "value"));
+            priority.setName(getString(resultSet, "name"));
             return priority;
         };
     }
@@ -260,8 +261,8 @@ public class RootConfig {
     public RowMapper<Participant> participantRowMapper() {
         return (resultSet, i) -> {
             Participant participant = new Participant();
-            participant.setEventId(getInt(resultSet, "event"));
-            participant.setPriority(getInt(resultSet, "priority"));
+            participant.setEventId(getInt(resultSet, "event_id"));
+            participant.setPriority(getInt(resultSet, "priority_id"));
             return participant;
         };
     }
@@ -273,8 +274,8 @@ public class RootConfig {
             note.setNoteId(getInt(rs, "note_id"));
             note.setName(getString(rs, "name"));
             note.setDescription(getString(rs, "description"));
-            note.setCreator(getLong(rs, "creator"));
-            note.setFolder(getInt(rs, "folder"));
+            note.setCreator(getLong(rs, "creator_id"));
+            note.setFolder(getInt(rs, "folder_id"));
             return note;
         };
     }
@@ -283,22 +284,10 @@ public class RootConfig {
     public RowMapper<Friend> friendshipRowMapper() {
         return (resultSet, i) -> {
             Friend friendship = new Friend();
-            friendship.setRecipient(getLong(resultSet, "recipient"));
-            friendship.setSender(getLong(resultSet, "sender"));
-            friendship.setAccepted(getBoolean(resultSet, "isAccepted"));
+            friendship.setRecipient(getLong(resultSet, "recipient_id"));
+            friendship.setSender(getLong(resultSet, "sender_id"));
+            friendship.setAccepted(getBoolean(resultSet, "is_accepted"));
             return friendship;
-        };
-    }
-
-    @Bean
-    public RowMapper<User> friendRowMapper() {
-        return (resultSet, i) -> {
-            User user = new User();
-            user.setId(getLong(resultSet, "person_id"));
-            user.setName(getString(resultSet, "name"));
-            user.setSurname(getString(resultSet, "surname"));
-            user.setPhoto(getString(resultSet, "photo"));
-            return user;
         };
     }
 
@@ -307,14 +296,14 @@ public class RootConfig {
         return (resultSet, i) -> {
             Item item = new Item();
             item.setItemId(getLong(resultSet, "item_id"));
-            item.setPersonId(getLong(resultSet, "person"));
-            item.setBooker(getLong(resultSet, "booker"));
+            item.setPersonId(getLong(resultSet, "user_id"));
+            item.setBooker(getLong(resultSet, "booker_id"));
             item.setName(getString(resultSet, "name"));
             item.setDescription(getString(resultSet, "description"));
             item.setLink(getString(resultSet, "link"));
             item.setDueDate(getDate(resultSet, "due_date"));
-            item.setPriority(getInt(resultSet, "priority"));
-            item.setRoot(getLong(resultSet, "root"));
+            item.setPriority(getInt(resultSet, "priority_id"));
+            item.setRoot(getLong(resultSet, "root_id"));
             return item;
         };
     }

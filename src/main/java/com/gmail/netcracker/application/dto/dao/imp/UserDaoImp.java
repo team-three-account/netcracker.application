@@ -39,13 +39,10 @@ public class UserDaoImp extends ModelDao implements UserDao {
     private String SQL_GET_ALL_USERS;
 
     private final RowMapper<User> rowMapper;
-    private final RowMapper<User> userRowMapper;
     @Autowired
-    public UserDaoImp(DataSource dataSource, @Qualifier("userRowMapper") RowMapper<User> rowMapper,
-                      @Qualifier("friendRowMapper") RowMapper<User> userRowMapper) {
+    public UserDaoImp(DataSource dataSource, RowMapper<User> rowMapper) {
         super(dataSource);
         this.rowMapper = rowMapper;
-        this.userRowMapper=userRowMapper;
     }
 
     //TODO don't hardcode role!!!
@@ -85,7 +82,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
 
     @Override
     public List<User> getAllUsers(Long currentId) {
-        return findEntityList(SQL_GET_ALL_USERS, userRowMapper, currentId);
+        return findEntityList(SQL_GET_ALL_USERS, rowMapper, currentId);
     }
 
     @Override
