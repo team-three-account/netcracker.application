@@ -18,7 +18,7 @@
     <div class="card card-register">
         <div class="card-header">Edit Item</div>
         <div class="card-body">
-            <form:form method="POST" modelAttribute="updateItem" class="forms_form" enctype="multipart/form-data">
+            <form:form method="POST" modelAttribute="updateItem" class="forms_form" >
             <div class="form-group">
                 <label>Item Name: </label>
                 <form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
@@ -28,7 +28,7 @@
 
             <div class="form-group">
                 <label>Person: </label>
-                <form:input path="personId" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
+                <form:input path="personId" id="name" style="width: 30%" type="numb" class="form-control decodingHtml"
                             placeholder="Enter person"/>
                 <form:errors path="personId" cssClass="error"/>
             </div>
@@ -102,4 +102,6 @@
                 <%--</body>--%>
             </form:form>
 </div>
+<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+<script src='${contextPath}/resources/js/textEditorInit.js'></script>
 </html>

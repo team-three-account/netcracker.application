@@ -14,7 +14,7 @@ public interface ItemDao {
 
     List<Item> itemList();
 
-    Item getByItemName(String name);
+    Item getItem(Long itemId);
 
     List<Item> allPersonItem(Long personId);
 }

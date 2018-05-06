@@ -15,7 +15,7 @@ import java.util.List;
 public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Value("${sql.item.pkColumnName}")
-    private String PK_COLUMN_NAME = "item_id";
+    private String PK_COLUMN_NAME;
 
     @Value("${sql.item.add}")
     private String ADD_ITEM;
@@ -28,6 +28,9 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Value("${sql.item.getItem}")
     private String SELECT_ITEM;
+
+    @Value("{sql.item.findItemByName}")
+    private String SELECT_ITEM_BY_NAME;
 
     @Value("${sql.item.PersonList}")
     private String PERSON_ITEM_LIST;
@@ -45,24 +48,26 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Override
     public void add(Item item) {
-        jdbcTemplate.update(ADD_ITEM, item.getPersonId(), item.getBooker(), item.getName(), item.getDescription(),
-                item.getLink(), item.getDueDate(), item.getPriority(), item.getItemId());
+        item.setItemId(insertEntity(ADD_ITEM, PK_COLUMN_NAME,
+                item.getPersonId(), item.getName(), item.getDescription(),
+                item.getLink(), item.getDueDate(), item.getPriority(), item.getRoot()));
     }
 
     @Override
     public void update(Item item) {
-        jdbcTemplate.update(UPDATE_ITEM, item.getPersonId(), item.getBooker(), item.getName(), item.getDescription(),
-                item.getLink(), item.getDueDate(), item.getPriority(), item.getRoot(), item.getName());
+        updateEntity(UPDATE_ITEM, item.getPersonId(), item.getName(), item.getDescription(),
+                item.getLink(), item.getDueDate(), item.getPriority(), item.getRoot(), item.getItemId());
     }
 
     @Override
     public void delete(Long itemId) {
-        jdbcTemplate.update(DELETE_ITEM, itemId);
+        deleteEntity(DELETE_ITEM, itemId);
     }
 
+
     @Override
-    public Item getByItemName(String name) {
-        return jdbcTemplate.queryForObject(SELECT_ITEM, itemRowMapper, name);
+    public Item getItem(Long itemId) {
+        return findEntity(SELECT_ITEM, itemRowMapper, itemId);
     }
 
     @Override
@@ -73,7 +78,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Override
     public List<Item> itemList() {
-        return jdbcTemplate.query(ALL_ITEM, itemRowMapper);
+        return findEntityList(ALL_ITEM, itemRowMapper);
     }
 
 }

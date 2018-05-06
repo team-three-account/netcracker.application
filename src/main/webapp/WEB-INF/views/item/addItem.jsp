@@ -6,7 +6,7 @@
     <title>Add new item</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-
+</head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <div class="row">
@@ -14,7 +14,7 @@
     <div class="col-md-3"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-</head>
+
 <div  align="left" class="col-md-9 content">
 <div class="card card-register">
 <div class="card-header">Create Item</div>
@@ -22,24 +22,24 @@
 <form:form method="POST" modelAttribute="createItem" class="forms_form" enctype="multipart/form-data">
     <div class="form-group">
     <label>Item Name: </label>
-    <%--<form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"--%>
-                <%--placeholder="Enter item name"/>--%>
+    <form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
+                placeholder="Enter item name"/>
     <form:errors path="name" cssClass="error"/>
     </div>
 
-    <div class="form-group">
-    <label>Person: </label>
-    <form:input path="personId" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
-                placeholder="Enter person"/>
-    <form:errors path="personId" cssClass="error"/>
-    </div>
+    <%--<div class="form-group">--%>
+    <%--<label>Person: </label>--%>
+    <%--<form:input path="personId" id="name" style="width: 30%" type="text" class="form-control decodingHtml"--%>
+                <%--placeholder="Enter person"/>--%>
+    <%--<form:errors path="personId" cssClass="error"/>--%>
+    <%--</div>--%>
 
-    <div class="form-group">
-    <label>Booker: </label>
-    <form:input path="booker" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
-                placeholder="Enter booker"/>
-    <form:errors path="booker" cssClass="error"/>
-    </div>
+    <%--<div class="form-group">--%>
+    <%--<label>Booker: </label>--%>
+    <%--<form:input path="booker" id="name" style="width: 30%" type="text" class="form-control decodingHtml"--%>
+                <%--placeholder="Enter booker"/>--%>
+    <%--<form:errors path="booker" cssClass="error"/>--%>
+    <%--</div>--%>
 
     <div class="form-group">
     <label>Description: </label>
@@ -69,11 +69,11 @@
     <form:errors path="priority" cssClass="error"/>
     </div>
 
-    <div class="form-group">
-    <label>Root: </label>
-    <form:input path="root" id="name" style="width: 30%" type="text"  class="form-control decodingHtml"
-                placeholder="Enter root"/>
-    <form:errors path="root" cssClass="error"/>
+    <%--<div class="form-group">--%>
+    <%--<label>Root: </label>--%>
+    <%--<form:input path="root" id="name" style="width: 30%" type="text"  class="form-control decodingHtml"--%>
+                <%--placeholder="Enter root"/>--%>
+    <%--<form:errors path="root" cssClass="error"/>--%>
 
     <input type="submit" value="Edd" class="btn btn-success text-center"/>
     </div>

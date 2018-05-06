@@ -203,16 +203,15 @@ article > p {
 }
 
 /*@media (min-width: 992px) {*/
-    /*.card-columns {*/
-        /*-webkit-column-count: 2;*/
-        /*column-count: 2*/
+/*.card-columns {*/
+/*-webkit-column-count: 2;*/
+/*column-count: 2*/
 
-    /*}*/
+/*}*/
 /*}*/
 
 .viewItem{
     background: whitesmoke;
-
 
 }
 

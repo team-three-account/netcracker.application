@@ -14,95 +14,90 @@
     <div class="col-md-3"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-<div class="col-md-9 content">
-<div class="container-fluid">
-<div class="col-md-6">
-<div class="panel panel-success">
-<div class="panel-heading">
-    <h3 class="panel-title">Item - ${item.name}</h3>
+
+<div class="col-md-6 content">
+    <div class="col-md-6">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 align="center" class="panel-title"> ${item.name}</h3>
+            </div>
+            <div class="panel-body viewItem">
+                <ul class="list-unstyled mt-3 mb-4">
+                    <%--<form:form method="GET" modelAttribute="item" class="forms_form" enctype="multipart/form-data">--%>
+                    <%--<div class="form-group">--%>
+                    <%--<label>Item Name: </label>--%>
+                    <%--<li>ID : ${item.itemId}</li>--%>
+                    <%--<form:select path="itemId" id="name" style="width: 30%" type="text" class="form-control decodingHtml"--%>
+                    <%--placeholder="Enter item name"/>--%>
+                    <%--<form:errors path="name" cssClass="error"/>--%>
+                    <%--</div>--%>
+
+                    <li><b>Item Name:</b> ${item.name}</li>
+                    <li><b>Booker:</b> ${item.booker}</li>
+                    <li><b>Description:</b> ${item.description}</li>
+                    <li><b>Link:</b> ${item.link}</li>
+                    <li><b>Date:</b> ${item.dueDate}</li>
+                    <li><b>Priority:</b> ${item.priority}</li>
+                    <li><b>Root:</b> ${item.root}</li>
+                        <a class="btn btn-primary" href="<c:url value='/account/itemList'/>">Back</a>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+    </div>
 </div>
-<div class="panel-body viewItem">
-<ul class="list-unstyled mt-3 mb-4">
-<%--<form:form method="GET" modelAttribute="item" class="forms_form" enctype="multipart/form-data">--%>
-    <div class="form-group">
-    <label>Item Name: </label>
-    <%--<li>ID : ${item.itemId}</li>--%>
-    <%--<form:select path="itemId" id="name" style="width: 30%" type="text" class="form-control decodingHtml"--%>
-                 <%--placeholder="Enter item name"/>--%>
-    <%--<form:errors path="name" cssClass="error"/>--%>
-    <%--</div>--%>
-    <label>Item Name: ${item.name} </label>
-    <li>Name : ${item.name}</li>
-    <label>Item Name: </label>
-    <li>Booker : ${item.booker}</li>
-    <label>Item Name: </label>
-    <li>Description : ${item.description}</li>
-    <label>Item Name: </label>
-    <li>Link : ${item.link}</li>
-    <label>Item Name: </label>
-    <li>Date : ${item.dueDate}</li>
-    <label>Item Name: </label>
-    <li>Priority : ${item.priority}</li>
-    <label>Item Name: </label>
-    <li>Root : ${item.root}</li>
-    </ul>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    <%--</body>--%>
-    <%--</div>--%>
-<%--</div>--%>
-    <%--</form:form>--%>
 
-    <%--</html>--%>
-    <%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
-    <%--<html>--%>
-    <%--<head>--%>
-    <%--<title>Title</title>--%>
-    <%--<link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">--%>
-    <%--</head>--%>
-    <%--<body>--%>
-    <%--<h1>Item info</h1>--%>
-    <%--<table>--%>
-    <%--<tr>--%>
-    <%--<td>ID</td>--%>
-    <%--<td>${item.itemId}</td>--%>
-    <%--</tr>--%>
-    <%--<tr>--%>
-    <%--<td>PersonID</td>--%>
-    <%--<td>${item.personId}</td>--%>
-    <%--</tr>--%>
-    <%--<tr>--%>
-    <%--<td>Booker</td>--%>
-    <%--<td>${item.booker}</td>--%>
-    <%--</tr>--%>
-    <%--<tr>--%>
-    <%--<td>Name</td>--%>
-    <%--<td>${item.name}</td>--%>
-    <%--</tr>--%>
-    <%--<tr>--%>
-    <%--<td>Description</td>--%>
-    <%--<td>${item.description}</td>--%>
-    <%--</tr>--%>
-    <%--<tr>--%>
-    <%--<td>Link</td>--%>
-    <%--<td>${item.link}</td>--%>
-    <%--</tr>--%>
-    <%--<tr>--%>
-    <%--<td>DueDate</td>--%>
-    <%--<td>${item.dueDate}</td>--%>
-    <%--</tr>--%>
-    <%--<tr>--%>
-    <%--<td>Priority</td>--%>
-    <%--<td>${item.priority}</td>--%>
-    <%--</tr>--%>
-    <%--<tr>--%>
-    <%--<td>Root</td>--%>
-    <%--<td>${item.root}</td>--%>
-    <%--</tr>--%>
-    <%--</table>--%>
+</body>
 
-    </body>
-    </html>
+<%--</form:form>--%>
+
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
+<%--<html>--%>
+<%--<head>--%>
+<%--<title>Title</title>--%>
+<%--<link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">--%>
+<%--</head>--%>
+<%--<body>--%>
+<%--<h1>Item info</h1>--%>
+<%--<table>--%>
+<%--<tr>--%>
+<%--<td>ID</td>--%>
+<%--<td>${item.itemId}</td>--%>
+<%--</tr>--%>
+<%--<tr>--%>
+<%--<td>PersonID</td>--%>
+<%--<td>${item.personId}</td>--%>
+<%--</tr>--%>
+<%--<tr>--%>
+<%--<td>Booker</td>--%>
+<%--<td>${item.booker}</td>--%>
+<%--</tr>--%>
+<%--<tr>--%>
+<%--<td>Name</td>--%>
+<%--<td>${item.name}</td>--%>
+<%--</tr>--%>
+<%--<tr>--%>
+<%--<td>Description</td>--%>
+<%--<td>${item.description}</td>--%>
+<%--</tr>--%>
+<%--<tr>--%>
+<%--<td>Link</td>--%>
+<%--<td>${item.link}</td>--%>
+<%--</tr>--%>
+<%--<tr>--%>
+<%--<td>DueDate</td>--%>
+<%--<td>${item.dueDate}</td>--%>
+<%--</tr>--%>
+<%--<tr>--%>
+<%--<td>Priority</td>--%>
+<%--<td>${item.priority}</td>--%>
+<%--</tr>--%>
+<%--<tr>--%>
+<%--<td>Root</td>--%>
+<%--<td>${item.root}</td>--%>
+<%--</tr>--%>
+<%--</table>--%>
+
+</body>
+</html>

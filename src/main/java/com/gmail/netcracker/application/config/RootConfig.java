@@ -62,10 +62,10 @@ public class RootConfig {
         return new UserServiceImp();
     }
 
-    @Bean
-    UserService userService() {
-        return new UserServiceImp();
-    }
+//    @Bean
+//    UserService userService() {
+//        return new UserServiceImp();
+//    }
 
     @Bean
     VerificationToken verificationToken() {
@@ -132,10 +132,10 @@ public class RootConfig {
         return new Item();
     }
 
-    @Bean
-    ItemService itemService() {
-        return new ItemServiceImpl();
-    }
+//    @Bean
+//    ItemService itemService() {
+//        return new ItemServiceImpl();
+//    }
 
     @Bean
     LocaleResolver localeResolver() {

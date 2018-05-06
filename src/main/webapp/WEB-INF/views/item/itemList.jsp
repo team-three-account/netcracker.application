@@ -1,5 +1,4 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
@@ -27,25 +26,24 @@
                     <%--<h4 class="my-0 font-weight-normal itemCategory">Wish List</h4>--%>
                 </div>
 
-                <div class="card-body itemCardBody">
+                <div class="card-body eventCard">
                     <c:forEach var="item" items="${itemList}">
                         <div class="item-columns">
+                            <a href="<c:url value='/account/getItem-${item.itemId}' />">
                             <ul class="list-unstyled mt-3 mb-4 itemCard ">
 
-                                <li><a href="/account/getItem-${item.name}"><b>${item.name}</b></a></li>
-                                <li>ItemId: <b>${item.itemId}</b></li>
-                                <li>Person: <b>${item.personId}</b></li>
-                                <li>Booker: <b>${item.booker}</b></li>
+                                <li>Item name <b>${item.name}</b></li>
+                                <%--<li>ItemId: <b><a href="/account/getItem-${item.itemId}">${item.itemId}</a></b></li>--%>
                                 <li>Description: <b>${item.description}</b></li>
                                 <li>Link: <b>${item.link}</b></li>
                                 <li>Due_date: <b>${item.dueDate}</b></li>
                                 <li>Priority: <b>${item.priority}</b></li>
-                                <li>Root: <b>${item.root}</b></li>
                                 <a href="/account/itemList/deleteItem-${item.itemId}">
                                     <input type="submit" class="btn btn-danger text-center" value="Delete"></a>
                                 <a class="btn btn-primary" type="submit" data-toggle="collapse"
-                                   href="/account/update-${item.name}" role="button">Edit</a>
+                                   href="/account/update-${item.itemId}" role="button">Edit</a>
                             </ul>
+                            </a>
                         </div>
                     </c:forEach>
                 </div>
