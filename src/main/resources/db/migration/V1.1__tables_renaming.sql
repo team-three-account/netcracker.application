@@ -86,14 +86,6 @@ ALTER TABLE item_tags
 ALTER TABLE item_tags
   RENAME CONSTRAINT "ItemTag_fk0" TO item_tags_items_fk;
 
---messages renaming
-ALTER TABLE "Message"
-  RENAME TO messages;
-ALTER TABLE messages
-  RENAME sender TO sender_id;
-ALTER TABLE messages
-  RENAME chat TO chat_id;
-
 --notes renaming;
 ALTER TABLE "Note"
   RENAME TO notes;
@@ -129,6 +121,20 @@ ALTER TABLE users
   RENAME person_id TO user_id;
 ALTER TABLE users
   RENAME birthday TO birthdate;
+ALTER TABLE users
+  RENAME CONSTRAINT person_pk TO users_pk;
+
+--messages renaming
+ALTER TABLE "Message"
+  RENAME TO messages;
+ALTER TABLE messages
+  RENAME sender TO sender_id;
+ALTER TABLE messages
+  RENAME chat TO chat_id;
+ALTER TABLE messages
+  ADD CONSTRAINT messages_chats_fk FOREIGN KEY (chat_id) REFERENCES chats;
+ALTER TABLE messages
+  ADD CONSTRAINT messages_senders_fk FOREIGN KEY (sender_id) REFERENCES users;
 
 --user chats renaming
 ALTER TABLE "PersonChat"
@@ -170,4 +176,4 @@ ALTER TABLE event_types
 ALTER TABLE "Verif_token"
   RENAME TO verif_token;
 ALTER TABLE verif_token
-    RENAME birthday to birthdate;
+  RENAME birthday TO birthdate;
