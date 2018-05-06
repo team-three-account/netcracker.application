@@ -62,11 +62,19 @@
     <form:errors path="dueDate" cssClass="error"/>
     </div>
 
+    <%--<div class="form-group">--%>
+    <%--<label>Priority: </label>--%>
+    <%--<form:input path="priority" id="name" style="width: 30%" type="text"  class="form-control decodingHtml"--%>
+                <%--placeholder="Enter priority"/>--%>
+    <%--<form:errors path="priority" cssClass="error"/>--%>
+    <%--</div>--%>
+
     <div class="form-group">
-    <label>Priority: </label>
-    <form:input path="priority" id="name" style="width: 30%" type="text"  class="form-control decodingHtml"
-                placeholder="Enter priority"/>
-    <form:errors path="priority" cssClass="error"/>
+        <label>Priority: </label>
+        <form:select path="priority" style="width: 30%" class="form-control">
+            <form:options items="${priorities}"  itemValue="priorityId" itemLabel="name"/>
+        </form:select>
+        <form:errors path="priority" cssClass="error"/>
     </div>
 
     <%--<div class="form-group">--%>

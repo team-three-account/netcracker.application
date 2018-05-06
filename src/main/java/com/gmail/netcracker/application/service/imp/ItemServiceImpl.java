@@ -1,8 +1,9 @@
 package com.gmail.netcracker.application.service.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.ItemDao;
-import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.dto.dao.interfaces.PriorityDao;
 import com.gmail.netcracker.application.dto.model.Item;
+import com.gmail.netcracker.application.dto.model.Priority;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +14,14 @@ import java.util.List;
 
 @Service
 public class ItemServiceImpl implements ItemService {
-
-
-    @Autowired
-    private ItemDao itemDao;
-    @Autowired
-    private UserService userService;
+    private final ItemDao itemDao;
+    private final PriorityDao priorityDao;
+    private final UserService userService;
 
     @Autowired
-    public ItemServiceImpl(ItemDao itemDao, UserService userService){
+    public ItemServiceImpl(ItemDao itemDao, PriorityDao priorityDao, UserService userService){
         this.itemDao = itemDao;
+        this.priorityDao = priorityDao;
         this.userService = userService;
     }
 
@@ -69,5 +68,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void setPersonId(Item item) {
         item.setPersonId(userService.getAuthenticatedUser().getId());
+    }
+
+    @Override
+    public List<Priority> getAllPriorities() {
+        return priorityDao.getAllPriority();
     }
 }

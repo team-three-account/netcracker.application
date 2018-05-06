@@ -56,7 +56,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Override
     public void update(Item item) {
         updateEntity(UPDATE_ITEM, item.getPersonId(), item.getName(), item.getDescription(),
-                item.getLink(), item.getDueDate(), item.getPriority(), item.getRoot(), item.getItemId());
+                item.getLink(), item.getDueDate(), item.getPriority(), item.getItemId());
     }
 
     @Override

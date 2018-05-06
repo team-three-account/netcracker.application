@@ -1,9 +1,7 @@
 package com.gmail.netcracker.application.controller;
 
-import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.Item;
-import com.gmail.netcracker.application.dto.model.User;
-import com.gmail.netcracker.application.service.interfaces.FriendService;
+import com.gmail.netcracker.application.dto.model.Priority;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/account")
@@ -38,7 +38,7 @@ public class ItemController {
     }
 
     @RequestMapping(value = {"/update-{itemId}"}, method = RequestMethod.POST)
-    public ModelAndView updateItem(@ModelAttribute("updateItem") Item item,  ModelAndView modelAndView) {
+    public ModelAndView updateItem(@ModelAttribute("updateItem") Item item, ModelAndView modelAndView) {
         modelAndView.addObject("userLogin", userService.getAuthenticatedUser());
         itemService.update(item);
         modelAndView.setViewName("redirect:/account/itemList");
@@ -72,12 +72,6 @@ public class ItemController {
         return "item/itemList";
     }
 
-//    @RequestMapping(value = "/getItem-{name}", method = RequestMethod.GET)
-//    public String getByItemName(@PathVariable("name") String name, Model model) {
-//        model.addAttribute("item", itemService.getByItemName(name));
-//        return "item/findByName";
-//    }
-
     @RequestMapping(value = "/getItem-{itemId}", method = RequestMethod.GET)
     public ModelAndView getItem(@PathVariable("itemId") Long itemId, ModelAndView modelAndView) {
         modelAndView.addObject("getItem", itemService.getItem(itemId));
@@ -89,5 +83,10 @@ public class ItemController {
     public String findItemByPersonId(@PathVariable("personId") Long personId, Model model) {
         model.addAttribute("personItemList", itemService.findItemByPersonId(personId));
         return "item/findItemByPersonId";
+    }
+
+    @ModelAttribute("priorities")
+    public List<Priority> getAllPriorities() {
+        return itemService.getAllPriorities();
     }
 }
