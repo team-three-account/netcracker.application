@@ -7,10 +7,7 @@ import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
-import com.gmail.netcracker.application.validation.NoteValidator;
-import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
-import com.gmail.netcracker.application.validation.RegisterValidator;
-import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
+import com.gmail.netcracker.application.validation.*;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -132,10 +129,10 @@ public class RootConfig {
         return new Item();
     }
 
-//    @Bean
-//    ItemService itemService() {
-//        return new ItemServiceImpl();
-//    }
+    @Bean
+    ItemValidator itemValidator() {
+        return new ItemValidator();
+    }
 
     @Bean
     LocaleResolver localeResolver() {

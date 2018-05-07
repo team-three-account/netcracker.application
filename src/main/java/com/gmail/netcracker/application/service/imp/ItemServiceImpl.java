@@ -14,9 +14,10 @@ import java.util.List;
 
 @Service
 public class ItemServiceImpl implements ItemService {
-    private final ItemDao itemDao;
-    private final PriorityDao priorityDao;
-    private final UserService userService;
+
+   private ItemDao itemDao;
+   private PriorityDao priorityDao;
+   private UserService userService;
 
     @Autowired
     public ItemServiceImpl(ItemDao itemDao, PriorityDao priorityDao, UserService userService){
@@ -49,11 +50,6 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> itemList() {
         return itemDao.itemList();
     }
-
-//    @Override
-//    public Item getByItemName(String name) {
-//        return itemDao.getByItemName(name);
-//    }
 
     @Override
     public Item getItem(Long itemId) {

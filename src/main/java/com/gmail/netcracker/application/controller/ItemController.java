@@ -4,9 +4,11 @@ import com.gmail.netcracker.application.dto.model.Item;
 import com.gmail.netcracker.application.dto.model.Priority;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
+import com.gmail.netcracker.application.validation.ItemValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,16 +23,17 @@ public class ItemController {
 
     private final UserService userService;
     private final ItemService itemService;
+    private final ItemValidator itemValidator;
 
     @Autowired
-    public ItemController(ItemService itemService, UserService userService) {
+    public ItemController(ItemService itemService, UserService userService, ItemValidator itemValidator) {
         this.itemService = itemService;
         this.userService = userService;
+        this.itemValidator = itemValidator;
     }
 
     @RequestMapping(value = "/update-{itemId}", method = RequestMethod.GET)
     public ModelAndView updateItem(@PathVariable("itemId") Long itemId, ModelAndView modelAndView) {
-//        modelAndView.addObject("updateItem", itemService.getByItemName(itemName));
         modelAndView.addObject("updateItem", itemService.getItem(itemId));
         modelAndView.addObject("userLogin", userService.getAuthenticatedUser());
         modelAndView.setViewName("item/editItem");
@@ -38,8 +41,14 @@ public class ItemController {
     }
 
     @RequestMapping(value = {"/update-{itemId}"}, method = RequestMethod.POST)
-    public ModelAndView updateItem(@ModelAttribute("updateItem") Item item, ModelAndView modelAndView) {
+    public ModelAndView updateItem(@ModelAttribute("updateItem") Item item,
+                                   BindingResult bindingResult, ModelAndView modelAndView) {
         modelAndView.addObject("userLogin", userService.getAuthenticatedUser());
+        modelAndView.setViewName("item/editItem");
+        itemValidator.validate(item, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return modelAndView;
+        }
         itemService.update(item);
         modelAndView.setViewName("redirect:/account/itemList");
         return modelAndView;
@@ -59,11 +68,16 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/addItem", method = RequestMethod.POST)
-    public ModelAndView addItem(@ModelAttribute("createItem") Item item, ModelAndView modelAndView) {
-        item.setPersonId(userService.getAuthenticatedUser().getId());
-        itemService.add(item);
-        modelAndView.setViewName("redirect:/account/itemList");
-        return modelAndView;
+    public ModelAndView addItem(@ModelAttribute("createItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
+//        item.setPersonId(userService.getAuthenticatedUser().getId());
+        modelAndView.setViewName("item/addItem");
+        itemValidator.validate(item, bindingResult);
+        if (bindingResult.hasErrors()) {
+            return modelAndView;
+        }
+            itemService.add(item);
+            modelAndView.setViewName("redirect:/account/itemList");
+            return modelAndView;
     }
 
     @RequestMapping(value = "/itemList", method = RequestMethod.GET)

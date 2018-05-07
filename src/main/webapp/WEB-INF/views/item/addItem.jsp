@@ -43,21 +43,21 @@
 
     <div class="form-group">
     <label>Description: </label>
-    <form:input path="description" id="name" style="width: 30%" type="text"  class="form-control decodingHtml"
+    <form:input path="description" id="description" style="width: 30%" type="text"  class="form-control decodingHtml"
                 placeholder="Enter description"/>
     <form:errors path="description" cssClass="error"/>
     </div>
 
     <div class="form-group">
     <label>Link: </label>
-    <form:input path="link" id="name" style="width: 30%" type="text"  class="form-control decodingHtml"
+    <form:input path="link" id="link" style="width: 30%" type="text"  class="form-control decodingHtml"
                 placeholder="Enter link"/>
     <form:errors path="link" cssClass="error"/>
     </div>
 
     <div class="form-group">
     <label>Date: </label>
-    <form:input path="dueDate" id="name" style="width: 30%" type="date"  class="form-control decodingHtml"
+    <form:input path="dueDate" id="dueDate" style="width: 30%" type="date"  class="form-control decodingHtml"
                 placeholder="Enter dueDate"/>
     <form:errors path="dueDate" cssClass="error"/>
     </div>
