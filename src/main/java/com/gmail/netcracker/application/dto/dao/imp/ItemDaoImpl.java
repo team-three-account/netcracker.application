@@ -32,11 +32,8 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("{sql.item.findItemByName}")
     private String SELECT_ITEM_BY_NAME;
 
-    @Value("${sql.item.PersonList}")
-    private String PERSON_ITEM_LIST;
-
-    @Value("${sql.item.wishList}")
-    private String ALL_ITEM;
+    @Value("${sql.item.findItemByPersonId}")
+    private String SQL_FIND_ITEM_BY_PERSON_ID;
 
     private final RowMapper<Item> itemRowMapper;
 
@@ -71,14 +68,9 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     }
 
     @Override
-    public List<Item> allPersonItem(Long personId) {
-        return jdbcTemplate.query(PERSON_ITEM_LIST, itemRowMapper, personId);
+    public List<Item> findItemsByPersonId(Long personId) {
+        return jdbcTemplate.query(SQL_FIND_ITEM_BY_PERSON_ID, itemRowMapper, personId);
 
-    }
-
-    @Override
-    public List<Item> wishList() {
-        return findEntityList(ALL_ITEM, itemRowMapper);
     }
 
 }

@@ -15,11 +15,9 @@ public interface ItemService {
 
     void add(Item item);
 
-    List<Item> wishList();
-
     Item getItem(Long itemId);
 
-    List<Item> findItemByPersonId(Long personId);
+    List<Item> getWishList(Long personId);
 
     void setPersonId(Item item);
 

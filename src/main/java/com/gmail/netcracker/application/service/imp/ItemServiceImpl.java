@@ -47,18 +47,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> wishList() {
-        return itemDao.wishList();
-    }
-
-    @Override
     public Item getItem(Long itemId) {
         return itemDao.getItem(itemId);
     }
 
     @Override
-    public List<Item> findItemByPersonId(Long personId) {
-        return itemDao.allPersonItem(personId);
+    public List<Item> getWishList(Long personId) {
+        return itemDao.findItemsByPersonId(personId);
     }
 
     @Override

@@ -82,7 +82,7 @@ public class ItemController {
 
     @RequestMapping(value = "/wishList", method = RequestMethod.GET)
     public String wishList(Model model) {
-        model.addAttribute("wishList", itemService.wishList());
+        model.addAttribute("wishList", itemService.getWishList(userService.getAuthenticatedUser().getId()));
         return "item/myWishList";
     }
 
@@ -93,11 +93,11 @@ public class ItemController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/personWishList-{personId}"}, method = RequestMethod.GET)
-    public String findItemByPersonId(@PathVariable("personId") Long personId, Model model) {
-        model.addAttribute("personWishList", itemService.findItemByPersonId(personId));
-        return "item/findItemByPersonId";
-    }
+//    @RequestMapping(value = {"/personWishList-{personId}"}, method = RequestMethod.GET)
+//    public String findItemByPersonId(@PathVariable("personId") Long personId, Model model) {
+//        model.addAttribute("personWishList", itemService.findItemByPersonId(personId));
+//        return "item/findItemByPersonId";
+//    }
 
     @ModelAttribute("priorities")
     public List<Priority> getAllPriorities() {

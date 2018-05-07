@@ -12,9 +12,7 @@ public interface ItemDao {
 
     void add(Item item);
 
-    List<Item> wishList();
-
     Item getItem(Long itemId);
 
-    List<Item> allPersonItem(Long personId);
+    List<Item> findItemsByPersonId(Long personId);
 }
