@@ -47,8 +47,8 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Item> itemList() {
-        return itemDao.itemList();
+    public List<Item> wishList() {
+        return itemDao.wishList();
     }
 
     @Override

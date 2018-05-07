@@ -50,14 +50,14 @@ public class ItemController {
             return modelAndView;
         }
         itemService.update(item);
-        modelAndView.setViewName("redirect:/account/itemList");
+        modelAndView.setViewName("redirect:/account/wishList");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/itemList/deleteItem-{itemId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/wishList/deleteItem-{itemId}", method = RequestMethod.GET)
     public String deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.delete(itemId);
-        return "redirect:/account/itemList";
+        return "redirect:/account/wishList";
     }
 
     @RequestMapping(value = "/addItem", method = RequestMethod.GET)
@@ -76,14 +76,14 @@ public class ItemController {
             return modelAndView;
         }
             itemService.add(item);
-            modelAndView.setViewName("redirect:/account/itemList");
+            modelAndView.setViewName("redirect:/account/wishList");
             return modelAndView;
     }
 
-    @RequestMapping(value = "/itemList", method = RequestMethod.GET)
-    public String itemList(Model model) {
-        model.addAttribute("itemList", itemService.itemList());
-        return "item/itemList";
+    @RequestMapping(value = "/wishList", method = RequestMethod.GET)
+    public String wishList(Model model) {
+        model.addAttribute("wishList", itemService.wishList());
+        return "item/wishList";
     }
 
     @RequestMapping(value = "/getItem-{itemId}", method = RequestMethod.GET)
@@ -93,9 +93,9 @@ public class ItemController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/personItemList-{personId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/personWishList-{personId}"}, method = RequestMethod.GET)
     public String findItemByPersonId(@PathVariable("personId") Long personId, Model model) {
-        model.addAttribute("personItemList", itemService.findItemByPersonId(personId));
+        model.addAttribute("personWishList", itemService.findItemByPersonId(personId));
         return "item/findItemByPersonId";
     }
 

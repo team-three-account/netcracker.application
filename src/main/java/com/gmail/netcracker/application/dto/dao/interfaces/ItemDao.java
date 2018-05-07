@@ -12,7 +12,7 @@ public interface ItemDao {
 
     void add(Item item);
 
-    List<Item> itemList();
+    List<Item> wishList();
 
     Item getItem(Long itemId);
 

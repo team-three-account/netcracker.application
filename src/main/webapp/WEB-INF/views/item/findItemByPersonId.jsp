@@ -28,7 +28,7 @@
     </tr>
     <%--</thead>--%>
     <%--<#list items as item>--%>
-    <c:forEach var="personItem" items="${personItemList}" >
+    <c:forEach var="personItem" items="${personWishList}" >
         <tr>
             <td>${personItem.itemId}</td>
             <td>${personItem.personId}</td>

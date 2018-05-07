@@ -35,7 +35,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.PersonList}")
     private String PERSON_ITEM_LIST;
 
-    @Value("${sql.item.itemList}")
+    @Value("${sql.item.wishList}")
     private String ALL_ITEM;
 
     private final RowMapper<Item> itemRowMapper;
@@ -77,7 +77,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     }
 
     @Override
-    public List<Item> itemList() {
+    public List<Item> wishList() {
         return findEntityList(ALL_ITEM, itemRowMapper);
     }
 

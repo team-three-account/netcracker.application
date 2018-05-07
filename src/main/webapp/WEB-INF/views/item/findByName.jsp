@@ -39,7 +39,7 @@
                     <li><b>Date:</b> ${item.dueDate}</li>
                     <li><b>Priority:</b> ${item.priority}</li>
                     <li><b>Root:</b> ${item.root}</li>
-                        <a class="btn btn-primary" href="<c:url value='/account/itemList'/>">Back</a>
+                        <a class="btn btn-primary" href="<c:url value='/account/wishList'/>">Back</a>
                 </ul>
             </div>
         </div>

@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="card-body eventCard">
-                    <c:forEach var="item" items="${itemList}">
+                    <c:forEach var="item" items="${wishList}">
                         <div class="item-columns">
                             <a href="<c:url value='/account/getItem-${item.itemId}' />">
                                 <ul class="list-unstyled mt-9 mb-4 itemCard ">
@@ -37,7 +37,7 @@
                                     <li>Link: <b>${item.link}</b></li>
                                     <li>Due_date: <b>${item.dueDate}</b></li>
                                     <li>Priority: <b>${item.priority}</b></li>
-                                    <a href="/account/itemList/deleteItem-${item.itemId}">
+                                    <a href="/account/wishList/deleteItem-${item.itemId}">
                                         <input type="submit" class="btn btn-danger text-center" value="Delete"></a>
                                     <a class="btn btn-primary" type="submit" data-toggle="collapse"
                                        href="/account/update-${item.itemId}" role="button">Edit</a>
