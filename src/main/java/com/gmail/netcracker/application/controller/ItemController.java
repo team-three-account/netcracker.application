@@ -83,7 +83,7 @@ public class ItemController {
     @RequestMapping(value = "/wishList", method = RequestMethod.GET)
     public String wishList(Model model) {
         model.addAttribute("wishList", itemService.wishList());
-        return "item/wishList";
+        return "item/myWishList";
     }
 
     @RequestMapping(value = "/getItem-{itemId}", method = RequestMethod.GET)

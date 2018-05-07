@@ -17,6 +17,7 @@
 
 <div class="col-md-6 content">
     <div class="col-md-6">
+        <a class="btn btn-primary" href="<c:url value='/account/wishList'/>"> < Back</a>
         <div class="panel panel-success">
             <div class="panel-heading">
                 <h3 align="center" class="panel-title"> ${getItem.name}</h3>
@@ -31,7 +32,8 @@
                     <li><b>Date:</b> ${getItem.dueDate}</li>
                     <li><b>Priority:</b> ${getItem.priority}</li>
                     <li><b>Root:</b> ${getItem.root}</li>
-                    <a class="btn btn-primary" href="<c:url value='/account/wishList'/>">Back</a>
+
+
                 </ul>
             </div>
         </div>
