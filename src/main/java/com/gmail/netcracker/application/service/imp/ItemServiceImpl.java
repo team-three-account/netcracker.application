@@ -38,12 +38,9 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
     public void add(Item item) {
         setPersonId(item);
-        itemDao.add(item);
-        item.setRoot(item.getItemId());
-        itemDao.update(item);
+        itemDao.setRoot(itemDao.add(item));
     }
 
     @Override

@@ -10,9 +10,11 @@ public interface ItemDao {
 
     void delete(Long itemId);
 
-    void add(Item item);
+    Long add(Item item);
 
     Item getItem(Long itemId);
 
     List<Item> findItemsByPersonId(Long personId);
+
+    void setRoot (Long itemId);
 }

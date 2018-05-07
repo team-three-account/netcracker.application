@@ -35,6 +35,9 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.findItemByPersonId}")
     private String SQL_FIND_ITEM_BY_PERSON_ID;
 
+    @Value("${sql.item.setRoot}")
+    private String SQL_SET_ROOT;
+
     private final RowMapper<Item> itemRowMapper;
 
     @Autowired
@@ -44,10 +47,14 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     }
 
     @Override
-    public void add(Item item) {
-        item.setItemId(insertEntity(ADD_ITEM, PK_COLUMN_NAME,
+    public Long add(Item item) {
+        return insertEntity(ADD_ITEM, PK_COLUMN_NAME,
                 item.getPersonId(), item.getName(), item.getDescription(),
-                item.getLink(), item.getDueDate(), item.getPriority(), item.getRoot()));
+                item.getLink(), item.getDueDate(), item.getPriority(), item.getRoot());
+    }
+
+    public void setRoot(Long itemId){
+        updateEntity(SQL_SET_ROOT, itemId,itemId);
     }
 
     @Override

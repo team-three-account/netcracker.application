@@ -36,7 +36,7 @@
                                         <td><a href="/account/getItem-${item.itemId}"> Name : ${item.name} </a></td>
 
                                         <td>
-                                            <a class="btn btn-primary" type="submit" data-toggle="collapse"
+                                            <a class="btn btn-success" type="submit" data-toggle="collapse"
                                                href="/account/update-${item.itemId}" role="button">Edit</a>
                                         </td>
                                         <td>
