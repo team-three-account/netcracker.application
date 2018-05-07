@@ -23,9 +23,19 @@
 <div class="col-md-9 content">
     <sec:authorize access="hasRole('USER')">
         <a class="btn btn-primary" href="<c:url value='/account/eventList/createNote' />">Add Note</a>
+        <a class="btn btn-primary" href="<c:url value='/account/eventList/createFolder' />">Create Folder</a>
     </sec:authorize>
     <div class="row">
         <table class="table">
+            <h1>Folders</h1>
+            <c:forEach var="folder" items="${folderList}">
+                <a href="<c:url value='/account/eventList/folder-${folder.folderId}' />">
+                    <ul class="list-unstyled mt-3 mb-4 eventCardItem">
+                        <li>${folder.name}</li>
+                    </ul>
+                </a>
+            </c:forEach>
+            <h1>Notes Without Folder</h1>
             <c:forEach var="note" items="${noteList}">
                 <a href="<c:url value='/account/eventList/note-${note.noteId}' />">
                     <ul class="list-unstyled mt-3 mb-4 eventCardItem">
@@ -33,7 +43,6 @@
                     </ul>
                 </a>
             </c:forEach>
-
         </table>
     </div>
 </div>

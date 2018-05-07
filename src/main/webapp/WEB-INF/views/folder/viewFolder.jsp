@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>View Note</title>
+    <title>View Folder</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 </head>
@@ -18,23 +18,19 @@
         <div class="col-md-6">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Note - ${note.name}</h3>
+                    <h3 class="panel-title">Folder - ${folder.name}</h3>
                 </div>
                 <div class="panel-body viewEvent">
                     <ul class="list-unstyled mt-3 mb-4">
-                        <li>Name : ${note.name}</li>
-                        <li>Description : <span class="description-block">${note.description}</span></li>
+                        <li>Name : ${folder.name}</li>
+                        <li>Notes: <a href="/account/folder-${folder.folderId}/notes">notes</a> </li>
+
                         <c:if test="${auth_user.id.equals(user_creator.id)}">
                             <li>
-                                <a href="/account/eventList/editNote-${note.noteId}">
-                                    <input type="submit" class="btn btn-success text-center" value="Edit Note"></a>
-                                <a href="/account/eventList/deleteNote-${note.noteId}">
-                                    <input type="submit" class="btn btn-danger text-center" value="Delete Note"></a>
-                                <c:if test="${note.folder==0}">
-                                    <a href="/account/add-note-${note.noteId}">
-                                        <input type="submit" class="btn btn-danger text-center"
-                                               value="Add note to folder"></a>
-                                </c:if>
+                                <a href="/account/eventList/editFolder-${folder.folderId}">
+                                    <input type="submit" class="btn btn-success text-center" value="Edit Folder"></a>
+                                <a href="/account/eventList/deleteFolder-${folder.folderId}">
+                                    <input type="submit" class="btn btn-danger text-center" value="Delete Folder"></a>
                             </li>
                         </c:if>
                     </ul>
@@ -45,3 +41,4 @@
 </div>
 </body>
 </html>
+

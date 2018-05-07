@@ -14,4 +14,8 @@ public interface NoteDao {
     void delete(int noteId);
 
     void update(Note note);
+
+    void addNoteToFolder(Note note);
+
+    void setFoldersNull(Integer folderId);
 }

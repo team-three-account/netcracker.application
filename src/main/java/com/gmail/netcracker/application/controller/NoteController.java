@@ -1,7 +1,9 @@
 package com.gmail.netcracker.application.controller;
 
+import com.gmail.netcracker.application.dto.model.Folder;
 import com.gmail.netcracker.application.dto.model.Note;
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.service.interfaces.FolderService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.NoteValidator;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/account")
@@ -21,12 +25,16 @@ public class NoteController {
 
     private final NoteService noteService;
 
+    private final FolderService folderService;
+
     private final UserService userService;
 
     private final NoteValidator noteValidator;
 
-    public NoteController(NoteService noteService, UserService userService, NoteValidator noteValidator) {
+
+    public NoteController(NoteService noteService, FolderService folderService, UserService userService, NoteValidator noteValidator) {
         this.noteService = noteService;
+        this.folderService = folderService;
         this.userService = userService;
         this.noteValidator = noteValidator;
     }
@@ -47,12 +55,12 @@ public class NoteController {
             return modelAndView;
         }
         noteService.insertNote(note);
-        modelAndView.setViewName("redirect:/account/eventlist");
+        modelAndView.setViewName("redirect:/account/allNotes");
         return modelAndView;
     }
 
     @RequestMapping(value = "/eventList/note-{noteId}", method = RequestMethod.GET)
-    public ModelAndView viewEvent(@PathVariable("noteId") int noteId, ModelAndView modelAndView) {
+    public ModelAndView viewNote(@PathVariable("noteId") int noteId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("note", noteService.getNote(noteId));
         modelAndView.addObject("user_creator", userService.findUserById(noteService.getNote(noteId).getCreator()));
@@ -63,11 +71,11 @@ public class NoteController {
     @RequestMapping(value = {"/eventList/deleteNote-{noteId}"}, method = RequestMethod.GET)
     public String deleteNote(@PathVariable int noteId) {
         noteService.delete(noteId);
-        return "redirect:/account/eventlist";
+        return "redirect:/account/allNotes";
     }
 
     @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.GET)
-    public ModelAndView editEvent(@PathVariable int noteId, ModelAndView modelAndView) {
+    public ModelAndView editNote(@PathVariable int noteId, ModelAndView modelAndView) {
         modelAndView.addObject("editNote", noteService.getNote(noteId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("note/updateNote");
@@ -75,8 +83,8 @@ public class NoteController {
     }
 
     @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.POST)
-    public ModelAndView updateEvent(@ModelAttribute("editNote") Note note, BindingResult result,
-                                    ModelAndView modelAndView) {
+    public ModelAndView updateNote(@ModelAttribute("editNote") Note note, BindingResult result,
+                                   ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("note/updateNote");
         noteValidator.validate(note, result);
@@ -84,16 +92,43 @@ public class NoteController {
             return modelAndView;
         }
         noteService.update(note);
-        modelAndView.setViewName("redirect:/account/eventlist");
+        modelAndView.setViewName("redirect:/account/allNotes");
         return modelAndView;
     }
 
     @RequestMapping(value = "/allNotes", method = RequestMethod.GET)
     public String allNotes(Model model) {
-        User authUser =userService.getAuthenticatedUser();
+        User authUser = userService.getAuthenticatedUser();
         model.addAttribute("auth_user", authUser);
+        model.addAttribute("folderList", folderService.folderList());
         model.addAttribute("noteList", noteService.noteList());
         return "note/allNotes";
     }
 
+    @RequestMapping(value = "/folder-{folderId}/notes", method = RequestMethod.GET)
+    public String getNotes(@PathVariable(value = "folderId") int folderId, Model model) {
+        List<Note> listNotesIntoFolder = folderService.getNoteListIntoFolder(folderId);
+        model.addAttribute("listNotesIntoFolder", listNotesIntoFolder);
+        model.addAttribute("folderName", folderService.getFolder(folderId));
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        return "folder/notesIntoFolder";
+    }
+
+    @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.GET)
+    public ModelAndView addNoteToFolder(ModelAndView modelAndView, @PathVariable int noteId) {
+        Note note = noteService.getNote(noteId);
+        modelAndView.addObject("newNoteIntoFolder", note);
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.addObject("listFolders", folderService.folderList());
+        modelAndView.setViewName("note/addNoteToFolder");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.POST)
+    public ModelAndView saveNoteToFolder(ModelAndView modelAndView,@ModelAttribute("newNoteIntoFolder") Note note) {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        noteService.addNoteToFolder(note);
+        modelAndView.setViewName("redirect:/account/allNotes");
+        return modelAndView;
+    }
 }

@@ -243,7 +243,16 @@ public class RootConfig {
             return eventType;
         };
     }
-
+    @Bean
+    public RowMapper<Folder> folderRowMapper() {
+        return (resultSet, i) -> {
+            Folder folder = new Folder();
+            folder.setFolderId(resultSet.getInt("folder_id"));
+            folder.setName(resultSet.getString("name"));
+            folder.setCreator(resultSet.getLong("creator_id"));
+            return folder;
+        };
+    }
     @Bean
     public RowMapper<Priority> priorityRowMapper() {
         return (resultSet, i) -> {
@@ -273,6 +282,15 @@ public class RootConfig {
             note.setDescription(getString(rs, "description"));
             note.setCreator(getLong(rs, "creator_id"));
             note.setFolder(getInt(rs, "folder_id"));
+            return note;
+        };
+    }
+    @Bean RowMapper<Note> notesIntoFolderRowMapper(){
+        return (rs, i) -> {
+            Note note = new Note();
+            note.setNoteId(rs.getInt("note_id"));
+            note.setName(rs.getString("name"));
+            note.setFolder(rs.getInt("folder_id"));
             return note;
         };
     }

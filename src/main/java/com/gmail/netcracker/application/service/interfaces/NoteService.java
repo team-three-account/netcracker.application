@@ -13,4 +13,6 @@ public interface NoteService {
     void delete(int noteId);
 
     void update(Note note);
+
+    void addNoteToFolder(Note note);
 }

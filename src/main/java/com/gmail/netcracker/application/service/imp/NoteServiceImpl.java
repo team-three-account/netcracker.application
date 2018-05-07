@@ -7,17 +7,15 @@ import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class NoteServiceImpl implements NoteService {
     @Autowired
-    Note note;
+    private NoteDao noteDao;
 
     @Autowired
-    NoteDao noteDao;
-
-    @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Override
     public void insertNote(Note note) {
@@ -27,7 +25,9 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<Note> noteList() {
-        return noteDao.noteList();
+        List<Note> listNoteWithoutFolder = noteDao.noteList();
+        listNoteWithoutFolder.removeIf(note -> note.getFolder() > 0);
+        return listNoteWithoutFolder;
     }
 
     @Override
@@ -46,4 +46,8 @@ public class NoteServiceImpl implements NoteService {
         noteDao.update(note);
     }
 
+    @Override
+    public void addNoteToFolder(Note note) {
+        noteDao.addNoteToFolder(note);
+    }
 }

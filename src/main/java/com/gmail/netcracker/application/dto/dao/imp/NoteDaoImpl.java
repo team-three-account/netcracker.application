@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import javax.validation.Valid;
 import java.util.List;
 
 @Repository
@@ -30,6 +31,12 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
 
     @Value("${sql.note.findListNotes}")
     private String SQL_FIND_LIST_NOTES;
+
+    @Value("${sql.note.addNoteToFolder}")
+    private String SQL_ADD_NOTE;
+
+    @Value("${sql.note.setFoldersNull}")
+    private String SQL_SET_FOLDERS_NULL;
 
     private final RowMapper<Note> noteRowMapper;
 
@@ -69,5 +76,17 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
                 note.getName(),
                 note.getDescription(),
                 note.getNoteId());
+    }
+
+    @Override
+    public void addNoteToFolder(Note note) {
+        updateEntity(SQL_ADD_NOTE,
+                note.getFolder(),
+                note.getNoteId());
+    }
+
+    @Override
+    public void setFoldersNull(Integer folderId) {
+        updateEntity(SQL_SET_FOLDERS_NULL, folderId);
     }
 }
