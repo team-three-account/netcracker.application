@@ -56,7 +56,7 @@
                 <form:errors path="priority" cssClass="error"/>
             </div>
 
-            <input type="submit" value="Edit" class="btn btn-success text-center"/>
+            <input type="submit" value="Save" class="btn btn-success text-center"/>
         </div>
     </div>
 </div>

@@ -82,8 +82,9 @@ public class ItemController {
 
     @RequestMapping(value = "/wishList", method = RequestMethod.GET)
     public String wishList(Model model) {
+        model.addAttribute("authUser", userService.getAuthenticatedUser());
         model.addAttribute("wishList", itemService.getWishList(userService.getAuthenticatedUser().getId()));
-        return "item/myWishList";
+        return "item/personWishList";
     }
 
     @RequestMapping(value = "/getItem-{itemId}", method = RequestMethod.GET)

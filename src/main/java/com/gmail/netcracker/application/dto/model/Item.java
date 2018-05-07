@@ -15,4 +15,5 @@ public class Item {
     private Date dueDate;
     private Integer priority;
     private Long root;
+    private Integer event;
 }

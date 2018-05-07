@@ -19,7 +19,7 @@
     <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>
 
     <div class="card lg-12 text-center">
-        <h3 align="center">My wish list</h3>
+        <h3 align="center">${authUser.name} ${authUser.surname} - Wish list</h3>
         <div class="center">
             <div class="card-group col-md-7 box-shadow itemCategory">
                 <div class="card-header">
@@ -34,6 +34,7 @@
                                     <tr>
                                         <td> (Кружочек приорити) </td>
                                         <td><a href="/account/getItem-${item.itemId}"> Name : ${item.name} </a></td>
+
                                         <td>
                                             <a class="btn btn-primary" type="submit" data-toggle="collapse"
                                                href="/account/update-${item.itemId}" role="button">Edit</a>

@@ -83,7 +83,7 @@
                 <%--placeholder="Enter root"/>--%>
     <%--<form:errors path="root" cssClass="error"/>--%>
 
-    <input type="submit" value="Edd" class="btn btn-success text-center"/>
+    <input type="submit" value="Add" class="btn btn-success text-center"/>
     </div>
     </div>
     </div>

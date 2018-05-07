@@ -319,6 +319,7 @@ public class RootConfig {
             item.setDueDate(getDate(resultSet, "due_date"));
             item.setPriority(getInt(resultSet, "priority_id"));
             item.setRoot(getLong(resultSet, "root_id"));
+            item.setEvent(getInt(resultSet, "event_id"));
             return item;
         };
     }
