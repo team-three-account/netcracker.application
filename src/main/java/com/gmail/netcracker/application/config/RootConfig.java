@@ -243,6 +243,7 @@ public class RootConfig {
             return eventType;
         };
     }
+
     @Bean
     public RowMapper<Folder> folderRowMapper() {
         return (resultSet, i) -> {
@@ -253,6 +254,7 @@ public class RootConfig {
             return folder;
         };
     }
+
     @Bean
     public RowMapper<Priority> priorityRowMapper() {
         return (resultSet, i) -> {
@@ -285,7 +287,9 @@ public class RootConfig {
             return note;
         };
     }
-    @Bean RowMapper<Note> notesIntoFolderRowMapper(){
+
+    @Bean
+    RowMapper<Note> notesIntoFolderRowMapper() {
         return (rs, i) -> {
             Note note = new Note();
             note.setNoteId(rs.getInt("note_id"));
@@ -316,7 +320,7 @@ public class RootConfig {
             item.setName(getString(resultSet, "name"));
             item.setDescription(getString(resultSet, "description"));
             item.setLink(getString(resultSet, "link"));
-            item.setDueDate(getDate(resultSet, "due_date"));
+            item.setDueDate(getString(resultSet, "due_date"));
             item.setPriority(getInt(resultSet, "priority_id"));
             item.setRoot(getLong(resultSet, "root_id"));
             item.setEvent(getInt(resultSet, "event_id"));

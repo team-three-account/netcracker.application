@@ -29,22 +29,27 @@ public class ItemValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "link", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dueDate", "required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "priority", "required.field");
     }
 
     public ModelAndView validateItem(ModelAndView modelAndView, Item item, BindingResult bindingResult, ItemService itemService) {
 
-        if (bindingResult.hasErrors() && item.getDueDate() != null && item.getLink().trim().length() != 0) {
+        if (bindingResult.hasErrors() && item.getDueDate().trim().length() != 0 && item.getLink().trim().length() != 0) {
             return modelAndView;
         }
         if (item.getName().trim().length() != 0 && item.getDescription().trim().length() != 0
-                && item.getDueDate() == null) {
+                && item.getDueDate().isEmpty() && item.getPriority() == null) {
             itemService.add(item);
             modelAndView.setViewName("redirect:/account/wishList");
             return modelAndView;
         }
         if (item.getName().trim().length() != 0 && item.getDescription().trim().length() != 0
-                && item.getDueDate() != null) {
+                && item.getDueDate().trim().length() != 0 && item.getPriority() == null) {
+            itemService.add(item);
+            modelAndView.setViewName("redirect:/account/wishList");
+            return modelAndView;
+        }
+        if (item.getName().trim().length() != 0 && item.getDescription().trim().length() != 0
+                && item.getLink().trim().length() != 0 && item.getDueDate().isEmpty() && item.getPriority() != null) {
             itemService.add(item);
             modelAndView.setViewName("redirect:/account/wishList");
             return modelAndView;

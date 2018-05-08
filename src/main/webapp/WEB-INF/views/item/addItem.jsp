@@ -51,10 +51,9 @@
 
             <div class="form-group">
                 <label>Priority: </label>
-                <form:select path="priority" style="width: 30%" class="form-control dateValid">
-                    <form:options items="${priorities}" itemValue="priorityId" itemLabel="name"/>
-                </form:select>
-                <form:errors path="priority" cssClass="error"/>
+                <tr>
+                    <form:radiobuttons path="priority" disabled="false" items="${priorities}" itemValue="priorityId" itemLabel="name"/>
+                </tr>
             </div>
 
             <input type="submit" value="Add" class="btn btn-success text-center"/>

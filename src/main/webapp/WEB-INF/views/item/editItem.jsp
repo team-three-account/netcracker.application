@@ -42,17 +42,17 @@
 
             <div class="form-group">
                 <label>Date: </label>
-                <form:input path="dueDate" id="dueDate" style="width: 30%" type="date" class="form-control decodingHtml"
+                <form:input path="dueDate" id="dueDate" style="width: 30%" type="date" class="form-control dateValid"
                             placeholder="Enter dueDate"/>
                 <form:errors path="dueDate" cssClass="error"/>
             </div>
 
             <div class="form-group">
                 <label>Priority: </label>
-                <form:select path="priority" style="width: 30%" class="form-control">
-                    <form:options items="${priorities}" style="width: 30%" itemValue="priorityId" itemLabel="name"/>
-                </form:select>
-                <form:errors path="priority" cssClass="error"/>
+                <tr>
+                    <form:radiobuttons path="priority" disabled="false" items="${priorities}" itemValue="priorityId"
+                                       itemLabel="name"/>
+                </tr>
             </div>
 
             <input type="submit" value="Save" class="btn btn-success text-center"/>

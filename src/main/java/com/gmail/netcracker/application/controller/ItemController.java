@@ -73,7 +73,6 @@ public class ItemController {
         modelAndView.setViewName("item/addItem");
         itemValidator.validate(item, bindingResult);
         itemValidator.validateItem(modelAndView, item, bindingResult, itemService);
-
         if (bindingResult.hasErrors()) {
             return modelAndView;
         }

@@ -12,7 +12,7 @@ public class Item {
     private String name;
     private String description;
     private String link;
-    private Date dueDate;
+    private String dueDate;
     private Integer priority;
     private Long root;
     private Integer event;

@@ -51,7 +51,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     public Long add(Item item) {
         return insertEntity(ADD_ITEM, PK_COLUMN_NAME,
                 item.getPersonId(), item.getName(), item.getDescription(),
-                item.getLink(), item.getDueDate(), item.getPriority(), item.getRoot());
+                item.getLink(), Utilites.parseTime(item.getDueDate()), item.getPriority(), item.getRoot());
     }
 
     public void setRoot(Long itemId) {
@@ -61,7 +61,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Override
     public void update(Item item) {
         updateEntity(UPDATE_ITEM, item.getPersonId(), item.getName(), item.getDescription(),
-                item.getLink(), item.getDueDate(), item.getPriority(), item.getItemId());
+                item.getLink(), Utilites.parseTime(item.getDueDate()), item.getPriority(), item.getItemId());
     }
 
     @Override
@@ -78,7 +78,6 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Override
     public List<Item> findItemsByPersonId(Long personId) {
         return jdbcTemplate.query(SQL_FIND_ITEM_BY_PERSON_ID, itemRowMapper, personId);
-
     }
 
 }
