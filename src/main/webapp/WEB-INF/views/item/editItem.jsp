@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -6,7 +6,6 @@
     <title>Update item</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <div class="row">
@@ -14,7 +13,7 @@
     <div class="col-md-3"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-<div align="left" class="col-md-9 content">
+<div align="center" class="col-md-9 content">
     <div class="card card-register">
         <div class="card-header">Edit Item</div>
         <div class="card-body">
@@ -57,6 +56,7 @@
             </div>
 
             <input type="submit" value="Save" class="btn btn-success text-center"/>
+            <a class="btn btn-primary" href="<c:url value='/account/wishList'/>">Back</a>
         </div>
     </div>
 </div>

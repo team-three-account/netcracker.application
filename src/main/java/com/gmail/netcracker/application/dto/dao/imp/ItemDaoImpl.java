@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.ItemDao;
 import com.gmail.netcracker.application.dto.model.Item;
+import com.gmail.netcracker.application.utilites.Utilites;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
@@ -53,8 +54,8 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
                 item.getLink(), item.getDueDate(), item.getPriority(), item.getRoot());
     }
 
-    public void setRoot(Long itemId){
-        updateEntity(SQL_SET_ROOT, itemId,itemId);
+    public void setRoot(Long itemId) {
+        updateEntity(SQL_SET_ROOT, itemId, itemId);
     }
 
     @Override

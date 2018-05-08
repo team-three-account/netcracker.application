@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
@@ -7,7 +7,7 @@
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 </head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
@@ -15,78 +15,53 @@
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
-<div  align="left" class="col-md-9 content">
-<div class="card card-register">
-<div class="card-header">Create Item</div>
-<div class="card-body">
-<form:form method="POST" modelAttribute="createItem" class="forms_form" enctype="multipart/form-data">
-    <div class="form-group">
-    <label>Item Name: </label>
-    <form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
-                placeholder="Enter item name"/>
-    <form:errors path="name" cssClass="error"/>
+<div align="center" class="col-md-9 content">
+    <div class="card card-register">
+        <div class="card-header">Create Item</div>
+        <div class="card-body">
+            <form:form method="POST" modelAttribute="createItem" class="forms_form" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Item Name: </label>
+                <form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
+                            placeholder="Enter item name"/>
+                <form:errors path="name" cssClass="error"/>
+            </div>
+
+            <div class="form-group">
+                <label>Description: </label>
+                <form:input path="description" id="description" style="width: 30%" type="text"
+                            class="form-control decodingHtml"
+                            placeholder="Enter description"/>
+                <form:errors path="description" cssClass="error"/>
+            </div>
+
+            <div class="form-group">
+                <label>Link: </label>
+                <form:input path="link" id="link" style="width: 30%" type="text" class="form-control decodingHtml"
+                            placeholder="Enter link"/>
+                <form:errors path="link" cssClass="error"/>
+            </div>
+
+            <div class="form-group">
+                <label>Date: </label>
+                <form:input path="dueDate" id="dueDate" style="width: 30%" type="date" class="form-control decodingHtml"
+                            placeholder="Enter dueDate"/>
+                <form:errors path="dueDate" cssClass="error"/>
+            </div>
+
+            <div class="form-group">
+                <label>Priority: </label>
+                <form:select path="priority" style="width: 30%" class="form-control dateValid">
+                    <form:options items="${priorities}" itemValue="priorityId" itemLabel="name"/>
+                </form:select>
+                <form:errors path="priority" cssClass="error"/>
+            </div>
+
+            <input type="submit" value="Add" class="btn btn-success text-center"/>
+            <a class="btn btn-primary" href="<c:url value='/account/wishList'/>">Back</a>
+        </div>
     </div>
-
-    <%--<div class="form-group">--%>
-    <%--<label>Person: </label>--%>
-    <%--<form:input path="personId" id="name" style="width: 30%" type="text" class="form-control decodingHtml"--%>
-                <%--placeholder="Enter person"/>--%>
-    <%--<form:errors path="personId" cssClass="error"/>--%>
-    <%--</div>--%>
-
-    <%--<div class="form-group">--%>
-    <%--<label>Booker: </label>--%>
-    <%--<form:input path="booker" id="name" style="width: 30%" type="text" class="form-control decodingHtml"--%>
-                <%--placeholder="Enter booker"/>--%>
-    <%--<form:errors path="booker" cssClass="error"/>--%>
-    <%--</div>--%>
-
-    <div class="form-group">
-    <label>Description: </label>
-    <form:input path="description" id="description" style="width: 30%" type="text"  class="form-control decodingHtml"
-                placeholder="Enter description"/>
-    <form:errors path="description" cssClass="error"/>
-    </div>
-
-    <div class="form-group">
-    <label>Link: </label>
-    <form:input path="link" id="link" style="width: 30%" type="text"  class="form-control decodingHtml"
-                placeholder="Enter link"/>
-    <form:errors path="link" cssClass="error"/>
-    </div>
-
-    <div class="form-group">
-    <label>Date: </label>
-    <form:input path="dueDate" id="dueDate" style="width: 30%" type="date"  class="form-control decodingHtml"
-                placeholder="Enter dueDate"/>
-    <form:errors path="dueDate" cssClass="error"/>
-    </div>
-
-    <%--<div class="form-group">--%>
-    <%--<label>Priority: </label>--%>
-    <%--<form:input path="priority" id="name" style="width: 30%" type="text"  class="form-control decodingHtml"--%>
-                <%--placeholder="Enter priority"/>--%>
-    <%--<form:errors path="priority" cssClass="error"/>--%>
-    <%--</div>--%>
-
-    <div class="form-group">
-        <label>Priority: </label>
-        <form:select path="priority" style="width: 30%" class="form-control">
-            <form:options items="${priorities}"  itemValue="priorityId" itemLabel="name"/>
-        </form:select>
-        <form:errors path="priority" cssClass="error"/>
-    </div>
-
-    <%--<div class="form-group">--%>
-    <%--<label>Root: </label>--%>
-    <%--<form:input path="root" id="name" style="width: 30%" type="text"  class="form-control decodingHtml"--%>
-                <%--placeholder="Enter root"/>--%>
-    <%--<form:errors path="root" cssClass="error"/>--%>
-
-    <input type="submit" value="Add" class="btn btn-success text-center"/>
-    </div>
-    </div>
-    </div>
-    </form:form>
+</div>
+</form:form>
 </div>
 </html>

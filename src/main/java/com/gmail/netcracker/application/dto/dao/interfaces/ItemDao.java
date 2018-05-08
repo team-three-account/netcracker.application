@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.dto.dao.interfaces;
 
 import com.gmail.netcracker.application.dto.model.Item;
 
+import java.sql.Date;
 import java.util.List;
 
 public interface ItemDao {
@@ -17,4 +18,5 @@ public interface ItemDao {
     List<Item> findItemsByPersonId(Long personId);
 
     void setRoot (Long itemId);
+
 }

@@ -33,7 +33,6 @@
                     <li><b>Priority:</b> ${getItem.priority}</li>
                     <li><b>Root:</b> ${getItem.root}</li>
 
-
                 </ul>
             </div>
         </div>

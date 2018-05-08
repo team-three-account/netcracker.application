@@ -34,8 +34,8 @@ public class ItemController {
 
     @RequestMapping(value = "/update-{itemId}", method = RequestMethod.GET)
     public ModelAndView updateItem(@PathVariable("itemId") Long itemId, ModelAndView modelAndView) {
+        modelAndView.addObject("authUser", userService.getAuthenticatedUser());
         modelAndView.addObject("updateItem", itemService.getItem(itemId));
-        modelAndView.addObject("userLogin", userService.getAuthenticatedUser());
         modelAndView.setViewName("item/editItem");
         return modelAndView;
     }
@@ -43,9 +43,10 @@ public class ItemController {
     @RequestMapping(value = {"/update-{itemId}"}, method = RequestMethod.POST)
     public ModelAndView updateItem(@ModelAttribute("updateItem") Item item,
                                    BindingResult bindingResult, ModelAndView modelAndView) {
-        modelAndView.addObject("userLogin", userService.getAuthenticatedUser());
+        modelAndView.addObject("authUser", userService.getAuthenticatedUser());
         modelAndView.setViewName("item/editItem");
         itemValidator.validate(item, bindingResult);
+        itemValidator.validateItem(modelAndView, item, bindingResult, itemService);
         if (bindingResult.hasErrors()) {
             return modelAndView;
         }
@@ -62,22 +63,23 @@ public class ItemController {
 
     @RequestMapping(value = "/addItem", method = RequestMethod.GET)
     public ModelAndView createItem(@ModelAttribute(value = "createItem") Item item, ModelAndView modelAndView) {
-        modelAndView.addObject("userLogin", userService.getAuthenticatedUser());
+        modelAndView.addObject("authUser", userService.getAuthenticatedUser());
         modelAndView.setViewName("item/addItem");
         return modelAndView;
     }
 
     @RequestMapping(value = "/addItem", method = RequestMethod.POST)
     public ModelAndView addItem(@ModelAttribute("createItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
-//        item.setPersonId(userService.getAuthenticatedUser().getId());
         modelAndView.setViewName("item/addItem");
         itemValidator.validate(item, bindingResult);
+        itemValidator.validateItem(modelAndView, item, bindingResult, itemService);
+
         if (bindingResult.hasErrors()) {
             return modelAndView;
         }
-            itemService.add(item);
-            modelAndView.setViewName("redirect:/account/wishList");
-            return modelAndView;
+        itemService.add(item);
+        modelAndView.setViewName("redirect:/account/wishList");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/wishList", method = RequestMethod.GET)
@@ -93,12 +95,6 @@ public class ItemController {
         modelAndView.setViewName("item/getItem");
         return modelAndView;
     }
-
-//    @RequestMapping(value = {"/personWishList-{personId}"}, method = RequestMethod.GET)
-//    public String findItemByPersonId(@PathVariable("personId") Long personId, Model model) {
-//        model.addAttribute("personWishList", itemService.findItemByPersonId(personId));
-//        return "item/findItemByPersonId";
-//    }
 
     @ModelAttribute("priorities")
     public List<Priority> getAllPriorities() {
