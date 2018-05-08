@@ -22,4 +22,6 @@ public interface ItemService {
     void setPersonId(Item item);
 
     List<Priority> getAllPriorities();
+
+    void copyItem(Long itemId);
 }

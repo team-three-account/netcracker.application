@@ -39,6 +39,9 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.setRoot}")
     private String SQL_SET_ROOT;
 
+    @Value("${sql.item.insertCopiedItem}")
+    private String SQL_INSERT_COPIED_ITEM;
+
     private final RowMapper<Item> itemRowMapper;
 
     @Autowired
@@ -56,6 +59,12 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     public void setRoot(Long itemId) {
         updateEntity(SQL_SET_ROOT, itemId, itemId);
+    }
+
+    @Override
+    public void insertCopiedItem(Item item, Long id) {
+        insertEntity(SQL_INSERT_COPIED_ITEM, PK_COLUMN_NAME, id, item.getName(), item.getDescription(),
+                item.getLink(), item.getRoot());
     }
 
     @Override

@@ -32,7 +32,20 @@
                     <li><b>Date:</b> ${getItem.dueDate}</li>
                     <li><b>Priority:</b> ${getItem.priority}</li>
                     <li><b>Root:</b> ${getItem.root}</li>
-
+                    <c:choose>
+                        <c:when  test="${auth_user.id.equals(getItem.personId)}">
+                            <li>
+                                <a class="btn btn-success" type="submit" data-toggle="collapse"
+                                 href="/account/update-${getItem.itemId}" role="button">Edit</a>
+                                <a href="/account/wishList/deleteItem-${getItem.itemId}">
+                                    <input type="submit" class="btn btn-danger text-center" value="Delete"></a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="/account/copy-${getItem.itemId}">
+                                <input type="submit" class="btn btn-success text-center" value="Copy to my wish list"></a>
+                        </c:otherwise>
+                    </c:choose>
                 </ul>
             </div>
         </div>

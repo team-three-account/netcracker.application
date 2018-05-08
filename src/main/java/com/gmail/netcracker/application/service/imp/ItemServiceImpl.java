@@ -62,4 +62,9 @@ public class ItemServiceImpl implements ItemService {
     public List<Priority> getAllPriorities() {
         return priorityDao.getAllPriority();
     }
+
+    @Override
+    public void copyItem(Long itemId) {
+        itemDao.insertCopiedItem(itemDao.getItem(itemId), userService.getAuthenticatedUser().getId());
+    }
 }
