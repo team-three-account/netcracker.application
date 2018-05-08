@@ -24,4 +24,8 @@ public interface ItemService {
     List<Priority> getAllPriorities();
 
     void copyItem(Long itemId);
+
+    void bookItem(Long itemId);
+
+    void cancelBookingItem(Long itemId);
 }

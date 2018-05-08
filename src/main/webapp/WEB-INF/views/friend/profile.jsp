@@ -52,6 +52,9 @@
                 <td>Phone Number</td>
                 <td>${friend.phone}</td>
             </tr>
+            <tr>
+                <td><a href="/account/user-${friend.id}/wishList">Wish List</a></td>
+            </tr>
             </tbody>
         </table>
     </div>

@@ -19,4 +19,10 @@ public interface ItemDao {
     void setRoot (Long itemId);
 
     void insertCopiedItem(Item item, Long id);
+
+    void setBooker(Long itemId, Long id);
+
+    Long getBookerId(Long itemId);
+
+    void clearBooker(Long itemId, Long id);
 }

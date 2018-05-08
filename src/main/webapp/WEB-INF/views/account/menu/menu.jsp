@@ -24,7 +24,7 @@
                 <li><a href="/account/available">Events</a></li>
                 <li><a href="/account/friends">Friends</a></li>
                 <li><a href="/account/allNotes">Notes</a></li>
-                <li><a href="/account/wishList">Wish List</a></li>
+                <li><a href="/account/user-${auth_user.id}/wishList">Wish List</a></li>
                 <li><a href="/account/calendar">Calendar</a></li>
             </ul>
         </div>

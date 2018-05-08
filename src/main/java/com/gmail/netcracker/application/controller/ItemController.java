@@ -51,14 +51,14 @@ public class ItemController {
             return modelAndView;
         }
         itemService.update(item);
-        modelAndView.setViewName("redirect:/account/wishList");
+        modelAndView.setViewName("redirect:/account/user-"+userService.getAuthenticatedUser().getId()+"/wishList");
         return modelAndView;
     }
 
     @RequestMapping(value = "/wishList/deleteItem-{itemId}", method = RequestMethod.GET)
     public String deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.delete(itemId);
-        return "redirect:/account/wishList";
+        return "redirect:/account/user-"+userService.getAuthenticatedUser().getId()+"/wishList";
     }
 
     @RequestMapping(value = "/addItem", method = RequestMethod.GET)
@@ -77,15 +77,8 @@ public class ItemController {
             return modelAndView;
         }
         itemService.add(item);
-        modelAndView.setViewName("redirect:/account/wishList");
+        modelAndView.setViewName("redirect:/account/user-"+userService.getAuthenticatedUser().getId()+"/wishList");
         return modelAndView;
-    }
-
-    @RequestMapping(value = "/wishList", method = RequestMethod.GET)
-    public String wishList(Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("wishList", itemService.getWishList(userService.getAuthenticatedUser().getId()));
-        return "item/personWishList";
     }
 
     @RequestMapping(value = "/getItem-{itemId}", method = RequestMethod.GET)
@@ -99,18 +92,31 @@ public class ItemController {
     @RequestMapping(value = "/copy-{itemId}", method = RequestMethod.GET)
     public String copyItem(@PathVariable("itemId") Long itemId) {
         itemService.copyItem(itemId);
-        return "redirect:/account/wishList";
-    }
-
-    @RequestMapping(value = "/wishList/{personId}", method = RequestMethod.GET)
-    public String personWishList(Model model, @PathVariable("personId") Long personId) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("wishList", itemService.getWishList(personId));
-        return "item/personWishList";
+        return "redirect:/account/user-"+userService.getAuthenticatedUser().getId()+"/wishList";
     }
 
     @ModelAttribute("priorities")
     public List<Priority> getAllPriorities() {
         return itemService.getAllPriorities();
+    }
+
+    @RequestMapping(value = "/user-{ownerId}/item-{itemId}/book", method = RequestMethod.GET)
+    public String bookItem( @PathVariable("itemId") Long itemId, @PathVariable("ownerId") Long ownerId) {
+        itemService.bookItem(itemId);
+        return "redirect:/account/user-"+ownerId+"/wishList";
+    }
+
+    @RequestMapping(value = "/user-{id}/item-{itemId}/cancel-booking", method = RequestMethod.GET)
+    public String cancelBookingItem(@PathVariable("itemId") Long itemId, @PathVariable("id") Long owner) {
+        itemService.cancelBookingItem(itemId);
+        return "redirect:/account/user-"+owner+"/wishList";
+    }
+
+    @RequestMapping(value = "/user-{id}/wishList", method = RequestMethod.GET)
+    public String userWishList(@PathVariable("id") Long userId, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("ownerId", userId);
+        model.addAttribute("wishList", itemService.getWishList(userId));
+        return "item/personWishList";
     }
 }

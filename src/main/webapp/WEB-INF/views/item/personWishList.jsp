@@ -46,7 +46,21 @@
                                             </td>
                                             </c:when>
                                             <c:otherwise>
+                                                <c:choose>
+                                                <c:when  test="${item.booker.equals(0)}">
+                                                    <td>
+                                                        <a href="/account/user-${ownerId}/item-${item.itemId}/book">
+                                                            <input type="submit" class="btn btn-success text-center" value="Book"></a>
+                                                    </td>
+                                                </c:when>
+                                                <c:when  test="${item.booker.equals(auth_user.id)}">
+                                                    <td> <b>Booked by you. </b>
+                                                        <%--<a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">--%>
+                                                            <%--<input type="submit" class="btn btn-success text-center" value="Cancel booking"></a>--%>
 
+                                                    </td>
+                                                </c:when>
+                                                </c:choose>
                                             </c:otherwise>
                                         </c:choose>
                                     </tr>

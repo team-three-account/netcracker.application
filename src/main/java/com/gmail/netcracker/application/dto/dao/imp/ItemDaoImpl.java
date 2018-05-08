@@ -42,6 +42,15 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.insertCopiedItem}")
     private String SQL_INSERT_COPIED_ITEM;
 
+    @Value("${sql.item.getBookerId}")
+    private String SQL_GET_BOOKER_ID;
+
+    @Value("${sql.item.setBooker}")
+    private String SQL_SET_BOOKER;
+
+    @Value("${sql.item.clearBooker}")
+    private String SQL_CLEAR_BOOKER;
+
     private final RowMapper<Item> itemRowMapper;
 
     @Autowired
@@ -65,6 +74,21 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     public void insertCopiedItem(Item item, Long id) {
         insertEntity(SQL_INSERT_COPIED_ITEM, PK_COLUMN_NAME, id, item.getName(), item.getDescription(),
                 item.getLink(), item.getRoot());
+    }
+
+    @Override
+    public void setBooker(Long itemId, Long booker) {
+        updateEntity(SQL_SET_BOOKER, booker, itemId);
+    }
+
+    @Override
+    public Long getBookerId(Long itemId) {
+        return findEntity(SQL_GET_BOOKER_ID, itemRowMapper, itemId).getBooker();
+    }
+
+    @Override
+    public void clearBooker(Long itemId, Long booker) {
+        updateEntity(SQL_CLEAR_BOOKER, itemId, booker);
     }
 
     @Override

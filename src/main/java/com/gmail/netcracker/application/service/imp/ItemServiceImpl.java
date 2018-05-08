@@ -67,4 +67,14 @@ public class ItemServiceImpl implements ItemService {
     public void copyItem(Long itemId) {
         itemDao.insertCopiedItem(itemDao.getItem(itemId), userService.getAuthenticatedUser().getId());
     }
+
+    @Override
+    public void bookItem(Long itemId) {
+        if(itemDao.getBookerId(itemId) == 0) itemDao.setBooker(itemId, userService.getAuthenticatedUser().getId());
+    }
+
+    @Override
+    public void cancelBookingItem(Long itemId) {
+        itemDao.clearBooker(itemId, userService.getAuthenticatedUser().getId());
+    }
 }
