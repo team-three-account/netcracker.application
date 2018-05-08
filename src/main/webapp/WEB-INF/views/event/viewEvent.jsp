@@ -6,6 +6,13 @@
     <title>Title</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+
+    <%--for periodicity--%>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/later.min.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/moment.min.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/prettycron.js"></script>
+    <script src="${contextPath}/resources/js/periodicity.js"></script>
 </head>
 <body>
 
@@ -22,6 +29,7 @@
                     <h3 class="panel-title">Event - ${event.name}</h3>
                 </div>
                 <div class="panel-body viewEvent">
+                    <input id="cron" type="hidden" value="${event.periodicity}">
                     <ul class="list-unstyled mt-3 mb-4">
                         <li>Photo: <img class="img-circle" style="width: 200px;height: 200px"
                                         src="<c:url value="/account/image/${photo}.jpg"/>"></li>
@@ -30,27 +38,32 @@
                         <li>Description : ${event.description}</li>
                         <li>Start : ${event.dateStart}</li>
                         <li>End : ${event.dateEnd}</li>
+                        <li id="periodicity"></li>
                         <li>Place : ${event.eventPlaceName}</li>
-                        <li>Participants : <a href="/account/event-${event.eventId}/participants"> ${participants} people</a> </li>
+                        <li>Participants : <a href="/account/event-${event.eventId}/participants"> ${participants}
+                            people</a></li>
                         <li><a href="/account/event-${event.eventId}-${event.creator}/wishList">Wish List</a><li>
                         <c:choose>
-                        <c:when  test="${auth_user.id.equals(user_creator.id)}">
-                            <li>
-                                <c:if test="${event.type == '2'}">
-                                    <a href="/account/public/event-${event.eventId}/invite">
-                                        <input type="submit" class="btn btn-success text-center" value="Invite user"></a>
-                                </c:if>
-                                <c:if test="${event.type == '3'}">
-                                    <a href="/account/for-friends/event-${event.eventId}/invite">
-                                        <input type="submit" class="btn btn-success text-center" value="Invite friend"></a>
-                                </c:if>
+                            <c:when test="${auth_user.id.equals(user_creator.id)}">
+                                <li>
+                                    <c:if test="${event.type == '2'}">
+                                        <a href="/account/public/event-${event.eventId}/invite">
+                                            <input type="submit" class="btn btn-success text-center"
+                                                   value="Invite user"></a>
+                                    </c:if>
+                                    <c:if test="${event.type == '3'}">
+                                        <a href="/account/for-friends/event-${event.eventId}/invite">
+                                            <input type="submit" class="btn btn-success text-center"
+                                                   value="Invite friend"></a>
+                                    </c:if>
 
-                                <a href="/account/eventList/editevent-${event.eventId}">
-                                    <input type="submit" class="btn btn-success text-center" value="Edit event"></a>
-                                <a href="/account/eventList/deleteEvent-${event.eventId}">
-                                    <input type="submit" class="btn btn-danger text-center" value="Delete event"></a>
-                            </li>
-                        </c:when>
+                                    <a href="/account/eventList/editevent-${event.eventId}">
+                                        <input type="submit" class="btn btn-success text-center" value="Edit event"></a>
+                                    <a href="/account/eventList/deleteEvent-${event.eventId}">
+                                        <input type="submit" class="btn btn-danger text-center"
+                                               value="Delete event"></a>
+                                </li>
+                            </c:when>
                             <c:otherwise>
                                 <c:if test="${isParticipated == true}">
                                     <form action="/account/unsubscribe" method="POST">
@@ -106,7 +119,8 @@
                         <td>
                             <form:form method="POST" modelAttribute="participant">
                                 <tr>
-                                    <form:radiobuttons path="priority" items="${priorities}" itemValue="priorityId" itemLabel="name"/>
+                                    <form:radiobuttons path="priority" items="${priorities}" itemValue="priorityId"
+                                                       itemLabel="name"/>
                                 </tr>
                                 <input type="submit" name="submit" value="Submit">
                             </form:form>
@@ -120,5 +134,10 @@
     <c:otherwise></c:otherwise>
     </c:choose>
 </div>
+<script>
+    $(function () {
+        cron2text();
+    })
+</script>
 </body>
 </html>

@@ -42,7 +42,7 @@ public class EventController {
         this.photoService = photoService;
         this.userService = userService;
         this.eventValidator = eventValidator;
-        this.friendService=friendService;
+        this.friendService = friendService;
     }
 
 
@@ -78,12 +78,15 @@ public class EventController {
         modelAndView.setViewName("event/createNewEvent");
         event.setDraft(Boolean.valueOf(hidden));
         event.setPhoto(photo);
+        if ("".equals(event.getPeriodicity())) {
+            event.setPeriodicity(null);
+        }
         eventValidator.validate(event, result);
         if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
                 && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message","Image type don't supported");
+            modelAndView.addObject("message", "Image type don't supported");
             return modelAndView;
         }
         if (!photo.equals(photoService.getDefaultImage())) {
@@ -118,7 +121,7 @@ public class EventController {
             modelAndView.addObject("participants", participants);
             boolean isParticipated = eventService.isParticipated(authUser.getId(), eventId);
             modelAndView.addObject("participant", eventService.getParticipant(eventId));
-            modelAndView.addObject("isParticipated", isParticipated );
+            modelAndView.addObject("isParticipated", isParticipated);
             modelAndView.addObject("priorities", eventService.getAllPriorities());
             modelAndView.setViewName("event/viewEvent");
         }
@@ -132,7 +135,7 @@ public class EventController {
 
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         eventService.setPriority(participant.getPriority(), eventId, userService.getAuthenticatedUser().getId());
-        return "redirect:/account/eventList/event-"+ eventId;
+        return "redirect:/account/eventList/event-" + eventId;
     }
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.GET)
@@ -151,13 +154,15 @@ public class EventController {
                                     BindingResult result,
                                     ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-
+        if ("".equals(event.getPeriodicity())) {
+            event.setPeriodicity(null);
+        }
         if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
                 && !multipartFile.isEmpty()) {
 
-            modelAndView.addObject("message","Image type don't supported");
+            modelAndView.addObject("message", "Image type don't supported");
             modelAndView.setViewName("event/updateEvent");
             return modelAndView;
         }
@@ -185,7 +190,7 @@ public class EventController {
     public String participate(@RequestParam(value = "event_id") String eventId, Model model) {
         model.addAttribute("auth_user", authUser);
         eventService.participate(authUser.getId(), Long.parseLong(eventId));
-        return "redirect:/account/eventList/event-"+ eventId;
+        return "redirect:/account/eventList/event-" + eventId;
     }
 
     @ModelAttribute("eventTypes")
@@ -214,7 +219,7 @@ public class EventController {
     public String unsubscribe(@RequestParam(value = "event_id") String eventId, Model model) {
         model.addAttribute("auth_user", authUser);
         eventService.unsubscribe(authUser.getId(), Long.parseLong(eventId));
-        return "redirect:/account/eventList/event-"+ eventId;
+        return "redirect:/account/eventList/event-" + eventId;
     }
 
     @RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
@@ -258,7 +263,7 @@ public class EventController {
         model.addAttribute("auth_user", authUser);
         List<User> usersToInvite = eventService.getUsersToInvite(authUser.getId(), eventId);
         model.addAttribute("usersToInvite", usersToInvite);
-        String message =usersToInvite.size() >0 ? "Invite users" : "All users are subscribed on this event";
+        String message = usersToInvite.size() > 0 ? "Invite users" : "All users are subscribed on this event";
         model.addAttribute("message", message);
         model.addAttribute("eventId", eventId);
         return "/event/inviteToPublicEvent";
@@ -266,8 +271,8 @@ public class EventController {
 
     @RequestMapping(value = "{eventId}/invite-to-public", method = RequestMethod.POST)
     public String inviteToPublic(@PathVariable(value = "eventId") int eventId, @RequestParam(value = "userId") Long userId) {
-        eventService.participate(userId,eventId);
-        return "redirect:/account/public/event-"+ eventId +"/invite";
+        eventService.participate(userId, eventId);
+        return "redirect:/account/public/event-" + eventId + "/invite";
     }
 
     @RequestMapping(value = "/for-friends/event-{eventId}/invite", method = RequestMethod.GET)
@@ -275,7 +280,7 @@ public class EventController {
         model.addAttribute("auth_user", authUser);
         List<User> friendsToInvite = eventService.getFriendsToInvite(authUser.getId(), eventId);
         model.addAttribute("friendsToInvite", friendsToInvite);
-        String message =friendsToInvite.size() >0 ? "Invite users" : "All your friends are subscribed on this event";
+        String message = friendsToInvite.size() > 0 ? "Invite users" : "All your friends are subscribed on this event";
         model.addAttribute("message", message);
         model.addAttribute("eventId", eventId);
         return "/event/inviteToEventForFriends";

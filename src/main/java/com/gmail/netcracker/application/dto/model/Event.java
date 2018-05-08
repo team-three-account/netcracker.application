@@ -23,7 +23,11 @@ public class Event {
     private String photo;
     private String priority;
 
-    public Boolean isDraft(){
+    public Boolean isDraft() {
         return draft;
+    }
+
+    public void setDraft(Boolean isDraft) {
+        this.draft = isDraft;
     }
 }
