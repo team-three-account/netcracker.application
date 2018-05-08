@@ -16,10 +16,10 @@
 </div>
 <div class="col-lg-9 content">
     <c:choose>
-        <c:when  test="${auth_user.id.equals(ownerId)}">
+        <c:when test="${auth_user.id.equals(ownerId)}">
             <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>
-         </c:when>
-    <c:choose>
+        </c:when>
+    </c:choose>
     <div class="card lg-12 text-center">
         <h3 align="center">Wish list</h3>
         <div class="center">
@@ -31,51 +31,53 @@
                 <div class="card-body eventCard">
                     <c:forEach var="item" items="${wishList}">
                         <div class="item-columns">
-                                <ul class="list-unstyled mt-9 mb-4 itemCard ">
+                            <ul class="list-unstyled mt-9 mb-4 itemCard ">
 
-                                    <tr>
-                                        <td> (Кружочек приорити) </td>
-                                        <td><a href="/account/getItem-${item.itemId}"> Name : ${item.name} </a></td>
-                                        <c:choose>
-                                            <c:when  test="${auth_user.id.equals(item.personId)}">
+                                <tr>
+                                    <td> (Кружочек приорити)</td>
+                                    <td><a href="/account/getItem-${item.itemId}"> Name : ${item.name} </a></td>
+                                    <c:choose>
+                                        <c:when test="${auth_user.id.equals(item.personId)}">
                                             <td>
                                                 <a class="btn btn-success" type="submit" data-toggle="collapse"
                                                    href="/account/update-${item.itemId}" role="button">Edit</a>
                                             </td>
                                             <td>
                                                 <a href="/account/wishList/deleteItem-${item.itemId}">
-                                                    <input type="submit" class="btn btn-danger text-center" value="Delete"></a>
+                                                    <input type="submit" class="btn btn-danger text-center"
+                                                           value="Delete"></a>
                                             </td>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <c:choose>
-                                                <c:when  test="${item.booker.equals(0)}">
+                                        </c:when>
+                                        <c:otherwise>
+                                            <c:choose>
+                                                <c:when test="${item.booker.equals(0)}">
                                                     <td>
                                                         <a href="/account/user-${ownerId}/item-${item.itemId}/book">
-                                                            <input type="submit" class="btn btn-success text-center" value="Book"></a>
+                                                            <input type="submit" class="btn btn-success text-center"
+                                                                   value="Book"></a>
                                                     </td>
                                                 </c:when>
-                                                <c:when  test="${item.booker.equals(auth_user.id)}">
-                                                    <td> <b>Booked by you. </b>
-                                                        <%--<a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">--%>
+                                                <c:when test="${item.booker.equals(auth_user.id)}">
+                                                    <td><b>Booked by you. </b>
+                                                            <%--<a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">--%>
                                                             <%--<input type="submit" class="btn btn-success text-center" value="Cancel booking"></a>--%>
 
                                                     </td>
                                                 </c:when>
-                                                </c:choose>
-                                            </c:otherwise>
-                                        </c:choose>
-                                    </tr>
+                                            </c:choose>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </tr>
 
-                                </ul>
+                            </ul>
                             </a>
                         </div>
                     </c:forEach>
                 </div>
             </div>
-            </div>
         </div>
     </div>
+</div>
 </body>
 </html>
 
