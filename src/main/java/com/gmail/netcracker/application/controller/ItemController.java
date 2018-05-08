@@ -119,4 +119,18 @@ public class ItemController {
         model.addAttribute("wishList", itemService.getWishList(userId));
         return "item/personWishList";
     }
+
+    @RequestMapping(value = "/event-{eventId}-{creator}/wishList", method = RequestMethod.GET)
+    public String eventWishList(@PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("eventId", eventId);
+        model.addAttribute("wishList", itemService.getWishList(creator));
+        return "item/eventWishList";
+    }
+
+    @RequestMapping(value = "/event-{eventId}-{creator}/item-{itemId}/book", method = RequestMethod.GET)
+    public String bookFromEvent( @PathVariable("itemId") Long itemId, @PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator) {
+        itemService.bookItem(itemId);
+        return "";
+    }
 }

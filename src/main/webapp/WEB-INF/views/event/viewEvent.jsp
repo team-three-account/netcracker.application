@@ -32,6 +32,7 @@
                         <li>End : ${event.dateEnd}</li>
                         <li>Place : ${event.eventPlaceName}</li>
                         <li>Participants : <a href="/account/event-${event.eventId}/participants"> ${participants} people</a> </li>
+                        <li><a href="/account/event-${event.eventId}-${event.creator}/wishList">Wish List</a><li>
                         <c:choose>
                         <c:when  test="${auth_user.id.equals(user_creator.id)}">
                             <li>
