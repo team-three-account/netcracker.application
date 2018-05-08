@@ -15,9 +15,11 @@
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 <div class="col-lg-9 content">
-
-    <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>
-
+    <c:choose>
+        <c:when  test="${auth_user.id.equals(ownerId)}">
+            <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>
+         </c:when>
+    <c:choose>
     <div class="card lg-12 text-center">
         <h3 align="center">Wish list</h3>
         <div class="center">

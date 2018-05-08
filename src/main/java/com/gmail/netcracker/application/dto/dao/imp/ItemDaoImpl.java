@@ -51,6 +51,9 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.clearBooker}")
     private String SQL_CLEAR_BOOKER;
 
+    @Value("${sql.item.setBookerFromEvent}")
+    private String SQL_SET_BOOKER_FROM_EVENT;
+
     private final RowMapper<Item> itemRowMapper;
 
     @Autowired
@@ -89,6 +92,11 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Override
     public void clearBooker(Long itemId, Long booker) {
         updateEntity(SQL_CLEAR_BOOKER, itemId, booker);
+    }
+
+    @Override
+    public void setBookerFromEvent( Long itemId, Long booker, Long eventId) {
+        updateEntity(SQL_SET_BOOKER_FROM_EVENT, booker, eventId, itemId);
     }
 
     @Override

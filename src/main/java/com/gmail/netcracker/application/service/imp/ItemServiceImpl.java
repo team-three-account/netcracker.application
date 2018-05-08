@@ -77,4 +77,9 @@ public class ItemServiceImpl implements ItemService {
     public void cancelBookingItem(Long itemId) {
         itemDao.clearBooker(itemId, userService.getAuthenticatedUser().getId());
     }
+
+    @Override
+    public void bookItemFromEvent(Long itemId, Long eventId) {
+        if(itemDao.getBookerId(itemId) == 0) itemDao.setBookerFromEvent(itemId, userService.getAuthenticatedUser().getId(), eventId);
+    }
 }

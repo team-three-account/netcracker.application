@@ -28,4 +28,6 @@ public interface ItemService {
     void bookItem(Long itemId);
 
     void cancelBookingItem(Long itemId);
+
+    void bookItemFromEvent(Long itemId, Long eventId);
 }

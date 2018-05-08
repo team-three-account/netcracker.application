@@ -130,7 +130,7 @@ public class ItemController {
 
     @RequestMapping(value = "/event-{eventId}-{creator}/item-{itemId}/book", method = RequestMethod.GET)
     public String bookFromEvent( @PathVariable("itemId") Long itemId, @PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator) {
-        itemService.bookItem(itemId);
-        return "";
+        itemService.bookItemFromEvent(itemId, eventId);
+        return "redirect:/account/event-"+eventId+"-"+creator+"/wishList";
     }
 }

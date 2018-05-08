@@ -25,4 +25,6 @@ public interface ItemDao {
     Long getBookerId(Long itemId);
 
     void clearBooker(Long itemId, Long id);
+
+    void setBookerFromEvent(Long itemId, Long booker, Long eventId);
 }

@@ -45,7 +45,7 @@
                                             <c:choose>
                                                 <c:when  test="${item.booker.equals(0)}">
                                                     <td>
-                                                        <a href="/account/user-${ownerId}/item-${item.itemId}/book">
+                                                        <a href="/account/event-${eventId}-${item.personId}/item-${item.itemId}/book">
                                                             <input type="submit" class="btn btn-success text-center" value="Book"></a>
                                                     </td>
                                                 </c:when>
@@ -60,7 +60,7 @@
                                                     <c:choose>
                                                         <c:when  test="${item.event.equals(eventId)}">
                                                             <td>
-                                                                <b>Booked by ${item.booker} </b>
+                                                                <b>Booked by <a href="/account/${item.booker}"> participant </a> </b>
                                                             <td>
                                                         </c:when>
                                                         <c:otherwise>
