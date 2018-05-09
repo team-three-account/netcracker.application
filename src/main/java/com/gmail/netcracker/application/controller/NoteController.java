@@ -52,6 +52,7 @@ public class NoteController {
     public ModelAndView saveNote(@ModelAttribute("createNote") Note note, BindingResult result,
                                  ModelAndView modelAndView) {
         modelAndView.setViewName("note/createNote");
+        modelAndView.addObject("auth_user",userService.getAuthenticatedUser());
         noteValidator.validate(note, result);
         if (result.hasErrors()) {
             return modelAndView;

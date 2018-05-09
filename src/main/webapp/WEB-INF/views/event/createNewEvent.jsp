@@ -38,6 +38,7 @@
                             <br><span class="btn btn-default btn-file">
                             Browse <input type="file" name="photoFile" accept="image/*">
                             </span>
+                            <span>${message}</span>
                             <form:errors path="name" cssClass="error"/>
                         </div>
                         <div class="form-group">
@@ -48,7 +49,7 @@
                         </div>
                         <div class="form-group">
                             <label>Description: </label>
-                            <form:textarea path="description" id="description" type="text" class="form-control"
+                            <form:textarea path="description" name="description" id="description" type="text" class="form-control"
                                            placeholder="Enter event description"/>
                             <form:errors path="description" cssClass="error"/>
                         </div>

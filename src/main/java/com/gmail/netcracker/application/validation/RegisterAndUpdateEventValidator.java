@@ -37,8 +37,8 @@ public class RegisterAndUpdateEventValidator implements Validator {
         if (compareDate(event)) {
             errors.rejectValue("dateEnd", "required.date");
         }
-    }
 
+    }
     private boolean compareDate(Event event) {
         boolean status = false;
         Timestamp startTime = Utilites.parseTime(event.getDateStart());

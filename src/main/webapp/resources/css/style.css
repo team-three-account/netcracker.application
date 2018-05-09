@@ -343,6 +343,10 @@ a.notes-item img {
     cursor: inherit;
     display: block;
 }
+.sms{margin-top: 10%;
+    height: 600px;
+    overflow: auto;
+}
 
 li.button_block {
     display: flex;
@@ -357,3 +361,4 @@ li.button_block a input {
 }
 
 pointer-events:none;
+

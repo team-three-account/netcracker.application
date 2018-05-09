@@ -1,50 +1,24 @@
 package com.gmail.netcracker.application.dto.model;
 
+import lombok.Data;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Data
+@Component
 public class Chat {
-    private String chat_id;
+    private Long chatId;
     private String name;
-    private String event_id;
+    private Long eventId;
+    private List<EventMessage> eventMessageList;
 
     public Chat() {
     }
 
-    public Chat(String chat_id, String name, String event_id) {
-        this.chat_id = chat_id;
+    public Chat(Long chatId, String name, Long eventId) {
+        this.chatId = chatId;
         this.name = name;
-        this.event_id = event_id;
-    }
-
-
-    public String getChat_id() {
-        return chat_id;
-    }
-
-    public void setChat_id(String chat_id) {
-        this.chat_id = chat_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEvent_id() {
-        return event_id;
-    }
-
-    public void setEvent_id(String event_id) {
-        this.event_id = event_id;
-    }
-
-    @Override
-    public String toString() {
-        return "Chat{" +
-                "chat_id=" + chat_id +
-                ", name='" + name + '\'' +
-                ", event_id='" + event_id + '\'' +
-                '}';
+        this.eventId = eventId;
     }
 }

@@ -58,7 +58,8 @@ public class ExceptionController {
      * исключения (http статус 404).
      *
      * @return Объект класса {@link ModelAndView}.
-     *//*
+     */
+    /*
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ModelAndView noHandlerFoundException(
@@ -130,7 +131,5 @@ public class ExceptionController {
         );
         modelAndView.setViewName("error");
         return modelAndView;
-    }
-
-*/
+    }*/
 }

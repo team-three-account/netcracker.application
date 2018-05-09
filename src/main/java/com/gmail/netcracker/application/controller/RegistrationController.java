@@ -1,6 +1,8 @@
 package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
+import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
@@ -24,13 +26,16 @@ public class RegistrationController {
 
     private final UserService userService;
 
+    private PhotoServiceImp photoService;
+
     @Autowired
-    public RegistrationController(VerificationToken verificationToken, User user, RegisterValidator registerValidator, EmailConcructor emailConcructor, UserService userService) {
+    public RegistrationController(VerificationToken verificationToken, User user, RegisterValidator registerValidator, EmailConcructor emailConcructor, UserService userService, PhotoServiceImp photoService) {
         this.verificationToken = verificationToken;
         this.user = user;
         this.registerValidator = registerValidator;
         this.emailConcructor = emailConcructor;
         this.userService = userService;
+        this.photoService = photoService;
     }
 
 
@@ -76,6 +81,7 @@ public class RegistrationController {
             (@PathVariable(value = "token") String token) {
         verificationToken = userService.getVerificationToken(token);
         user = verificationToken.getUser();
+        user.setPhoto(photoService.getDefaultImage());
         userService.saveRegisteredUser(user);
         userService.deleteVerificationToken(verificationToken);
         return "user/registration/successfulRegistration";

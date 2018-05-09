@@ -17,3 +17,4 @@ public class SessionListener implements HttpSessionListener {
         Logger.getLogger(SessionListener.class.getName()).info("==== Session is destroyed ====");
     }
 }
+

@@ -54,15 +54,16 @@ public class AccountController {
 
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String homeAccount(Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        return "account/account";
+    public ModelAndView homeAccount(ModelAndView model) {
+        model.addObject("auth_user", userService.getAuthenticatedUser());
+        model.setViewName("account/account");
+        return model;
     }
 
     @RequestMapping(value = "/resetpassword", method = RequestMethod.GET)
     public String passwordResetSuccessful() {
-        user = userService.getAuthenticatedUser();
-        emailConcructor.resetPasswordEmailSender(user);
+
+        emailConcructor.resetPasswordEmailSender(userService.getAuthenticatedUser());
         return "account/passwordResetSuccessful";
     }
 
@@ -133,6 +134,8 @@ public class AccountController {
             photoService.saveFileInFileSystem(user.getPhotoFile(), user.getPhoto());
             userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         }
+        userService.getAuthenticatedUser().setName(user.getName());
+        userService.getAuthenticatedUser().setSurname(user.getSurname());
         photoService.saveFileInDB(user.getPhoto(), user.getId());
         userService.updateUser(user);
         modelAndView.setViewName("redirect:/account/profile/" + user.getId());

@@ -17,10 +17,12 @@ import java.util.Map;
 @Service
 public class EventServiceImpl implements EventService {
     private EventDao eventDao;
+    @Autowired
     private ParticipantDao participantDao;
     private EventTypeDao eventTypeDao;
     private UserService userService;
     private FriendService friendService;
+    @Autowired
     private PriorityDao priorityDao;
     private NoteDao noteDao;
 
@@ -36,6 +38,10 @@ public class EventServiceImpl implements EventService {
         this.noteDao = noteDao;
     }
 
+
+    public EventServiceImpl() {
+
+    }
 
     @Override
     public void update(Event event) {

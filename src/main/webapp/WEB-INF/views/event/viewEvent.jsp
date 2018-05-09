@@ -27,6 +27,10 @@
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Event - ${event.name}</h3>
+                    <a type="button" class="btn btn-primary"
+                       href="<c:url value="/account/eventList/eventChat-${event.eventId}"/>" >
+                        <p>Chat</p>
+                    </a>
                 </div>
                 <div class="panel-body viewEvent">
                     <input id="cron" type="hidden" value="${event.periodicity}">

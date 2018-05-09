@@ -26,18 +26,22 @@ public class EventController {
     private final PhotoServiceImp photoService;
     private final UserService userService;
     private final FriendService friendService;
+    private ChatService chatService;
 
     private User authUser;
-    private final RegisterAndUpdateEventValidator eventValidator;
+    private RegisterAndUpdateEventValidator eventValidator;
+
+    private Logger logger = Logger.getLogger(EventController.class.getName());
 
     @Autowired
     public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService,
                            UserService userService, FriendService friendService,
-                           RegisterAndUpdateEventValidator eventValidator) {
+                           ChatService chatService, RegisterAndUpdateEventValidator eventValidator) {
         this.eventService = eventService;
         this.noteService = noteService;
         this.photoService = photoService;
         this.userService = userService;
+        this.chatService = chatService;
         this.eventValidator = eventValidator;
         this.friendService = friendService;
     }
@@ -45,9 +49,9 @@ public class EventController {
 
     @RequestMapping(value = "/eventlist", method = RequestMethod.GET)
     public ModelAndView eventList(ModelAndView modelAndView) {
-        User authUser = userService.getAuthenticatedUser();
-        Long userId = authUser.getId();
-        modelAndView.addObject("auth_user", authUser);
+
+        Long userId = userService.getAuthenticatedUser().getId();
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("publicEventList", eventService.findPublicEvents());
         modelAndView.addObject("privateEventList", eventService.findPrivateEvents(userId));
         modelAndView.addObject("friendsEventList", eventService.findFriendsEvents(userId));
@@ -59,8 +63,8 @@ public class EventController {
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
     public ModelAndView createNewEvent(@ModelAttribute(value = "createNewEvent") Event event, ModelAndView modelAndView) {
+        event.setPhoto(photoService.getDefaultImage());
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        event.setPhoto("1");
         modelAndView.setViewName("event/createNewEvent");
         return modelAndView;
     }
@@ -72,6 +76,7 @@ public class EventController {
                                      @RequestParam(value = "photoInput") String photo,
                                      @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                      ModelAndView modelAndView) {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("event/createNewEvent");
         event.setDraft(Boolean.valueOf(hidden));
         event.setPhoto(photo);
@@ -79,10 +84,10 @@ public class EventController {
             event.setPeriodicity(null);
         }
         eventValidator.validate(event, result);
-        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+                && !multipartFile.isEmpty() || result.hasErrors()) {
             modelAndView.addObject("message", "Image type don't supported");
             return modelAndView;
         }
@@ -91,7 +96,9 @@ public class EventController {
         }
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
         eventService.insertEvent(event);
-        eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(String.valueOf(eventService.getMaxId())));
+
+        chatService.createChatForEvent(event);
+        eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }
@@ -198,6 +205,7 @@ public class EventController {
     @RequestMapping(value = "/event-{eventId}/participants", method = RequestMethod.GET)
     public String getParticipants(@PathVariable(value = "eventId") String eventId, Model model) {
         List<User> participantList = eventService.getParticipants(Long.parseLong(eventId));
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("participantList", participantList);
         model.addAttribute("auth_user", authUser);
         return "event/participants";
@@ -222,8 +230,8 @@ public class EventController {
     @RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
     public String getSubscriptions(Model model) {
         List<Event> eventList = eventService.getAllMyEvents();
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("eventList", eventList);
-        model.addAttribute("auth_user", authUser);
         if (eventList.isEmpty()) model.addAttribute("message", "You have not any subscription");
         else model.addAttribute("message", "You are subscribed on following events :");
         return "event/subscriptions";
@@ -231,8 +239,8 @@ public class EventController {
 
     @RequestMapping(value = "/draft", method = RequestMethod.GET)
     public String draft(Model model) {
-        model.addAttribute("auth_user", authUser);
-        List<Event> draftList = eventService.findDrafts(authUser.getId());
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        List<Event> draftList = eventService.findDrafts(userService.getAuthenticatedUser().getId());
         model.addAttribute("draftList", draftList);
         if (draftList.isEmpty()) model.addAttribute("message", "You have not any draft");
         else model.addAttribute("message", "You're drafts :");
@@ -241,10 +249,11 @@ public class EventController {
 
     @RequestMapping(value = "/managed", method = RequestMethod.GET)
     public String managed(Model model) {
-        model.addAttribute("auth_user", authUser);
-        List<Event> publicEventList = eventService.findCreatedPublicEvents(authUser.getId()); //!!!!
-        List<Event> privateEventList = eventService.findPrivateEvents(authUser.getId());
-        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(authUser.getId()); //!!!
+
+        List<Event> publicEventList = eventService.findCreatedPublicEvents(userService.getAuthenticatedUser().getId()); //!!!!
+        List<Event> privateEventList = eventService.findPrivateEvents(userService.getAuthenticatedUser().getId());
+        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(userService.getAuthenticatedUser().getId()); //!!!
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("publicEventList", publicEventList);
         model.addAttribute("friendsEventList", friendsEventList);
         model.addAttribute("privateEventList", privateEventList);
@@ -257,8 +266,8 @@ public class EventController {
 
     @RequestMapping(value = "/public/event-{eventId}/invite", method = RequestMethod.GET)
     public String inviteListToPublic(Model model, @PathVariable(value = "eventId") int eventId) {
-        model.addAttribute("auth_user", authUser);
-        List<User> usersToInvite = eventService.getUsersToInvite(authUser.getId(), eventId);
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        List<User> usersToInvite = eventService.getUsersToInvite(userService.getAuthenticatedUser().getId(), eventId);
         model.addAttribute("usersToInvite", usersToInvite);
         String message = usersToInvite.size() > 0 ? "Invite users" : "All users are subscribed on this event";
         model.addAttribute("message", message);
@@ -287,9 +296,12 @@ public class EventController {
     public ModelAndView translateToEvent(@ModelAttribute(value = "createNewEvent") Event event,
                                          ModelAndView modelAndView, @PathVariable int noteId) {
         modelAndView.setViewName("event/createNewEvent");
+        event.setPhoto(photoService.getDefaultImage());
+        logger.info(event.getPhoto());
         Note note = noteService.getNote(noteId);
         event.setName(note.getName());
         event.setDescription(note.getDescription());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         return modelAndView;
     }
 
@@ -302,11 +314,22 @@ public class EventController {
                                         ModelAndView modelAndView,
                                         @PathVariable Long noteId) {
         modelAndView.setViewName("event/createNewEvent");
+        modelAndView.addObject("auth_user",userService.getAuthenticatedUser());
+        event.setPhoto(photo);
         eventValidator.validate(event, result);
-        if (result.hasErrors()) {
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty() || result.hasErrors()) {
+            modelAndView.addObject("message", "Image type don't supported");
             return modelAndView;
         }
-        eventService.transferNoteToEvent(noteId,userService.getAuthenticatedUser().getId(),event);
+        if (!photo.equals(photoService.getDefaultImage())) {
+            photoService.saveFileInFileSystem(multipartFile, String.valueOf(System.currentTimeMillis()));
+        }
+        logger.info(event.getPhoto());
+        photoService.saveFileInDB(event.getPhoto(), event.getEventId());
+        eventService.transferNoteToEvent(noteId, userService.getAuthenticatedUser().getId(), event);
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }

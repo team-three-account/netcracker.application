@@ -1,11 +1,14 @@
 package com.gmail.netcracker.application.config;
 
 import com.gmail.netcracker.application.aspects.TokenLifeAspect;
+import com.gmail.netcracker.application.dto.dao.imp.ChatDaoImpl;
+import com.gmail.netcracker.application.dto.dao.interfaces.ChatDao;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.*;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.EventSerializer;
+import com.gmail.netcracker.application.utilites.Utilites;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.*;
 import org.flywaydb.core.Flyway;
@@ -25,6 +28,8 @@ import java.util.Locale;
 
 import static com.gmail.netcracker.application.utilites.ResultSetColumnValueExtractor.*;
 import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoString;
+import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoStringFormatWithSeconds;
+import static com.gmail.netcracker.application.utilites.Utilites.parseTimeWithSeconds;
 
 @Configuration
 @ComponentScan("com.gmail.netcracker.application.*")
@@ -134,6 +139,17 @@ public class RootConfig {
         return new ItemValidator();
     }
 
+
+    @Bean
+    ChatService chatService() {
+        return new ChatServiceImpl();
+    }
+
+    @Bean
+    Chat chat() {
+        return new Chat();
+    }
+
     @Bean
     public  LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
@@ -175,6 +191,29 @@ public class RootConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public RowMapper<EventMessage> eventMessageRowMapper() {
+        return (resultSet, i) -> {
+            EventMessage eventMessage = new EventMessage();
+            eventMessage.setFrom(getString(resultSet, "name"));
+            eventMessage.setText(getString(resultSet, "text"));
+            eventMessage.setTime(parseDateIntoStringFormatWithSeconds(resultSet.getTimestamp("date")));
+            eventMessage.setSenderPhoto(getString(resultSet,"photo"));
+            eventMessage.setSenderId(getLong(resultSet,"sender_id"));
+            return eventMessage;
+        };
+    }
+
+    @Bean
+    public RowMapper<Chat> chatRowMapper() {
+        return (resultSet, i) -> {
+            Chat chat = new Chat();
+            chat.setChatId(getLong(resultSet, "chat_id"));
+            chat.setName(getString(resultSet, "name"));
+            chat.setEventId(getLong(resultSet, "event_id"));
+            return chat;
+        };
+    }
 
     @Bean
     public RowMapper<User> userRowMapper() {

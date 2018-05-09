@@ -30,6 +30,13 @@ public class Utilites {
         Format df = new SimpleDateFormat("yyyy-MM-dd");
         return df.format(date);
     }
+    public static String parseDateIntoStringFormatWithSeconds(Date date) {
+        if (date == null) {
+            return "";
+        }
+        Format df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return df.format(date);
+    }
 
     public static String parseDateIntoString(Long date) {
         if (date == null) {
@@ -37,6 +44,23 @@ public class Utilites {
         }
         Format df = new SimpleDateFormat("yyyy-MM-dd");
         return df.format(new Date(date));
+    }
+
+
+    public static Timestamp parseTimeWithSeconds(String str_date) {
+        if (str_date != null) {
+            try {
+                DateFormat formatter;
+                formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                java.util.Date date = formatter.parse(str_date);
+                Timestamp timestamp = new Timestamp(date.getTime());
+                return timestamp;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+        return null;
     }
 
     public static Timestamp parseTime(String str_date) {
@@ -63,5 +87,21 @@ public class Utilites {
             nfe.printStackTrace();
         }
         return value;
+    }
+
+    public static String timeStamp() throws ParseException {
+
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String timeStamp = getCurrentTimeStamp().toString();
+        Date dateTime = format.parse(timeStamp);
+        String t = format.format(dateTime);
+        return t;
+    }
+    private static Timestamp getCurrentTimeStamp() {
+
+        Date today = new Date();
+
+        return new Timestamp(today.getTime());
+
     }
 }

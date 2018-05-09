@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.logging.Logger;
 
+
 @RequestMapping(value = "/account")
 @Controller
 public class FriendController {
@@ -29,13 +30,13 @@ public class FriendController {
     public FriendController(UserService userService, FriendService friendService, EmailConcructor emailConcructor) {
         this.userService = userService;
         this.friendService = friendService;
-        this.emailConcructor=emailConcructor;
+        this.emailConcructor = emailConcructor;
     }
 
 
     @RequestMapping(value = "/friends", method = RequestMethod.GET)
     public String viewFriends(Model model) {
-        authUser=userService.getAuthenticatedUser();
+        authUser = userService.getAuthenticatedUser();
         List<User> friendList = friendService.getAllFriends(userService.getAuthenticatedUser().getId());
         model.addAttribute("auth_user", authUser);
         model.addAttribute("friendList", friendList);
@@ -118,3 +119,4 @@ public class FriendController {
         return message;
     }
 }
+
