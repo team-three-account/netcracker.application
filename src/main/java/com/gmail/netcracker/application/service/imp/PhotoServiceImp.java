@@ -18,7 +18,7 @@ public class PhotoServiceImp implements PhotoService, Serializable {
     @Autowired
     private PhotoDao photoDao;
 
-    public static final String PATH = System.getenv("CATALINA_HOME") + "\\webapps\\ROOT\\resources\\img\\";
+    public static final String PATH = "/app/";
 
     @Value("${image.default}")
     private String defaultImage;
