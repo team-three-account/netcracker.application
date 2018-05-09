@@ -66,7 +66,7 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     }
 
     @Override
-    public void delete(int noteId) {
+    public void delete(Long noteId) {
         deleteEntity(SQL_DELETE, noteId);
     }
 

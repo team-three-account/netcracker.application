@@ -41,6 +41,6 @@
     </div>
 </div>
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
-<script src='${contextPath}/resources/js/textEditorInit.js'></script>
+<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
 </html>
 

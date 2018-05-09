@@ -1,15 +1,13 @@
 package com.gmail.netcracker.application.service.imp;
 
-import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
-import com.gmail.netcracker.application.dto.dao.interfaces.EventTypeDao;
-import com.gmail.netcracker.application.dto.dao.interfaces.ParticipantDao;
-import com.gmail.netcracker.application.dto.dao.interfaces.PriorityDao;
+import com.gmail.netcracker.application.dto.dao.interfaces.*;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,21 +17,25 @@ import java.util.Map;
 @Service
 public class EventServiceImpl implements EventService {
     private EventDao eventDao;
-    @Autowired
     private ParticipantDao participantDao;
     private EventTypeDao eventTypeDao;
     private UserService userService;
     private FriendService friendService;
-    @Autowired
     private PriorityDao priorityDao;
+    private NoteDao noteDao;
 
     @Autowired
-    public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService, FriendService friendService) {
+    public EventServiceImpl(EventDao eventDao, ParticipantDao participantDao, EventTypeDao eventTypeDao,
+                            UserService userService, FriendService friendService, PriorityDao priorityDao, NoteDao noteDao) {
         this.eventDao = eventDao;
+        this.participantDao = participantDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
         this.friendService = friendService;
+        this.priorityDao = priorityDao;
+        this.noteDao = noteDao;
     }
+
 
     @Override
     public void update(Event event) {
@@ -230,4 +232,12 @@ public class EventServiceImpl implements EventService {
         return subtraction(minuend, subtrahend);
     }
 
+    @Override
+    @Transactional
+    public void transferNoteToEvent(Long noteId, Long userId, Event event) {
+        noteDao.delete(noteId);
+        event.setCreator(userId);
+        eventDao.insertEvent(event);
+        eventDao.participate(userId,event.getEventId());
+    }
 }

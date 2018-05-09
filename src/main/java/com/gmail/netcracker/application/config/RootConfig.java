@@ -45,17 +45,17 @@ public class RootConfig {
     }
 
     @Bean
-    PhotoService photoService() {
+    public PhotoService photoService() {
         return new PhotoServiceImp();
     }
 
     @Bean
-    TokenLifeAspect tokenLifeAspect() {
+    public TokenLifeAspect tokenLifeAspect() {
         return new TokenLifeAspect();
     }
 
     @Bean
-    UserServiceImp userServiceImp() {
+    public UserServiceImp userServiceImp() {
         return new UserServiceImp();
     }
 
@@ -65,27 +65,27 @@ public class RootConfig {
 //    }
 
     @Bean
-    VerificationToken verificationToken() {
+    public VerificationToken verificationToken() {
         return new VerificationToken();
     }
 
     @Bean
-    User user() {
+    public User user() {
         return new User();
     }
 
     @Bean
-    Friend friendship() {
+    public Friend friendship() {
         return new Friend();
     }
 
     @Bean
-    RegisterValidator registerValidator() {
+    public RegisterValidator registerValidator() {
         return new RegisterValidator();
     }
 
     @Bean
-    RegisterAndUpdateEventValidator registerEventValidator() {
+    public RegisterAndUpdateEventValidator registerEventValidator() {
         return new RegisterAndUpdateEventValidator();
     }
 
@@ -100,42 +100,42 @@ public class RootConfig {
     }
 
     @Bean
-    Event event() {
+    public Event event() {
         return new Event();
     }
 
     @Bean
-    FriendService friendServiceFriendService() {
+    public FriendService friendServiceFriendService() {
         return new FriendServiceImpl();
     }
 
     @Bean
-    Note note() {
+    public Note note() {
         return new Note();
     }
 
     @Bean
-    NoteService noteService() {
+    public NoteService noteService() {
         return new NoteServiceImpl();
     }
 
     @Bean
-    NoteValidator noteValidator() {
+    public NoteValidator noteValidator() {
         return new NoteValidator();
     }
 
     @Bean
-    Item item() {
+    public Item item() {
         return new Item();
     }
 
     @Bean
-    ItemValidator itemValidator() {
+    public  ItemValidator itemValidator() {
         return new ItemValidator();
     }
 
     @Bean
-    LocaleResolver localeResolver() {
+    public  LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         return cookieLocaleResolver;
@@ -216,7 +216,7 @@ public class RootConfig {
     public RowMapper<Event> eventRowMapper() {
         return (rs, i) -> {
             Event event = new Event();
-            event.setEventId(getInt(rs, "event_id"));
+            event.setEventId(getLong(rs, "event_id"));
             event.setName(getString(rs, "name"));
             event.setDescription(getString(rs, "description"));
             event.setCreator(getLong(rs, "creator_id"));
@@ -279,7 +279,7 @@ public class RootConfig {
     public RowMapper<Note> noteRowMapper() {
         return (rs, i) -> {
             Note note = new Note();
-            note.setNoteId(getInt(rs, "note_id"));
+            note.setNoteId(getLong(rs, "note_id"));
             note.setName(getString(rs, "name"));
             note.setDescription(getString(rs, "description"));
             note.setCreator(getLong(rs, "creator_id"));
@@ -292,7 +292,7 @@ public class RootConfig {
     RowMapper<Note> notesIntoFolderRowMapper() {
         return (rs, i) -> {
             Note note = new Note();
-            note.setNoteId(rs.getInt("note_id"));
+            note.setNoteId(rs.getLong("note_id"));
             note.setName(rs.getString("name"));
             note.setFolder(rs.getInt("folder_id"));
             return note;

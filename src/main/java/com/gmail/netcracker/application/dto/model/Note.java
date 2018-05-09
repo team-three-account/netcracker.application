@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class Note {
-    private int noteId;
+    private Long noteId;
     private String name;
     private String description;
     private Long creator;

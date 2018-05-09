@@ -1,9 +1,6 @@
 package com.gmail.netcracker.application.controller;
 
-import com.gmail.netcracker.application.dto.model.Event;
-import com.gmail.netcracker.application.dto.model.EventType;
-import com.gmail.netcracker.application.dto.model.Participant;
-import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
@@ -92,7 +89,7 @@ public class EventController {
         if (!photo.equals(photoService.getDefaultImage())) {
             photoService.saveFileInFileSystem(multipartFile, String.valueOf(System.currentTimeMillis()));
         }
-        photoService.saveFileInDB(event.getPhoto(), Long.parseLong(String.valueOf(event.getEventId())));
+        photoService.saveFileInDB(event.getPhoto(), event.getEventId());
         eventService.insertEvent(event);
         eventService.participate(userService.getAuthenticatedUser().getId(), Long.parseLong(String.valueOf(eventService.getMaxId())));
         modelAndView.setViewName("redirect:/account/managed");
@@ -286,4 +283,31 @@ public class EventController {
         return "/event/inviteToEventForFriends";
     }
 
+    @RequestMapping(value = {"/translateToEvent-{noteId}"}, method = RequestMethod.GET)
+    public ModelAndView translateToEvent(@ModelAttribute(value = "createNewEvent") Event event,
+                                         ModelAndView modelAndView, @PathVariable int noteId) {
+        modelAndView.setViewName("event/createNewEvent");
+        Note note = noteService.getNote(noteId);
+        event.setName(note.getName());
+        event.setDescription(note.getDescription());
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/translateToEvent-{noteId}"}, method = RequestMethod.POST)
+    public ModelAndView saveNoteToEvent(@ModelAttribute("createNewEvent") Event event,
+                                        BindingResult result,
+                                        @RequestParam(value = "hidden") String hidden,
+                                        @RequestParam(value = "photoInput") String photo,
+                                        @RequestParam(value = "photoFile") MultipartFile multipartFile,
+                                        ModelAndView modelAndView,
+                                        @PathVariable Long noteId) {
+        modelAndView.setViewName("event/createNewEvent");
+        eventValidator.validate(event, result);
+        if (result.hasErrors()) {
+            return modelAndView;
+        }
+        eventService.transferNoteToEvent(noteId,userService.getAuthenticatedUser().getId(),event);
+        modelAndView.setViewName("redirect:/account/managed");
+        return modelAndView;
+    }
 }

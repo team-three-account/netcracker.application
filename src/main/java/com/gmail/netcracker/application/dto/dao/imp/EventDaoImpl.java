@@ -118,7 +118,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public void insertEvent(Event event) {
-        insertEntity(SQL_ADD, PK_COLUMN_NAME,
+        event.setEventId(insertEntity(SQL_ADD, PK_COLUMN_NAME,
                 event.getName(),
                 event.getDescription(),
                 event.getCreator(),
@@ -130,7 +130,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
                 event.getPeriodicity(),
                 Utilites.parseStringToInt(event.getType()),
                 event.isDraft(),
-                event.getPhoto());
+                event.getPhoto()));
     }
 
     @Override

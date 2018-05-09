@@ -14,12 +14,9 @@
     <div class="col-md-3"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-<br/>
-<br/>
-<br/>
-<h1>Notes into : ${folderName.name}</h1>
 <div class="col-md-9 content">
     <div class="row">
+        <h1>Notes into : ${folderName.name}</h1>
         <table class="table">
             <c:forEach var="note" items="${listNotesIntoFolder}">
                 <tr>

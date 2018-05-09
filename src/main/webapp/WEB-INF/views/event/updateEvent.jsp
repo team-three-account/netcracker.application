@@ -76,7 +76,7 @@
                     <form:input path="draft" value="${editEvent.draft}" type="hidden"></form:input>
                     <div class="form-group">
                         <label>Periodicity:</label>
-                        <textarea id="periodicity" class="form-control" type="text" readonly></textarea>
+                        <input id="periodicity" class="form-control" type="text" readonly></input>
                         <form:input path="periodicity" type="hidden" id="cron"
                                     value="${editEvent.periodicity}"></form:input>
                         <%--<input type="checkbox" id="isPeriodical" name="isPeriodical" onclick="changePeriodicity()">Show--%>
@@ -456,5 +456,5 @@
 </body>
 
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
-<script src='${contextPath}/resources/js/textEditorInit.js'></script>
+<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
 </html>

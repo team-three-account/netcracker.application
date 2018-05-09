@@ -236,6 +236,25 @@ article > p {
     border-radius: 10px;
 }
 
+.notesEventCardItem {
+    margin: 0;
+    padding: 10px 0 0 0 ;
+    border: none;
+    background-color: transparent;
+    display: inline-block;
+    width: 100%;
+    max-width: 70px;
+    text-align: center;
+    color: #000;
+}
+
+.notesEventCardItem li {
+    max-width: 100%;
+    display: inline-block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .eventCard a {
     color: black;
 }
@@ -249,6 +268,30 @@ article > p {
 .viewEvent {
     background: whitesmoke;
 
+}
+
+.notes-item {
+    text-decoration: none;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+    margin: 3px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.notes-item:hover {
+    text-decoration: none;
+    background-color: rgba(0,0,0,0.3);
+}
+
+a.notes-item img {
+    width: 70px;
+    height: auto;
 }
 
 .viewEvent ul {
@@ -269,6 +312,7 @@ article > p {
     display: inline-block;
     width: 100%;
     padding: 20px;
+    word-wrap: break-word;
 }
 
 .viewEvent .description-block * {
@@ -298,6 +342,18 @@ article > p {
     background: white;
     cursor: inherit;
     display: block;
+}
+
+li.button_block {
+    display: flex;
+    flex-wrap: wrap;
+}
+li.button_block a {
+    width: 50%;
+    padding: 2px;
+}
+li.button_block a input {
+    width: 100%;
 }
 
 pointer-events:none;

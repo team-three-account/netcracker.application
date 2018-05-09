@@ -75,7 +75,7 @@
 
                         <div class="form-group">
                             <label>Periodicity:</label>
-                            <textarea id="periodicity" class="form-control" type="text" readonly></textarea>
+                            <input id="periodicity" class="form-control" type="text" readonly></input>
                             <form:input path="periodicity" type="hidden" id="cron"></form:input>
                             <button type="button" id="isPeriodical" name="isPeriodical" onclick="changePeriodicity()">
                                 Show periodicity options
@@ -466,5 +466,5 @@
 </script>
 </body>
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
-<script src='${contextPath}/resources/js/textEditorInit.js'></script>
+<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
 </html>

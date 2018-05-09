@@ -33,7 +33,7 @@
                     <div class="form-group">
                         <label>Description: </label>
                         <form:textarea path="description" id="description" type="text" class="form-control"
-                                       placeholder="Enter note description"/>
+                                       placeholder="Enter event description"/>
                         <form:errors path="description" cssClass="error"/>
                     </div>
 
@@ -46,5 +46,5 @@
 </div>
 </body>
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
-<script src='${contextPath}/resources/js/textEditorInit.js'></script>
+<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
 </html>

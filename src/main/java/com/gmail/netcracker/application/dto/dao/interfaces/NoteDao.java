@@ -11,7 +11,7 @@ public interface NoteDao {
 
     Note getNote(int noteId);
 
-    void delete(int noteId);
+    void delete(Long noteId);
 
     void update(Note note);
 

@@ -29,16 +29,18 @@
         <table class="table">
             <h1>Folders</h1>
             <c:forEach var="folder" items="${folderList}">
-                <a href="<c:url value='/account/eventList/folder-${folder.folderId}' />">
-                    <ul class="list-unstyled mt-3 mb-4 eventCardItem">
+                <a class="notes-item" href="<c:url value='/account/eventList/folder-${folder.folderId}' />">
+                    <img src="${contextPath}/resources/img/001-folder.svg" alt="folder">
+                    <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
                         <li>${folder.name}</li>
                     </ul>
                 </a>
             </c:forEach>
             <h1>Notes Without Folder</h1>
             <c:forEach var="note" items="${noteList}">
-                <a href="<c:url value='/account/eventList/note-${note.noteId}' />">
-                    <ul class="list-unstyled mt-3 mb-4 eventCardItem">
+                <a class="notes-item" href="<c:url value='/account/eventList/note-${note.noteId}' />">
+                    <img src="${contextPath}/resources/img/003-notepad.svg" alt="notepad">
+                    <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
                         <li>${note.name}</li>
                     </ul>
                 </a>

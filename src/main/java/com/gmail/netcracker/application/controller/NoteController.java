@@ -1,5 +1,6 @@
 package com.gmail.netcracker.application.controller;
 
+import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.Folder;
 import com.gmail.netcracker.application.dto.model.Note;
 import com.gmail.netcracker.application.dto.model.User;
@@ -10,10 +11,8 @@ import com.gmail.netcracker.application.validation.NoteValidator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -31,12 +30,15 @@ public class NoteController {
 
     private final NoteValidator noteValidator;
 
+    private final EventController eventController;
 
-    public NoteController(NoteService noteService, FolderService folderService, UserService userService, NoteValidator noteValidator) {
+    public NoteController(NoteService noteService, FolderService folderService, UserService userService,
+                          NoteValidator noteValidator, EventController eventController) {
         this.noteService = noteService;
         this.folderService = folderService;
         this.userService = userService;
         this.noteValidator = noteValidator;
+        this.eventController = eventController;
     }
 
     @RequestMapping(value = "/eventList/createNote", method = RequestMethod.GET)
@@ -69,7 +71,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = {"/eventList/deleteNote-{noteId}"}, method = RequestMethod.GET)
-    public String deleteNote(@PathVariable int noteId) {
+    public String deleteNote(@PathVariable Long noteId) {
         noteService.delete(noteId);
         return "redirect:/account/allNotes";
     }
@@ -125,10 +127,12 @@ public class NoteController {
     }
 
     @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.POST)
-    public ModelAndView saveNoteToFolder(ModelAndView modelAndView,@ModelAttribute("newNoteIntoFolder") Note note) {
+    public ModelAndView saveNoteToFolder(ModelAndView modelAndView, @ModelAttribute("newNoteIntoFolder") Note note) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         noteService.addNoteToFolder(note);
         modelAndView.setViewName("redirect:/account/allNotes");
         return modelAndView;
     }
+
+
 }
