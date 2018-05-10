@@ -180,7 +180,7 @@ public class EventController {
         } else {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
         }
-        photoService.saveFileInDB(event.getPhoto(), (event.getEventId()));
+        photoService.saveFileInDB(event.getPhoto(), event.getEventId());
 
         modelAndView.setViewName("event/updateEvent");
         eventValidator.validate(event, result);
