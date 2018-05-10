@@ -13,7 +13,7 @@ public interface ChatDao {
 
     void createChat(Event event);
 
-    List<EventMessage> getMessages(Event event);
+    List<EventMessage> getMessages(Event event,Long chatId);
 
     void deleteChat(Event event);
 }

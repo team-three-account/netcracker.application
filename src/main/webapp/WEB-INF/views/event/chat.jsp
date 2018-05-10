@@ -36,13 +36,14 @@
                     Disconnect
                 </button>
 
+                <input type="number" id="chat" value="${chat.chatId}">
                 <input type="number" id="event" value="${event.eventId}">
                 <input type="hidden" id="photo" value="${auth_user.photo}">
             </div>
             <br/>
             <div class="form-group">
                 <div id="sms" class="sms">
-                    <form:forEach var="message" items="${chat}">
+                    <form:forEach var="message" items="${chatMessage}">
                         <form:if test="${auth_user.id==message.senderId}">
                             <div class="text-right" id="showMessageOutputFromData" style="margin-left:50%;">
 

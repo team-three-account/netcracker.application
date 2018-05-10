@@ -28,7 +28,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Event - ${event.name}</h3>
                     <a type="button" class="btn btn-primary"
-                       href="<c:url value="/account/eventList/eventChat-${event.eventId}"/>" >
+                       href="<c:url value="/account/eventList/eventChat${chat.chatId}-${event.eventId}"/>" >
                         <p>Chat</p>
                     </a>
                 </div>

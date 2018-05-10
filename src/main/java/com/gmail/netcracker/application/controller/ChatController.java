@@ -60,44 +60,27 @@ public class ChatController {
 
     private Logger logger = Logger.getLogger(ChatService.class.getName());
 
-    @RequestMapping(value = {"/eventChat-{eventId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/eventChat{chatId}-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView chatPage(@PathVariable(value = "eventId") int eventId,
+                                 @PathVariable(value = "chatId") Long chatId,
                                  ModelAndView modelAndView) {
         user = userService.getAuthenticatedUser();
-        List<EventMessage> list = chatService.getMessagesForEvent(eventService.getEvent(eventId));
+        List<EventMessage> list = chatService.getMessagesForEvent(eventService.getEvent(eventId),chatId);
         modelAndView.addObject("event", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.addObject("chat", list);
+        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId));
+        modelAndView.addObject("chat", chatService.getChat(eventService.getEvent(eventId)));
         logger.info(list.toString());
         modelAndView.setViewName("event/chat");
         return modelAndView;
     }
-@RequestMapping(value = "/eventChat-{eventId}", method = RequestMethod.POST)
-public ModelAndView sendMessage(@PathVariable(value = "eventId") String eventId,EventMessage message,ModelAndView modelAndView){
-    String time = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss").format(new Date());
-    message.setTime(time);
-    message.setChatId(Long.valueOf(eventId));
-    message.setEventId(Long.valueOf(eventId));
-    message.setSenderPhoto(user.getPhoto());
-    message.setSenderId(user.getId());
-    logger.info(message.toString());
 
-    try {
-        eventMessageService.addNewMessage(eventService.getEvent(Math.toIntExact(message.getEventId())),
-                message,
-                user,
-                chatService.getChat(eventService.getEvent(Math.toIntExact(message.getEventId()))));
-    } catch (Throwable t) {
-        logger.info(t.getMessage());
-    }
-    modelAndView.setViewName("event/chat");
-    return modelAndView;
-}
 
-    @MessageMapping("/chat/{eventId}/{userId}")
-    @SendTo("/topic/messages")
+    @MessageMapping("/chat/{eventId}/{userId}/{chatId}")
+    @SendTo("/topic/messages/{chatId}")
     public EventMessage send(@DestinationVariable(value = "eventId") String eventId,
-                             @DestinationVariable(value = "userId")String userId,
+                             @DestinationVariable(value = "userId") String userId,
+                             @DestinationVariable(value = "chatId") String chatId,
                              EventMessage message) throws Exception {
         User user = userService.findUserById(Long.valueOf(userId));
 
@@ -113,11 +96,12 @@ public ModelAndView sendMessage(@PathVariable(value = "eventId") String eventId,
             eventMessageService.addNewMessage(eventService.getEvent(Math.toIntExact(message.getEventId())),
                     message,
                     user,
-                    chatService.getChat(eventService.getEvent(Math.toIntExact(message.getEventId()))));
+                    chatService.getChat(eventService.getEvent(Integer.parseInt(eventId))));
         } catch (Throwable t) {
             logger.info(t.getMessage());
         }
         return message;
 
 
-}}
+    }
+}

@@ -1,6 +1,8 @@
 var stompClient = null;
 var connectState = true;
 
+
+
 function setConnected(connected) {
     document.getElementById('connect').disabled = connected;
     document.getElementById('disconnect').disabled = !connected;
@@ -8,13 +10,14 @@ function setConnected(connected) {
 }
 
 function connect() {
+    var chat = document.getElementById('chat').value;
     var socket = new SockJS('/chat');
     stompClient = Stomp.over(socket);
     var divElement = document.getElementById('sms');
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/messages', function (message) {
+        stompClient.subscribe('/topic/messages/'+ chat , function (message) {
             showMessageOutput(JSON.parse(message.body));
         });
     });
@@ -32,9 +35,10 @@ function sendMessage() {
     var from = document.getElementById('from').value;
     var text = document.getElementById('text').value;
     var sender = document.getElementById('userId').value;
+    var chat = document.getElementById('chat').value;
     var senderPhoto = document.getElementById('photo').value;
     var divElement = document.getElementById('sms');
-    stompClient.send("/app/chat/" + event + "/" + sender, {},
+    stompClient.send("/app/chat/" + event + "/" + sender + "/" + chat, {},
         JSON.stringify({'from': from, 'text': text, 'senderId': sender, 'senderPhoto': senderPhoto}));
     divElement.scrollTop = 9999;
 

@@ -30,8 +30,8 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public List<EventMessage> getMessagesForEvent(Event event) {
-        return chatDao.getMessages(event);
+    public List<EventMessage> getMessagesForEvent(Event event,Long chatId) {
+        return chatDao.getMessages(event, chatId);
     }
 
     @Override

@@ -129,6 +129,7 @@ public class EventController {
             modelAndView.addObject("participant", eventService.getParticipant(eventId));
             modelAndView.addObject("isParticipated", isParticipated);
             modelAndView.addObject("priorities", eventService.getAllPriorities());
+            modelAndView.addObject("chat", chatService.getChat(eventService.getEvent(eventId)));
             modelAndView.setViewName("event/viewEvent");
         }
         return modelAndView;

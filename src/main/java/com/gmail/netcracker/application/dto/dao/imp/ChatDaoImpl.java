@@ -64,8 +64,8 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     }
 
     @Override
-    public List<EventMessage> getMessages(Event event) {
-        return findEntityList(SQL_GET_LIST, rowMapper, event.getEventId());
+    public List<EventMessage> getMessages(Event event,Long chatId) {
+        return findEntityList(SQL_GET_LIST, rowMapper, event.getEventId(),chatId);
     }
 
     @Override
