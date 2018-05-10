@@ -93,11 +93,12 @@ public class EventController {
             modelAndView.addObject("message", "Image type don't supported");
             return modelAndView;
         }
-        if (!photo.equals(photoService.getDefaultImage())) {
+        if (!multipartFile.isEmpty()) {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
         }
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
         eventService.insertEvent(event);
+
         chatService.createChatForEvent(event);
         eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         modelAndView.setViewName("redirect:/account/managed");
@@ -317,15 +318,15 @@ public class EventController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         event.setPhoto(photo);
         eventValidator.validate(event, result);
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+        if (result.hasErrors()||!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty() || result.hasErrors()) {
+                && !multipartFile.isEmpty() ) {
             modelAndView.addObject("message", "Image type don't supported");
             return modelAndView;
         }
-        if (!photo.equals(photoService.getDefaultImage())) {
-            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
+        if (!multipartFile.isEmpty()) {
+            photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis()));
         }
         logger.info(event.getPhoto());
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
