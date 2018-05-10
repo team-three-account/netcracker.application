@@ -30,8 +30,6 @@ public class PhotoServiceImp implements PhotoService, Serializable {
     @Autowired
     private UserService userService;
 
-    public static final String PATH = System.getenv("CATALINA_HOME") + "\\webapps\\ROOT\\resources\\img\\";
-
     @Value("${image.default}")
     private String defaultImage;
 
@@ -115,7 +113,7 @@ public class PhotoServiceImp implements PhotoService, Serializable {
 
     @Override
     public void saveFileInFileSystem(MultipartFile photo, String name) {
-        if (photo != null && !photo.isEmpty()) {
+       /* if (photo != null && !photo.isEmpty()) {
             try (
                     OutputStream stream = new FileOutputStream(PhotoServiceImp.PATH +
                             name + ".jpg"
@@ -128,7 +126,7 @@ public class PhotoServiceImp implements PhotoService, Serializable {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
-        }
+        }*/
     }
 
     @Override
