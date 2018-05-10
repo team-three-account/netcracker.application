@@ -27,7 +27,7 @@
             <tbody>
             <tr>
                 <td>Avatar:</td>
-                <td><img class="img-circle" style="width: 200px;height: 200px" src="<c:url value="/account/image/${auth_user.photo}.jpg"/>"></td>
+                <td><img class="img-circle" style="width: 200px;height: 200px" src="<c:url value="${auth_user.photo}"/>"></td>
             </tr>
             <tr>
                 <td>Name:</td>

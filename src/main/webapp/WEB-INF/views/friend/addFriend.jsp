@@ -43,7 +43,7 @@
                 <c:forEach var="friend" items="${foundFriends}">
                     <tr>
                         <td><img class="img-circle" style="width: 50px;height: 50px"
-                                 src="<c:url value="/account/image/${friend.photo}.jpg"/>"></td>
+                                 src="<c:url value="${friend.photo}"/>"></td>
                         <td><a href="/${friend.id}">${friend.name} ${friend.surname}</a></td>
                         <td>
                             <form action="/account/friends/add-friend" method="POST">

@@ -1,5 +1,6 @@
 package com.gmail.netcracker.application.controller;
 
+import com.dropbox.core.DbxException;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.*;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -75,7 +77,7 @@ public class EventController {
                                      @RequestParam(value = "hidden") String hidden,
                                      @RequestParam(value = "photoInput") String photo,
                                      @RequestParam(value = "photoFile") MultipartFile multipartFile,
-                                     ModelAndView modelAndView) {
+                                     ModelAndView modelAndView) throws IOException, DbxException {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("event/createNewEvent");
         event.setDraft(Boolean.valueOf(hidden));
@@ -92,11 +94,10 @@ public class EventController {
             return modelAndView;
         }
         if (!photo.equals(photoService.getDefaultImage())) {
-            photoService.saveFileInFileSystem(multipartFile, String.valueOf(System.currentTimeMillis()));
+            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
         }
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
         eventService.insertEvent(event);
-
         chatService.createChatForEvent(event);
         eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         modelAndView.setViewName("redirect:/account/managed");
@@ -156,7 +157,7 @@ public class EventController {
                                     @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                     @RequestParam(value = "photo") String photo,
                                     BindingResult result,
-                                    ModelAndView modelAndView) {
+                                    ModelAndView modelAndView) throws IOException, DbxException {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         if ("".equals(event.getPeriodicity())) {
             event.setPeriodicity(null);
@@ -175,10 +176,9 @@ public class EventController {
         if (multipartFile.isEmpty()) {
             event.setPhoto(photo);
         } else {
-            event.setPhoto(String.valueOf(System.currentTimeMillis()));
+            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
         }
-        photoService.saveFileInFileSystem(multipartFile, event.getPhoto());
-        photoService.saveFileInDB(event.getPhoto(), Long.parseLong(String.valueOf(event.getEventId())));
+        photoService.saveFileInDB(event.getPhoto(), (event.getEventId()));
 
         modelAndView.setViewName("event/updateEvent");
         eventValidator.validate(event, result);
@@ -312,9 +312,9 @@ public class EventController {
                                         @RequestParam(value = "photoInput") String photo,
                                         @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                         ModelAndView modelAndView,
-                                        @PathVariable Long noteId) {
+                                        @PathVariable Long noteId) throws IOException, DbxException {
         modelAndView.setViewName("event/createNewEvent");
-        modelAndView.addObject("auth_user",userService.getAuthenticatedUser());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         event.setPhoto(photo);
         eventValidator.validate(event, result);
         if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
@@ -325,7 +325,7 @@ public class EventController {
             return modelAndView;
         }
         if (!photo.equals(photoService.getDefaultImage())) {
-            photoService.saveFileInFileSystem(multipartFile, String.valueOf(System.currentTimeMillis()));
+            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
         }
         logger.info(event.getPhoto());
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());

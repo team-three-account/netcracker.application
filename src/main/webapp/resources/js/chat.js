@@ -50,7 +50,7 @@ function showMessageOutput(message) {
     var div = document.createElement('div');
     var divElement = document.getElementById('sms');
     divElement.scrollTop = 9999;
-    img.src = '/account/image/' + message.senderPhoto + '.jpg';
+    img.src =  message.senderPhoto;
     img.classList.add("img-circle");
     img.style.display = 'inline';
     img.style.width = '40px';

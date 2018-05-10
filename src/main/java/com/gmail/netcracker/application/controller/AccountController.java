@@ -1,8 +1,8 @@
 package com.gmail.netcracker.application.controller;
 
+import com.dropbox.core.DbxException;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
-import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.logging.Logger;
 
@@ -115,7 +116,8 @@ public class AccountController {
     public ModelAndView saveSettings(@ModelAttribute(value = "auth_user") User user,
                                      @RequestParam(value = "photo") String photo,
                                      @RequestParam(value = "photoFile") final MultipartFile photoFile,
-                                     final ModelAndView modelAndView) {
+                                     final ModelAndView modelAndView,
+                                     HttpServletRequest httpServletRequest) throws Exception {
 
         user.setPhotoFile(photoFile);
         if (!photoFile.getContentType().equals(photoService.getImageTypeJpeg())
@@ -130,8 +132,7 @@ public class AccountController {
         if (photoFile.isEmpty()) {
             user.setPhoto(photo);
         } else {
-            user.setPhoto(String.valueOf(System.currentTimeMillis()));
-            photoService.saveFileInFileSystem(user.getPhotoFile(), user.getPhoto());
+            user.setPhoto(photoService.uploadFileOnDropBox(photoFile, String.valueOf(System.currentTimeMillis())));
             userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         }
         userService.getAuthenticatedUser().setName(user.getName());
@@ -143,9 +144,9 @@ public class AccountController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/image/{id}", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
-    public byte[] testPhoto(@PathVariable(value = "id") Long id) throws IOException {
-        InputStream inputStream = new FileInputStream(new File(PhotoServiceImp.PATH + id + ".jpg"));
-        return IOUtils.toByteArray(inputStream);
+    @RequestMapping(value = "/dl.dropboxusercontent.com", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
+    public byte[] testPhoto(@PathVariable(value = "id") Long id) throws IOException, DbxException {
+        photoService.getLinkOnFileFromDropBox(String.valueOf(id));
+        return null;
     }
 }

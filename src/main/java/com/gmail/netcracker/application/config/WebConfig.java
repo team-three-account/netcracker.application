@@ -82,6 +82,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return new StandardServletMultipartResolver();
     }
 
+
+
     /**
      * Указывает где будут хранится ресурсы.
      */

@@ -30,7 +30,7 @@
             <tr>
                 <td>Avatar:</td>
                 <td><img class="img-circle" style="width: 200px;height: 200px"
-                         src="<c:url value="/account/image/${friend.photo}.jpg"/>"></td>
+                         src="<c:url value="${friend.photo}"/>"></td>
             </tr>
             <tr>
                 <td>Name:</td>

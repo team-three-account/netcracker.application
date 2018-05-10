@@ -35,7 +35,7 @@
                     <div class="form-group">
                         <label>Photo: </label>
                         <img class="img-circle" style="width: 200px;height: 200px"
-                             src="<c:url value="/account/image/${editEvent.photo}.jpg"/>">
+                             src="<c:url value="${editEvent.photo}"/>">
                         <input type="hidden" name="photo" value="${editEvent.photo}">
                         <br><span class="btn btn-default btn-file">
                             Browse <input type="file" name="photoFile" accept="image/*">

@@ -28,7 +28,7 @@
             <tbody>
             <tr>
                 <td><img class="img-circle" style="width: 200px;height: 200px"
-                         src="<c:url value="/account/image/${event.photo}.jpg"/>"> </td>
+                         src="<c:url value="${event.photo}"/>"> </td>
                 <td> <a href="/account/eventList/event-${event.eventId}"> ${event.name} </a></td>
                 <td> Date : ${event.dateStart} - ${event.dateEnd} </td>
             </tr>

@@ -38,7 +38,7 @@
                 <tr>
                     <td>Avatar:</td>
                     <td><img class="img-circle" style="width: 200px;height: 200px"
-                             src="<c:url value="/account/image/${auth_user.photo}.jpg"/>">
+                             src="<c:url value="${auth_user.photo}"/>">
                         <input type="hidden" name="photo" value="${auth_user.photo}" path="photo"/>
                         <br><span class="btn btn-default btn-file">
     Browse <input type="file" name="photoFile" accept="image/*">

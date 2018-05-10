@@ -32,7 +32,7 @@
 
             <c:forEach var="participant" items="${participantList}">
                 <tr>
-                    <td><img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="/account/image/${participant.photo}.jpg"/>"></td>
+                    <td><img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="${participant.photo}"/>"></td>
                     <td><a href="/account/${participant.id}">${participant.name} ${participant.surname}</a></td>
 
                 </tr>

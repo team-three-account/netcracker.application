@@ -48,7 +48,7 @@
 
             <c:forEach var="friend" items="${friendList}">
                 <tr>
-                    <td><img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="/account/image/${friend.photo}.jpg"/>"></td>
+                    <td><img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="${friend.photo}"/>"></td>
                     <td><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></td>
                     <td>
                         <form action="/account/delete-friend" method="POST">
@@ -69,7 +69,7 @@
         <c:forEach var="user" items="${intersectionUsers}">
             <tr>
                 <td><img class="img-circle" style="width: 200px;height: 200px"
-                         src="<c:url value="/account/image/${user.photo}.jpg"/>"></td>
+                         src="<c:url value="${user.photo}.jpg"/>"></td>
                 <td><a href="/account/${user.id}">${user.name} ${user.surname}</a></td>
                 <td>
                     <form action="/account/friends/add-friend" method="POST">
