@@ -137,10 +137,10 @@ public class PhotoServiceImp implements PhotoService, Serializable {
     @Override
     public void deleteFile(String url) {
 
-        final File file = new File(PhotoServiceImp.PATH + url);
+     /*   final File file = new File(PhotoServiceImp.PATH + url);
         if (file.exists() && file.isFile()) {
             file.delete();
-        }
+        }*/
     }
 
 }
