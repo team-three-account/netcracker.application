@@ -1,16 +1,11 @@
 package com.gmail.netcracker.application.service.imp;
 
 import com.dropbox.core.*;
-import com.dropbox.core.v1.DbxUrlWithExpiration;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
-import com.dropbox.core.v2.files.SharedLink;
-import com.dropbox.core.v2.sharing.DbxUserSharingRequests;
-import com.dropbox.core.v2.sharing.RequestedVisibility;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
 import com.dropbox.core.v2.sharing.SharedLinkSettings;
 import com.gmail.netcracker.application.dto.dao.interfaces.PhotoDao;
-import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import lombok.Data;
@@ -21,10 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.Locale;
 
 
