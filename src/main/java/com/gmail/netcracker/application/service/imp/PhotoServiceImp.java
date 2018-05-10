@@ -113,20 +113,7 @@ public class PhotoServiceImp implements PhotoService, Serializable {
 
     @Override
     public void saveFileInFileSystem(MultipartFile photo, String name) {
-       /* if (photo != null && !photo.isEmpty()) {
-            try (
-                    OutputStream stream = new FileOutputStream(PhotoServiceImp.PATH +
-                            name + ".jpg"
-                    )
 
-            ) {
-                stream.write(
-                        photo.getBytes()
-                );
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }*/
     }
 
     @Override
@@ -137,10 +124,6 @@ public class PhotoServiceImp implements PhotoService, Serializable {
     @Override
     public void deleteFile(String url) {
 
-     /*   final File file = new File(PhotoServiceImp.PATH + url);
-        if (file.exists() && file.isFile()) {
-            file.delete();
-        }*/
     }
 
 }
