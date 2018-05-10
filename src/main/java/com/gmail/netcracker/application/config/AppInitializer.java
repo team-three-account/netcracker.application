@@ -65,20 +65,7 @@ public class AppInitializer
         servletContext.addListener(new SessionListener());
 
     }
-    @Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 
-        // upload temp file will put here
-        File uploadDirectory = new File(System.getenv("CATALINA_HOME")+"/webapps/ROOT/resources/img/");
-
-        // register a MultipartConfigElement
-        MultipartConfigElement multipartConfigElement =
-                new MultipartConfigElement(uploadDirectory.getAbsolutePath(),
-                        maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);
-
-        registration.setMultipartConfig(multipartConfigElement);
-
-    }
     /**
      * Включение исключений NoHandlerFound.
      *
