@@ -1,6 +1,6 @@
 package com.gmail.netcracker.application.controller;
 
-import com.dropbox.core.DbxException;
+
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.UserService;
@@ -9,10 +9,8 @@ import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.http.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,8 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.*;
-import java.util.logging.Logger;
 
 
 @Controller
@@ -143,10 +139,5 @@ public class AccountController {
         return modelAndView;
     }
 
-    @ResponseBody
-    @RequestMapping(value = "/dl.dropboxusercontent.com", method = RequestMethod.GET, produces = MediaType.ALL_VALUE)
-    public byte[] testPhoto(@PathVariable(value = "id") Long id) throws IOException, DbxException {
-        photoService.getLinkOnFileFromDropBox(String.valueOf(id));
-        return null;
-    }
+
 }
