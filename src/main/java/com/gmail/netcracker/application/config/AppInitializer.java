@@ -13,10 +13,10 @@ public class AppInitializer
         extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     private int maxUploadSizeInMb = 10 * 1024 * 1024; // 5 MB
+
     /**
      * Возвращает конфигурацию, в которой
      * инициализируем ViewResolver.
-     *
      */
     @Override
     protected Class<?>[] getServletConfigClasses() {
@@ -39,6 +39,7 @@ public class AppInitializer
      * Настроили мэпинг сервлета на "/"
      * и поэтому все запросы будут перехвачены
      * Диспетчером Сервлета Spring.
+     *
      * @return Массив типа String.
      */
     @Override
@@ -48,8 +49,8 @@ public class AppInitializer
 
     /**
      * Настройка ссесии.
-     *
-     *AbstractAnnotationConfigDispatcherServletInitializer.
+     * <p>
+     * AbstractAnnotationConfigDispatcherServletInitializer.
      */
     @Override
     public void onStartup(final ServletContext servletContext) throws ServletException {
@@ -66,9 +67,24 @@ public class AppInitializer
 
     }
 
+    @Override
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+
+        // upload temp file will put here
+        File uploadDirectory = new File("");
+
+        // register a MultipartConfigElement
+        MultipartConfigElement multipartConfigElement =
+                new MultipartConfigElement(uploadDirectory.getAbsolutePath(),
+                        maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);
+
+        registration.setMultipartConfig(multipartConfigElement);
+
+
+    }
+
     /**
      * Включение исключений NoHandlerFound.
-     *
      */
     @Override
     protected DispatcherServlet createDispatcherServlet(
@@ -79,8 +95,6 @@ public class AppInitializer
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
         return dispatcherServlet;
     }
-
-
 
 
 }
