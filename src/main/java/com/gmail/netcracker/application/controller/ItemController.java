@@ -67,6 +67,7 @@ public class ItemController {
     public ModelAndView addItem(@ModelAttribute("createItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
         String methodName = "addItem";
         modelAndView.setViewName("item/addItem");
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         itemValidator.validate(item, bindingResult);
         itemValidator.validateItem(modelAndView, item, bindingResult, itemService, userService, methodName);
         return modelAndView;
