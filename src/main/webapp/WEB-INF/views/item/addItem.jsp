@@ -57,7 +57,7 @@
             </div>
 
             <input type="submit" value="Add" class="btn btn-success text-center"/>
-            <a class="btn btn-primary" href="<c:url value='/account/wishList'/>">Back</a>
+            <a class="btn btn-primary" href="<c:url value='/account/user-${auth_user.id}/wishList'/>">Back</a>
         </div>
     </div>
 </div>

@@ -97,7 +97,7 @@ public class Utilites {
         String t = format.format(dateTime);
         return t;
     }
-    private static Timestamp getCurrentTimeStamp() {
+    public static Timestamp getCurrentTimeStamp() {
 
         Date today = new Date();
 

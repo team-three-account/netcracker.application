@@ -41,24 +41,19 @@ public class ItemController {
     }
 
     @RequestMapping(value = {"/update-{itemId}"}, method = RequestMethod.POST)
-    public ModelAndView updateItem(@ModelAttribute("updateItem") Item item,
-                                   BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView updateItem(@ModelAttribute("updateItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
+        String methodName = "updateItem";
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("item/editItem");
         itemValidator.validate(item, bindingResult);
-
-        if (bindingResult.hasErrors()) {
-            return modelAndView;
-        }
-        itemService.update(item);
-        modelAndView.setViewName("redirect:/account/user-"+userService.getAuthenticatedUser().getId()+"/wishList");
+        itemValidator.validateItem(modelAndView, item, bindingResult, itemService, userService, methodName);
         return modelAndView;
     }
 
     @RequestMapping(value = "/wishList/deleteItem-{itemId}", method = RequestMethod.GET)
     public String deleteItem(@PathVariable("itemId") Long itemId) {
         itemService.delete(itemId);
-        return "redirect:/account/user-"+userService.getAuthenticatedUser().getId()+"/wishList";
+        return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
     }
 
     @RequestMapping(value = "/addItem", method = RequestMethod.GET)
@@ -70,14 +65,10 @@ public class ItemController {
 
     @RequestMapping(value = "/addItem", method = RequestMethod.POST)
     public ModelAndView addItem(@ModelAttribute("createItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
+        String methodName = "addItem";
         modelAndView.setViewName("item/addItem");
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         itemValidator.validate(item, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return modelAndView;
-        }
-        itemService.add(item);
-        modelAndView.setViewName("redirect:/account/user-"+userService.getAuthenticatedUser().getId()+"/wishList");
+        itemValidator.validateItem(modelAndView, item, bindingResult, itemService, userService, methodName);
         return modelAndView;
     }
 
@@ -92,7 +83,7 @@ public class ItemController {
     @RequestMapping(value = "/copy-{itemId}", method = RequestMethod.GET)
     public String copyItem(@PathVariable("itemId") Long itemId) {
         itemService.copyItem(itemId);
-        return "redirect:/account/user-"+userService.getAuthenticatedUser().getId()+"/wishList";
+        return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
     }
 
     @ModelAttribute("priorities")
@@ -101,15 +92,15 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/user-{ownerId}/item-{itemId}/book", method = RequestMethod.GET)
-    public String bookItem( @PathVariable("itemId") Long itemId, @PathVariable("ownerId") Long ownerId) {
+    public String bookItem(@PathVariable("itemId") Long itemId, @PathVariable("ownerId") Long ownerId) {
         itemService.bookItem(itemId);
-        return "redirect:/account/user-"+ownerId+"/wishList";
+        return "redirect:/account/user-" + ownerId + "/wishList";
     }
 
     @RequestMapping(value = "/user-{id}/item-{itemId}/cancel-booking", method = RequestMethod.GET)
     public String cancelBookingItem(@PathVariable("itemId") Long itemId, @PathVariable("id") Long owner) {
         itemService.cancelBookingItem(itemId);
-        return "redirect:/account/user-"+owner+"/wishList";
+        return "redirect:/account/user-" + owner + "/wishList";
     }
 
     @RequestMapping(value = "/user-{id}/wishList", method = RequestMethod.GET)
@@ -129,8 +120,8 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/event-{eventId}-{creator}/item-{itemId}/book", method = RequestMethod.GET)
-    public String bookFromEvent( @PathVariable("itemId") Long itemId, @PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator) {
+    public String bookFromEvent(@PathVariable("itemId") Long itemId, @PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator) {
         itemService.bookItemFromEvent(itemId, eventId);
-        return "redirect:/account/event-"+eventId+"-"+creator+"/wishList";
+        return "redirect:/account/event-" + eventId + "-" + creator + "/wishList";
     }
 }
