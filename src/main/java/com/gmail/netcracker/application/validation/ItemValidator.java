@@ -29,8 +29,5 @@ public class ItemValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "link", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dueDate", "required.field");
-
-
     }
-    
 }

@@ -34,11 +34,11 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Photo: </label>
-                        <img class="img-circle" style="width: 200px;height: 200px"
+                        <img id = "blah" class="img-circle" style="width: 200px;height: 200px"
                              src="<c:url value="${editEvent.photo}"/>">
                         <input type="hidden" name="photo" value="${editEvent.photo}">
                         <br><span class="btn btn-default btn-file">
-                            Browse <input type="file" name="photoFile" accept="image/*">
+                            Browse <input id = "file" onchange="readURL(this)" type="file" name="photoFile" accept="image/*">
                             </span>
                         <span class="has-error">${message}</span>
                         <form:errors path="name" cssClass="error"/>
@@ -454,7 +454,7 @@
     });
 </script>
 </body>
-
+<script src='${contextPath}/resources/js/imageUpload.js'></script>
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
 <script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
 </html>

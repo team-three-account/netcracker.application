@@ -32,11 +32,11 @@
                         <div class="form-group">
                             <label>Photo: </label>
 
-                            <img class="img-circle" style="width: 200px;height: 200px"
+                            <img class="img-circle" style="width: 200px;height: 200px" id="blah"
                                  src="<c:url value="${createNewEvent.photo}.jpg"/>">
                             <input type="hidden" name="photoInput" value="${createNewEvent.photo}">
                             <br><span class="btn btn-default btn-file">
-                            Browse <input type="file" name="photoFile" accept="image/*">
+                            Browse <input type="file" onchange="readURL(this)" id = "file" name="photoFile" accept="image/*">
                             </span>
                             <span>${message}</span>
                             <form:errors path="name" cssClass="error"/>
@@ -468,4 +468,5 @@
 </body>
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
 <script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
+<script src='${contextPath}/resources/js/imageUpload.js'></script>
 </html>
