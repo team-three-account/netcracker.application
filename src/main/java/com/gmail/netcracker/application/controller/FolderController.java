@@ -44,6 +44,7 @@ public class FolderController {
     @RequestMapping(value = "/eventList/createFolder", method = RequestMethod.POST)
     public ModelAndView saveNote(@ModelAttribute("createFolder") Folder folder, BindingResult result,
                                  ModelAndView modelAndView) {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("folder/createFolder");
         folderValidator.validate(folder, result);
         if (result.hasErrors()) {

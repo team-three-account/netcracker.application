@@ -71,9 +71,6 @@ public class PhotoServiceImp implements PhotoService, Serializable {
 
 
 
-
-
-
     public String uploadFileOnDropBox(MultipartFile file, String name) throws IOException, DbxException {
         DbxRequestConfig config = new DbxRequestConfig(appName, Locale.getDefault().toString());
         DbxClientV2 client = new DbxClientV2(config, sessionStoreKey);

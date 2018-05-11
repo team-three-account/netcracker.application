@@ -71,6 +71,7 @@ public class ItemController {
     @RequestMapping(value = "/addItem", method = RequestMethod.POST)
     public ModelAndView addItem(@ModelAttribute("createItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
         modelAndView.setViewName("item/addItem");
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         itemValidator.validate(item, bindingResult);
         if (bindingResult.hasErrors()) {
             return modelAndView;
