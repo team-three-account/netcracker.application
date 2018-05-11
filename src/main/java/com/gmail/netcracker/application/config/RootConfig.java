@@ -198,8 +198,8 @@ public class RootConfig {
             eventMessage.setFrom(getString(resultSet, "name"));
             eventMessage.setText(getString(resultSet, "text"));
             eventMessage.setTime(parseDateIntoStringFormatWithSeconds(resultSet.getTimestamp("date")));
-            eventMessage.setSenderPhoto(getString(resultSet,"photo"));
-            eventMessage.setSenderId(getLong(resultSet,"sender_id"));
+            eventMessage.setSenderPhoto(getString(resultSet, "photo"));
+            eventMessage.setSenderId(getLong(resultSet, "sender_id"));
             return eventMessage;
         };
     }
@@ -211,6 +211,7 @@ public class RootConfig {
             chat.setChatId(getLong(resultSet, "chat_id"));
             chat.setName(getString(resultSet, "name"));
             chat.setEventId(getLong(resultSet, "event_id"));
+            chat.setState(getBoolean(resultSet, "creator_event"));
             return chat;
         };
     }

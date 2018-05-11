@@ -98,8 +98,11 @@ public class EventController {
         }
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
         eventService.insertEvent(event);
+        if (event.getType().equals("2") || event.getType().equals("3")) {
+            chatService.createChatForEvent(event, true);
+            chatService.createChatForEvent(event, false);
+        }
 
-        chatService.createChatForEvent(event);
         eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
@@ -129,7 +132,8 @@ public class EventController {
             modelAndView.addObject("participant", eventService.getParticipant(eventId));
             modelAndView.addObject("isParticipated", isParticipated);
             modelAndView.addObject("priorities", eventService.getAllPriorities());
-            modelAndView.addObject("chat", chatService.getChat(eventService.getEvent(eventId)));
+            modelAndView.addObject("chatWithCreator", chatService.getChatByEventId(eventService.getEvent(eventId), true));
+            modelAndView.addObject("chatWithOutCreator", chatService.getChatByEventId(eventService.getEvent(eventId), false));
             modelAndView.setViewName("event/viewEvent");
         }
         return modelAndView;
@@ -319,10 +323,10 @@ public class EventController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         event.setPhoto(photo);
         eventValidator.validate(event, result);
-        if (result.hasErrors()||!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty() ) {
+                && !multipartFile.isEmpty()) {
             modelAndView.addObject("message", "Image type don't supported");
             return modelAndView;
         }

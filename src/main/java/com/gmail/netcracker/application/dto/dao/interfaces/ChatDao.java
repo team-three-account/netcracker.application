@@ -9,11 +9,13 @@ import java.util.List;
 
 public interface ChatDao {
 
-    Chat getChat(Event event);
+    Chat getChatByEventId(Event event,Boolean state);
 
-    void createChat(Event event);
+    Chat getChatByChatId(Long chatId);
 
-    List<EventMessage> getMessages(Event event,Long chatId);
+    void createChat(Event event,Boolean creator);
+
+    List<EventMessage> getMessages(Event event,Long chatId,Boolean state);
 
     void deleteChat(Event event);
 }

@@ -10,11 +10,13 @@ import java.util.List;
 public interface ChatService {
 
 
-    Chat getChat(Event event);
+    Chat getChatByEventId(Event event, Boolean state);
 
-    void createChatForEvent(Event event);
+    Chat getChatByChatId(Long chatId);
 
-    List<EventMessage> getMessagesForEvent(Event event,Long chatId);
+    void createChatForEvent(Event event, Boolean creator);
+
+    List<EventMessage> getMessagesForEvent(Event event, Long chatId, Boolean state);
 
     void deleteEventChat(Event event);
 }

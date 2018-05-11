@@ -27,7 +27,10 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     private String SQL_INSERT;
 
     @Value("${sql.chat.getChat}")
-    private String SQL_GET_CHAT;
+    private String SQL_GET_CHAT_BY_EVENT_ID;
+
+    @Value("${sql.chat.getChatByChatId}")
+    private String SQL_GET_CHAT_BY_CHAT_ID;
 
     @Value("${sql.chat.delete}")
     private String SQL_DELETE;
@@ -53,19 +56,24 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     }
 
     @Override
-    public Chat getChat(Event event) {
-        return findEntity(SQL_GET_CHAT,chatRowMapper,event.getEventId());
+    public Chat getChatByEventId(Event event, Boolean state) {
+        return findEntity(SQL_GET_CHAT_BY_EVENT_ID, chatRowMapper, event.getEventId(), state);
     }
 
     @Override
-    public void createChat(Event event) {
+    public Chat getChatByChatId(Long chatId) {
+        return findEntity(SQL_GET_CHAT_BY_CHAT_ID, chatRowMapper, chatId);
+    }
+
+    @Override
+    public void createChat(Event event, Boolean creator) {
         logger.info(event.toString());
-        insertEntity(SQL_INSERT, PK_COLUMN_NAME, event.getName(), event.getEventId());
+        insertEntity(SQL_INSERT, PK_COLUMN_NAME, event.getName(), creator, event.getEventId());
     }
 
     @Override
-    public List<EventMessage> getMessages(Event event,Long chatId) {
-        return findEntityList(SQL_GET_LIST, rowMapper, event.getEventId(),chatId);
+    public List<EventMessage> getMessages(Event event, Long chatId, Boolean state) {
+        return findEntityList(SQL_GET_LIST, rowMapper, event.getEventId(), chatId, state);
     }
 
     @Override
