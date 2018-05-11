@@ -31,9 +31,9 @@ public class ItemValidator implements Validator {
         Item item = (Item) object;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dueDate", "required.field");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dueDate", "required.currentDate");
         if (expectedDate(item)) {
-            errors.rejectValue("dueDate", "required.date");
+            errors.rejectValue("dueDate", "required.currentDate");
         }
     }
 
