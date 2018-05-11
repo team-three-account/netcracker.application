@@ -46,7 +46,7 @@ public class ItemController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("item/editItem");
         itemValidator.validate(item, bindingResult);
-        itemValidator.validateItem(modelAndView, item, bindingResult, itemService);
+
         if (bindingResult.hasErrors()) {
             return modelAndView;
         }
@@ -72,7 +72,6 @@ public class ItemController {
     public ModelAndView addItem(@ModelAttribute("createItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
         modelAndView.setViewName("item/addItem");
         itemValidator.validate(item, bindingResult);
-        itemValidator.validateItem(modelAndView, item, bindingResult, itemService);
         if (bindingResult.hasErrors()) {
             return modelAndView;
         }
