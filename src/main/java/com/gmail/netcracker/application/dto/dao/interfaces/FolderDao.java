@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.dto.dao.interfaces;
 
 import com.gmail.netcracker.application.dto.model.Folder;
 import com.gmail.netcracker.application.dto.model.Note;
+import com.gmail.netcracker.application.dto.model.User;
 
 import java.util.List;
 
@@ -18,4 +19,9 @@ public interface FolderDao {
 
     List<Note> getNoteListIntoFolder(int folderId);
 
+    List<User> getFriendsThatHaveAccess(int folderId);
+
+    void disableAccessToFolder(int folderId, int friendId);
+
+    void allowAccessToFolder(int folderId, int userId);
 }

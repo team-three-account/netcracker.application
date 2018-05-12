@@ -20,18 +20,23 @@ public class ChatServiceImpl implements ChatService {
     private Logger logger = Logger.getLogger(ChatServiceImpl.class.getName());
 
     @Override
-    public Chat getChat(Event event) {
-        return chatDao.getChat(event);
+    public Chat getChatByEventId(Event event, Boolean state) {
+        return chatDao.getChatByEventId(event, state);
     }
 
     @Override
-    public void createChatForEvent(Event event) {
-        chatDao.createChat(event);
+    public Chat getChatByChatId(Long chatId) {
+        return chatDao.getChatByChatId(chatId);
     }
 
     @Override
-    public List<EventMessage> getMessagesForEvent(Event event,Long chatId) {
-        return chatDao.getMessages(event, chatId);
+    public void createChatForEvent(Event event, Boolean creator) {
+        chatDao.createChat(event, creator);
+    }
+
+    @Override
+    public List<EventMessage> getMessagesForEvent(Event event, Long chatId, Boolean state) {
+        return chatDao.getMessages(event, chatId, state);
     }
 
     @Override

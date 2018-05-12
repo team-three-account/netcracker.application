@@ -60,16 +60,31 @@ public class ChatController {
 
     private Logger logger = Logger.getLogger(ChatService.class.getName());
 
-    @RequestMapping(value = {"/eventChat{chatId}-{eventId}"}, method = RequestMethod.GET)
-    public ModelAndView chatPage(@PathVariable(value = "eventId") int eventId,
-                                 @PathVariable(value = "chatId") Long chatId,
-                                 ModelAndView modelAndView) {
+    @RequestMapping(value = {"/eventChat/main/{chatId}-{eventId}"}, method = RequestMethod.GET)
+    public ModelAndView mainChatPage(@PathVariable(value = "eventId") int eventId,
+                                     @PathVariable(value = "chatId") Long chatId,
+                                     ModelAndView modelAndView) {
         user = userService.getAuthenticatedUser();
-        List<EventMessage> list = chatService.getMessagesForEvent(eventService.getEvent(eventId),chatId);
+        List<EventMessage> list = chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId, true);
         modelAndView.addObject("event", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId));
-        modelAndView.addObject("chat", chatService.getChat(eventService.getEvent(eventId)));
+        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId, true));
+        modelAndView.addObject("chat", chatService.getChatByEventId(eventService.getEvent(eventId), true));
+        logger.info(list.toString());
+        modelAndView.setViewName("event/chat");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/eventChat/subscriptions/{chatId}-{eventId}"}, method = RequestMethod.GET)
+    public ModelAndView subscriptionsChatPage(@PathVariable(value = "eventId") int eventId,
+                                              @PathVariable(value = "chatId") Long chatId,
+                                              ModelAndView modelAndView) {
+        user = userService.getAuthenticatedUser();
+        List<EventMessage> list = chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId, false);
+        modelAndView.addObject("event", eventService.getEvent(eventId));
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId, false));
+        modelAndView.addObject("chat", chatService.getChatByEventId(eventService.getEvent(eventId), false));
         logger.info(list.toString());
         modelAndView.setViewName("event/chat");
         return modelAndView;
@@ -96,7 +111,7 @@ public class ChatController {
             eventMessageService.addNewMessage(eventService.getEvent(Math.toIntExact(message.getEventId())),
                     message,
                     user,
-                    chatService.getChat(eventService.getEvent(Integer.parseInt(eventId))));
+                    chatService.getChatByChatId(Long.valueOf(chatId)));
         } catch (Throwable t) {
             logger.info(t.getMessage());
         }

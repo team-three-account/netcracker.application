@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 
 @Controller
@@ -128,7 +129,7 @@ public class AccountController {
         if (photoFile.isEmpty()) {
             user.setPhoto(photo);
         } else {
-            user.setPhoto(photoService.uploadFileOnDropBox(photoFile, String.valueOf(System.currentTimeMillis())));
+            user.setPhoto(photoService.uploadFileOnDropBox(photoFile, UUID.randomUUID().toString()));
             userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         }
         userService.getAuthenticatedUser().setName(user.getName());

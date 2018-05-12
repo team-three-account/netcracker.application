@@ -3,6 +3,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 import com.gmail.netcracker.application.dto.dao.interfaces.FolderDao;
 import com.gmail.netcracker.application.dto.model.Folder;
 import com.gmail.netcracker.application.dto.model.Note;
+import com.gmail.netcracker.application.dto.model.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -33,13 +34,25 @@ public class FolderDaoImpl extends ModelDao implements FolderDao {
     @Value("${sql.folder.getNotesListIntoFolder}")
     private String SQL_GET_NOTES;
 
+    @Value("${sql.folder.getFriendsThatHaveAccess}")
+    private String SQL_GET_FRIENDS_THAT_HAVE_ACCESS;
+
+    @Value("${sql.folder.allowAccessToFolder}")
+    private String SQL_ALLOW_ACCESS_TO_FOLDER;
+
+    @Value("${sql.folder.disableAccessToFolder}")
+    private String SQL_DISABLE_ACCESS_TO_FOLDER;
+
     private final RowMapper<Folder> folderRowMapper;
     private final RowMapper<Note> notesIntoFolderRowMapper;
+    private final RowMapper<User> userRowMapper;
 
-    public FolderDaoImpl(DataSource dataSource, RowMapper<Folder> folderRowMapper, RowMapper<Note> notesIntoFolderRowMapper) {
+    public FolderDaoImpl(DataSource dataSource, RowMapper<Folder> folderRowMapper, RowMapper<Note> notesIntoFolderRowMapper,
+                         RowMapper<User> userRowMapper) {
         super(dataSource);
         this.folderRowMapper = folderRowMapper;
         this.notesIntoFolderRowMapper = notesIntoFolderRowMapper;
+        this.userRowMapper = userRowMapper;
     }
 
     @Override
@@ -74,5 +87,20 @@ public class FolderDaoImpl extends ModelDao implements FolderDao {
     @Override
     public List<Note> getNoteListIntoFolder(int folderId) {
         return findEntityList(SQL_GET_NOTES, notesIntoFolderRowMapper, folderId);
+    }
+
+    @Override
+    public List<User> getFriendsThatHaveAccess(int folderId) {
+        return findEntityList(SQL_GET_FRIENDS_THAT_HAVE_ACCESS, userRowMapper, folderId);
+    }
+
+    @Override
+    public void disableAccessToFolder(int folderId, int friendId) {
+        deleteEntity(SQL_DISABLE_ACCESS_TO_FOLDER, folderId, friendId);
+    }
+
+    @Override
+    public void allowAccessToFolder(int folderId, int userId) {
+        insertEntity(SQL_ALLOW_ACCESS_TO_FOLDER, PK_COLUMN_NAME,folderId, userId);
     }
 }

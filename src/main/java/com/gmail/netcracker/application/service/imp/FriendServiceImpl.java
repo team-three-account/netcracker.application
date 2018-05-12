@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.FriendDao;
 import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
+import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -15,6 +16,9 @@ public class FriendServiceImpl implements FriendService {
 
     @Autowired
     private Friend friendship;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public List<User> getAllFriends(Long id) {
@@ -70,7 +74,8 @@ public class FriendServiceImpl implements FriendService {
     }
 
     @Override
-    public List<User> intersect(List<User> friendList, List<User> foundUsers) {
+    public List<User> subtractionFromFriendList(List<User> foundUsers) {
+        List<User> friendList = getAllFriends(userService.getAuthenticatedUser().getId());
         for (User item : friendList) {
             if (foundUsers.contains(item)) {
                 foundUsers.remove(item);

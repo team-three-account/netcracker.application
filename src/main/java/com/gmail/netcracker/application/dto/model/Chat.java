@@ -12,6 +12,7 @@ public class Chat {
     private String name;
     private Long eventId;
     private List<EventMessage> eventMessageList;
+    private Boolean state;
 
     public Chat() {
     }

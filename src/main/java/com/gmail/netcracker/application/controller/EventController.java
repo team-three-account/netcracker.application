@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @Controller
@@ -94,12 +95,15 @@ public class EventController {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
-            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
+            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
         eventService.insertEvent(event);
+        if (event.getType().equals("2") || event.getType().equals("3")) {
+            chatService.createChatForEvent(event, true);
+            chatService.createChatForEvent(event, false);
+        }
 
-        chatService.createChatForEvent(event);
         eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
@@ -129,7 +133,8 @@ public class EventController {
             modelAndView.addObject("participant", eventService.getParticipant(eventId));
             modelAndView.addObject("isParticipated", isParticipated);
             modelAndView.addObject("priorities", eventService.getAllPriorities());
-            modelAndView.addObject("chat", chatService.getChat(eventService.getEvent(eventId)));
+            modelAndView.addObject("chatWithCreator", chatService.getChatByEventId(eventService.getEvent(eventId), true));
+            modelAndView.addObject("chatWithOutCreator", chatService.getChatByEventId(eventService.getEvent(eventId), false));
             modelAndView.setViewName("event/viewEvent");
         }
         return modelAndView;
@@ -178,7 +183,7 @@ public class EventController {
         if (multipartFile.isEmpty()) {
             event.setPhoto(photo);
         } else {
-            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
+            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
 
@@ -252,9 +257,9 @@ public class EventController {
     @RequestMapping(value = "/managed", method = RequestMethod.GET)
     public String managed(Model model) {
 
-        List<Event> publicEventList = eventService.findCreatedPublicEvents(userService.getAuthenticatedUser().getId()); //!!!!
+        List<Event> publicEventList = eventService.findCreatedPublicEvents(userService.getAuthenticatedUser().getId());
         List<Event> privateEventList = eventService.findPrivateEvents(userService.getAuthenticatedUser().getId());
-        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(userService.getAuthenticatedUser().getId()); //!!!
+        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(userService.getAuthenticatedUser().getId());
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("publicEventList", publicEventList);
         model.addAttribute("friendsEventList", friendsEventList);
@@ -319,15 +324,15 @@ public class EventController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         event.setPhoto(photo);
         eventValidator.validate(event, result);
-        if (result.hasErrors()||!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty() ) {
+                && !multipartFile.isEmpty()) {
             modelAndView.addObject("message", "Image type don't supported");
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
-            photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis()));
+            photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString());
         }
         logger.info(event.getPhoto());
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
