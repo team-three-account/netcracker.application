@@ -26,7 +26,15 @@
         <div class="col-md-6">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Event - ${event.name}</h3>
+                    <c:choose>
+                        <c:when test="${event.draft.equals(true)}">
+                            <h3 class="panel-title">Draft - ${event.name}</h3>
+                        </c:when>
+                        <c:otherwise>
+                            <h3 class="panel-title">Event - ${event.name}</h3>
+                        </c:otherwise>
+                    </c:choose>
+
                     <c:if test="${isParticipated == true &&
                      (event.typeId==3 || event.typeId==2)}">
                         <a type="button" class="btn btn-primary"
@@ -70,12 +78,24 @@
                                     <input type="submit" class="btn btn-success text-center"
                                            value="Invite friend"></a>
                             </c:if>
-
-                            <a href="/account/eventList/editevent-${event.eventId}">
+                        <c:choose>
+                            <c:when test="${event.draft.equals(true)}">
+                                <a href="/account/eventList/editevent-${event.eventId}">
+                                    <input type="submit" class="btn btn-success text-center" value="Edit draft"></a>
+                                <a href="/account/eventList/deleteEvent-${event.eventId}">
+                                    <input type="submit" class="btn btn-danger text-center"
+                                           value="Delete draft"></a>
+                                <a href="/account/eventList/editevent-${event.eventId}">
+                                    <input type="submit" class="btn btn-success text-center" value="Convert to Event"></a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="/account/eventList/editevent-${event.eventId}">
                                 <input type="submit" class="btn btn-success text-center" value="Edit event"></a>
-                            <a href="/account/eventList/deleteEvent-${event.eventId}">
+                                <a href="/account/eventList/deleteEvent-${event.eventId}">
                                 <input type="submit" class="btn btn-danger text-center"
-                                       value="Delete event"></a>
+                                value="Delete event"></a>
+                            </c:otherwise>
+                        </c:choose>
                         </li>
                         </c:when>
                         <c:otherwise>
@@ -104,7 +124,15 @@
         <div class="col-md-6 pointer">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Event Place</h3>
+                    <c:choose>
+                        <c:when test="${event.draft.equals(true)}">
+                            <h3 class="panel-title">Draft Place</h3>
+                        </c:when>
+                        <c:otherwise>
+                            <h3 class="panel-title">Event Place</h3>
+                        </c:otherwise>
+                    </c:choose>
+
                 </div>
                 <div class="panel-body viewEvent">
                     <div class="form-group">
