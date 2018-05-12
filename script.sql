@@ -211,6 +211,8 @@ create table "Note"
   folder        integer
     constraint "Note_fk1"
     references "Folder"
+    ON UPDATE cascade
+    ON DELETE cascade
 );
 
 INSERT INTO public."Type"(value)

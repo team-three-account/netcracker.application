@@ -42,6 +42,7 @@
 
         <%--</table>--%>
     <%--</div>--%>
+
     <div class="row">
         <table class="table">
             <c:forEach var="draft" items="${draftList}">
