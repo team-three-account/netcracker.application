@@ -265,6 +265,7 @@ public class RootConfig {
             event.setEventPlaceName(getString(rs, "place_name"));
             event.setPeriodicity(getString(rs, "periodicity"));
             event.setPhoto(getString(rs, "photo"));
+            event.setPriorityId(getInt(rs, "priority_id"));
             return event;
         };
     }

@@ -20,16 +20,21 @@ public class FilterServiceImpl implements FilterService {
 
     @Override
     public List<Event> filterOfPriority(List<Integer> validPriorities) {
-        Map<Event, Integer> eventWithPriority = eventService.getMyEventWithPriority();
         List<Event> filterEvents = new ArrayList<>();
-        for (Map.Entry<Event, Integer> entry: eventWithPriority.entrySet()){
-            if(validPriorities.contains(entry.getValue())) filterEvents.add(entry.getKey());
+        for (Event event: eventService.myEventsWithPriority()){
+            if(validPriorities.contains(event.getPriorityId()))
+                filterEvents.add(event);
         }
         return filterEvents;
     }
 
     @Override
     public List<Event> filterOfType(List<Integer> validType) {
-        return null;
+        List<Event> filterEvents = new ArrayList<>();
+        for (Event event: eventService.getAllMyEvents()){
+            if(validType.contains(event.getTypeId()))
+                filterEvents.add(event);
+        }
+        return filterEvents;
     }
 }

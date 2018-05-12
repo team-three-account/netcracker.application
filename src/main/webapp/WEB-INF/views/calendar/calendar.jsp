@@ -26,7 +26,16 @@
             $('#calendar').fullCalendar({
                 editable: false,
                 eventLimit: true, // allow "more" link when too many events
-                events: ${eventList}
+                eventSources:[
+                        ${eventList}
+                    ],
+                <%--events: ${eventList},--%>
+                eventClick: function(event) {
+                if (event.url) {
+                    window.open(event.url);
+                    return false;
+                }
+            }
 
             });
 

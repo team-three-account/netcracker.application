@@ -81,6 +81,12 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.checkCreator}")
     private String SQL_CHECK_CREATOR;
 
+    @Value("${sql.event.withPriority}")
+    private String SQL_GET_EVENT_WITH_PRIORITY;
+
+    @Value("${sql.event.allWithPriority}")
+    private String SQL_GET_EVENTS_WITH_PRIORITY;
+
     private final RowMapper<Event> eventRowMapper;
     private final RowMapper<User> friendRowMapper;
     private final RowMapper<Participant> participantRowMapper;
@@ -221,6 +227,14 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public Event checkCreatorById(Long personId, int eventId) {
         return findEntity(SQL_CHECK_CREATOR, eventRowMapper, personId, eventId);
+    }
+
+    public Event getEventWithPriority(Long personId, int eventId){
+        return findEntity(SQL_GET_EVENT_WITH_PRIORITY, eventRowMapper, personId, eventId);
+    }
+
+    public List<Event> listEventsWithPriority(Long personId){
+        return findEntityList(SQL_GET_EVENTS_WITH_PRIORITY, eventRowMapper, personId);
     }
 }
 

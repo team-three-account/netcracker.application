@@ -39,8 +39,7 @@ public class CalendarController {
     @RequestMapping(value = "/calendar", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView calendarHome(ModelAndView modelAndView) {
-        List<Event> events = eventService.getAllMyEvents();
-        String eventList = gson.toJson(eventService.getAllMyEvents());
+        String eventList = gson.toJson(eventService.myEventsWithPriority());
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("eventList", eventList);
         modelAndView.addObject("priorities", eventService.getAllPriorities());

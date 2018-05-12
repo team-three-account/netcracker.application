@@ -130,7 +130,7 @@ public class EventController {
             int participants = eventService.countParticipants(eventId);
             modelAndView.addObject("participants", participants);
             boolean isParticipated = eventService.isParticipated(authUser.getId(), eventId);
-            modelAndView.addObject("participant", eventService.getParticipant(eventId));
+            modelAndView.addObject("participation", eventService.getParticipation(eventId));
             modelAndView.addObject("isParticipated", isParticipated);
             modelAndView.addObject("priorities", eventService.getAllPriorities());
             modelAndView.addObject("chatWithCreator", chatService.getChatByEventId(eventService.getEvent(eventId), true));
@@ -142,11 +142,11 @@ public class EventController {
 
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.POST)
     public String editPriority(@PathVariable("eventId") int eventId,
-                               @ModelAttribute(value = "participant") Participant participant,
+                               @ModelAttribute(value = "participation") Participant participation,
                                Model model) {
 
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        eventService.setPriority(participant.getPriority(), eventId, userService.getAuthenticatedUser().getId());
+        eventService.setPriority(participation.getPriority(), eventId, userService.getAuthenticatedUser().getId());
         return "redirect:/account/eventList/event-" + eventId;
     }
 

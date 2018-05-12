@@ -17,20 +17,16 @@ import java.util.Map;
 @Service
 public class EventServiceImpl implements EventService {
     private EventDao eventDao;
-    @Autowired
-    private ParticipantDao participantDao;
     private EventTypeDao eventTypeDao;
     private UserService userService;
     private FriendService friendService;
-    @Autowired
     private PriorityDao priorityDao;
     private NoteDao noteDao;
 
     @Autowired
-    public EventServiceImpl(EventDao eventDao, ParticipantDao participantDao, EventTypeDao eventTypeDao,
+    public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao,
                             UserService userService, FriendService friendService, PriorityDao priorityDao, NoteDao noteDao) {
         this.eventDao = eventDao;
-        this.participantDao = participantDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
         this.friendService = friendService;
@@ -136,16 +132,6 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Integer getPriority(int eventId, Long personId) {
-        return participantDao.getParticipant(eventId, personId).getPriority();
-    }
-
-    @Override
-    public Integer getPriority(int eventId) {
-        return getPriority(eventId, userService.getAuthenticatedUser().getId());
-    }
-
-    @Override
     public boolean allowAccess(Long personId, int eventId) {
         boolean access = false;
         switch (eventDao.getEventType(eventId)) {
@@ -172,31 +158,23 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void setPriority(Integer priority, int eventId, Long user_id) {
-        participantDao.setPriority(priority, eventId, user_id);
+        priorityDao.setPriority(priority, eventId, user_id);
     }
 
     @Override
-    public Participant getParticipant(int eventId, Long personId) {
-        return participantDao.getParticipant(eventId, personId);
+    public List<Event> myEventsWithPriority() {
+        return eventDao.listEventsWithPriority(userService.getAuthenticatedUser().getId());
     }
 
     @Override
-    public Participant getParticipant(int eventId) {
-        return getParticipant(eventId, userService.getAuthenticatedUser().getId());
+    public Event getMyEventWithPriority(int eventId) {
+        return eventDao.getEventWithPriority(userService.getAuthenticatedUser().getId(),
+                eventId);
     }
 
     @Override
-    public List<Participant> getPriorityForMyEvents() {
-        return participantDao.getPriorityForUserEvents(userService.getAuthenticatedUser().getId());
-    }
-
-    @Override
-    public Map<Event, Integer> getMyEventWithPriority() {
-        Map<Event, Integer> eventWithPriority = new HashMap<>();
-        for (Participant participant : getPriorityForMyEvents()) {
-            eventWithPriority.put(getEvent(participant.getEventId()), participant.getPriority());
-        }
-        return eventWithPriority;
+    public Participant getParticipation(int eventId) {
+        return priorityDao.getParticipant(eventId, userService.getAuthenticatedUser().getId());
     }
 
     @Override

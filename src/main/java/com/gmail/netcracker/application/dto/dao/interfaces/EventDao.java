@@ -48,4 +48,9 @@ public interface EventDao {
     User getCreator(int eventId);
 
     Event checkCreatorById(Long personId, int eventId);
+
+    Event getEventWithPriority(Long personId, int eventId);
+
+    List<Event> listEventsWithPriority(Long personId);
+
 }

@@ -21,7 +21,7 @@ public class Event {
     private Double longitude;
     private String eventPlaceName;
     private String photo;
-    private String priority;
+    private Integer priorityId;
 
     public Boolean isDraft() {
         return draft;

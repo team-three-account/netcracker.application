@@ -131,7 +131,7 @@
                     <div class="form-group">
                         <label>Priority</label>
                         <td>
-                            <form:form method="POST" modelAttribute="participant">
+                            <form:form method="POST" modelAttribute="participation">
                                 <tr>
                                     <form:radiobuttons path="priority" items="${priorities}" itemValue="priorityId"
                                                        itemLabel="name"/>
