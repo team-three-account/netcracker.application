@@ -2,7 +2,6 @@ var stompClient = null;
 var connectState = true;
 
 
-
 function setConnected(connected) {
     document.getElementById('connect').disabled = connected;
     document.getElementById('disconnect').disabled = !connected;
@@ -12,12 +11,13 @@ function setConnected(connected) {
 function connect() {
     var chat = document.getElementById('chat').value;
     var socket = new SockJS('/chat');
+
     stompClient = Stomp.over(socket);
     var divElement = document.getElementById('sms');
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
-        stompClient.subscribe('/topic/messages/'+ chat , function (message) {
+        stompClient.subscribe('/topic/messages/' + chat, function (message) {
             showMessageOutput(JSON.parse(message.body));
         });
     });
@@ -38,10 +38,12 @@ function sendMessage() {
     var chat = document.getElementById('chat').value;
     var senderPhoto = document.getElementById('photo').value;
     var divElement = document.getElementById('sms');
+
     stompClient.send("/app/chat/" + event + "/" + sender + "/" + chat, {},
         JSON.stringify({'from': from, 'text': text, 'senderId': sender, 'senderPhoto': senderPhoto}));
     divElement.scrollTop = 9999;
-
+    document.getElementById('text').value = "";
+    document.getElementById('sendMessage').disabled = true;
 
 }
 
@@ -54,7 +56,7 @@ function showMessageOutput(message) {
     var div = document.createElement('div');
     var divElement = document.getElementById('sms');
     divElement.scrollTop = 9999;
-    img.src =  message.senderPhoto;
+    img.src = message.senderPhoto;
     img.classList.add("img-circle");
     img.style.display = 'inline';
     img.style.width = '40px';
@@ -89,4 +91,14 @@ function showMessageOutputFromData() {
     div.classList.add("text-right");
     div.scrollTop = 9999;
 
+}
+
+function checkParams() {
+    var name = $('#text').val();
+
+    if (name.length != 0) {
+        $('#sendMessage').removeAttr('disabled');
+    } else {
+        $('#sendMessage').attr('disabled', 'disabled');
+    }
 }

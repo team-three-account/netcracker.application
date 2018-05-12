@@ -64,9 +64,9 @@
                         </form:forEach>
                         <p id="response"></p>
                     </div>
-                    <input type="text" class="form-control col-md-3" id="text" placeholder="Write a message..."/>
+                    <input type="text" onkeyup="checkParams()" class="form-control col-md-3" id="text" placeholder="Write a message..."/>
                     <input type="hidden" id="userId" value="${auth_user.id}">
-                    <button class="btn btn-primary" id="sendMessage" onclick="sendMessage()">Send
+                    <button class="btn btn-primary" id="sendMessage" onclick="sendMessage()" disabled>Send
                     </button>
                 </div>
             </div>
@@ -76,6 +76,6 @@
 <script src="${contextPath}/resources/js/stomp.js"></script>
 <script src="${contextPath}/resources/js/sockjs-0.3.4.js"></script>
 <script src="${contextPath}/resources/js/chat.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 </body>
 </html>
