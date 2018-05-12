@@ -30,8 +30,8 @@
             </div>
             <br/>
             <div>
-                <button id="connect" onclick="connect();">Connect</button>
-                <button id="disconnect" disabled="disabled" onclick="disconnect();">
+                <button id="connect" onclick="connect();" hidden >Connect</button>
+                <button id="disconnect" disabled="disabled" onclick="disconnect();" hidden>
                     Disconnect
                 </button>
 
@@ -41,33 +41,35 @@
             </div>
             <br/>
             <div class="row">
-                <div class="form-group container-fluid">
-                    <div id="sms" class="sms">
-                        <form:forEach var="message" items="${chatMessage}">
-                            <form:if test="${auth_user.id==message.senderId}">
-                                <div class="text-right" id="showMessageOutputFromData">
-
-                                    <p>${message.from} ${message.text} ${message.time}
-                                        <img class="img-circle" style="width: 40px;height: 40px"
-                                             src="<c:url value="${message.senderPhoto}"/>">
-                                    </p>
-                                </div>
-                            </form:if>
-                            <form:if test="${auth_user.id!=message.senderId}">
-                                <div class="text-left" id="showMessageOutputFromData">
-                                    <input type="hidden" id="sender" value="${message.senderId}">
-                                    <p><img class="img-circle" style="width: 40px;height: 40px"
-                                            src="<c:url value="${message.senderPhoto}"/>">${message.from} ${message.text} ${message.time}
-                                    </p>
-                                </div>
-                            </form:if>
-                        </form:forEach>
-                        <p id="response"></p>
+                <div class="col-md-9">
+                    <div class="form-group container-fluid">
+                        <div id="sms" class="sms text-center">
+                            <form:forEach var="message" items="${chatMessage}">
+                                <form:if test="${auth_user.id==message.senderId}">
+                                    <div class="text-right" id="showMessageOutputFromData">
+                                        <p>${message.from} ${message.text} ${message.time}
+                                            <img class="img-circle" style="width: 40px;height: 40px"
+                                                 src="<c:url value="${message.senderPhoto}"/>">
+                                        </p>
+                                    </div>
+                                </form:if>
+                                <form:if test="${auth_user.id!=message.senderId}">
+                                    <div class="text-left" id="showMessageOutputFromData">
+                                        <input type="hidden" id="sender" value="${message.senderId}">
+                                        <p><img class="img-circle" style="width: 40px;height: 40px"
+                                                src="<c:url value="${message.senderPhoto}"/>">${message.from} ${message.text} ${message.time}
+                                        </p>
+                                    </div>
+                                </form:if>
+                            </form:forEach>
+                            <p id="response"></p>
+                        </div>
+                        <input type="text" onkeyup="checkParams()" class="form-control col-md-3" id="text"
+                               placeholder="Write a message..."/>
+                        <input type="hidden" id="userId" value="${auth_user.id}">
+                        <button class="btn btn-primary" id="sendMessage" onclick="sendMessage()" disabled>Send
+                        </button>
                     </div>
-                    <input type="text" onkeyup="checkParams()" class="form-control col-md-3" id="text" placeholder="Write a message..."/>
-                    <input type="hidden" id="userId" value="${auth_user.id}">
-                    <button class="btn btn-primary" id="sendMessage" onclick="sendMessage()" disabled>Send
-                    </button>
                 </div>
             </div>
         </div>
