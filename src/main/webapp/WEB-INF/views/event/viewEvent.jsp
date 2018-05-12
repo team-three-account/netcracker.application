@@ -27,7 +27,8 @@
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Event - ${event.name}</h3>
-                    <c:if test="${isParticipated == true && (event.typeId==3 || event.typeId==2)}">
+                    <c:if test="${isParticipated == true &&
+                     (event.typeId==3 || event.typeId==2)}">
                         <a type="button" class="btn btn-primary"
                            href="<c:url value="/account/eventList/eventChat/main/${chatWithCreator.chatId}-${event.eventId}"/>">
                             <p>Main Chat</p>
