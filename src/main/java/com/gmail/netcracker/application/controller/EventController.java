@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @Controller
@@ -94,7 +95,7 @@ public class EventController {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
-            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
+            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
         eventService.insertEvent(event);
@@ -182,7 +183,7 @@ public class EventController {
         if (multipartFile.isEmpty()) {
             event.setPhoto(photo);
         } else {
-            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis())));
+            event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
 
@@ -331,7 +332,7 @@ public class EventController {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
-            photoService.uploadFileOnDropBox(multipartFile, String.valueOf(System.currentTimeMillis()));
+            photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString());
         }
         logger.info(event.getPhoto());
         photoService.saveFileInDB(event.getPhoto(), event.getEventId());
