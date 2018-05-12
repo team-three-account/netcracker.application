@@ -68,4 +68,6 @@ public interface EventService {
     Event getMyEventWithPriority(int eventId);
 
     Participant getParticipation(int eventId);
+
+    void convertDraftToEvent(int eventId);
 }

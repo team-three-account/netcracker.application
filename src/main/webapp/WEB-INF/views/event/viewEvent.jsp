@@ -85,7 +85,7 @@
                                 <a href="/account/eventList/deleteEvent-${event.eventId}">
                                     <input type="submit" class="btn btn-danger text-center"
                                            value="Delete draft"></a>
-                                <a href="/account/eventList/editevent-${event.eventId}">
+                                <a href="/account/eventList/convertToEvent-${event.eventId}">
                                     <input type="submit" class="btn btn-success text-center" value="Convert to Event"></a>
                             </c:when>
                             <c:otherwise>

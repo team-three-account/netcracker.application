@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -25,6 +26,7 @@ public class EventTypeDaoImpl extends ModelDao implements EventTypeDao{
 
     @Override
     public List<EventType> getAllEventTypes() {
+
         return findEntityList(SQL_GET_ALL_EVENT_TYPES, rowMapper);
     }
 }

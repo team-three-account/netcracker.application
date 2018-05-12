@@ -53,4 +53,5 @@ public interface EventDao {
 
     List<Event> listEventsWithPriority(Long personId);
 
+    void convertDraftToEvent(Event event);
 }

@@ -224,4 +224,11 @@ public class EventServiceImpl implements EventService {
         eventDao.insertEvent(event);
         eventDao.participate(userId,event.getEventId());
     }
+
+    @Override
+    public void convertDraftToEvent(int eventId) {
+        Event event = eventDao.getEvent(eventId);
+        event.setDraft(false);
+        eventDao.convertDraftToEvent(event);
+    }
 }

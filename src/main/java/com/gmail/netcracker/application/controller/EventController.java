@@ -340,4 +340,10 @@ public class EventController {
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }
+
+    @RequestMapping(value = {"/eventList/convertToEvent-{eventId}"}, method = RequestMethod.GET)
+    public String convertDraftToEvent(@PathVariable int eventId) {
+        eventService.convertDraftToEvent(eventId);
+        return "redirect:/account/managed";
+    }
 }
