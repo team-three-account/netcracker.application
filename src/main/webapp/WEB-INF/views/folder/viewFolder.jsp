@@ -27,6 +27,8 @@
 
                         <c:if test="${auth_user.id.equals(user_creator.id)}">
                             <li>
+                                <a href="/account/share-${folder.folderId}">
+                                    <input type="submit" class="btn btn-success text-center" value="Share"></a>
                                 <a href="/account/eventList/editFolder-${folder.folderId}">
                                     <input type="submit" class="btn btn-success text-center" value="Edit Folder"></a>
                                 <a href="/account/eventList/deleteFolder-${folder.folderId}">

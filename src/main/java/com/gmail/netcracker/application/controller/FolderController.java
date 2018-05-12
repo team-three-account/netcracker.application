@@ -12,11 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/account")
@@ -87,5 +86,28 @@ public class FolderController {
         return modelAndView;
     }
 
+    @RequestMapping(value = {"/share-{folderId}"}, method = RequestMethod.GET)
+    public String viewFriendsToShareFolder(@PathVariable int folderId, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("folderId",folderId);
+        List<User> friendsThatHaveAccessList = folderService.getFriendsThatHaveAccess(folderId);
+        if(!friendsThatHaveAccessList.isEmpty()) model.addAttribute("messageForAlreadyShared", "Friends that have access to folder :");
+        model.addAttribute("friendsThatHaveAccessList",friendsThatHaveAccessList);
+        List<User> friendsToShareList = folderService.getFriendsToShare(friendsThatHaveAccessList);
+        if(!friendsToShareList.isEmpty()) model.addAttribute("messageToShare", "You can allow access for following users :");
+        model.addAttribute("friendsToShareList",friendsToShareList);
+        return "folder/shareToFriends";
+    }
 
+    @RequestMapping(value = {"/share-{folderId}/share"}, method = RequestMethod.POST)
+    public String allowAccessToFolder(@PathVariable int folderId, @RequestParam(value = "userId") int userId) {
+        folderService.allowAccessToFolder(folderId, userId);
+        return "redirect:/account/share-"+ folderId;
+    }
+
+    @RequestMapping(value = {"/share-{folderId}/disable"}, method = RequestMethod.POST)
+    public String disableAccessToFolder(@PathVariable int folderId, @RequestParam(value = "friendId") int friendId) {
+        folderService.disableAccessToFolder(folderId, friendId);
+        return "redirect:/account/share-" + folderId;
+    }
 }

@@ -257,9 +257,9 @@ public class EventController {
     @RequestMapping(value = "/managed", method = RequestMethod.GET)
     public String managed(Model model) {
 
-        List<Event> publicEventList = eventService.findCreatedPublicEvents(userService.getAuthenticatedUser().getId()); //!!!!
+        List<Event> publicEventList = eventService.findCreatedPublicEvents(userService.getAuthenticatedUser().getId());
         List<Event> privateEventList = eventService.findPrivateEvents(userService.getAuthenticatedUser().getId());
-        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(userService.getAuthenticatedUser().getId()); //!!!
+        List<Event> friendsEventList = eventService.findCreatedFriendsEvents(userService.getAuthenticatedUser().getId());
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("publicEventList", publicEventList);
         model.addAttribute("friendsEventList", friendsEventList);

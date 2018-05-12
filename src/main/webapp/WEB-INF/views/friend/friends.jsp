@@ -66,7 +66,7 @@
     <div class="row">
         <table class="table">
 
-        <c:forEach var="user" items="${intersectionUsers}">
+        <c:forEach var="user" items="${subtractionUsers}">
             <tr>
                 <td><img class="img-circle" style="width: 200px;height: 200px"
                          src="<c:url value="${user.photo}.jpg"/>"></td>

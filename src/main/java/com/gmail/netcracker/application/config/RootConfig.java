@@ -64,11 +64,6 @@ public class RootConfig {
         return new UserServiceImp();
     }
 
-//    @Bean
-//    UserService userService() {
-//        return new UserServiceImp();
-//    }
-
     @Bean
     public VerificationToken verificationToken() {
         return new VerificationToken();
@@ -110,7 +105,7 @@ public class RootConfig {
     }
 
     @Bean
-    public FriendService friendServiceFriendService() {
+    public FriendService friendService() {
         return new FriendServiceImpl();
     }
 
