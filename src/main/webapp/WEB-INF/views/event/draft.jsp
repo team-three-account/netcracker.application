@@ -29,17 +29,29 @@
 
     </p>
     <h3>${message}</h3>
+    <%--<div class="row">--%>
+        <%--<table class="table">--%>
+            <%--<c:forEach var="draft" items="${draftList}">--%>
+                <%--<tbody>--%>
+                <%--<tr>--%>
+                    <%--<td> <a href="/account/eventList/event-${draft.eventId}"> ${draft.name} </a></td>--%>
+                    <%--<td> Description : ${draft.description} </td>--%>
+                <%--</tr>--%>
+                <%--</tbody>--%>
+            <%--</c:forEach>--%>
+
+        <%--</table>--%>
+    <%--</div>--%>
     <div class="row">
         <table class="table">
             <c:forEach var="draft" items="${draftList}">
-                <tbody>
-                <tr>
-                    <td> <a href="/account/eventList/event-${draft.eventId}"> ${draft.name} </a></td>
-                    <td> Description : ${draft.description} </td>
-                </tr>
-                </tbody>
+                <a class="notes-item" href="<c:url value='/account/eventList/event-${draft.eventId}'/>">
+                    <img src="${contextPath}/resources/img/draftExample.png" alt="notepad">
+                    <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
+                        <li>${draft.name}</li>
+                    </ul>
+                </a>
             </c:forEach>
-
         </table>
     </div>
 </div>

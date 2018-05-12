@@ -10,7 +10,6 @@ import com.gmail.netcracker.application.validation.FolderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -34,14 +33,14 @@ public class FolderController {
     }
 
     @RequestMapping(value = "/eventList/createFolder", method = RequestMethod.GET)
-    public ModelAndView createNote(@ModelAttribute(value = "createFolder") Folder folder, ModelAndView modelAndView) {
+    public ModelAndView createFolder(@ModelAttribute(value = "createFolder") Folder folder, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("folder/createFolder");
         return modelAndView;
     }
 
     @RequestMapping(value = "/eventList/createFolder", method = RequestMethod.POST)
-    public ModelAndView saveNote(@ModelAttribute("createFolder") Folder folder, BindingResult result,
+    public ModelAndView saveFolder(@ModelAttribute("createFolder") Folder folder, BindingResult result,
                                  ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("folder/createFolder");
@@ -55,7 +54,7 @@ public class FolderController {
     }
 
     @RequestMapping(value = "/eventList/folder-{folderId}", method = RequestMethod.GET)
-    public ModelAndView viewEvent(@PathVariable("folderId") int folderId, ModelAndView modelAndView) {
+    public ModelAndView viewFolder(@PathVariable("folderId") int folderId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("folder", folderService.getFolder(folderId));
         modelAndView.addObject("user_creator", userService.findUserById(folderService.getFolder(folderId).getCreator()));
