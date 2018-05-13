@@ -99,41 +99,27 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void addTagsToItem(Set<String> tags, Long itemId) {
-        for(Tag tag: tagDao.getTagsOfItem(itemId)){
-            tagDao.deleteTagOfItem(tag.getTagId(), itemId);
+        Set<Tag> currentTags = tagDao.getTagsOfItem(itemId);
+        Set<Tag> addTags = new HashSet<>();
+        for(String tagString: tags){
+            Tag tag = tagDao.findTagByName(tagString);
+            if(tag == null){
+                tag = new Tag();
+                tag.setTagId(tagDao.addTag(tagString));
+                tag.setName(tagString);
+                tagDao.addTagToItem(tag.getTagId(), itemId);
+            }
+            else addTags.add(tag);
         }
-        addTagsToNewItem(tags, itemId);
+        for(Tag tag: addTags){
+            if(!currentTags.contains(tag))
+                tagDao.addTagToItem(tag.getTagId(), itemId);
+        }
+        for (Tag tag: currentTags){
+            if(!addTags.contains(tag))
+                tagDao.deleteTagOfItem(tag.getTagId(), itemId);
+        }
     }
-//    @Override
-//    public void addTagsToItem(Set<String> tags, Long itemId){
-//        Set<Tag> addTags = new HashSet<>();
-//        for(String tagString: tags){
-//            Tag tag = tagDao.findTagByName(tagString);
-//            if(tag == null){
-//                tag = new Tag();
-//                tag.setTagId(tagDao.addTag(tagString));
-//                tag.setName(tagString);
-//                tagDao.addTagToItem(tag.getTagId(), itemId);
-//            }
-//            addTags.add(tag);
-//        }
-//        Set<Tag> currentTags = tagDao.getTagsOfItem(itemId);
-//        Set<Tag> deleteTags = new HashSet<>(currentTags);
-//        for (Tag tag: addTags){
-//            if(deleteTags.contains(tag)) deleteTags.remove(tag);
-//        }
-//        for(Tag tag: currentTags){
-//            if(addTags.contains(tag)) addTags.remove(tag);
-//        }
-////        deleteTags.removeAll(addTags);
-////        addTags.removeAll(currentTags);
-//        for(Tag tag: addTags){
-//            tagDao.addTagToItem(tag.getTagId(), itemId);
-//        }
-//        for(Tag tag: deleteTags){
-//            tagDao.deleteTagOfItem(tag.getTagId(), itemId);
-//        }
-//    }
 
     @Override
     public void addTagsToCopiedItem(Set<Tag> tags, Long itemId){
