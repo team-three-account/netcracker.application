@@ -4,8 +4,10 @@ package com.gmail.netcracker.application.service.interfaces;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.Item;
 import com.gmail.netcracker.application.dto.model.Priority;
+import com.gmail.netcracker.application.dto.model.Tag;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ItemService {
 
@@ -30,4 +32,15 @@ public interface ItemService {
     void cancelBookingItem(Long itemId);
 
     void bookItemFromEvent(Long itemId, Long eventId);
+
+    Set<String> parseTags(String tags);
+
+    void addTagsToItem(Set<String> tags, Long itemId);
+
+    Set<Tag> getTagsOfItem(Long itemId);
+
+    void addTagsToCopiedItem(Set<Tag> tags, Long itemId);
+
+    void addTagsToNewItem(Set<String> tags, Long itemId);
+
 }

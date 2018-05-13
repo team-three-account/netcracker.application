@@ -40,7 +40,7 @@ public class PriorityDaoImpl extends ModelDao implements PriorityDao {
     }
 
     @Override
-    public void setPriority(Integer priority, int eventId, Long userId) {
+    public void setPriorityToEvent(Integer priority, int eventId, Long userId) {
         updateEntity(SQL_SET_PRIORITY, priority, eventId, userId);
     }
 

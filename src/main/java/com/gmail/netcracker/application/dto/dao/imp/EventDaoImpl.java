@@ -87,6 +87,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.allWithPriority}")
     private String SQL_GET_EVENTS_WITH_PRIORITY;
 
+    @Value("${sql.event.convertDraft}")
+    private String SQL_CONVERT_DRAFT;
+
     private final RowMapper<Event> eventRowMapper;
     private final RowMapper<User> friendRowMapper;
     private final RowMapper<Participant> participantRowMapper;
@@ -229,12 +232,19 @@ public class EventDaoImpl extends ModelDao implements EventDao {
         return findEntity(SQL_CHECK_CREATOR, eventRowMapper, personId, eventId);
     }
 
-    public Event getEventWithPriority(Long personId, int eventId){
+    public Event getEventWithPriority(Long personId, int eventId) {
         return findEntity(SQL_GET_EVENT_WITH_PRIORITY, eventRowMapper, personId, eventId);
     }
 
-    public List<Event> listEventsWithPriority(Long personId){
+    public List<Event> listEventsWithPriority(Long personId) {
         return findEntityList(SQL_GET_EVENTS_WITH_PRIORITY, eventRowMapper, personId);
+    }
+
+    @Override
+    public void convertDraftToEvent(Event event) {
+        updateEntity(SQL_CONVERT_DRAFT,
+                event.getDraft(),
+                event.getEventId());
     }
 }
 

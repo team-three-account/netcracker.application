@@ -44,9 +44,6 @@ public class ItemValidator implements Validator {
             if (setDate.before(currentDate)) {
                 status = true;
             }
-            if (setDate.equals(currentDate)) {
-                status = false;
-            }
         }
         return status;
     }
@@ -60,10 +57,10 @@ public class ItemValidator implements Validator {
             check(methodName, item, itemService, userService, modelAndView);
         }
 
-        if (!item.getName().isEmpty() && !item.getDescription().isEmpty() && !bindingResult.hasErrors()) {
+        else if (!item.getName().isEmpty() && !item.getDescription().isEmpty() && !bindingResult.hasErrors()) {
             check(methodName, item, itemService, userService, modelAndView);
         }
-        if (bindingResult.hasErrors()) {
+       else if (bindingResult.hasErrors()) {
             return modelAndView;
         }
         return modelAndView;

@@ -2,7 +2,6 @@ package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
-import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;

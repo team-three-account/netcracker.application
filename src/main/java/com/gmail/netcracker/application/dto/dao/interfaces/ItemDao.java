@@ -18,7 +18,7 @@ public interface ItemDao {
 
     void setRoot (Long itemId);
 
-    void insertCopiedItem(Item item, Long id);
+    Long insertCopiedItem(Item item, Long id);
 
     void setBooker(Long itemId, Long id);
 
