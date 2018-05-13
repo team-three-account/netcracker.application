@@ -2,15 +2,18 @@ package com.gmail.netcracker.application.service.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.ItemDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.PriorityDao;
+import com.gmail.netcracker.application.dto.dao.interfaces.TagDao;
 import com.gmail.netcracker.application.dto.model.Item;
 import com.gmail.netcracker.application.dto.model.Priority;
+import com.gmail.netcracker.application.dto.model.Tag;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -18,6 +21,8 @@ public class ItemServiceImpl implements ItemService {
    private ItemDao itemDao;
    private PriorityDao priorityDao;
    private UserService userService;
+   @Autowired
+   private TagDao tagDao;
 
     @Autowired
     public ItemServiceImpl(ItemDao itemDao, PriorityDao priorityDao, UserService userService){
@@ -65,7 +70,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void copyItem(Long itemId) {
-        itemDao.insertCopiedItem(itemDao.getItem(itemId), userService.getAuthenticatedUser().getId());
+        Long copiedId = itemDao.insertCopiedItem(itemDao.getItem(itemId), userService.getAuthenticatedUser().getId());
+        addTagsToCopiedItem(tagDao.getTagsOfItem(itemId), copiedId);
     }
 
     @Override
@@ -81,5 +87,76 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public void bookItemFromEvent(Long itemId, Long eventId) {
         if(itemDao.getBookerId(itemId) == 0) itemDao.setBookerFromEvent(itemId, userService.getAuthenticatedUser().getId(), eventId);
+    }
+
+    @Override
+    public Set<String> parseTags(String tags) {
+        Matcher m = Pattern.compile("#(\\w+)").matcher(tags);
+        Set<String> formattedTags = new HashSet<>();
+        while (m.find()) formattedTags.add( m.group(1).toLowerCase());
+        return formattedTags;
+    }
+
+    @Override
+    public void addTagsToItem(Set<String> tags, Long itemId) {
+        for(Tag tag: tagDao.getTagsOfItem(itemId)){
+            tagDao.deleteTagOfItem(tag.getTagId(), itemId);
+        }
+        addTagsToNewItem(tags, itemId);
+    }
+//    @Override
+//    public void addTagsToItem(Set<String> tags, Long itemId){
+//        Set<Tag> addTags = new HashSet<>();
+//        for(String tagString: tags){
+//            Tag tag = tagDao.findTagByName(tagString);
+//            if(tag == null){
+//                tag = new Tag();
+//                tag.setTagId(tagDao.addTag(tagString));
+//                tag.setName(tagString);
+//                tagDao.addTagToItem(tag.getTagId(), itemId);
+//            }
+//            addTags.add(tag);
+//        }
+//        Set<Tag> currentTags = tagDao.getTagsOfItem(itemId);
+//        Set<Tag> deleteTags = new HashSet<>(currentTags);
+//        for (Tag tag: addTags){
+//            if(deleteTags.contains(tag)) deleteTags.remove(tag);
+//        }
+//        for(Tag tag: currentTags){
+//            if(addTags.contains(tag)) addTags.remove(tag);
+//        }
+////        deleteTags.removeAll(addTags);
+////        addTags.removeAll(currentTags);
+//        for(Tag tag: addTags){
+//            tagDao.addTagToItem(tag.getTagId(), itemId);
+//        }
+//        for(Tag tag: deleteTags){
+//            tagDao.deleteTagOfItem(tag.getTagId(), itemId);
+//        }
+//    }
+
+    @Override
+    public void addTagsToCopiedItem(Set<Tag> tags, Long itemId){
+        for(Tag tag: tags){
+            tagDao.addTagToItem(tag.getTagId(), itemId);
+        }
+    }
+
+    @Override
+    public void addTagsToNewItem(Set<String> tags, Long itemId){
+        for(String tagString: tags){
+            Tag tag = tagDao.findTagByName(tagString);
+            if(tag == null){
+                tag = new Tag();
+                tag.setTagId(tagDao.addTag(tagString));
+                tag.setName(tagString);
+            }
+            tagDao.addTagToItem(tag.getTagId(), itemId);
+        }
+    }
+
+    @Override
+    public Set<Tag> getTagsOfItem(Long itemId) {
+        return tagDao.getTagsOfItem(itemId);
     }
 }

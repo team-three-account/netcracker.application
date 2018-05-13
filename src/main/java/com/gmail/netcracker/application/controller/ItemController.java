@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -124,5 +121,26 @@ public class ItemController {
     public String bookFromEvent(@PathVariable("itemId") Long itemId, @PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator) {
         itemService.bookItemFromEvent(itemId, eventId);
         return "redirect:/account/event-" + eventId + "-" + creator + "/wishList";
+    }
+
+    @RequestMapping(value = "/tags-{itemId}", method = RequestMethod.GET)
+    public String tagsView(@PathVariable("itemId") Long itemId, Model model){
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("tags", itemService.getTagsOfItem(itemId));
+        return "item/tags";
+    }
+
+    @RequestMapping(value = "/tagsEdit-{itemId}", method = RequestMethod.GET)
+    public String tagsEdit(@PathVariable("itemId") Long itemId, Model model){
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        return "item/tagsEdit";
+    }
+
+    @RequestMapping(value = "/tagsEdit-{itemId}", method = RequestMethod.POST)
+    public String tagsSave(@PathVariable("itemId") Long itemId,
+                           @RequestParam("tags") String tags, Model model){
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        itemService.addTagsToItem(itemService.parseTags(tags), itemId);
+        return "redirect:/account/tags-"+itemId;
     }
 }

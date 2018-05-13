@@ -363,4 +363,14 @@ public class RootConfig {
             return item;
         };
     }
+
+    @Bean
+    public RowMapper<Tag> tagRowMapper(){
+        return (resultSet, i) -> {
+            Tag tag = new Tag();
+            tag.setTagId(getLong(resultSet, "tag_id"));
+            tag.setName(getString(resultSet, "name"));
+            return tag;
+        };
+    }
 }

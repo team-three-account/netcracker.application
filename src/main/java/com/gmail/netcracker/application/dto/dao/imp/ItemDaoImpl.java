@@ -74,8 +74,8 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     }
 
     @Override
-    public void insertCopiedItem(Item item, Long id) {
-        insertEntity(SQL_INSERT_COPIED_ITEM, PK_COLUMN_NAME, id, item.getName(), item.getDescription(),
+    public Long insertCopiedItem(Item item, Long id) {
+        return insertEntity(SQL_INSERT_COPIED_ITEM, PK_COLUMN_NAME, id, item.getName(), item.getDescription(),
                 item.getLink(), item.getRoot());
     }
 

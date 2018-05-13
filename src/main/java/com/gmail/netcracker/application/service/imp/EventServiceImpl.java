@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -158,7 +155,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public void setPriority(Integer priority, int eventId, Long user_id) {
-        priorityDao.setPriority(priority, eventId, user_id);
+        priorityDao.setPriorityToEvent(priority, eventId, user_id);
     }
 
     @Override
