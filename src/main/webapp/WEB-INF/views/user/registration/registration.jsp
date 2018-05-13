@@ -19,6 +19,7 @@
     <link href="${contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template-->
     <link href="${contextPath}/resources/css/sb-admin.css">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -41,7 +42,7 @@
                 <div style="clear: both; border: 1px solid darkgrey; margin-bottom: 5%;"></div>
                 <div class="form-group" style="clear: both">
                     <label>Name</label>
-                    <form:input path="name"  name="name" class="form-control"
+                    <form:input path="name" name="name" class="form-control"
                                 type="name" readonly="readonly"
                                 placeholder="Enter name"/>
                     <form:errors path="name" cssClass="error"/>

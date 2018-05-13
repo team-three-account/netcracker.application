@@ -1,7 +1,7 @@
 package com.gmail.netcracker.application.dto.model;
 
 public class Person {
-    private String person_id;
+    private String personId;
     private String name;
     private String surname;
     private String email;
@@ -15,9 +15,9 @@ public class Person {
     public Person() {
     }
 
-    public Person(String person_id, String name, String surname, String email, String password,
+    public Person(String personId, String name, String surname, String email, String password,
                   String birthday, String phone, String photo, String notification, String role) {
-        this.person_id = person_id;
+        this.personId = personId;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -29,12 +29,12 @@ public class Person {
         this.role = role;
     }
 
-    public String getPerson_id() {
-        return person_id;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     public String getName() {
@@ -112,7 +112,7 @@ public class Person {
     @Override
     public String toString() {
         return "Person{" +
-                "person_id=" + person_id +
+                "personId=" + personId +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +

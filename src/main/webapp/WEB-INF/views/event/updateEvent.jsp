@@ -4,7 +4,7 @@
 
 <html>
 <head>
-    <title>Create New Event </title>
+    <title>Edit Event </title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
@@ -28,7 +28,7 @@
 
 <div class="col-md-9 content">
     <div class="card card-register">
-        <div class="card-header">Update Event</div>
+        <div class="card-header">Edit Event</div>
         <div class="card-body">
             <form:form method="POST" modelAttribute="editEvent" class="forms_form" enctype="multipart/form-data">
                 <div class="col-md-6">
@@ -66,12 +66,6 @@
                         <form:input path="dateEnd" id="dateEnd" type="date" class="form-control dateValid"
                                     placeholder="Enter event end date"/>
                         <form:errors path="dateEnd" cssClass="error"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Event type: </label>
-                        <form:select path="type" class="form-control">
-                            <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
-                        </form:select>
                     </div>
                     <form:input path="draft" value="${editEvent.draft}" type="hidden"></form:input>
                     <div class="form-group">

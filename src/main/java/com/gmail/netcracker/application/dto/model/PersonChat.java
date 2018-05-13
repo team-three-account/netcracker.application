@@ -1,49 +1,49 @@
 package com.gmail.netcracker.application.dto.model;
 
 public class PersonChat {
-    private String person_id;
-    private String chat_id;
-    private String last_read_message;
+    private String personId;
+    private String chatId;
+    private String lastReadMessage;
 
     public PersonChat() {
     }
 
-    public PersonChat(String person_id, String chat_id, String last_read_message) {
-        this.person_id = person_id;
-        this.chat_id = chat_id;
-        this.last_read_message = last_read_message;
+    public PersonChat(String personId, String chatId, String lastReadMessage) {
+        this.personId = personId;
+        this.chatId = chatId;
+        this.lastReadMessage = lastReadMessage;
     }
 
-    public String getPerson_id() {
-        return person_id;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
-    public String getChat_id() {
-        return chat_id;
+    public String getChatId() {
+        return chatId;
     }
 
-    public void setChat_id(String chat_id) {
-        this.chat_id = chat_id;
+    public void setChatId(String chatId) {
+        this.chatId = chatId;
     }
 
-    public String getLast_read_message() {
-        return last_read_message;
+    public String getLastReadMessage() {
+        return lastReadMessage;
     }
 
-    public void setLast_read_message(String last_read_message) {
-        this.last_read_message = last_read_message;
+    public void setLastReadMessage(String lastReadMessage) {
+        this.lastReadMessage = lastReadMessage;
     }
 
     @Override
     public String toString() {
         return "PersonChat{" +
-                "person_id=" + person_id +
-                ", chat_id='" + chat_id + '\'' +
-                ", last_read_message='" + last_read_message + '\'' +
+                "personId=" + personId +
+                ", chatId='" + chatId + '\'' +
+                ", lastReadMessage='" + lastReadMessage + '\'' +
                 '}';
     }
 }

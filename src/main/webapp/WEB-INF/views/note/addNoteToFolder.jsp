@@ -2,7 +2,7 @@
 <html>
 <body>
 <head>
-    <title>Add folder to note</title>
+    <title>Add note to folder</title>
 </head>
 <form:form method="post" modelAttribute="newNoteIntoFolder">
     <div class="form-group">

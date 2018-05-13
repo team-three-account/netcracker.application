@@ -1,8 +1,8 @@
 package com.gmail.netcracker.application.dto.model;
 
 public class Verif_token {
-    private String token_id;
-    private String user_id;
+    private String tokenId;
+    private String userId;
     private String name;
     private String surname;
     private String email;
@@ -14,10 +14,10 @@ public class Verif_token {
     public Verif_token() {
     }
 
-    public Verif_token(String token_id, String user_id, String name, String surname, String email, String password,
+    public Verif_token(String tokenId, String userId, String name, String surname, String email, String password,
             String role, String birthday, String phone) {
-        this.token_id = token_id;
-        this.user_id = user_id;
+        this.tokenId = tokenId;
+        this.userId = userId;
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -27,20 +27,20 @@ public class Verif_token {
         this.phone = phone;
     }
 
-    public String getToken_id() {
-        return token_id;
+    public String getTokenId() {
+        return tokenId;
     }
 
-    public void setToken_id(String token_id) {
-        this.token_id = token_id;
+    public void setTokenId(String tokenId) {
+        this.tokenId = tokenId;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -102,8 +102,8 @@ public class Verif_token {
     @Override
     public String toString() {
         return "Verif_token{" +
-                "token_id=" + token_id +
-                ", user_id='" + user_id + '\'' +
+                "tokenId=" + tokenId +
+                ", userId='" + userId + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +

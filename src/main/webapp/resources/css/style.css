@@ -171,6 +171,10 @@ article > p {
     width: 100%;
 }
 
+.error{
+    color: #FF0000;
+}
+
 .itemCardBody{
     margin-bottom: 40px;
 }

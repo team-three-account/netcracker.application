@@ -1,39 +1,39 @@
 package com.gmail.netcracker.application.dto.model;
 
 public class PersonFolder {
-    private String person_id;
-    private String folder_id;
+    private String personId;
+    private String folderId;
 
     public PersonFolder() {
     }
 
-    public PersonFolder(String person_id, String folder_id) {
-        this.person_id = person_id;
-        this.folder_id = folder_id;
+    public PersonFolder(String personId, String folderId) {
+        this.personId = personId;
+        this.folderId = folderId;
     }
 
-    public String getPerson_id() {
-        return person_id;
+    public String getPersonId() {
+        return personId;
     }
 
-    public void setPerson_id(String person_id) {
-        this.person_id = person_id;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
-    public String getFolder_id() {
-        return folder_id;
+    public String getFolderId() {
+        return folderId;
     }
 
-    public void setFolder_id(String folder_id) {
-        this.folder_id = folder_id;
+    public void setFolderId(String folderId) {
+        this.folderId = folderId;
     }
 
 
     @Override
     public String toString() {
         return "PersonFolder{" +
-                "person_id=" + person_id +
-                ", folder_id='" + folder_id + '\'' +
+                "personId=" + personId +
+                ", folderId='" + folderId + '\'' +
                 '}';
     }
 }

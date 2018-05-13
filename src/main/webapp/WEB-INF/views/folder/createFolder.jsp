@@ -3,7 +3,7 @@
 
 <html>
 <head>
-    <title>Create New Folder </title>
+    <title>Create New Folder</title>
 
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">

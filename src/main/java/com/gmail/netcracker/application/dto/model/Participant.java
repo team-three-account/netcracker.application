@@ -8,5 +8,5 @@ public class Participant {
     private int eventId;
     private Integer priority;
     private boolean countdown;
-    private boolean is_accepted;
+    private boolean isAccepted;
 }
