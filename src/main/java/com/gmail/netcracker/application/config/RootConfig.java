@@ -134,7 +134,6 @@ public class RootConfig {
         return new ItemValidator();
     }
 
-
     @Bean
     ChatService chatService() {
         return new ChatServiceImpl();
@@ -143,6 +142,10 @@ public class RootConfig {
     @Bean
     Chat chat() {
         return new Chat();
+    }
+
+    public PdfReport pdfReport() {
+        return new PdfReport();
     }
 
     @Bean

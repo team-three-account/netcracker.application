@@ -34,7 +34,23 @@
                             <ul class="list-unstyled mt-9 mb-4 itemCard ">
 
                                 <tr>
-                                    <td> (Кружочек приорити)</td>
+                                    <c:choose>
+                                        <c:when test="${item.priority=='1'}">
+                                            <c:set var="color" value="red"/>
+                                        </c:when>
+                                        <c:when test="${item.priority=='2'}">
+                                            <c:set var="color" value="yellow"/>
+                                        </c:when>
+                                        <c:when test="${item.priority=='3'}">
+                                            <c:set var="color" value="green"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <td>${item.priority}</td>
+                                            <c:set var="color" value="grey"/>
+                                        </c:otherwise>
+                                    </c:choose>
+
+                                    <td> <div style="width: 25px; height: 25px;background: ${color}; border-radius: 15px; display: inline-block; "></div></td>
                                     <td><a href="/account/getItem-${item.itemId}"> Name : ${item.name} </a></td>
                                     <c:choose>
                                         <c:when test="${auth_user.id.equals(item.personId)}">
