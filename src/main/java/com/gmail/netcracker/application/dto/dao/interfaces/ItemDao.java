@@ -27,4 +27,6 @@ public interface ItemDao {
     void clearBooker(Long itemId, Long id);
 
     void setBookerFromEvent(Long itemId, Long booker, Long eventId);
+
+    List<Item> getPopularItems(int amountOfItems);
 }

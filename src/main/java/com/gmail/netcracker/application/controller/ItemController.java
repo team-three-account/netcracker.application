@@ -112,6 +112,7 @@ public class ItemController {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("ownerId", userId);
         model.addAttribute("wishList", itemService.getWishList(userId));
+        model.addAttribute("popularItems", itemService.popularItems());
         return "item/personWishList";
     }
 
@@ -120,6 +121,7 @@ public class ItemController {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("eventId", eventId);
         model.addAttribute("wishList", itemService.getWishList(creator));
+        model.addAttribute("popularItems", itemService.popularItems());
         return "item/eventWishList";
     }
 

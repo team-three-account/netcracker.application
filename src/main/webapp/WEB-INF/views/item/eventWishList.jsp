@@ -92,9 +92,22 @@
                                 </tr>
 
                             </ul>
-                            </a>
                         </div>
                     </c:forEach>
+                    <h3 align="center">Popular items :</h3>
+
+                    <div class="row">
+                        <table class="table">
+                            <tr>
+                                <c:forEach var="popular" items="${popularItems}">
+                                    <td>
+                                        <a class="btn btn-primary" data-toggle="collapse" href="/account/getItem-${popular.itemId}" role="button"> ${popular.name} </a>
+                                    </td>
+                                </c:forEach>
+                            </tr>
+                        </table>
+                    </div>
+
                 </div>
             </div>
         </div>
