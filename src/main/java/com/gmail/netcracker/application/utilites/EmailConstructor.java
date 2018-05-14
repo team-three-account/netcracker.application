@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @PropertySource("classpath:application.properties")
 @Component
-public class EmailConcructor {
+public class EmailConstructor {
 
     @Autowired
     UserService userService;

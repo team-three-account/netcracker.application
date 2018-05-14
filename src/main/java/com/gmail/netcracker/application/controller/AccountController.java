@@ -4,7 +4,7 @@ package com.gmail.netcracker.application.controller;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.UserService;
-import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 
@@ -30,7 +30,7 @@ public class AccountController {
 
     private User user;
 
-    private EmailConcructor emailConcructor;
+    private EmailConstructor emailConstructor;
 
     private UserService userService;
 
@@ -41,9 +41,9 @@ public class AccountController {
     private PhotoServiceImp photoService;
 
     @Autowired
-    public AccountController(User user, EmailConcructor emailConcructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService) {
+    public AccountController(User user, EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService) {
         this.user = user;
-        this.emailConcructor = emailConcructor;
+        this.emailConstructor = emailConstructor;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.resetConfirmPasswordValidator = resetConfirmPasswordValidator;
@@ -61,7 +61,7 @@ public class AccountController {
     @RequestMapping(value = "/resetpassword", method = RequestMethod.GET)
     public String passwordResetSuccessful() {
 
-        emailConcructor.resetPasswordEmailSender(userService.getAuthenticatedUser());
+        emailConstructor.resetPasswordEmailSender(userService.getAuthenticatedUser());
         return "account/passwordResetSuccessful";
     }
 

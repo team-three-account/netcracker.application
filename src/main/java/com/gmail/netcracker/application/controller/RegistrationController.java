@@ -3,7 +3,7 @@ package com.gmail.netcracker.application.controller;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.UserService;
-import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,18 +21,18 @@ public class RegistrationController {
 
     private final RegisterValidator registerValidator;
 
-    private final EmailConcructor emailConcructor;
+    private final EmailConstructor emailConstructor;
 
     private final UserService userService;
 
     private PhotoServiceImp photoService;
 
     @Autowired
-    public RegistrationController(VerificationToken verificationToken, User user, RegisterValidator registerValidator, EmailConcructor emailConcructor, UserService userService, PhotoServiceImp photoService) {
+    public RegistrationController(VerificationToken verificationToken, User user, RegisterValidator registerValidator, EmailConstructor emailConstructor, UserService userService, PhotoServiceImp photoService) {
         this.verificationToken = verificationToken;
         this.user = user;
         this.registerValidator = registerValidator;
-        this.emailConcructor = emailConcructor;
+        this.emailConstructor = emailConstructor;
         this.userService = userService;
         this.photoService = photoService;
     }
@@ -65,7 +65,7 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             return "user/registration/registration";
         }
-        emailConcructor.registerEmailSender(user);
+        emailConstructor.registerEmailSender(user);
         return "user/registration/approve";
     }
 

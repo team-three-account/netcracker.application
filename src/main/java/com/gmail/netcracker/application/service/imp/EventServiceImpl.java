@@ -5,8 +5,7 @@ import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
-import com.gmail.netcracker.application.utilites.EmailConcructor;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.EventNotificationJob;
 import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 @Service
 public class EventServiceImpl implements EventService {
     final String EVENT_FIELD_NAME = "event";
-    final String EMAIL_CONCRUCTOR_FIELD_NAME = "emailConcructor";
+    final String EMAIL_CONSTRUCTOR_FIELD_NAME = "emailConstructor";
     final String EVENT_NOTIFICATION_JOB_GROUP_NAME = "notificationAboutEventJob";
     final String EVENT_NOTIFICATION_TRIGGER_GROUP_NAME = "notificationAboutEventTrigger";
     final String EVENT_NOTIFICATION_JOB_NAME_PREFIX = "eventJob_";
@@ -41,12 +40,12 @@ public class EventServiceImpl implements EventService {
     private NoteDao noteDao;
 
     private Scheduler scheduler;
-    private EmailConcructor emailConcructor;
+    private EmailConstructor emailConstructor;
 
     @Autowired
     public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService,
                             FriendService friendService, PriorityDao priorityDao, NoteDao noteDao, Scheduler scheduler,
-                            EmailConcructor emailConcructor) {
+                            EmailConstructor emailConstructor) {
         this.eventDao = eventDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
@@ -54,7 +53,7 @@ public class EventServiceImpl implements EventService {
         this.priorityDao = priorityDao;
         this.noteDao = noteDao;
         this.scheduler = scheduler;
-        this.emailConcructor = emailConcructor;
+        this.emailConstructor = emailConstructor;
     }
 
     @Override
@@ -259,7 +258,7 @@ public class EventServiceImpl implements EventService {
     private void scheduleEventNotificationJob(Event event) {
         final Class<EventNotificationJob> eventNotificationJobClass = EventNotificationJob.class;
         JobDataMap jobDataMap = new JobDataMap(); //TODO try not use new JobDataMap()
-        jobDataMap.put(EMAIL_CONCRUCTOR_FIELD_NAME, emailConcructor);
+        jobDataMap.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
         jobDataMap.put(EVENT_FIELD_NAME, event);
         JobDetail jobDetail = newJob()
                 .ofType(eventNotificationJobClass)

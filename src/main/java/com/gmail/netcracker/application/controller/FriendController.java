@@ -3,7 +3,7 @@ package com.gmail.netcracker.application.controller;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
-import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.utilites.EmailConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.logging.Logger;
 
 
 @RequestMapping(value = "/account")
@@ -22,15 +21,15 @@ import java.util.logging.Logger;
 public class FriendController {
 
     private final UserService userService;
-    private final EmailConcructor emailConcructor;
+    private final EmailConstructor emailConstructor;
     private final FriendService friendService;
     private User authUser;
 
     @Autowired
-    public FriendController(UserService userService, FriendService friendService, EmailConcructor emailConcructor) {
+    public FriendController(UserService userService, FriendService friendService, EmailConstructor emailConstructor) {
         this.userService = userService;
         this.friendService = friendService;
-        this.emailConcructor = emailConcructor;
+        this.emailConstructor = emailConstructor;
     }
 
 
@@ -61,7 +60,7 @@ public class FriendController {
     @RequestMapping(value = "/friends/add-friend", method = RequestMethod.POST)
     public String addFriend(@RequestParam(value = "friend_id") Long friendId) {
         friendService.addFriend(authUser.getId(), friendId);
-        emailConcructor.notifyNewFriendEmailSender(authUser, friendId);
+        emailConstructor.notifyNewFriendEmailSender(authUser, friendId);
         return "redirect:/account/friends/outgoing";
     }
 

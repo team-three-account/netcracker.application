@@ -7,7 +7,7 @@ import com.gmail.netcracker.application.service.interfaces.ChatService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.PhotoService;
-import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.*;
@@ -40,8 +40,8 @@ public class RootConfig {
     private final Environment env;
 
     @Bean
-    public EmailConcructor emailConcructor() {
-        return new EmailConcructor();
+    public EmailConstructor emailConcructor() {
+        return new EmailConstructor();
     }
 
     @Autowired
