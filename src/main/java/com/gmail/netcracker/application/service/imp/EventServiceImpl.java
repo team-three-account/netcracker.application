@@ -5,14 +5,34 @@ import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
+import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.scheduling.jobs.EventNotificationJob;
+import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
+
+import static org.quartz.CronScheduleBuilder.cronSchedule;
+import static org.quartz.JobBuilder.newJob;
+import static org.quartz.TriggerBuilder.newTrigger;
 
 @Service
 public class EventServiceImpl implements EventService {
+    final String EVENT_FIELD_NAME = "event";
+    final String EMAIL_CONCRUCTOR_FIELD_NAME = "emailConcructor";
+    final String EVENT_NOTIFICATION_JOB_GROUP_NAME = "notificationAboutEventJob";
+    final String EVENT_NOTIFICATION_TRIGGER_GROUP_NAME = "notificationAboutEventTrigger";
+    final String EVENT_NOTIFICATION_JOB_NAME_PREFIX = "eventJob_";
+    final String EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX = "eventTrigger_";
+
     private EventDao eventDao;
     private EventTypeDao eventTypeDao;
     private UserService userService;
@@ -20,37 +40,43 @@ public class EventServiceImpl implements EventService {
     private PriorityDao priorityDao;
     private NoteDao noteDao;
 
+    private Scheduler scheduler;
+    private EmailConcructor emailConcructor;
+
     @Autowired
-    public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao,
-                            UserService userService, FriendService friendService, PriorityDao priorityDao, NoteDao noteDao) {
+    public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService,
+                            FriendService friendService, PriorityDao priorityDao, NoteDao noteDao, Scheduler scheduler,
+                            EmailConcructor emailConcructor) {
         this.eventDao = eventDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
         this.friendService = friendService;
         this.priorityDao = priorityDao;
         this.noteDao = noteDao;
-    }
-
-
-    public EventServiceImpl() {
-
+        this.scheduler = scheduler;
+        this.emailConcructor = emailConcructor;
     }
 
     @Override
     public void update(Event event) {
         setPersonId(event);
         eventDao.update(event);
+        deleteEventNotificationJob(event.getEventId());
+        if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
     }
 
+    //TODO set Long
     @Override
     public void delete(int eventId) {
         eventDao.delete(eventId);
+        deleteEventNotificationJob((long) eventId);
     }
 
     @Override
     public void insertEvent(Event event) {
         setPersonId(event);
         eventDao.insertEvent(event);
+        if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
     }
 
     @Override
@@ -219,7 +245,8 @@ public class EventServiceImpl implements EventService {
         noteDao.delete(noteId);
         event.setCreator(userId);
         eventDao.insertEvent(event);
-        eventDao.participate(userId,event.getEventId());
+        eventDao.participate(userId, event.getEventId());
+
     }
 
     @Override
@@ -227,5 +254,51 @@ public class EventServiceImpl implements EventService {
         Event event = eventDao.getEvent(eventId);
         event.setDraft(false);
         eventDao.convertDraftToEvent(event);
+    }
+
+    private void scheduleEventNotificationJob(Event event) {
+        final Class<EventNotificationJob> eventNotificationJobClass = EventNotificationJob.class;
+        JobDataMap jobDataMap = new JobDataMap(); //TODO try not use new JobDataMap()
+        jobDataMap.put(EMAIL_CONCRUCTOR_FIELD_NAME, emailConcructor);
+        jobDataMap.put(EVENT_FIELD_NAME, event);
+        JobDetail jobDetail = newJob()
+                .ofType(eventNotificationJobClass)
+                .setJobData(jobDataMap)
+                .withIdentity(EVENT_NOTIFICATION_JOB_NAME_PREFIX + event.getEventId(),
+                        EVENT_NOTIFICATION_JOB_GROUP_NAME)
+                .build();
+        //TODO delete this when utilities will be ready
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date startDate = null;
+        Date endDate = null;
+        try {
+            startDate = formatter.parse(event.getDateStart());
+            endDate = formatter.parse(event.getDateEnd());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        CronTrigger cronTrigger = newTrigger()
+//                .withSchedule(cronSchedule(event.getPeriodicity())) //this is for using
+                .withSchedule(cronSchedule("0/10 * * ? * * *")) //this is for test
+                .withIdentity(EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX + event.getEventId(),
+                        EVENT_NOTIFICATION_TRIGGER_GROUP_NAME)
+                .forJob(jobDetail)
+                .startAt(startDate)
+                .endAt(endDate)
+                .build();
+        try {
+            scheduler.scheduleJob(jobDetail, cronTrigger);
+        } catch (SchedulerException e) {
+            Logger.getLogger(EventServiceImpl.class.getName()).info(e.getMessage());
+        }
+    }
+
+    private void deleteEventNotificationJob(Long eventId) {
+        try {
+            scheduler.deleteJob(JobKey.jobKey(EVENT_NOTIFICATION_JOB_NAME_PREFIX + eventId,
+                    EVENT_NOTIFICATION_JOB_GROUP_NAME));
+        } catch (SchedulerException e) {
+            Logger.getLogger(EventServiceImpl.class.getName()).info(e.getMessage());
+        }
     }
 }

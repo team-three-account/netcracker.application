@@ -1,14 +1,14 @@
 package com.gmail.netcracker.application.config;
 
 import com.gmail.netcracker.application.aspects.TokenLifeAspect;
-import com.gmail.netcracker.application.dto.dao.imp.ChatDaoImpl;
-import com.gmail.netcracker.application.dto.dao.interfaces.ChatDao;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.*;
-import com.gmail.netcracker.application.service.interfaces.*;
+import com.gmail.netcracker.application.service.interfaces.ChatService;
+import com.gmail.netcracker.application.service.interfaces.FriendService;
+import com.gmail.netcracker.application.service.interfaces.NoteService;
+import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.utilites.EmailConcructor;
 import com.gmail.netcracker.application.utilites.EventSerializer;
-import com.gmail.netcracker.application.utilites.Utilites;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.*;
 import org.flywaydb.core.Flyway;
@@ -18,6 +18,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.LocaleResolver;
@@ -29,7 +30,6 @@ import java.util.Locale;
 import static com.gmail.netcracker.application.utilites.ResultSetColumnValueExtractor.*;
 import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoString;
 import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoStringFormatWithSeconds;
-import static com.gmail.netcracker.application.utilites.Utilites.parseTimeWithSeconds;
 
 @Configuration
 @ComponentScan("com.gmail.netcracker.application.*")
@@ -130,7 +130,7 @@ public class RootConfig {
     }
 
     @Bean
-    public  ItemValidator itemValidator() {
+    public ItemValidator itemValidator() {
         return new ItemValidator();
     }
 
@@ -144,8 +144,12 @@ public class RootConfig {
         return new Chat();
     }
 
+//    public PdfReport pdfReport() {
+//        return new PdfReport();
+//    }
+
     @Bean
-    public  LocaleResolver localeResolver() {
+    public LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         return cookieLocaleResolver;
@@ -158,6 +162,34 @@ public class RootConfig {
         resourceBundleMessageSource.setBasename("classpath:message");
         resourceBundleMessageSource.setDefaultEncoding("UTF-8");
         return resourceBundleMessageSource;
+    }
+
+//    @Bean
+//    public JobDetailFactoryBean jobDetailFactoryBean() {
+//        JobDetailFactoryBean factory = new JobDetailFactoryBean();
+//        factory.setJobClass(EventNotificationJob.class);
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("text", "testText);
+//        factory.setJobDataAsMap(params);
+//        factory.setGroup("testGroup");
+//        factory.setName("testJob");
+//        return factory;
+//    }
+//
+//    @Bean
+//    public CronTriggerFactoryBean cronTriggerFactoryBean() {
+//        CronTriggerFactoryBean factory = new CronTriggerFactoryBean();
+//        factory.setJobDetail(jobDetailFactoryBean().getObject());
+//        factory.setCronExpression("0/5 * * ? * * *");
+//        factory.setGroup("testTriggers");
+//        factory.setName("testTrigger");
+//        return factory;
+//    }
+
+    @Bean
+    public SchedulerFactoryBean schedulerFactoryBean() {
+        SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        return factory;
     }
 
     @Bean
@@ -364,7 +396,7 @@ public class RootConfig {
     }
 
     @Bean
-    public RowMapper<Tag> tagRowMapper(){
+    public RowMapper<Tag> tagRowMapper() {
         return (resultSet, i) -> {
             Tag tag = new Tag();
             tag.setTagId(getLong(resultSet, "tag_id"));
