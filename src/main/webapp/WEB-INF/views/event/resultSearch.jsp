@@ -1,12 +1,12 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
-  User: anyat
-  Date: 21.04.2018
-  Time: 21:38
+  User: Alina
+  Date: 13.05.2018
+  Time: 11:25
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -40,31 +40,31 @@
         </div>
     </form>
     <h3>Events feed</h3>
-   <div class="row">
-       <table class="table">
-           <c:forEach var="event" items="${publicEventList}">
-               <tbody>
-                    <tr>
-                        <td><img class="img-circle" style="width: 200px;height: 200px"
-                             src="<c:url value="${event.photo}"/>"> </td>
-                        <td> <a href="/account/eventList/event-${event.eventId}"> ${event.name} </a></td>
-                        <td> Date : ${event.dateStart} - ${event.dateEnd} </td>
-                    </tr>
-               </tbody>
-           </c:forEach>
-
-       </table>
-   </div>
-
     <div class="row">
         <table class="table">
-            <c:forEach var="friends" items="${friendsEventList}">
+            <c:forEach var="event" items="${eventListUser}">
                 <tbody>
                 <tr>
                     <td><img class="img-circle" style="width: 200px;height: 200px"
-                             src="<c:url value="${friends.photo}"/>"> </td>
-                    <td> <a href="/account/eventList/event-${friends.eventId}"> ${friends.name} </a></td>
-                    <td> Date : ${friends.dateStart} - ${friends.dateEnd} </td>
+                             src="<c:url value="${event.photo}"/>"> </td>
+                    <td> <a href="/account/eventList/event-${event.eventId}"> ${event.name} </a></td>
+                    <td> Date : ${event.dateStart} - ${event.dateEnd} </td>
+                </tr>
+                </tbody>
+            </c:forEach>
+
+        </table>
+    </div>
+
+    <div class="row">
+        <table class="table">
+            <c:forEach var="event" items="${eventListPublic}">
+                <tbody>
+                <tr>
+                    <td><img class="img-circle" style="width: 200px;height: 200px"
+                             src="<c:url value="${event.photo}"/>"> </td>
+                    <td> <a href="/account/eventList/event-${event.eventId}"> ${event.name} </a></td>
+                    <td> Date : ${event.dateStart} - ${event.dateEnd} </td>
                 </tr>
                 </tbody>
             </c:forEach>

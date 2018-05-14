@@ -54,4 +54,8 @@ public interface EventDao {
     List<Event> listEventsWithPriority(Long personId);
 
     void convertDraftToEvent(Event event);
+
+    List<Event> searchInPublic(String query, Long userId);
+
+    List<Event> searchInUsersEvents(String query, Long userId);
 }

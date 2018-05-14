@@ -90,6 +90,12 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.convertDraft}")
     private String SQL_CONVERT_DRAFT;
 
+    @Value("${sql.event.searchPublic}")
+    private String SQL_EVENT_SEARCH;
+
+    @Value("${sql.event.searchForUser}")
+    private String SQL_USER_EVENT_SEARCH;
+
     private final RowMapper<Event> eventRowMapper;
     private final RowMapper<User> friendRowMapper;
     private final RowMapper<Participant> participantRowMapper;
@@ -245,6 +251,16 @@ public class EventDaoImpl extends ModelDao implements EventDao {
         updateEntity(SQL_CONVERT_DRAFT,
                 event.getDraft(),
                 event.getEventId());
+    }
+
+    @Override
+    public List<Event> searchInPublic(String query, Long userId) {
+        return findEntityList(SQL_EVENT_SEARCH, eventRowMapper, query, userId);
+    }
+
+    @Override
+    public List<Event> searchInUsersEvents(String query, Long userId) {
+        return findEntityList(SQL_USER_EVENT_SEARCH, eventRowMapper, 100, 0, query, userId);
     }
 }
 

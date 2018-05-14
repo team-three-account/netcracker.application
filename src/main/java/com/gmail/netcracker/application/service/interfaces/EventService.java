@@ -70,4 +70,8 @@ public interface EventService {
     Participant getParticipation(int eventId);
 
     void convertDraftToEvent(int eventId);
+
+    List<Event> searchFromPublicEvents(String query, User user);
+
+    List<Event> searchFromUsersEvents(String query, User user);
 }

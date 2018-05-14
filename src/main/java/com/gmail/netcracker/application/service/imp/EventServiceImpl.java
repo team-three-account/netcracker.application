@@ -300,4 +300,14 @@ public class EventServiceImpl implements EventService {
             Logger.getLogger(EventServiceImpl.class.getName()).info(e.getMessage());
         }
     }
+
+    @Override
+    public List<Event> searchFromPublicEvents(String query, User user) {
+        return eventDao.searchInPublic(query, user.getId());
+    }
+
+    @Override
+    public List<Event> searchFromUsersEvents(String query, User user) {
+        return eventDao.searchInPublic(query, user.getId());
+    }
 }

@@ -65,28 +65,30 @@
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
-    <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
-</div>
+    <div class="col-md-3">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+    </div>
 
-<div class="col-md-9 content">
-    <form:form method="POST" modelAttribute="filter">
-        <table>
+    <div class="col-md-9 content">
+        <form:form method="POST" modelAttribute="filter">
+            <table>
 
-            <tr>
-                <td>Choose the priority you like:</td>
-                <td><form:checkboxes path="priorities" items="${priorities}" itemValue="priorityId" itemLabel="name" />
-                </td>
-            </tr>
-            <tr>
-                <td><input type="submit" name="submit" value="Submit"></td>
-            </tr>
-            <tr>
-        </table>
-    </form:form>
+                <tr>
+                    <td>Choose the priority you like:</td>
+                    <td><form:checkboxes path="priorities" items="${priorities}" itemValue="priorityId"
+                                         itemLabel="name"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="submit" name="submit" value="Submit"></td>
+                </tr>
+                <tr>
+            </table>
+        </form:form>
 
 
-    <div id='calendar'></div>
+        <div id='calendar'></div>
+    </div>
 </div>
     <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
     <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
