@@ -47,38 +47,6 @@ public class ItemValidator implements Validator {
         }
         return status;
     }
-
-    //additional validation for the item
-
-    public ModelAndView validateItem(ModelAndView modelAndView, Item item, BindingResult bindingResult,
-                                     ItemService itemService, UserService userService, String methodName) {
-
-        if (!item.getName().isEmpty() && !item.getDescription().isEmpty() && item.getDueDate().isEmpty()) {
-            check(methodName, item, itemService, userService, modelAndView);
-        }
-
-        else if (!item.getName().isEmpty() && !item.getDescription().isEmpty() && !bindingResult.hasErrors()) {
-            check(methodName, item, itemService, userService, modelAndView);
-        }
-       else if (bindingResult.hasErrors()) {
-            return modelAndView;
-        }
-        return modelAndView;
-    }
-
-
-    //check for the method name in which we either add an item or do an update of the item
-
-    public ModelAndView check(String methodName, Item item, ItemService itemService, UserService userService,
-                               ModelAndView modelAndView) {
-        if (methodName.equals("updateItem")) {
-            itemService.update(item);
-        } else if (methodName.equals("addItem")) {
-            itemService.add(item);
-        }
-        modelAndView.setViewName("redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList");
-        return modelAndView;
-    }
 }
 
 

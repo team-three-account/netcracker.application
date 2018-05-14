@@ -144,10 +144,6 @@ public class RootConfig {
         return new Chat();
     }
 
-    public PdfReport pdfReport() {
-        return new PdfReport();
-    }
-
     @Bean
     public  LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
