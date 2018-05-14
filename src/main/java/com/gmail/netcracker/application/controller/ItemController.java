@@ -39,11 +39,14 @@ public class ItemController {
 
     @RequestMapping(value = {"/update-{itemId}"}, method = RequestMethod.POST)
     public ModelAndView updateItem(@ModelAttribute("updateItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
-        String methodName = "updateItem";
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("item/editItem");
         itemValidator.validate(item, bindingResult);
-        itemValidator.validateItem(modelAndView, item, bindingResult, itemService, userService, methodName);
+        if (bindingResult.hasErrors()) {
+            return modelAndView;
+        }
+        itemService.update(item);
+        modelAndView.setViewName("redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList");
         return modelAndView;
     }
 
@@ -62,11 +65,14 @@ public class ItemController {
 
     @RequestMapping(value = "/addItem", method = RequestMethod.POST)
     public ModelAndView addItem(@ModelAttribute("createItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
-        String methodName = "addItem";
         modelAndView.setViewName("item/addItem");
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         itemValidator.validate(item, bindingResult);
-        itemValidator.validateItem(modelAndView, item, bindingResult, itemService, userService, methodName);
+        if (bindingResult.hasErrors()) {
+            return modelAndView;
+        }
+        itemService.add(item);
+        modelAndView.setViewName("redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList");
         return modelAndView;
     }
 
