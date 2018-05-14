@@ -33,7 +33,7 @@ public class EventSerializer implements JsonSerializer<Event> {
         return result;
     }
 
-    private static String getColorFromPriority(Integer priority){
+    private static String getColorFromPriority(Long priority){
         if(priority == 1) return "red";
         if(priority == 2) return "yellow";
         if(priority == 3) return "green";

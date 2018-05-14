@@ -49,7 +49,7 @@ public interface EventService {
 
     int getMaxId();
 
-    void setPriority(Integer priority, int eventId, Long userId);
+    void setPriority(Long priority, int eventId, Long userId);
 
     boolean allowAccess(Long personId, int eventId);
 

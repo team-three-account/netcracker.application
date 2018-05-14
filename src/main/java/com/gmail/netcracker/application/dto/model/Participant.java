@@ -6,7 +6,7 @@ import lombok.Data;
 public class Participant {
     private Long person;
     private int eventId;
-    private Integer priority;
+    private Long priority;
     private boolean countdown;
     private boolean isAccepted;
 }

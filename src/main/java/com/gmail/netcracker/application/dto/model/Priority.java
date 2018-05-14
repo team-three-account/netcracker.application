@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class Priority {
-    private Integer priorityId;
+    private Long priorityId;
     private String name;
 }

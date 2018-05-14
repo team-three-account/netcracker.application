@@ -296,7 +296,7 @@ public class RootConfig {
             event.setEventPlaceName(getString(rs, "place_name"));
             event.setPeriodicity(getString(rs, "periodicity"));
             event.setPhoto(getString(rs, "photo"));
-            event.setPriorityId(getInt(rs, "priority_id"));
+            event.setPriorityId(getLong(rs, "priority_id"));
             return event;
         };
     }
@@ -326,7 +326,7 @@ public class RootConfig {
     public RowMapper<Priority> priorityRowMapper() {
         return (resultSet, i) -> {
             Priority priority = new Priority();
-            priority.setPriorityId(getInt(resultSet, "priority_id"));
+            priority.setPriorityId(getLong(resultSet, "priority_id"));
             priority.setName(getString(resultSet, "name"));
             return priority;
         };
@@ -337,7 +337,7 @@ public class RootConfig {
         return (resultSet, i) -> {
             Participant participant = new Participant();
             participant.setEventId(getInt(resultSet, "event_id"));
-            participant.setPriority(getInt(resultSet, "priority_id"));
+            participant.setPriority(getLong(resultSet, "priority_id"));
             return participant;
         };
     }
@@ -388,7 +388,7 @@ public class RootConfig {
             item.setDescription(getString(resultSet, "description"));
             item.setLink(getString(resultSet, "link"));
             item.setDueDate(getString(resultSet, "due_date"));
-            item.setPriority(getInt(resultSet, "priority_id"));
+            item.setPriority(getLong(resultSet, "priority_id"));
             item.setRoot(getLong(resultSet, "root_id"));
             item.setEvent(getInt(resultSet, "event_id"));
             return item;

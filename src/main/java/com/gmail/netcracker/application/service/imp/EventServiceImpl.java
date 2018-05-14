@@ -179,7 +179,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void setPriority(Integer priority, int eventId, Long user_id) {
+    public void setPriority(Long priority, int eventId, Long user_id) {
         priorityDao.setPriorityToEvent(priority, eventId, user_id);
     }
 
