@@ -10,35 +10,28 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
-    <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
-</div>
-<div class="col-md-9 content">
-    <div class="container-fluid">
-        <div class="col-md-6">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Folder - ${folder.name}</h3>
-                </div>
-                <div class="panel-body viewEvent">
-                    <ul class="list-unstyled mt-3 mb-4">
-                        <li>Name : ${folder.name}</li>
-                        <li>Notes: <a href="/account/folder-${folder.folderId}/notes">notes</a> </li>
-
-                        <c:if test="${auth_user.id.equals(user_creator.id)}">
-                            <li>
-                                <a href="/account/share-${folder.folderId}">
-                                    <input type="submit" class="btn btn-success text-center" value="Share"></a>
-                                <a href="/account/eventList/editFolder-${folder.folderId}">
-                                    <input type="submit" class="btn btn-success text-center" value="Edit Folder"></a>
-                                <a href="/account/eventList/deleteFolder-${folder.folderId}">
-                                    <input type="submit" class="btn btn-danger text-center" value="Delete Folder"></a>
-                            </li>
-                        </c:if>
-                    </ul>
-                </div>
-            </div>
+    <div class="col-md-3">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+    </div>
+    <div class="col-md-9 main-content">
+        <div class="d-flex">
+            <h3>Folder - ${folder.name}</h3>
+            <a href="/account/share-${folder.folderId}">
+                <input type="submit" class="btn btn-success text-center" value="Share"></a>
+            <a href="/account/eventList/editFolder-${folder.folderId}">
+                <input type="submit" class="btn btn-success text-center" value="Edit Folder"></a>
+            <a href="/account/eventList/deleteFolder-${folder.folderId}">
+                <input type="submit" class="btn btn-danger text-center" value="Delete Folder"></a>
         </div>
+        <h3>${message}</h3>
+        <c:forEach var="note" items="${listNotesIntoFolder}">
+            <a class="notes-item" href="<c:url value='/account/eventList/note-${note.noteId}' />">
+                <img src="${contextPath}/resources/img/003-notepad.svg" alt="notepad">
+                <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
+                    <li>${note.name}</li>
+                </ul>
+            </a>
+        </c:forEach>
     </div>
 </div>
 </body>

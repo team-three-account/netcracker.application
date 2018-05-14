@@ -25,8 +25,6 @@
             </c:forEach>
         </table>
     </div>
-
-
 </div>
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>

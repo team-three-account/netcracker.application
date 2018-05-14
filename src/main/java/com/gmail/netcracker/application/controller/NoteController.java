@@ -52,7 +52,7 @@ public class NoteController {
     public ModelAndView saveNote(@ModelAttribute("createNote") Note note, BindingResult result,
                                  ModelAndView modelAndView) {
         modelAndView.setViewName("note/createNote");
-        modelAndView.addObject("auth_user",userService.getAuthenticatedUser());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         noteValidator.validate(note, result);
         if (result.hasErrors()) {
             return modelAndView;
@@ -108,14 +108,14 @@ public class NoteController {
         return "note/allNotes";
     }
 
-    @RequestMapping(value = "/folder-{folderId}/notes", method = RequestMethod.GET)
-    public String getNotes(@PathVariable(value = "folderId") int folderId, Model model) {
-        List<Note> listNotesIntoFolder = folderService.getNoteListIntoFolder(folderId);
-        model.addAttribute("listNotesIntoFolder", listNotesIntoFolder);
-        model.addAttribute("folderName", folderService.getFolder(folderId));
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        return "folder/notesIntoFolder";
-    }
+//    @RequestMapping(value = "/folder-{folderId}/notes", method = RequestMethod.GET)
+//    public String getNotes(@PathVariable(value = "folderId") int folderId, Model model) {
+//        List<Note> listNotesIntoFolder = folderService.getNoteListIntoFolder(folderId);
+//        model.addAttribute("listNotesIntoFolder", listNotesIntoFolder);
+//        model.addAttribute("folderName", folderService.getFolder(folderId));
+//        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+//        return "folder/notesIntoFolder";
+//    }
 
     @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.GET)
     public ModelAndView addNoteToFolder(ModelAndView modelAndView, @PathVariable int noteId) {

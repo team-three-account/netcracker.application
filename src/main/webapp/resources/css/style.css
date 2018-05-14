@@ -144,6 +144,26 @@ article > p {
     position: relative;
 }
 
+.main-content {
+    padding-top: 70px;
+}
+
+.d-flex {
+    display: flex;
+    margin-bottom: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+.d-flex a {
+    margin: 0 3px;
+}
+
+.d-flex h3 {
+    margin:0 auto 0 0;
+    line-height: 1;
+}
+
 .menu ul {
     padding-top: 30px;
 }

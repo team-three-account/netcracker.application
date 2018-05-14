@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.controller;
 
 
 import com.gmail.netcracker.application.dto.model.Folder;
+import com.gmail.netcracker.application.dto.model.Note;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FolderService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
@@ -41,7 +42,7 @@ public class FolderController {
 
     @RequestMapping(value = "/eventList/createFolder", method = RequestMethod.POST)
     public ModelAndView saveFolder(@ModelAttribute("createFolder") Folder folder, BindingResult result,
-                                 ModelAndView modelAndView) {
+                                   ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("folder/createFolder");
         folderValidator.validate(folder, result);
@@ -55,9 +56,12 @@ public class FolderController {
 
     @RequestMapping(value = "/eventList/folder-{folderId}", method = RequestMethod.GET)
     public ModelAndView viewFolder(@PathVariable("folderId") int folderId, ModelAndView modelAndView) {
+        List<Note> noteList = folderService.getNoteListIntoFolder(folderId);
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("folder", folderService.getFolder(folderId));
         modelAndView.addObject("user_creator", userService.findUserById(folderService.getFolder(folderId).getCreator()));
+        modelAndView.addObject("listNotesIntoFolder", noteList);
+        modelAndView.addObject("message", folderMessage(noteList.size()));
         modelAndView.setViewName("folder/viewFolder");
         return modelAndView;
     }
@@ -88,25 +92,34 @@ public class FolderController {
     @RequestMapping(value = {"/share-{folderId}"}, method = RequestMethod.GET)
     public String viewFriendsToShareFolder(@PathVariable int folderId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("folderId",folderId);
+        model.addAttribute("folderId", folderId);
         List<User> friendsThatHaveAccessList = folderService.getFriendsThatHaveAccess(folderId);
-        if(!friendsThatHaveAccessList.isEmpty()) model.addAttribute("messageForAlreadyShared", "Friends that have access to folder :");
-        model.addAttribute("friendsThatHaveAccessList",friendsThatHaveAccessList);
+        if (!friendsThatHaveAccessList.isEmpty())
+            model.addAttribute("messageForAlreadyShared", "Friends that have access to folder :");
+        model.addAttribute("friendsThatHaveAccessList", friendsThatHaveAccessList);
         List<User> friendsToShareList = folderService.getFriendsToShare(friendsThatHaveAccessList);
-        if(!friendsToShareList.isEmpty()) model.addAttribute("messageToShare", "You can allow access for following users :");
-        model.addAttribute("friendsToShareList",friendsToShareList);
+        if (!friendsToShareList.isEmpty())
+            model.addAttribute("messageToShare", "You can allow access for following users :");
+        model.addAttribute("friendsToShareList", friendsToShareList);
         return "folder/shareToFriends";
     }
 
     @RequestMapping(value = {"/share-{folderId}/share"}, method = RequestMethod.POST)
     public String allowAccessToFolder(@PathVariable int folderId, @RequestParam(value = "userId") int userId) {
         folderService.allowAccessToFolder(folderId, userId);
-        return "redirect:/account/share-"+ folderId;
+        return "redirect:/account/share-" + folderId;
     }
 
     @RequestMapping(value = {"/share-{folderId}/disable"}, method = RequestMethod.POST)
     public String disableAccessToFolder(@PathVariable int folderId, @RequestParam(value = "friendId") int friendId) {
         folderService.disableAccessToFolder(folderId, friendId);
         return "redirect:/account/share-" + folderId;
+    }
+
+    private static String folderMessage(int sizeNoteList) {
+        String clearFolder = "Notes into this folder: ";
+        String folderHaveNotes = "Folder don't have any notes";
+        String message = sizeNoteList > 0 ? clearFolder : folderHaveNotes;
+        return message;
     }
 }
