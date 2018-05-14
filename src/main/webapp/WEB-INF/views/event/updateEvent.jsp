@@ -67,6 +67,22 @@
                                     placeholder="Enter event end date"/>
                         <form:errors path="dateEnd" cssClass="error"/>
                     </div>
+                    <div class="form-group">
+                        <label>Event type: </label>
+                        <form:select path="type" class="form-control" disabled="true">
+                            <c:if test="${editEvent.typeId == 1}">
+                                <form:option value="-" label="private" />
+                            </c:if>
+                            <c:if test="${editEvent.typeId == 2}">
+                                <form:option value="-" label="public" />
+                            </c:if>
+                            <c:if test="${editEvent.typeId == 3}">
+                                <form:option value="-" label="only for friends" />
+                            </c:if>
+                            <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
+                        </form:select>
+                        <form:errors path="type" cssClass="error"/>
+                    </div>
                     <form:input path="draft" value="${editEvent.draft}" type="hidden"></form:input>
                     <div class="form-group">
                         <label>Periodicity:</label>

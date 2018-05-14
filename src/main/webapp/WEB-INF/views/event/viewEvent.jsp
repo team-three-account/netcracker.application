@@ -55,7 +55,7 @@
                         <li>Photo: <img class="img-circle" style="width: 200px;height: 200px"
                                         src="<c:url value="${photo}"/>"></li>
                         <li>Name : ${event.name}</li>
-                        <li>Creator : ${user_creator.name} ${user_creator.surname}</li>
+                        <li>Creator :<a href="/account/${user_creator.id}"> ${user_creator.name} ${user_creator.surname}</a> </li>
                         <li>Description : ${event.description}</li>
                         <li>Start : ${event.dateStart}</li>
                         <li>End : ${event.dateEnd}</li>
@@ -67,7 +67,6 @@
                         <li>
                             <c:choose>
                             <c:when test="${auth_user.id.equals(user_creator.id)}">
-                        <li>
                             <c:if test="${event.type == '2'}">
                                 <a href="/account/public/event-${event.eventId}/invite">
                                     <input type="submit" class="btn btn-success text-center"

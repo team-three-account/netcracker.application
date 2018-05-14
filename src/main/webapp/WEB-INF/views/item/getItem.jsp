@@ -26,12 +26,12 @@
                 <ul class="list-unstyled mt-3 mb-4">
 
                     <li><b>Item Name:</b> ${getItem.name}</li>
-                    <li><b>Booker:</b> ${getItem.booker}</li>
+                    <%--<li><b>Booker:</b> ${getItem.booker}</li>--%>
                     <li><b>Description:</b> ${getItem.description}</li>
                     <li><b>Link:</b> ${getItem.link}</li>
                     <li><b>Date:</b> ${getItem.dueDate}</li>
                     <li><b>Priority:</b> ${getItem.priority}</li>
-                    <li><b>Root:</b> ${getItem.root}</li>
+                    <%--<li><b>Root:</b> ${getItem.root}</li>--%>
                     <c:choose>
                         <c:when  test="${auth_user.id.equals(getItem.personId)}">
                             <li>
