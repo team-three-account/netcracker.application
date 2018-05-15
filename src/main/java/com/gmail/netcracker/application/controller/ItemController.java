@@ -120,6 +120,7 @@ public class ItemController {
     public String eventWishList(@PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("eventId", eventId);
+        model.addAttribute("ownerId", creator);
         model.addAttribute("wishList", itemService.getWishList(creator));
         model.addAttribute("popularItems", itemService.popularItems());
         return "item/eventWishList";
