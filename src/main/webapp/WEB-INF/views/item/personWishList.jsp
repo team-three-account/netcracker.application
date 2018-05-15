@@ -13,10 +13,10 @@
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-3 col-md-2 col-xl-2 col-lg-3"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-<div class="col-lg-9 content">
+<div class="col-lg-9 col-md-10 col-xs-3 content">
     <c:choose>
         <c:when test="${auth_user.id.equals(ownerId)}">
             <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>
@@ -24,11 +24,11 @@
     </c:choose>
 
     <div class="row form-inline">
-        <div class="col-lg-8">
+        <div class="col-lg-9 col-md-6 col-xl-10">
             <h3 class="caption"> Your wishList</h3>
             <c:forEach var="item" items="${wishList}">
 
-                <div class="col-sm-6 col-md-4 col-lg-4" style="display: inline">
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3" style="display: inline">
                     <div class="thumbnail">
                         <img class="img-circle" style="width: 200px;height: 200px" src="${item.image}" alt="">
                         <div class="caption">
@@ -92,7 +92,7 @@
                 </div>
             </c:forEach>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-3 col-md-6 ">
             <div>
                 <h3>Top 5: Popular items</h3>
                 <c:forEach var="popularItem" items="${popularItems}">
