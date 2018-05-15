@@ -52,7 +52,8 @@ public class VerificationTokenDaoImp extends ModelDao implements VerificationTok
                 passwordEncoder.encode(verificationToken.getUser().getPassword()),
                 "ROLE_USER",
                 Utilites.parseStringIntoDate(verificationToken.getUser().getBirthdayDate()),
-                verificationToken.getUser().getPhone()
+                verificationToken.getUser().getPhone(),
+                verificationToken.getUser().getGender()
         );
         return verificationToken;
     }

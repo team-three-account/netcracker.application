@@ -34,11 +34,12 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Photo: </label>
-                        <img id = "blah" class="img-circle" style="width: 200px;height: 200px"
+                        <img id="blah" class="img-circle" style="width: 200px;height: 200px"
                              src="<c:url value="${editEvent.photo}"/>">
                         <input type="hidden" name="photo" value="${editEvent.photo}">
                         <br><span class="btn btn-default btn-file">
-                            Browse <input id = "file" onchange="readURL(this)" type="file" name="photoFile" accept="image/*">
+                            Browse <input id="file" onchange="readURL(this)" type="file" name="photoFile"
+                                          accept="image/*">
                             </span>
                         <span class="has-error">${message}</span>
                         <form:errors path="name" cssClass="error"/>
@@ -67,32 +68,17 @@
                                     placeholder="Enter event end date"/>
                         <form:errors path="dateEnd" cssClass="error"/>
                     </div>
-                    <div class="form-group">
-                        <label>Event type: </label>
-                        <form:select path="type" class="form-control" disabled="true">
-                            <c:if test="${editEvent.typeId == 1}">
-                                <form:option value="-" label="private" />
-                            </c:if>
-                            <c:if test="${editEvent.typeId == 2}">
-                                <form:option value="-" label="public" />
-                            </c:if>
-                            <c:if test="${editEvent.typeId == 3}">
-                                <form:option value="-" label="only for friends" />
-                            </c:if>
-                            <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
-                        </form:select>
-                        <form:errors path="type" cssClass="error"/>
-                    </div>
+                        <form:input type="hidden" path="typeId" class="form-controll"/>
                     <form:input path="draft" value="${editEvent.draft}" type="hidden"></form:input>
                     <div class="form-group">
                         <label>Periodicity:</label>
                         <input id="periodicity" class="form-control" type="text" readonly></input>
                         <form:input path="periodicity" type="hidden" id="cron"
                                     value="${editEvent.periodicity}"></form:input>
-                        <%--<input type="checkbox" id="isPeriodical" name="isPeriodical" onclick="changePeriodicity()">Show--%>
-                        <%--periodicity options</br>--%>
+                            <%--<input type="checkbox" id="isPeriodical" name="isPeriodical" onclick="changePeriodicity()">Show--%>
+                            <%--periodicity options</br>--%>
                         <button type="button" id="isPeriodical" name="isPeriodical" onclick="changePeriodicity()">
-                           Show periodicity options
+                            Show periodicity options
                         </button>
                         <button type="button" onclick="deletePeriodicity()">Delete periodicity</button>
                         <div id="crontabs" style="display: none;">

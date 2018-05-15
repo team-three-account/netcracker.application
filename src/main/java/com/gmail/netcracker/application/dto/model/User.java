@@ -25,6 +25,7 @@ public class User implements UserDetails {
     private String phone;
     private String photo;
     private MultipartFile photoFile;
+    private String gender;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -66,7 +66,7 @@ public class EventController {
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
     public ModelAndView createNewEvent(@ModelAttribute(value = "createNewEvent") Event event, ModelAndView modelAndView) {
-        event.setPhoto(photoService.getDefaultImage());
+        event.setPhoto(photoService.getDefaultImageForEvents());
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("event/createNewEvent");
         return modelAndView;
@@ -97,7 +97,6 @@ public class EventController {
         if (!multipartFile.isEmpty()) {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
-        photoService.saveFileInDB(event.getPhoto(), event.getEventId());
         eventService.insertEvent(event);
         if (event.getType().equals("2") || event.getType().equals("3")) {
             chatService.createChatForEvent(event, true);
@@ -166,6 +165,7 @@ public class EventController {
                                     BindingResult result,
                                     ModelAndView modelAndView) throws IOException, DbxException {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        event.setType(String.valueOf(event.getTypeId()));
         if ("".equals(event.getPeriodicity())) {
             event.setPeriodicity(null);
         }
@@ -185,8 +185,6 @@ public class EventController {
         } else {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
-        photoService.saveFileInDB(event.getPhoto(), event.getEventId());
-
         modelAndView.setViewName("event/updateEvent");
         eventValidator.validate(event, result);
         if (result.hasErrors()) {
@@ -303,7 +301,7 @@ public class EventController {
     public ModelAndView translateToEvent(@ModelAttribute(value = "createNewEvent") Event event,
                                          ModelAndView modelAndView, @PathVariable int noteId) {
         modelAndView.setViewName("event/createNewEvent");
-        event.setPhoto(photoService.getDefaultImage());
+        event.setPhoto(photoService.getDefaultImageForEvents());
         logger.info(event.getPhoto());
         Note note = noteService.getNote(noteId);
         event.setName(note.getName());
@@ -315,7 +313,6 @@ public class EventController {
     @RequestMapping(value = {"/translateToEvent-{noteId}"}, method = RequestMethod.POST)
     public ModelAndView saveNoteToEvent(@ModelAttribute("createNewEvent") Event event,
                                         BindingResult result,
-                                        @RequestParam(value = "hidden") String hidden,
                                         @RequestParam(value = "photoInput") String photo,
                                         @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                         ModelAndView modelAndView,
@@ -335,7 +332,6 @@ public class EventController {
             photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString());
         }
         logger.info(event.getPhoto());
-        photoService.saveFileInDB(event.getPhoto(), event.getEventId());
         eventService.transferNoteToEvent(noteId, userService.getAuthenticatedUser().getId(), event);
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;

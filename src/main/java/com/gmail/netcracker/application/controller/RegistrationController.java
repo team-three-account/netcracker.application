@@ -12,6 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class RegistrationController {
 
@@ -26,6 +29,10 @@ public class RegistrationController {
     private final UserService userService;
 
     private PhotoServiceImp photoService;
+
+    private final String MALE = "Male";
+
+    private final String FEMALE = "Female";
 
     @Autowired
     public RegistrationController(VerificationToken verificationToken, User user, RegisterValidator registerValidator, EmailConstructor emailConstructor, UserService userService, PhotoServiceImp photoService) {
@@ -80,7 +87,12 @@ public class RegistrationController {
             (@PathVariable(value = "token") String token) {
         verificationToken = userService.getVerificationToken(token);
         user = verificationToken.getUser();
-        user.setPhoto(photoService.getDefaultImage());
+        if (user.getGender().equals(MALE)) {
+            user.setPhoto(photoService.getDefaultImageMale());
+        }
+        if (user.getGender().equals(FEMALE)) {
+            user.setPhoto(photoService.getDefaultImageFemale());
+        }
         userService.saveRegisteredUser(user);
         userService.deleteVerificationToken(verificationToken);
         return "user/registration/successfulRegistration";

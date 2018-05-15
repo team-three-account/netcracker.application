@@ -56,7 +56,8 @@ public class UserDaoImp extends ModelDao implements UserDao {
                 "ROLE_USER",
                 user.getPhone(),
                 parseStringIntoDate(user.getBirthdayDate()),
-                user.getPhoto()
+                user.getPhoto(),
+                user.getGender()
         ));
     }
 

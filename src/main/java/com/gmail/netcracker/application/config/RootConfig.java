@@ -255,6 +255,7 @@ public class RootConfig {
             user.setPhone(getString(resultSet, "phone"));
             user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthdate")));
             user.setPhoto(getString(resultSet, "photo"));
+            user.setGender(getString(resultSet,"gender"));
             return user;
         };
     }
@@ -273,6 +274,7 @@ public class RootConfig {
             user.setRole(getString(resultSet, "role"));
             user.setPhone(getString(resultSet, "phone"));
             user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthdate")));
+            user.setGender(getString(resultSet,"gender"));
             verificationToken.setUser(user);
             return verificationToken;
         };
@@ -391,6 +393,7 @@ public class RootConfig {
             item.setPriority(getLong(resultSet, "priority_id"));
             item.setRoot(getLong(resultSet, "root_id"));
             item.setEvent(getInt(resultSet, "event_id"));
+            item.setImage(getString(resultSet,"image"));
             return item;
         };
     }

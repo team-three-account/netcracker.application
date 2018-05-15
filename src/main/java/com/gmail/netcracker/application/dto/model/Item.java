@@ -16,4 +16,5 @@ public class Item {
     private Long priority;
     private Long root;
     private Integer event;
+    private String image;
 }

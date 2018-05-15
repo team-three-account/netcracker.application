@@ -55,6 +55,14 @@
                     <form:errors path="surname" cssClass="error"/>
                 </div>
                 <div class="form-group">
+                    <label>Gender</label>
+                    <form:select path="gender"  class="form-control">
+                        <form:option value="Male">Male</form:option>
+                        <form:option value="Female">Female</form:option>
+                    </form:select>
+                    <form:errors path="email" cssClass="error"/>
+                </div>
+                <div class="form-group">
                     <label>Email address</label>
                     <form:input path="email" name="email" class="form-control"
                                 type="email"
