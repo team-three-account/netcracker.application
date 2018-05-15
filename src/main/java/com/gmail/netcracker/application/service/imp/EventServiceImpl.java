@@ -308,6 +308,6 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> searchFromUsersEvents(String query, User user) {
-        return eventDao.searchInPublic(query, user.getId());
+        return eventDao.searchInUsersEvents(query, user.getId());
     }
 }

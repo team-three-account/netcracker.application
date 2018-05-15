@@ -67,8 +67,8 @@
                                                 </c:when>
                                                 <c:when  test="${item.booker.equals(auth_user.id)}">
                                                     <td> <b>Booked by you. </b>
-                                                            <%--<a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">--%>
-                                                            <%--<input type="submit" class="btn btn-success text-center" value="Cancel booking"></a>--%>
+                                                            <a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">
+                                                            <input type="submit" class="btn btn-success text-center" value="Cancel booking"></a>
 
                                                     </td>
                                                 </c:when>

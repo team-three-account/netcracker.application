@@ -42,7 +42,7 @@
     <h3>Events feed</h3>
     <div class="row">
         <table class="table">
-            <c:forEach var="event" items="${eventListUser}">
+            <c:forEach var="event" items="${resultSearchUser}">
                 <tbody>
                 <tr>
                     <td><img class="img-circle" style="width: 200px;height: 200px"
@@ -58,7 +58,7 @@
 
     <div class="row">
         <table class="table">
-            <c:forEach var="event" items="${eventListPublic}">
+            <c:forEach var="event" items="${resultSearchPublic}">
                 <tbody>
                 <tr>
                     <td><img class="img-circle" style="width: 200px;height: 200px"
