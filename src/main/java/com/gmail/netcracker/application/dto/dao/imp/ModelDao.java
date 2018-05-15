@@ -84,14 +84,14 @@ public abstract class ModelDao {
     }
 
     protected <E> List<E> findEntityList(String sql, RowMapper<E> rowMapper, Integer limit, Integer offset) {
-        return jdbcTemplate.query(sql + SQL_LIMIT_OFFSET, rowMapper, limit, offset);
+        return jdbcTemplate.query(sql + " " + SQL_LIMIT_OFFSET, rowMapper, limit, offset);
     }
 
     protected <E> List<E> findEntityList(String sql, RowMapper<E> rowMapper, Integer limit, Integer offset, Object... params) {
         Object[] newParams = Arrays.copyOf(params, params.length + 2);
         newParams[params.length] = limit;
         newParams[params.length + 1] = offset;
-        return jdbcTemplate.query(sql + SQL_LIMIT_OFFSET, rowMapper, newParams);
+        return jdbcTemplate.query(sql + " " + SQL_LIMIT_OFFSET, rowMapper, newParams);
     }
 
     //It's findAll!!! Try to not use it
@@ -108,12 +108,9 @@ public abstract class ModelDao {
     }
 
     protected int countRows(String sql, int id) {
-        return jdbcTemplate.queryForObject(sql, new Object[] { id }, Integer.class);
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class);
     }
 
-    protected int countRows(String sql, Long id, int eventId) {
-        return jdbcTemplate.queryForObject(sql, new Object[] { id, eventId }, Integer.class);
-    }
     protected int maxIdValue(String sql) {
         return jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
     }

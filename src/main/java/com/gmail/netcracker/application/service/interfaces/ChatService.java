@@ -16,7 +16,9 @@ public interface ChatService {
 
     void createChatForEvent(Event event, Boolean creator);
 
-    List<EventMessage> getMessagesForEvent(Event event, Long chatId, Boolean state);
+    List<EventMessage> getMessagesForEvent(Long eventId, Long chatId, Boolean state);
+
+    List<EventMessage> getMessagesForEvent(Long eventId, Long chatId, Boolean state, Integer limit, Integer offset);
 
     void deleteEventChat(Event event);
 }

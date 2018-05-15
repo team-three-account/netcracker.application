@@ -16,7 +16,6 @@ public class EventNotificationJob extends QuartzJobBean {
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        Logger.getLogger("logger").info("SATAN MY MASTER!!!");
         emailConstructor.notifyAboutEvent(event);
     }
 }

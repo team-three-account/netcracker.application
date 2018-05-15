@@ -24,9 +24,7 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.messaging.SessionConnectedEvent;
@@ -65,14 +63,24 @@ public class ChatController {
                                      @PathVariable(value = "chatId") Long chatId,
                                      ModelAndView modelAndView) {
         user = userService.getAuthenticatedUser();
-        List<EventMessage> list = chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId, true);
+        List<EventMessage> list = chatService.getMessagesForEvent((long) eventId, chatId, true);
         modelAndView.addObject("event", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId, true));
+//        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent((long) eventId, chatId, true));
         modelAndView.addObject("chat", chatService.getChatByEventId(eventService.getEvent(eventId), true));
         logger.info(list.toString());
         modelAndView.setViewName("event/chat");
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/eventChat/main/getChatMessages", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public List<EventMessage> getMessagesForEvent(@RequestParam Long eventId,
+                                                  @RequestParam Long chatId,
+                                                  @RequestParam Boolean state,
+                                                  @RequestParam Integer limit,
+                                                  @RequestParam Integer offset) {
+        return chatService.getMessagesForEvent(eventId, chatId, state, limit, offset);
     }
 
     @RequestMapping(value = {"/eventChat/subscriptions/{chatId}-{eventId}"}, method = RequestMethod.GET)
@@ -80,10 +88,10 @@ public class ChatController {
                                               @PathVariable(value = "chatId") Long chatId,
                                               ModelAndView modelAndView) {
         user = userService.getAuthenticatedUser();
-        List<EventMessage> list = chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId, false);
+        List<EventMessage> list = chatService.getMessagesForEvent((long) eventId, chatId, false);
         modelAndView.addObject("event", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent(eventService.getEvent(eventId), chatId, false));
+//        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent((long) eventId, chatId, false));
         modelAndView.addObject("chat", chatService.getChatByEventId(eventService.getEvent(eventId), false));
         logger.info(list.toString());
         modelAndView.setViewName("event/chat");

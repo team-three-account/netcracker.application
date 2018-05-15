@@ -30,20 +30,22 @@
             </div>
             <br/>
             <div>
-                <button id="connect" onclick="connect();" hidden >Connect</button>
+                <button id="connect" onclick="connect();" hidden>Connect</button>
                 <button id="disconnect" disabled="disabled" onclick="disconnect();" hidden>
                     Disconnect
                 </button>
 
                 <input type="number" id="chat" value="${chat.chatId}">
                 <input type="number" id="event" value="${event.eventId}">
+                <input type="hidden" id="chatWithCreator" value="${chat.state}">
                 <input type="hidden" id="photo" value="${auth_user.photo}">
+                <input type="hidden" id="authUserId" value="${auth_user.id}">
             </div>
             <br/>
             <div class="row">
                 <div class="col-md-9">
                     <div class="form-group container-fluid">
-                        <div id="sms" class="sms text-center">
+                        <div id="sms" class="sms text-center" onscroll="loadPrevMessages()">
                             <form:forEach var="message" items="${chatMessage}">
                                 <form:if test="${auth_user.id==message.senderId}">
                                     <div class="text-right" id="showMessageOutputFromData">
@@ -69,15 +71,17 @@
                         <input type="hidden" id="userId" value="${auth_user.id}">
                         <button class="btn btn-primary" id="sendMessage" onclick="sendMessage()" disabled>Send
                         </button>
+                        <button class="btn btn-primary" id="getMessages" onclick="loadPrevMessages()">load Pervious Messages
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/stomp.js"></script>
 <script src="${contextPath}/resources/js/sockjs-0.3.4.js"></script>
 <script src="${contextPath}/resources/js/chat.js"></script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 </body>
 </html>
