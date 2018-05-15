@@ -45,7 +45,6 @@
                                         <c:set var="color" value="green"/>
                                     </c:when>
                                     <c:otherwise>
-                                        ${item.priority}
                                         <c:set var="color" value="grey"/>
                                     </c:otherwise>
                                 </c:choose>

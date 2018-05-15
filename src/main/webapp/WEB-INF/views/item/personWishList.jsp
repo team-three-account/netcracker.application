@@ -24,11 +24,11 @@
     </c:choose>
 
     <div class="row form-inline">
-        <div class="col-lg-9 col-md-6 col-xl-10">
+        <div class="col-lg-8 col-md-6 col-xl-10">
             <h3 class="caption"> Your wishList</h3>
             <c:forEach var="item" items="${wishList}">
 
-                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3" style="display: inline">
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" style="display: inline">
                     <div class="thumbnail">
                         <img class="img-circle" style="width: 200px;height: 200px" src="${item.image}" alt="">
                         <div class="caption">
@@ -47,7 +47,6 @@
                                         <c:set var="color" value="green"/>
                                     </c:when>
                                     <c:otherwise>
-                                        ${item.priority}
                                         <c:set var="color" value="grey"/>
                                     </c:otherwise>
                                 </c:choose>
