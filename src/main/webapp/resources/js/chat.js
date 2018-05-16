@@ -112,10 +112,15 @@ function loadPrevMessages() {
     if (sms.scrollTop === 0) {
         $.ajax({
             type: 'GET',
-            url: "/account/eventList/eventChat/main/getChatMessages?eventId=" + eventId + "&chatId=" + chatId + "&state=" +
-            isChatWithCreator + "&limit=" + messagesLimit + "&offset=" + messagesOffset,
+            url: "/account/eventList/eventChat/main/getChatMessages",
             dataType: 'json',
-            processData: false,
+            data:{
+                eventId: eventId,
+                chatId: chatId,
+                state: isChatWithCreator,
+                limit: messagesLimit,
+                offset: messagesOffset
+            },
             success: function (data) {
                 console.log(JSON.stringify(data));
                 data.forEach(function (message) {
