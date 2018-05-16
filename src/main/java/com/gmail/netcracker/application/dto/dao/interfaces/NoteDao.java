@@ -18,4 +18,6 @@ public interface NoteDao {
     void addNoteToFolder(int noteId, int folderId);
 
     void setFoldersNull(Integer folderId);
+
+    void deleteFromFolder(Long noteId);
 }
