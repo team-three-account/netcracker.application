@@ -1,3 +1,8 @@
+var realStateApp = {
+  maps: false,
+};
+
+
 // Декодування
 (function () {
     function decodingHTML(obj) {
@@ -7,9 +12,10 @@
             obj.value = parser.parseFromString(inputPlaceText, 'text/html').body.textContent;
         }
     }
+
     if (document.getElementsByClassName('decodingHtml')) {
         var node = document.getElementsByClassName('decodingHtml');
-        for ( var i = 0; i < node.length; i++ ) {
+        for (var i = 0; i < node.length; i++) {
             decodingHTML(node[i]);
         }
     }
@@ -17,9 +23,9 @@
 
 // valid date
 (function () {
-    if ( document.getElementsByClassName('dateValid') ) { // перевірка на наявність інпутів які потрібно валідувати
+    if (document.getElementsByClassName('dateValid')) { // перевірка на наявність інпутів які потрібно валідувати
         var nodeDateInput = document.getElementsByClassName('dateValid'); // запис їх в змінну
-        for ( var i = 0; i < nodeDateInput.length; i++ ) { // проходження по всіх інпутах та вішання на них обробників подій change
+        for (var i = 0; i < nodeDateInput.length; i++) { // проходження по всіх інпутах та вішання на них обробників подій change
             nodeDateInput[i].addEventListener('change', function () {
                 var splitValue = this.value.split('-'); // розділення в масив (yyyy-mm-dd)
                 if (splitValue[0].length > 4) { // перевірка чи довжина  року перевищує 4 цифри
@@ -55,11 +61,16 @@ function initMap() {
 }
 
 function initSearchBox(inputSearch) {
+    inputSearch.addEventListener('keyup', function () {
+        realStateApp.maps = false;
+        document.getElementById('eventPlaceName').style.cssText = '';
+    }, false);
     // google search
     var autocomplete = new google.maps.places.Autocomplete(inputSearch);
     autocomplete.bindTo('bounds', map);
     var infowindow = new google.maps.InfoWindow();
-    autocomplete.addListener('place_changed', function() {
+    autocomplete.addListener('place_changed', function () {
+        realStateApp.maps = false;
         infowindow.close();
         if (!!marker) {
             marker.setMap(null)
@@ -68,11 +79,11 @@ function initSearchBox(inputSearch) {
             animation: google.maps.Animation.DROP,
             // draggable:true,
             map: map,
-            draggable:false// setCurrentMap
+            draggable: false// setCurrentMap
         });
         marker.setVisible(false);
         var place = autocomplete.getPlace();
-        console.log(place);
+        realStateApp.maps = true;
         if (!place.geometry) {
             // User entered the name of a Place that was not suggested and
             // pressed the Enter key, or the Place Details request failed.
@@ -116,7 +127,7 @@ function placeMarkerAndPanTo(latLng) {
         animation: google.maps.Animation.DROP,
         // draggable:true,
         map: map,
-        draggable:false// setCurrentMap
+        draggable: false// setCurrentMap
     });
 
     placeEventLocationInfo(latLng);
@@ -126,7 +137,7 @@ function placeMarkerAndPanTo(latLng) {
         var latInput = document.getElementById('latitude');
         var lngInput = document.getElementById('longitude');
         //  сетимо значення які дістаємо з eventa - 'click'
-        if ( typeof latLng.lat === 'function') {
+        if (typeof latLng.lat === 'function') {
             latInput.value = latLng.lat();
             lngInput.value = latLng.lng();
         } else {
@@ -155,10 +166,14 @@ function getAddress() {
         // у проміса є парамтери then and catch
         // якщо дана функція повертає хорошення виконання проміса то результат сетиться у then,якщо ж повертається reject то результат сетиться у catch
             .then(function (data) {
-                eventName.value = data
+                eventName.value = data;
+                realStateApp.maps = true;
+                document.getElementById('eventPlaceName').style.cssText = '';
             })
             .catch(function (data) {
                 console.log('Error: ' + data);
+                realStateApp.maps = false;
+                document.getElementById('eventPlaceName').style.cssText = '';
             });
 
     }
@@ -194,6 +209,17 @@ function getFormattedAddress(latitude, longitude) {
         request.send();
     });
 };
+
+document.getElementById('valid_maps').addEventListener('submit', function (eventObj) {
+    if ( !realStateApp.maps ) {
+        console.log('submit false');
+        document.getElementById('eventPlaceName').style.cssText = 'border-color: #f00';
+        eventObj.preventDefault();
+        return false;
+    } else {
+        console.log('submit true');
+    }
+}, false);
 
 
 
