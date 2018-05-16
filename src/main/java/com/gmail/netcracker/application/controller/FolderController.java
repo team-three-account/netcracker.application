@@ -10,6 +10,7 @@ import com.gmail.netcracker.application.service.interfaces.UserService;
 
 import com.gmail.netcracker.application.validation.FolderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/account")
@@ -129,10 +131,13 @@ public class FolderController {
 
     @RequestMapping(value = "/move", method = RequestMethod.POST)
     @ResponseBody
-    public void moveNote(@RequestParam int folderId,
-                         @RequestParam int noteId) {
-        int y = 2;
-        friendService.deleteFriend(userService.getAuthenticatedUser().getId(), 2L);
+    public ResponseEntity moveNote(@RequestParam int folderId,
+                                   @RequestParam int noteId) {
+        Logger.getLogger(FolderController.class.getName()).info(String.valueOf(folderId));
+        Logger.getLogger(FolderController.class.getName()).info(String.valueOf(noteId));
+//        int y = 2;
+//        friendService.deleteFriend(userService.getAuthenticatedUser().getId(), 2L);
+        return ResponseEntity.ok("Note was moved to folder successfully.");
     }
 
     @RequestMapping(value = {"/sharedFoldersToMe"}, method = RequestMethod.GET)

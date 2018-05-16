@@ -13,6 +13,7 @@
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <script src="https://cdn.polyfill.io/v1/polyfill.js?features=Element.prototype.closest"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <script src="${contextPath}/resources/js/DragManager.js"></script>
     <link href="${contextPath}/resources/css/drag.css" rel="stylesheet">
     <script>

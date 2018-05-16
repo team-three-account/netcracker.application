@@ -93,7 +93,6 @@ var DragManager = new function() {
                 folderId: 1,
                 noteId: 1
             },
-            processData: false,
             success: function (data) {
                 console.log(JSON.stringify(data));
             },
