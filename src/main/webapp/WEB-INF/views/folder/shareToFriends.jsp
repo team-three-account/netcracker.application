@@ -26,7 +26,7 @@
 
 <div class="col-md-10 content">
     <p>
-        <a class="btn btn-primary" data-toggle="collapse" href="" role="button"> < Back</a>
+        <a class="btn btn-primary"  href="<c:url value='/account/eventList/folder-${folderId}'/>" > < Back</a>
     </p>
 
 
