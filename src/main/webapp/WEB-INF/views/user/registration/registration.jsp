@@ -88,7 +88,7 @@
                     <label class="control-label">Date of birthday</label>
                     <div class="form-group">
                         <form:input path="birthdayDate" id="dateEnd" type="date" class="form-control dateValid"
-                                    placeholder="Enter event end date"/>
+                                    placeholder="Enter your birth date"/>
                         <form:errors path="birthdayDate" cssClass="error"/>
                     </div>
                     <form:errors path="birthdayDate" cssClass="error"/>
