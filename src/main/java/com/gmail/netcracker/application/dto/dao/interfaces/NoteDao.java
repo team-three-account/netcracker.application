@@ -15,7 +15,7 @@ public interface NoteDao {
 
     void update(Note note);
 
-    void addNoteToFolder(Note note);
+    void addNoteToFolder(int noteId, int folderId);
 
     void setFoldersNull(Integer folderId);
 }

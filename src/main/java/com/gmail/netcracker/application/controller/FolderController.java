@@ -129,17 +129,6 @@ public class FolderController {
         return message;
     }
 
-    @RequestMapping(value = "/move", method = RequestMethod.POST)
-    @ResponseBody
-    public ResponseEntity moveNote(@RequestParam int folderId,
-                                   @RequestParam int noteId) {
-        Logger.getLogger(FolderController.class.getName()).info(String.valueOf(folderId));
-        Logger.getLogger(FolderController.class.getName()).info(String.valueOf(noteId));
-//        int y = 2;
-//        friendService.deleteFriend(userService.getAuthenticatedUser().getId(), 2L);
-        return ResponseEntity.ok("Note was moved to folder successfully.");
-    }
-
     @RequestMapping(value = {"/sharedFoldersToMe"}, method = RequestMethod.GET)
     public String sharedFoldersToMe(Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());

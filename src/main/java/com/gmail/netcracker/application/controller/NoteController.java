@@ -8,6 +8,7 @@ import com.gmail.netcracker.application.service.interfaces.FolderService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.NoteValidator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.logging.LoggingPermission;
 
 
@@ -109,32 +111,11 @@ public class NoteController {
         return "note/allNotes";
     }
 
-//    @RequestMapping(value = "/folder-{folderId}/notes", method = RequestMethod.GET)
-//    public String getNotes(@PathVariable(value = "folderId") int folderId, Model model) {
-//        List<Note> listNotesIntoFolder = folderService.getNoteListIntoFolder(folderId);
-//        model.addAttribute("listNotesIntoFolder", listNotesIntoFolder);
-//        model.addAttribute("folderName", folderService.getFolder(folderId));
-//        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-//        return "folder/notesIntoFolder";
-//    }
-
-    @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.GET)
-    public ModelAndView addNoteToFolder(ModelAndView modelAndView, @PathVariable Long noteId) {
-        Note note = noteService.getNote(noteId);
-        modelAndView.addObject("newNoteIntoFolder", note);
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.addObject("listFolders", folderService.folderList());
-        modelAndView.setViewName("note/addNoteToFolder");
-        return modelAndView;
+    @RequestMapping(value = "/move", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity moveNote(@RequestParam int folderId,
+                                   @RequestParam int noteId) {
+        noteService.addNoteToFolder(noteId, folderId);
+        return ResponseEntity.ok("Note was moved to folder successfully.");
     }
-
-    @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.POST)
-    public ModelAndView saveNoteToFolder(ModelAndView modelAndView, @ModelAttribute("newNoteIntoFolder") Note note) {
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        noteService.addNoteToFolder(note);
-        modelAndView.setViewName("redirect:/account/allNotes");
-        return modelAndView;
-    }
-
-
 }

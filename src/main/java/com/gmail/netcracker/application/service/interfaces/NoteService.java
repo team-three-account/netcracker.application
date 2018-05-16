@@ -14,5 +14,5 @@ public interface NoteService {
 
     void update(Note note);
 
-    void addNoteToFolder(Note note);
+    void addNoteToFolder(int noteId, int folderId);
 }

@@ -81,17 +81,19 @@ var DragManager = new function() {
             self.onDragCancel(dragObject);
         } else {
             self.onDragEnd(dragObject, dropElem);
-            moveToFolder();
+            var folderId = dropElem.getElementsByClassName('folderId')[0].value;
+            var noteId = dragObject.elem.getElementsByClassName('noteId')[0].value;
+            moveToFolder(folderId, noteId);
         }
     }
 
-    function moveToFolder() {
+    function moveToFolder(folderId, noteId) {
         $.ajax({
             type: 'POST',
             url: "/account/move",
             data: {
-                folderId: 1,
-                noteId: 1
+                folderId: folderId,
+                noteId: noteId
             },
             success: function (data) {
                 console.log(JSON.stringify(data));
@@ -143,6 +145,7 @@ var DragManager = new function() {
         // получить самый вложенный элемент под курсором мыши
         var elem = document.elementFromPoint(event.clientX, event.clientY);
 
+
         // показать переносимый элемент обратно
         dragObject.avatar.hidden = false;
 
@@ -153,6 +156,7 @@ var DragManager = new function() {
 
         return elem.closest('.droppable');
     }
+
 
     document.onmousemove = onMouseMove;
     document.onmouseup = onMouseUp;

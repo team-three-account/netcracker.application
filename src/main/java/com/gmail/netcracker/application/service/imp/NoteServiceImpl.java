@@ -47,7 +47,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void addNoteToFolder(Note note) {
-        noteDao.addNoteToFolder(note);
+    public void addNoteToFolder(int noteId, int folderId) {
+        noteDao.addNoteToFolder(noteId, folderId);
     }
 }

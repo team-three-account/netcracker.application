@@ -48,6 +48,7 @@
             <h1>Folders</h1>
             <c:forEach var="folder" items="${folderList}">
             <div class="droppable">
+                <input type="hidden" class="folderId" value="${folder.folderId}">
                 <a class="notes-item" href="<c:url value='/account/eventList/folder-${folder.folderId}' />">
                     <img src="${contextPath}/resources/img/001-folder.svg" alt="folder">
                     <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
@@ -59,6 +60,7 @@
             <h1>Notes Without Folder</h1>
             <c:forEach var="note" items="${noteList}">
             <div class="draggable">
+                <input type="hidden" class="noteId" value="${note.noteId}">
                 <a class="notes-item" href="<c:url value='/account/eventList/note-${note.noteId}' />">
                     <img src="${contextPath}/resources/img/003-notepad.svg" alt="notepad">
                     <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
