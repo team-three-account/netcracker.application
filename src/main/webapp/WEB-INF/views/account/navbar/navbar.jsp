@@ -25,7 +25,7 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="<c:url value="/account/settings-user/${auth_user.id}"/> ">Profile</a></li>
+                <li><a href="<c:url value="/account/profile/${auth_user.id}"/> ">Profile</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
         </div>

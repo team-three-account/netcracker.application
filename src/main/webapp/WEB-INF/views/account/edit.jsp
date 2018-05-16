@@ -31,16 +31,15 @@
     <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
-
     <div class="col-md-10 content">
         <form:form method="POST" modelAttribute="auth_user" enctype="multipart/form-data"
                    action="/account/settings-user">
             <table class="table">
                 <tr>
                     <td>Avatar:</td>
-                    <td><img id = "blah" class="img-circle" style="width: 200px;height: 200px"src="${auth_user.photo}"
-                             />
-                        <input type="hidden" name="photo"  value="${auth_user.photo}" />
+                    <td><img id="blah" class="img-circle" style="width: 200px;height: 200px" src="${auth_user.photo}"
+                    />
+                        <input type="hidden" name="photo" value="${auth_user.photo}"/>
                         <br><span class="btn btn-default btn-file">
     Browse <input type="file" name="photoFile" id="file" accept="image/*" onchange="readURL(this)">
 </span>
@@ -70,7 +69,14 @@
                                     readonly="readonly" maxlength="500" value="${auth_user.email}" path="email"/>
                     </td>
                 </tr>
-
+                <tr>
+                    <th>Birthday Date</th>
+                    <td>
+                        <form:input path="birthdayDate" id="dateEnd" type="date" class="form-control dateValid"
+                                    placeholder="Enter event end date"/>
+                        <form:errors path="birthdayDate" cssClass="error"/>
+                    </td>
+                </tr>
                 <tr>
                     <th>Phone</th>
                     <td>

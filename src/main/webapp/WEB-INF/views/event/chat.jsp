@@ -19,12 +19,11 @@
 <body onload="connect();showMessageOutputFromData();">
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-lg-2 col-md-2">
+    <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
-    <div class="col-lg-3 col-md-6 ">
+    <div class="col-md-10">
         <div class="row container">
-
             <div hidden="hidden">
                 <input type="text" id="from" placeholder="Choose a nickname" value="${auth_user.name}"/>
             </div>
@@ -42,8 +41,8 @@
                 <input type="hidden" id="authUserId" value="${auth_user.id}">
             </div>
             <br/>
-            <div class="row">
-                <div class="col-md-9">
+            <div class="row" style="display: inline;">
+                <div class="col-md-8 col-lg-8">
                     <div class="form-group container-fluid">
                         <div id="sms" class="sms text-center" onscroll="loadPrevMessages()">
                             <form:forEach var="message" items="${chatMessage}">
@@ -71,14 +70,45 @@
                         <input type="hidden" id="userId" value="${auth_user.id}">
                         <button class="btn btn-primary" id="sendMessage" onclick="sendMessage()" disabled>Send
                         </button>
-                        <button class="btn btn-primary" id="getMessages" onclick="loadPrevMessages()">load Pervious Messages
+                        <button class="btn btn-primary" id="getMessages" onclick="loadPrevMessages()">load Pervious
+                            Messages
                         </button>
+                    </div>
+                </div>
+                <div class="col-md-4 col-lg-4">
+                    <div class="text-right">
+                        <h3>Participants</h3>
+                        <c:forEach var="participant" items="${participants}">
+                            <table class="table">
+                                <tbody>
+                                <form:if test="${chat.state==false}">
+                                    <form:if test="${participant.id!=event.creator}">
+                                        <tr>
+                                            <td><img class="img-circle" style="width: 40px;height: 40px"
+                                                     src="${participant.photo}"></td>
+
+                                            <td class="text-right">${participant.name} ${participant.surname}</td>
+                                        </tr>
+                                    </form:if>
+                                </form:if>
+                                <form:if test="${chat.state==true}">
+                                    <tr>
+                                        <td><img class="img-circle" style="width: 40px;height: 40px"
+                                                 src="${participant.photo}"></td>
+
+                                        <td class="text-right">${participant.name} ${participant.surname}</td>
+                                    </tr>
+                                </form:if>
+                                </tbody>
+                            </table>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="${contextPath}/resources/js/stomp.js"></script>
 <script src="${contextPath}/resources/js/sockjs-0.3.4.js"></script>

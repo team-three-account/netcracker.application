@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.List;
 
+import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestamp;
 
 @Repository
@@ -75,6 +76,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
                 user.getName(),
                 user.getSurname(),
                 user.getPhone(),
+                parseStringToDate(user.getBirthdayDate()),
                 user.getId());
     }
 

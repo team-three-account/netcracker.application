@@ -60,7 +60,6 @@
                         <form:option value="Male">Male</form:option>
                         <form:option value="Female">Female</form:option>
                     </form:select>
-                    <form:errors path="email" cssClass="error"/>
                 </div>
                 <div class="form-group">
                     <label>Email address</label>

@@ -41,6 +41,7 @@ public class ChatController {
         user = userService.getAuthenticatedUser();
         List<EventMessage> list = chatService.getMessagesForEvent(eventId, chatId, true);
         modelAndView.addObject("event", eventService.getEvent(eventId));
+        modelAndView.addObject("participants",eventService.getParticipants(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
 //        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent((long) eventId, chatId, true));
         modelAndView.addObject("chat", chatService.getChatByEventId(eventService.getEvent(eventId), true));
@@ -64,8 +65,9 @@ public class ChatController {
                                               @PathVariable(value = "chatId") Long chatId,
                                               ModelAndView modelAndView) {
         user = userService.getAuthenticatedUser();
-        List<EventMessage> list = chatService.getMessagesForEvent((long) eventId, chatId, false);
+        List<EventMessage> list = chatService.getMessagesForEvent(eventId, chatId, false);
         modelAndView.addObject("event", eventService.getEvent(eventId));
+        modelAndView.addObject("participants",eventService.getParticipants(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
 //        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent((long) eventId, chatId, false));
         modelAndView.addObject("chat", chatService.getChatByEventId(eventService.getEvent(eventId), false));

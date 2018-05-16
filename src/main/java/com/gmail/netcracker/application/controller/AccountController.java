@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 
 @Controller
@@ -134,7 +135,8 @@ public class AccountController {
         }
         userService.getAuthenticatedUser().setName(user.getName());
         userService.getAuthenticatedUser().setSurname(user.getSurname());
-        photoService.saveFileInDB(user.getPhoto(), user.getId());
+        userService.getAuthenticatedUser().setBirthdayDate(user.getBirthdayDate());
+        Logger.getLogger(AccountController.class.getName()).info(user.toString());
         userService.updateUser(user);
         modelAndView.setViewName("redirect:/account/profile/" + user.getId());
         return modelAndView;
