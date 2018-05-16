@@ -65,8 +65,15 @@ public class Utilities {
 
     public static Timestamp parseStringToTimestamp(String stringDate) {
         if (stringDate != null) {
-            Timestamp timestamp = new Timestamp(parseStringToDate(stringDate).getTime());
-            return timestamp;
+            try {
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = formatter.parse(stringDate);
+                Timestamp timestamp = new Timestamp(date.getTime());
+                return timestamp;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
         }
         return null;
     }
