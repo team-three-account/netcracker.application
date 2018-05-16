@@ -5,6 +5,7 @@ import com.gmail.netcracker.application.dto.model.Folder;
 import com.gmail.netcracker.application.dto.model.Note;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FolderService;
+import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 
 import com.gmail.netcracker.application.validation.FolderValidator;
@@ -26,11 +27,14 @@ public class FolderController {
 
     private final FolderValidator folderValidator;
 
+    private final FriendService friendService;
+
     @Autowired
-    public FolderController(FolderService folderService, UserService userService, FolderValidator folderValidator) {
+    public FolderController(FolderService folderService, UserService userService, FolderValidator folderValidator, FriendService friendService) {
         this.folderService = folderService;
         this.userService = userService;
         this.folderValidator = folderValidator;
+        this.friendService = friendService;
     }
 
     @RequestMapping(value = "/eventList/createFolder", method = RequestMethod.GET)
@@ -121,5 +125,13 @@ public class FolderController {
         String folderHaveNotes = "Folder don't have any notes";
         String message = sizeNoteList > 0 ? clearFolder : folderHaveNotes;
         return message;
+    }
+
+    @RequestMapping(value = "/move", method = RequestMethod.POST)
+    @ResponseBody
+    public void moveNote(@RequestParam int folderId,
+                         @RequestParam int noteId) {
+        int y = 2;
+        friendService.deleteFriend(userService.getAuthenticatedUser().getId(), 2L);
     }
 }
