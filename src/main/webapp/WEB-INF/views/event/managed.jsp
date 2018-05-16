@@ -57,6 +57,8 @@
                     <c:forEach var="emp" items="${friendsEventList}">
                         <a href="<c:url value='/account/eventList/event-${emp.eventId}' />">
                             <ul class="list-unstyled mt-3 mb-4 eventCardItem">
+                                <li><img class="img-circle" style="width: 20px;height: 20px"
+                                         src="<c:url value="${emp.photo}"/>"></li></li>
                                 <li>${emp.name}</li>
                                 <li>Start ${emp.dateStart}</li>
                                 <li>End ${emp.dateEnd}</li>
@@ -78,6 +80,8 @@
                     <c:forEach var="emp" items="${privateEventList}">
                         <a href="<c:url value='/account/eventList/event-${emp.eventId}' />">
                             <ul class="list-unstyled mt-3 mb-4 eventCardItem">
+                                <li><img class="img-circle" style="width: 20px;height: 20px"
+                                         src="<c:url value="${emp.photo}"/>"></li></li>
                                 <li>${emp.name}</li>
                                 <li>Start ${emp.dateStart}</li>
                                 <li>End ${emp.dateEnd}</li>
