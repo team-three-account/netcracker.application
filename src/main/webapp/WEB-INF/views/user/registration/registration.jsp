@@ -118,5 +118,6 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 <script src="${contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src='${contextPath}/resources/js/pamCode.js'></script>
+<script src="${contextPath}/resources/js/google.js"></script>
 </body>
 </html>
