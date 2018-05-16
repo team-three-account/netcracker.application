@@ -85,4 +85,9 @@ public class FolderServiceImpl implements FolderService {
         folderDao.disableAccessToFolder(folderId, friendId);
     }
 
+    @Override
+    public List<Folder> sharedFoldersToMe() {
+        return folderDao.getSharedFoldersToMe(userService.getAuthenticatedUser().getId());
+    }
+
 }

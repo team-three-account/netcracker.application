@@ -40,6 +40,7 @@
     <sec:authorize access="hasRole('USER')">
         <a class="btn btn-primary" href="<c:url value='/account/eventList/createNote' />">Add Note</a>
         <a class="btn btn-primary" href="<c:url value='/account/eventList/createFolder' />">Create Folder</a>
+        <a class="btn btn-primary" href="<c:url value='/account/sharedFoldersToMe' />">Shared to me</a>
     </sec:authorize>
     <div class="row">
         <table class="table">
@@ -67,8 +68,6 @@
             </c:forEach>
         </table>
     </div>
-</div>
-</div>
 </div>
 </body>
 </html>

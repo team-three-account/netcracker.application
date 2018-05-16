@@ -134,4 +134,11 @@ public class FolderController {
         int y = 2;
         friendService.deleteFriend(userService.getAuthenticatedUser().getId(), 2L);
     }
+
+    @RequestMapping(value = {"/sharedFoldersToMe"}, method = RequestMethod.GET)
+    public String sharedFoldersToMe(Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("folderList", folderService.sharedFoldersToMe());
+        return "folder/sharedToMe";
+    }
 }

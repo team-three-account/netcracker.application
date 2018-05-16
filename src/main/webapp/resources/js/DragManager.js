@@ -88,13 +88,17 @@ var DragManager = new function() {
     function moveToFolder() {
         $.ajax({
             type: 'POST',
-            url: "/account/move?folderId=" + 1 + "&noteId=" + 1 ,
+            url: "/account/move",
+            data: {
+                folderId: 1,
+                noteId: 1
+            },
             processData: false,
             success: function (data) {
                 console.log(JSON.stringify(data));
             },
             error: function (data) {
-                console.log(JSON.stringify(data));
+                console.error(JSON.stringify(data));
             }
         })
     }
