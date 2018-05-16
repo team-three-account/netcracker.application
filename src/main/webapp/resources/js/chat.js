@@ -49,14 +49,11 @@ function sendMessage() {
     var sender = document.getElementById('userId').value;
     var chat = document.getElementById('chat').value;
     var senderPhoto = document.getElementById('photo').value;
-    var divElement = document.getElementById('sms');
 
     stompClient.send("/app/chat/" + event + "/" + sender + "/" + chat, {},
         JSON.stringify({'from': from, 'text': text, 'senderId': sender, 'senderPhoto': senderPhoto}));
-    divElement.scrollTop = 9999;
     document.getElementById('text').value = "";
     document.getElementById('sendMessage').disabled = true;
-
 }
 
 function showMessageOutput(message, isAppended) {
@@ -66,8 +63,8 @@ function showMessageOutput(message, isAppended) {
             var messageLeftHtml = " <div class=\"text-left\" id=\"showMessageOutputFromData\">\n" +
                 "                                        <input type=\"hidden\" id=\"sender\" value=\"" + message.senderId + "\">\n" +
                 "                                        <p><img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
-                "                                                src=\"<c:url value=\"" + message.senderPhoto + "\"/> "
-                + message.from + " " + message.text + " " + message.time + "\n" +
+                "                                                src=\"" + message.senderPhoto + "\">" +
+                message.from + " " + message.text + " " + message.time + "\n" +
                 "                                        </p>\n" +
                 "                                    </div>";
             messageHtml = messageLeftHtml;
@@ -77,7 +74,7 @@ function showMessageOutput(message, isAppended) {
             var messageRightHtml = "<div class=\"text-right\" id=\"showMessageOutputFromData\">\n" +
                 "                                        <p>" + message.from + " " + message.text + " " + message.time + "\n" +
                 "                                            <img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
-                "                                                 src=\"<c:url value=\"" + message.senderPhoto + "\"/>\n" +
+                "                                                 src=\"" + message.senderPhoto + "\"/>\n" +
                 "                                        </p>\n" +
                 "                                    </div>";
             messageHtml = messageRightHtml;
@@ -86,6 +83,7 @@ function showMessageOutput(message, isAppended) {
     }
     if (isAppended === true) {
         $("#sms").append($(messageHtml));
+        document.getElementById('sms').scrollTop = 9999;
     } else {
         $("#sms").prepend($(messageHtml));
     }
@@ -97,7 +95,6 @@ function showMessageOutputFromData() {
     var divElement = document.getElementById('sms');
     div.classList.add("text-right");
     div.scrollTop = 9999;
-
 }
 
 function checkParams() {

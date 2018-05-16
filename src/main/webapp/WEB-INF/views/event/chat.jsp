@@ -51,7 +51,7 @@
                                     <div class="text-right" id="showMessageOutputFromData">
                                         <p>${message.from} ${message.text} ${message.time}
                                             <img class="img-circle" style="width: 40px;height: 40px"
-                                                 src="<c:url value="${message.senderPhoto}"/>">
+                                                 src="${message.senderPhoto}"/>
                                         </p>
                                     </div>
                                 </form:if>
@@ -59,7 +59,7 @@
                                     <div class="text-left" id="showMessageOutputFromData">
                                         <input type="hidden" id="sender" value="${message.senderId}">
                                         <p><img class="img-circle" style="width: 40px;height: 40px"
-                                                src="<c:url value="${message.senderPhoto}"/>">${message.from} ${message.text} ${message.time}
+                                                src="${message.senderPhoto}">${message.from} ${message.text} ${message.time}
                                         </p>
                                     </div>
                                 </form:if>
