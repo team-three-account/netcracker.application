@@ -26,7 +26,7 @@
         <div class="card-header">Create New Event</div>
         <div class="card-body">
             <%--action="/account/eventList/createNewEvent"--%>
-            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form" enctype="multipart/form-data">
+            <form:form id="valid_maps" method="POST" modelAttribute="createNewEvent" class="forms_form" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
