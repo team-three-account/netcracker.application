@@ -27,9 +27,7 @@ public class RegisterAndUpdateEventValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Event event = (Event) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required.field");
-        if(event.getDescription().equals("<br>")){
-            errors.rejectValue("description","required.field");
-        }
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateStart", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateEnd", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "type", "required.field");
