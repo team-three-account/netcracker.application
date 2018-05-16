@@ -1,0 +1,13 @@
+
+.folder-highlight {
+    text-decoration: none;
+    background-color: greenyellow;
+}
+
+.draggable {
+    cursor: pointer;
+    display: inline-block;
+}
+.droppable{
+    display: inline-block;
+}
