@@ -28,6 +28,11 @@
                             <li class="button_block">
                                 <a href="/account/eventList/editNote-${note.noteId}">
                                     <input type="submit" class="btn btn-success text-center" value="Edit Note"></a>
+                                <c:if test="${note.folder!=0}">
+                                    <a href="/account/eventList/deleteFF-${note.noteId}">
+                                        <input type="submit" class="btn btn-danger text-center"
+                                               value="Delete note from folder"></a>
+                                </c:if>
                                 <a href="/account/eventList/deleteNote-${note.noteId}">
                                     <input type="submit" class="btn btn-danger text-center" value="Delete Note"></a>
                                 <c:if test="${note.folder==0}">

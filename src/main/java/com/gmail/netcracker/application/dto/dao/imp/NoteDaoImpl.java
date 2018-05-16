@@ -38,6 +38,9 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     @Value("${sql.note.setFoldersNull}")
     private String SQL_SET_FOLDERS_NULL;
 
+    @Value("${sql.note.deleteNoteFromFolder}")
+    private String SQL_DELETE_NOTE_FROM_FOLDER;
+
     private final RowMapper<Note> noteRowMapper;
 
     @Autowired
@@ -86,5 +89,10 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     @Override
     public void setFoldersNull(Integer folderId) {
         updateEntity(SQL_SET_FOLDERS_NULL, folderId);
+    }
+
+    @Override
+    public void deleteFromFolder(Long noteId) {
+        updateEntity(SQL_DELETE_NOTE_FROM_FOLDER, noteId);
     }
 }

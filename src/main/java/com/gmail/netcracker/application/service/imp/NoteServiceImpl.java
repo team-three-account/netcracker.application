@@ -50,4 +50,9 @@ public class NoteServiceImpl implements NoteService {
     public void addNoteToFolder(int noteId, int folderId) {
         noteDao.addNoteToFolder(noteId, folderId);
     }
+
+    @Override
+    public void deleteFromFolder(Long noteId) {
+        noteDao.deleteFromFolder(noteId);
+    }
 }

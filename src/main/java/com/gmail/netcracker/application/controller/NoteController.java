@@ -80,6 +80,12 @@ public class NoteController {
         return "redirect:/account/allNotes";
     }
 
+    @RequestMapping(value = {"/eventList/deleteFF-{noteId}"}, method = RequestMethod.GET)
+    public String deleteNoteFromFolder(@PathVariable Long noteId) {
+        noteService.deleteFromFolder(noteId);
+        return "redirect:/account/allNotes";
+    }
+
     @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.GET)
     public ModelAndView editNote(@PathVariable Long noteId, ModelAndView modelAndView) {
         modelAndView.addObject("editNote", noteService.getNote(noteId));
