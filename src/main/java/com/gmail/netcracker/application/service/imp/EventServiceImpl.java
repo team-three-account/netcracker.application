@@ -1,6 +1,9 @@
 package com.gmail.netcracker.application.service.imp;
 
-import com.gmail.netcracker.application.dto.dao.interfaces.*;
+import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
+import com.gmail.netcracker.application.dto.dao.interfaces.EventTypeDao;
+import com.gmail.netcracker.application.dto.dao.interfaces.NoteDao;
+import com.gmail.netcracker.application.dto.dao.interfaces.PriorityDao;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
@@ -12,13 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
 import static org.quartz.CronScheduleBuilder.cronSchedule;
 import static org.quartz.JobBuilder.newJob;
 import static org.quartz.TriggerBuilder.newTrigger;
@@ -259,6 +259,16 @@ public class EventServiceImpl implements EventService {
     }
 
     private void scheduleEventNotificationJob(Event event) {
+        JobDetail jobDetail = createJobForEvent(event);
+        CronTrigger cronTrigger = createCronTriggerForEvent(event, jobDetail);
+        try {
+            scheduler.scheduleJob(jobDetail, cronTrigger);
+        } catch (SchedulerException e) {
+            Logger.getLogger(EventServiceImpl.class.getName()).info(e.getMessage());
+        }
+    }
+
+    private JobDetail createJobForEvent(Event event) {
         final Class<EventNotificationJob> eventNotificationJobClass = EventNotificationJob.class;
         JobDataMap jobDataMap = new JobDataMap(); //TODO try not use new JobDataMap()
         jobDataMap.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
@@ -269,30 +279,20 @@ public class EventServiceImpl implements EventService {
                 .withIdentity(EVENT_NOTIFICATION_JOB_NAME_PREFIX + event.getEventId(),
                         EVENT_NOTIFICATION_JOB_GROUP_NAME)
                 .build();
-        //TODO delete this when utilities will be ready
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = null;
-        Date endDate = null;
-        try {
-            startDate = formatter.parse(event.getDateStart());
-            endDate = formatter.parse(event.getDateEnd());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        return jobDetail;
+    }
+
+    private CronTrigger createCronTriggerForEvent(Event event, JobDetail jobDetail) {
         CronTrigger cronTrigger = newTrigger()
 //                .withSchedule(cronSchedule(event.getPeriodicity())) //this is for using
                 .withSchedule(cronSchedule("0/10 * * ? * * *")) //this is for test
                 .withIdentity(EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX + event.getEventId(),
                         EVENT_NOTIFICATION_TRIGGER_GROUP_NAME)
                 .forJob(jobDetail)
-                .startAt(startDate)
-                .endAt(endDate)
+                .startAt(parseStringToDate(event.getDateStart()))
+                .endAt(parseStringToDate(event.getDateEnd()))
                 .build();
-        try {
-            scheduler.scheduleJob(jobDetail, cronTrigger);
-        } catch (SchedulerException e) {
-            Logger.getLogger(EventServiceImpl.class.getName()).info(e.getMessage());
-        }
+        return cronTrigger;
     }
 
     private void deleteEventNotificationJob(Long eventId) {

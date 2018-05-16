@@ -1,17 +1,13 @@
 package com.gmail.netcracker.application.validation;
 
 import com.gmail.netcracker.application.dto.model.Item;
-import com.gmail.netcracker.application.service.interfaces.ItemService;
-import com.gmail.netcracker.application.service.interfaces.UserService;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.sql.Timestamp;
 
@@ -38,8 +34,8 @@ public class ItemValidator implements Validator {
 
     private boolean expectedDate(Item item) {
         boolean status = false;
-        Timestamp currentDate = Utilites.getCurrentTimeStamp();
-        Timestamp setDate = Utilites.parseTime(item.getDueDate());
+        Timestamp currentDate = Utilities.getCurrentTimeStamp();
+        Timestamp setDate = Utilities.parseStringToTimestamp(item.getDueDate());
         if (setDate != null) {
             if (setDate.before(currentDate)) {
                 status = true;

@@ -28,8 +28,8 @@ import javax.sql.DataSource;
 import java.util.Locale;
 
 import static com.gmail.netcracker.application.utilites.ResultSetColumnValueExtractor.*;
-import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoString;
-import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoStringFormatWithSeconds;
+import static com.gmail.netcracker.application.utilites.Utilities.parseDateToString;
+import static com.gmail.netcracker.application.utilites.Utilities.parseDateToStringWithSeconds;
 
 @Configuration
 @ComponentScan("com.gmail.netcracker.application.*")
@@ -223,7 +223,7 @@ public class RootConfig {
             EventMessage eventMessage = new EventMessage();
             eventMessage.setFrom(getString(resultSet, "name"));
             eventMessage.setText(getString(resultSet, "text"));
-            eventMessage.setTime(parseDateIntoStringFormatWithSeconds(resultSet.getTimestamp("date")));
+            eventMessage.setTime(parseDateToStringWithSeconds(resultSet.getTimestamp("date")));
             eventMessage.setSenderPhoto(getString(resultSet, "photo"));
             eventMessage.setSenderId(getLong(resultSet, "sender_id"));
             return eventMessage;
@@ -253,7 +253,7 @@ public class RootConfig {
             user.setPassword(getString(resultSet, "password"));
             user.setRole(getString(resultSet, "role"));
             user.setPhone(getString(resultSet, "phone"));
-            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthdate")));
+            user.setBirthdayDate(parseDateToString(getDate(resultSet, "birthdate")));
             user.setPhoto(getString(resultSet, "photo"));
             user.setGender(getString(resultSet,"gender"));
             return user;
@@ -273,7 +273,7 @@ public class RootConfig {
             user.setPassword(getString(resultSet, "password"));
             user.setRole(getString(resultSet, "role"));
             user.setPhone(getString(resultSet, "phone"));
-            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthdate")));
+            user.setBirthdayDate(parseDateToString(getDate(resultSet, "birthdate")));
             user.setGender(getString(resultSet,"gender"));
             verificationToken.setUser(user);
             return verificationToken;

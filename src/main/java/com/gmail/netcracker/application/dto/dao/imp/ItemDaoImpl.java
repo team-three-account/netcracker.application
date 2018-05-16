@@ -2,7 +2,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.ItemDao;
 import com.gmail.netcracker.application.dto.model.Item;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
@@ -69,7 +69,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     public Long add(Item item) {
         return insertEntity(ADD_ITEM, PK_COLUMN_NAME,
                 item.getPersonId(), item.getName(), item.getDescription(),
-                item.getLink(), Utilites.parseTime(item.getDueDate()), item.getPriority(), item.getRoot(), item.getImage());
+                item.getLink(), Utilities.parseStringToTimestamp(item.getDueDate()), item.getPriority(), item.getRoot(), item.getImage());
     }
 
     public void setRoot(Long itemId) {
@@ -110,7 +110,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Override
     public void update(Item item) {
         updateEntity(UPDATE_ITEM, item.getPersonId(), item.getName(), item.getDescription(),
-                item.getLink(), Utilites.parseTime(item.getDueDate()), item.getPriority(),item.getImage(), item.getItemId());
+                item.getLink(), Utilities.parseStringToTimestamp(item.getDueDate()), item.getPriority(),item.getImage(), item.getItemId());
     }
 
     @Override

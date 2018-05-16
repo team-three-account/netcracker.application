@@ -4,7 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
@@ -114,9 +114,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
         updateEntity(SQL_UPDATE,
                 event.getName(),
                 event.getDescription(),
-                Utilites.parseTime(event.getDateStart()),
-                Utilites.parseTime(event.getDateEnd()),
-                Utilites.parseStringToInt(event.getType()),
+                Utilities.parseStringToTimestamp(event.getDateStart()),
+                Utilities.parseStringToTimestamp(event.getDateEnd()),
+                Utilities.parseStringToInt(event.getType()),
                 event.isDraft(),
                 event.getWidth(),
                 event.getLongitude(),
@@ -137,13 +137,13 @@ public class EventDaoImpl extends ModelDao implements EventDao {
                 event.getName(),
                 event.getDescription(),
                 event.getCreator(),
-                Utilites.parseTime(event.getDateStart()),
-                Utilites.parseTime(event.getDateEnd()),
+                Utilities.parseStringToTimestamp(event.getDateStart()),
+                Utilities.parseStringToTimestamp(event.getDateEnd()),
                 event.getWidth(),
                 event.getLongitude(),
                 event.getEventPlaceName(),
                 event.getPeriodicity(),
-                Utilites.parseStringToInt(event.getType()),
+                Utilities.parseStringToInt(event.getType()),
                 event.isDraft(),
                 event.getPhoto()));
     }

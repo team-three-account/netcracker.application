@@ -1,60 +1,36 @@
 package com.gmail.netcracker.application.controller;
 
 
-import com.gmail.netcracker.application.dto.model.Chat;
-import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.EventMessage;
 import com.gmail.netcracker.application.dto.model.User;
-import com.gmail.netcracker.application.service.imp.ChatServiceImpl;
-import com.gmail.netcracker.application.service.imp.EventMessageServiceImpl;
-import com.gmail.netcracker.application.service.imp.EventServiceImpl;
-import com.gmail.netcracker.application.service.imp.UserServiceImp;
 import com.gmail.netcracker.application.service.interfaces.ChatService;
 import com.gmail.netcracker.application.service.interfaces.EventMessageService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.socket.WebSocketSession;
-import org.springframework.web.socket.messaging.SessionConnectedEvent;
 
-import java.security.Principal;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(value = "/account/eventList")
 public class ChatController {
-
     @Autowired
     private UserService userService;
-
     @Autowired
     private EventMessageService eventMessageService;
-
     @Autowired
     private EventService eventService;
-
     @Autowired
     private ChatService chatService;
-
     private User user;
-
 
     private Logger logger = Logger.getLogger(ChatService.class.getName());
 
@@ -108,7 +84,7 @@ public class ChatController {
         User user = userService.findUserById(Long.valueOf(userId));
 
 
-        String time = Utilites.timeStamp();
+        String time = Utilities.getCurrentDateInString();
         message.setTime(time);
         message.setChatId(Long.valueOf(eventId));
         message.setEventId(Long.valueOf(eventId));

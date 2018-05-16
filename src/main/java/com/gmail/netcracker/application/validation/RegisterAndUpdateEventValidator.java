@@ -1,7 +1,7 @@
 package com.gmail.netcracker.application.validation;
 
 import com.gmail.netcracker.application.dto.model.Event;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
@@ -41,8 +41,8 @@ public class RegisterAndUpdateEventValidator implements Validator {
     }
     private boolean compareDate(Event event) {
         boolean status = false;
-        Timestamp startTime = Utilites.parseTime(event.getDateStart());
-        Timestamp endTime = Utilites.parseTime(event.getDateEnd());
+        Timestamp startTime = Utilities.parseStringToTimestamp(event.getDateStart());
+        Timestamp endTime = Utilities.parseStringToTimestamp(event.getDateEnd());
         if (startTime != null && endTime != null) {
             if (endTime.before(startTime)) {
                 status = true;
