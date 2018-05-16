@@ -466,7 +466,9 @@
     };
 </script>
 </body>
-<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
-<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
+<%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
+<%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<script>tinymce.init({ selector:'textarea' });</script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
 </html>

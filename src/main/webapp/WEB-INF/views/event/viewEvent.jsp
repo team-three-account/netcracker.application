@@ -81,7 +81,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Description : ${event.description}</td>
+                    <td>Description : <span class="description-block eventDescriptionBlock">${event.description}</span></td>
                 </tr>
                 <tr>
                     <td>Start : ${event.dateStart}</td>
