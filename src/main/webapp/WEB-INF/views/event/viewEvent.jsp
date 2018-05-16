@@ -38,12 +38,14 @@
                         </c:choose>
                     </td>
                 </tr>
-                <div style="display: inline-flex">
 
-                    <c:if test="${isParticipated == true &&
+
+                <c:if test="${isParticipated == true &&
                    (event.typeId==3 || event.typeId==2)}">
+
                         <tr>
                             <td>
+                                <div style="display: inline-flex">
                                 <form method="get"
                                       action="/account/eventList/eventChat/main/${chatWithCreator.chatId}-${event.eventId}">
                                     <button type="submit" class="btn btn-primary">
@@ -58,10 +60,10 @@
                                         </button>
                                     </form>
                                 </c:if>
+                                </div>
                             </td>
                         </tr>
-                    </c:if>
-                </div>
+                </c:if>
 
 
                 <input id="cron" type="hidden" value="${event.periodicity}">
