@@ -127,7 +127,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public void delete(int eventId) {
+    public void delete(Long eventId) {
         deleteEntity(SQL_DELETE, eventId);
     }
 
@@ -149,7 +149,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public Event getEvent(int eventId) {
+    public Event getEvent(Long eventId) {
         return findEntity(SQL_FIND, eventRowMapper, eventId);
     }
 
@@ -184,27 +184,27 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public void participate(Long userId, long eventId) {
+    public void participate(Long userId, Long eventId) {
         updateEntity(SQL_PARTICIPATE, userId, eventId);
     }
 
     @Override
-    public int getParticipantsCount(int eventId) {
-        return countRows(SQL_COUNT_PARTICIPANTS, eventId);
+    public int getParticipantsCount(Long eventId) {
+        return countRows(SQL_COUNT_PARTICIPANTS, Math.toIntExact(eventId));
     }
 
     @Override
-    public List<User> getParticipants(long eventId) {
+    public List<User> getParticipants(Long eventId) {
         return findEntityList(SQL_GET_PARTICIPANTS, friendRowMapper, eventId);
     }
 
     @Override
-    public Participant isParticipated(Long id, int eventId) {
+    public Participant isParticipated(Long id, Long eventId) {
         return findEntity(SQL_IS_PARTICIPATED, participantRowMapper, id, eventId);
     }
 
     @Override
-    public void unsubscribe(long id, long eventId) {
+    public void unsubscribe(Long id, Long eventId) {
         deleteEntity(SQL_UNSUBSCRIBE, id, eventId);
     }
 
@@ -224,21 +224,21 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public int getEventType(int eventId) {
-        return countRows(SQL_GET_EVENT_TYPE, eventId);
+    public int getEventType(Long eventId) {
+        return countRows(SQL_GET_EVENT_TYPE, Math.toIntExact(eventId));
     }
 
     @Override
-    public User getCreator(int eventId) {
+    public User getCreator(Long eventId) {
         return findEntity(SQL_GET_CREATOR, friendRowMapper, eventId);
     }
 
     @Override
-    public Event checkCreatorById(Long personId, int eventId) {
+    public Event checkCreatorById(Long personId, Long eventId) {
         return findEntity(SQL_CHECK_CREATOR, eventRowMapper, personId, eventId);
     }
 
-    public Event getEventWithPriority(Long personId, int eventId) {
+    public Event getEventWithPriority(Long personId, Long eventId) {
         return findEntity(SQL_GET_EVENT_WITH_PRIORITY, eventRowMapper, personId, eventId);
     }
 

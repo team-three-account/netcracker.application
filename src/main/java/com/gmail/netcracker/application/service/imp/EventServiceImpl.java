@@ -66,7 +66,7 @@ public class EventServiceImpl implements EventService {
 
     //TODO set Long
     @Override
-    public void delete(int eventId) {
+    public void delete(Long eventId) {
         eventDao.delete(eventId);
         deleteEventNotificationJob((long) eventId);
     }
@@ -79,7 +79,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getEvent(int eventId) {
+    public Event getEvent(Long eventId) {
         return eventDao.getEvent(eventId);
     }
 
@@ -124,27 +124,27 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void participate(Long userId, long eventId) {
+    public void participate(Long userId, Long eventId) {
         eventDao.participate(userId, eventId);
     }
 
     @Override
-    public int countParticipants(int eventId) {
+    public int countParticipants(Long eventId) {
         return eventDao.getParticipantsCount(eventId);
     }
 
     @Override
-    public List<User> getParticipants(long eventId) {
+    public List<User> getParticipants(Long eventId) {
         return eventDao.getParticipants(eventId);
     }
 
     @Override
-    public boolean isParticipated(Long id, int eventId) {
+    public boolean isParticipated(Long id, Long eventId) {
         return eventDao.isParticipated(id, eventId) != null;
     }
 
     @Override
-    public void unsubscribe(long id, long eventId) {
+    public void unsubscribe(Long id, Long eventId) {
         eventDao.unsubscribe(id, eventId);
     }
 
@@ -154,9 +154,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean allowAccess(Long personId, int eventId) {
+    public boolean allowAccess(Long personId, Long eventId) {
         boolean access = false;
         switch (eventDao.getEventType(eventId)) {
+            case 0:
+                access = isCreator(personId, eventId);
+                break;//indefinite
             case 1: // private
                 access = isCreator(personId, eventId);
                 break;
@@ -170,16 +173,16 @@ public class EventServiceImpl implements EventService {
         return access;
     }
 
-    public boolean isCreator(Long personId, int eventId) {
+    public boolean isCreator(Long personId, Long eventId) {
         return eventDao.checkCreatorById(personId, eventId) != null;
     }
 
-    private long getCreatorId(int eventId) {
+    private long getCreatorId(Long eventId) {
         return eventDao.getCreator(eventId).getId();
     }
 
     @Override
-    public void setPriority(Long priority, int eventId, Long user_id) {
+    public void setPriority(Long priority, Long eventId, Long user_id) {
         priorityDao.setPriorityToEvent(priority, eventId, user_id);
     }
 
@@ -189,13 +192,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getMyEventWithPriority(int eventId) {
+    public Event getMyEventWithPriority(Long eventId) {
         return eventDao.getEventWithPriority(userService.getAuthenticatedUser().getId(),
                 eventId);
     }
 
     @Override
-    public Participant getParticipation(int eventId) {
+    public Participant getParticipation(Long eventId) {
         return priorityDao.getParticipant(eventId, userService.getAuthenticatedUser().getId());
     }
 
@@ -225,14 +228,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<User> getFriendsToInvite(Long id, int eventId) {
+    public List<User> getFriendsToInvite(Long id, Long eventId) {
         List<User> minuend = friendService.getAllFriends(id);
         List<User> subtrahend = getParticipants(eventId);
         return subtraction(minuend, subtrahend);
     }
 
     @Override
-    public List<User> getUsersToInvite(Long currentId, int eventId) {
+    public List<User> getUsersToInvite(Long currentId, Long eventId) {
         List<User> minuend = userService.getAllUsers(currentId);
         List<User> subtrahend = getParticipants(eventId);
         return subtraction(minuend, subtrahend);
@@ -249,7 +252,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void convertDraftToEvent(int eventId) {
+    public void convertDraftToEvent(Long eventId) {
         Event event = eventDao.getEvent(eventId);
         event.setDraft(false);
         eventDao.convertDraftToEvent(event);

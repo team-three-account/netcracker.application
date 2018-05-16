@@ -31,7 +31,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public Note getNote(int noteId) {
+    public Note getNote(Long noteId) {
         return noteDao.getNote(noteId);
     }
 

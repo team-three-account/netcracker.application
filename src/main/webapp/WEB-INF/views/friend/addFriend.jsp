@@ -18,10 +18,10 @@
 
 <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-10">
         <div class="card card-register">
             <h1>Search for friends</h1>
             <form method="POST"

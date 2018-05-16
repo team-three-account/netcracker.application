@@ -59,11 +59,11 @@ public class ChatController {
     private Logger logger = Logger.getLogger(ChatService.class.getName());
 
     @RequestMapping(value = {"/eventChat/main/{chatId}-{eventId}"}, method = RequestMethod.GET)
-    public ModelAndView mainChatPage(@PathVariable(value = "eventId") int eventId,
+    public ModelAndView mainChatPage(@PathVariable(value = "eventId") Long eventId,
                                      @PathVariable(value = "chatId") Long chatId,
                                      ModelAndView modelAndView) {
         user = userService.getAuthenticatedUser();
-        List<EventMessage> list = chatService.getMessagesForEvent((long) eventId, chatId, true);
+        List<EventMessage> list = chatService.getMessagesForEvent(eventId, chatId, true);
         modelAndView.addObject("event", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
 //        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent((long) eventId, chatId, true));
@@ -84,7 +84,7 @@ public class ChatController {
     }
 
     @RequestMapping(value = {"/eventChat/subscriptions/{chatId}-{eventId}"}, method = RequestMethod.GET)
-    public ModelAndView subscriptionsChatPage(@PathVariable(value = "eventId") int eventId,
+    public ModelAndView subscriptionsChatPage(@PathVariable(value = "eventId") Long eventId,
                                               @PathVariable(value = "chatId") Long chatId,
                                               ModelAndView modelAndView) {
         user = userService.getAuthenticatedUser();
@@ -116,7 +116,7 @@ public class ChatController {
 
 
         try {
-            eventMessageService.addNewMessage(eventService.getEvent(Math.toIntExact(message.getEventId())),
+            eventMessageService.addNewMessage(eventService.getEvent(message.getEventId()),
                     message,
                     user,
                     chatService.getChatByChatId(Long.valueOf(chatId)));

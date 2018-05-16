@@ -61,7 +61,7 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     }
 
     @Override
-    public Note getNote(int noteId) {
+    public Note getNote(Long noteId) {
         return findEntity(SQL_FIND, noteRowMapper, noteId);
     }
 

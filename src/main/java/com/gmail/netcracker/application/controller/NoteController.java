@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.logging.LoggingPermission;
 
 
 @Controller
@@ -63,7 +64,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = "/eventList/note-{noteId}", method = RequestMethod.GET)
-    public ModelAndView viewNote(@PathVariable("noteId") int noteId, ModelAndView modelAndView) {
+    public ModelAndView viewNote(@PathVariable("noteId") Long noteId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("note", noteService.getNote(noteId));
         modelAndView.addObject("user_creator", userService.findUserById(noteService.getNote(noteId).getCreator()));
@@ -78,7 +79,7 @@ public class NoteController {
     }
 
     @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.GET)
-    public ModelAndView editNote(@PathVariable int noteId, ModelAndView modelAndView) {
+    public ModelAndView editNote(@PathVariable Long noteId, ModelAndView modelAndView) {
         modelAndView.addObject("editNote", noteService.getNote(noteId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("note/updateNote");
@@ -118,7 +119,7 @@ public class NoteController {
 //    }
 
     @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.GET)
-    public ModelAndView addNoteToFolder(ModelAndView modelAndView, @PathVariable int noteId) {
+    public ModelAndView addNoteToFolder(ModelAndView modelAndView, @PathVariable Long noteId) {
         Note note = noteService.getNote(noteId);
         modelAndView.addObject("newNoteIntoFolder", note);
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());

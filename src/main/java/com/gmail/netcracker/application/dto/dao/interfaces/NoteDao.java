@@ -9,7 +9,7 @@ public interface NoteDao {
 
     List<Note> noteList();
 
-    Note getNote(int noteId);
+    Note getNote(Long noteId);
 
     void delete(Long noteId);
 

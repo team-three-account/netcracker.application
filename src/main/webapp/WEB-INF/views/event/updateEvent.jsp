@@ -21,12 +21,12 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
 
-<div class="col-md-9 content">
+<div class="col-md-10 content">
     <div class="card card-register">
         <div class="card-header">Edit Event</div>
         <div class="card-body">
@@ -68,7 +68,18 @@
                                     placeholder="Enter event end date"/>
                         <form:errors path="dateEnd" cssClass="error"/>
                     </div>
+                    <c:if test="${editEvent.draft==true}">
+                        <div class="form-group">
+                            <label>Event type: </label>
+                            <form:select path="type" class="form-control">
+                                <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
+                            </form:select>
+                            <form:errors path="type" cssClass="error"/>
+                        </div>
+                    </c:if>
+                    <c:if test="${editEvent.draft==false}">
                         <form:input type="hidden" path="typeId" class="form-controll"/>
+                    </c:if>
                     <form:input path="draft" value="${editEvent.draft}" type="hidden"></form:input>
                     <div class="form-group">
                         <label>Periodicity:</label>

@@ -10,10 +10,10 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
-    <div class="col-md-9 main-content">
+    <div class="col-md-10 main-content">
         <div class="d-flex">
             <h3>Folder - ${folder.name}</h3>
             <a href="/account/share-${folder.folderId}">

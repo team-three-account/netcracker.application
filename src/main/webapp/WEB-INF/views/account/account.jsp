@@ -20,7 +20,7 @@
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
     </div>

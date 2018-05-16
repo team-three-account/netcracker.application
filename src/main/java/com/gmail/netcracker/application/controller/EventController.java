@@ -4,6 +4,7 @@ import com.dropbox.core.DbxException;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.*;
+import com.gmail.netcracker.application.validation.DraftValidator;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ public class EventController {
     private final PhotoServiceImp photoService;
     private final UserService userService;
     private final FriendService friendService;
+    private final DraftValidator draftValidator;
     private ChatService chatService;
 
     private User authUser;
@@ -39,11 +41,12 @@ public class EventController {
     @Autowired
     public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService,
                            UserService userService, FriendService friendService,
-                           ChatService chatService, RegisterAndUpdateEventValidator eventValidator) {
+                           DraftValidator draftValidator, ChatService chatService, RegisterAndUpdateEventValidator eventValidator) {
         this.eventService = eventService;
         this.noteService = noteService;
         this.photoService = photoService;
         this.userService = userService;
+        this.draftValidator = draftValidator;
         this.chatService = chatService;
         this.eventValidator = eventValidator;
         this.friendService = friendService;
@@ -86,7 +89,12 @@ public class EventController {
         if ("".equals(event.getPeriodicity())) {
             event.setPeriodicity(null);
         }
-        eventValidator.validate(event, result);
+        if (event.getDraft().equals(true)) {
+            draftValidator.validate(event, result);
+            event.setType(String.valueOf(0));
+        } else {
+            eventValidator.validate(event, result);
+        }
         if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
@@ -98,25 +106,24 @@ public class EventController {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         eventService.insertEvent(event);
-        if (event.getType().equals("2") || event.getType().equals("3")) {
+        if (event.getType().equals("2") || event.getType().equals("3") && event.getDraft().equals(false)) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
+            eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         }
-
-        eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }
 
 
     @RequestMapping(value = {"/eventList/deleteEvent-{eventId}"}, method = RequestMethod.GET)
-    public String deleteEvent(@PathVariable int eventId) {
+    public String deleteEvent(@PathVariable Long eventId) {
         eventService.delete(eventId);
         return "redirect:/account/managed";
     }
 
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.GET)
-    public ModelAndView viewEvent(@PathVariable("eventId") int eventId, ModelAndView modelAndView) {
+    public ModelAndView viewEvent(@PathVariable("eventId") Long eventId, ModelAndView modelAndView) {
         User authUser = userService.getAuthenticatedUser();
         if (!eventService.allowAccess(authUser.getId(), eventId)) {
             modelAndView.setViewName("accessDenied");
@@ -140,7 +147,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.POST)
-    public String editPriority(@PathVariable("eventId") int eventId,
+    public String editPriority(@PathVariable("eventId") Long eventId,
                                @ModelAttribute(value = "participation") Participant participation,
                                Model model) {
 
@@ -150,7 +157,7 @@ public class EventController {
     }
 
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.GET)
-    public ModelAndView editEvent(@PathVariable int eventId,
+    public ModelAndView editEvent(@PathVariable Long eventId,
                                   ModelAndView modelAndView) {
         modelAndView.addObject("editEvent", eventService.getEvent(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -169,6 +176,11 @@ public class EventController {
         if ("".equals(event.getPeriodicity())) {
             event.setPeriodicity(null);
         }
+        if (event.getDraft().equals(true)) {
+            draftValidator.validate(event, result);
+        } else {
+            eventValidator.validate(event, result);
+        }
         if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
@@ -178,27 +190,21 @@ public class EventController {
             modelAndView.setViewName("event/updateEvent");
             return modelAndView;
         }
-
-
         if (multipartFile.isEmpty()) {
             event.setPhoto(photo);
         } else {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         modelAndView.setViewName("event/updateEvent");
-        eventValidator.validate(event, result);
-        if (result.hasErrors()) {
-            return modelAndView;
-        }
         eventService.update(event);
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }
 
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
-    public String participate(@RequestParam(value = "event_id") String eventId, Model model) {
+    public String participate(@RequestParam(value = "event_id") Long eventId, Model model) {
         model.addAttribute("auth_user", authUser);
-        eventService.participate(authUser.getId(), Long.parseLong(eventId));
+        eventService.participate(authUser.getId(), eventId);
         return "redirect:/account/eventList/event-" + eventId;
     }
 
@@ -208,8 +214,8 @@ public class EventController {
     }
 
     @RequestMapping(value = "/event-{eventId}/participants", method = RequestMethod.GET)
-    public String getParticipants(@PathVariable(value = "eventId") String eventId, Model model) {
-        List<User> participantList = eventService.getParticipants(Long.parseLong(eventId));
+    public String getParticipants(@PathVariable(value = "eventId") Long eventId, Model model) {
+        List<User> participantList = eventService.getParticipants(eventId);
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("participantList", participantList);
         model.addAttribute("auth_user", authUser);
@@ -226,9 +232,9 @@ public class EventController {
     }
 
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
-    public String unsubscribe(@RequestParam(value = "event_id") String eventId, Model model) {
+    public String unsubscribe(@RequestParam(value = "event_id") Long eventId, Model model) {
         model.addAttribute("auth_user", authUser);
-        eventService.unsubscribe(authUser.getId(), Long.parseLong(eventId));
+        eventService.unsubscribe(authUser.getId(), eventId);
         return "redirect:/account/eventList/event-" + eventId;
     }
 
@@ -270,7 +276,7 @@ public class EventController {
     }
 
     @RequestMapping(value = "/public/event-{eventId}/invite", method = RequestMethod.GET)
-    public String inviteListToPublic(Model model, @PathVariable(value = "eventId") int eventId) {
+    public String inviteListToPublic(Model model, @PathVariable(value = "eventId") Long eventId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         List<User> usersToInvite = eventService.getUsersToInvite(userService.getAuthenticatedUser().getId(), eventId);
         model.addAttribute("usersToInvite", usersToInvite);
@@ -281,13 +287,14 @@ public class EventController {
     }
 
     @RequestMapping(value = "{eventId}/invite-to-public", method = RequestMethod.POST)
-    public String inviteToPublic(@PathVariable(value = "eventId") int eventId, @RequestParam(value = "userId") Long userId) {
+    public String inviteToPublic(@PathVariable(value = "eventId") Long eventId,
+                                 @RequestParam(value = "userId") Long userId) {
         eventService.participate(userId, eventId);
         return "redirect:/account/public/event-" + eventId + "/invite";
     }
 
     @RequestMapping(value = "/for-friends/event-{eventId}/invite", method = RequestMethod.GET)
-    public String inviteToForFriends(Model model, @PathVariable(value = "eventId") int eventId) {
+    public String inviteToForFriends(Model model, @PathVariable(value = "eventId") Long eventId) {
         model.addAttribute("auth_user", authUser);
         List<User> friendsToInvite = eventService.getFriendsToInvite(authUser.getId(), eventId);
         model.addAttribute("friendsToInvite", friendsToInvite);
@@ -299,7 +306,8 @@ public class EventController {
 
     @RequestMapping(value = {"/translateToEvent-{noteId}"}, method = RequestMethod.GET)
     public ModelAndView translateToEvent(@ModelAttribute(value = "createNewEvent") Event event,
-                                         ModelAndView modelAndView, @PathVariable int noteId) {
+                                         ModelAndView modelAndView,
+                                         @PathVariable(value = "noteId") Long noteId) {
         modelAndView.setViewName("event/createNewEvent");
         event.setPhoto(photoService.getDefaultImageForEvents());
         logger.info(event.getPhoto());
@@ -338,14 +346,55 @@ public class EventController {
     }
 
     @RequestMapping(value = {"/eventList/convertToEvent-{eventId}"}, method = RequestMethod.GET)
-    public String convertDraftToEvent(@PathVariable int eventId) {
+    public ModelAndView getPageConvertDraftToEvent(@PathVariable Long eventId,
+                                                   Event event,
+                                                   ModelAndView modelAndView) {
+        event = eventService.getEvent(eventId);
+        event.setPhoto(photoService.getDefaultImageForEvents());
+        modelAndView.addObject("editEvent", event);
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("event/updateEvent");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/eventList/convertToEvent-{eventId}"}, method = RequestMethod.POST)
+    public ModelAndView convertDraftToEvent(@PathVariable Long eventId,
+                                            @ModelAttribute("editEvent") Event event,
+                                            @RequestParam(value = "photo") String photo,
+                                            @RequestParam(value = "photoFile") MultipartFile multipartFile,
+                                            BindingResult result,
+                                            ModelAndView modelAndView) throws IOException, DbxException {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        event.setPhoto(photo);
+        modelAndView.setViewName("event/updateEvent");
+        if ("".equals(event.getPeriodicity())) {
+            event.setPeriodicity(null);
+        }
+        eventValidator.validate(event, result);
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty() || result.hasErrors()) {
+            modelAndView.addObject("message", "Image type don't supported");
+            return modelAndView;
+        }
+        if (!multipartFile.isEmpty()) {
+            photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString());
+        }
+        eventService.update(event);
         eventService.convertDraftToEvent(eventId);
-        return "redirect:/account/managed";
+        if (event.getType().equals("2") || event.getType().equals("3") && event.getDraft().equals(false)) {
+            chatService.createChatForEvent(event, true);
+            chatService.createChatForEvent(event, false);
+            eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
+        }
+        modelAndView.setViewName("redirect:/account/managed");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/eventList/search", method = RequestMethod.POST)
     public String getSearch(Model model, String search) {
-        if (search==null||search.isEmpty()) {
+        if (search == null || search.isEmpty()) {
             return "redirect:/account/eventList";
         }
         model.addAttribute("auth_user", authUser);

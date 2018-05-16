@@ -338,7 +338,7 @@ public class RootConfig {
     public RowMapper<Participant> participantRowMapper() {
         return (resultSet, i) -> {
             Participant participant = new Participant();
-            participant.setEventId(getInt(resultSet, "event_id"));
+            participant.setEventId(getLong(resultSet, "event_id"));
             participant.setPriority(getLong(resultSet, "priority_id"));
             return participant;
         };
