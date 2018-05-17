@@ -70,9 +70,6 @@
                         <input type="hidden" id="userId" value="${auth_user.id}">
                         <button class="btn btn-primary" id="sendMessage" onclick="sendMessage()" disabled>Send
                         </button>
-                        <button class="btn btn-primary" id="getMessages" onclick="loadPrevMessages()">load Pervious
-                            Messages
-                        </button>
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
