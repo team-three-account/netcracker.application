@@ -77,6 +77,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
                 user.getSurname(),
                 user.getPhone(),
                 parseStringToDate(user.getBirthdayDate()),
+                user.getPhoto(),
                 user.getId());
     }
 

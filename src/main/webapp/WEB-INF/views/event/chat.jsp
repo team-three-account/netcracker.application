@@ -48,7 +48,7 @@
                             <form:forEach var="message" items="${chatMessage}">
                                 <form:if test="${auth_user.id==message.senderId}">
                                     <div class="text-right" id="showMessageOutputFromData">
-                                        <p>${message.from} ${message.text} ${message.time}
+                                        <p> ${message.text} ${message.time}
                                             <img class="img-circle" style="width: 40px;height: 40px"
                                                  src="${message.senderPhoto}"/>
                                         </p>
@@ -58,7 +58,7 @@
                                     <div class="text-left" id="showMessageOutputFromData">
                                         <input type="hidden" id="sender" value="${message.senderId}">
                                         <p><img class="img-circle" style="width: 40px;height: 40px"
-                                                src="${message.senderPhoto}">${message.from} ${message.text} ${message.time}
+                                                src="${message.senderPhoto}"> ${message.text} ${message.time}
                                         </p>
                                     </div>
                                 </form:if>

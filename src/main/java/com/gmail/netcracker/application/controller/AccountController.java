@@ -131,8 +131,9 @@ public class AccountController {
             user.setPhoto(photo);
         } else {
             user.setPhoto(photoService.uploadFileOnDropBox(photoFile, UUID.randomUUID().toString()));
-            userService.getAuthenticatedUser().setPhoto(user.getPhoto());
+
         }
+        userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         userService.getAuthenticatedUser().setName(user.getName());
         userService.getAuthenticatedUser().setSurname(user.getSurname());
         userService.getAuthenticatedUser().setBirthdayDate(user.getBirthdayDate());

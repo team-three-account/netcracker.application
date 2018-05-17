@@ -63,19 +63,20 @@ function showMessageOutput(message, isAppended) {
             var messageLeftHtml = " <div class=\"text-left\" id=\"showMessageOutputFromData\">\n" +
                 "                                        <input type=\"hidden\" id=\"sender\" value=\"" + message.senderId + "\">\n" +
                 "                                        <p><img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
-                "                                                src=\"" + message.senderPhoto + "\">" +
-                message.from + " " + message.text + " " + message.time + "\n" +
+                "                                                src=\"" + message.senderPhoto + "\">" + " " + message.text + "\n" +
                 "                                        </p>\n" +
+                                                            "<p>"+message.time+"</p>\n"+
                 "                                    </div>";
             messageHtml = messageLeftHtml;
             break;
         }
         case false: {
             var messageRightHtml = "<div class=\"text-right\" id=\"showMessageOutputFromData\">\n" +
-                "                                        <p>" + message.from + " " + message.text + " " + message.time + "\n" +
+                "                                        <p>" + message.text +
                 "                                            <img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
                 "                                                 src=\"" + message.senderPhoto + "\"/>\n" +
                 "                                        </p>\n" +
+                "                                        <p>"+ message.time+"</p>\n" +
                 "                                    </div>";
             messageHtml = messageRightHtml;
             break;

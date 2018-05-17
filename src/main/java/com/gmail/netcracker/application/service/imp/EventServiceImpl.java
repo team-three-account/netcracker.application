@@ -273,13 +273,12 @@ public class EventServiceImpl implements EventService {
         JobDataMap jobDataMap = new JobDataMap(); //TODO try not use new JobDataMap()
         jobDataMap.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
         jobDataMap.put(EVENT_FIELD_NAME, event);
-        JobDetail jobDetail = newJob()
+        return newJob()
                 .ofType(eventNotificationJobClass)
                 .setJobData(jobDataMap)
                 .withIdentity(EVENT_NOTIFICATION_JOB_NAME_PREFIX + event.getEventId(),
                         EVENT_NOTIFICATION_JOB_GROUP_NAME)
                 .build();
-        return jobDetail;
     }
 
     private CronTrigger createCronTriggerForEvent(Event event, JobDetail jobDetail) {
