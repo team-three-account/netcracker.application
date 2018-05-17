@@ -36,7 +36,7 @@
           class="forms_form" action="/account/eventList/search">
         <div class="form-group">
             <input name="search" class="form-control" style="width: 33%" id="search"
-                   placeholder="Enter name or surname"/>
+                   placeholder="Enter query"/>
             <input type="submit" value="Search" class="btn btn-dark" href="/"
                    style="margin-top: 15px; margin-bottom: 15px">
         </div>

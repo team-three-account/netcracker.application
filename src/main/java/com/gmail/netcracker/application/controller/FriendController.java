@@ -64,19 +64,6 @@ public class FriendController {
         return "redirect:/account/friends/outgoing";
     }
 
-    @RequestMapping(value = "/friends/search", method = RequestMethod.POST)
-    public String getSearch(Model model, String search) {
-        if (search.isEmpty()) {
-            return "redirect:/account/friends";
-        }
-        model.addAttribute("auth_user", authUser);
-        List<User> friendList = friendService.searchFriends(userService.getAuthenticatedUser().getId(), search);
-        model.addAttribute("friendList", friendList);
-        List<User> subtractionUsers = friendService.subtractionFromFriendList(friendService.searchUsers(userService.getAuthenticatedUser().getId(), search));
-        model.addAttribute("subtractionUsers", subtractionUsers);
-        return "friend/friends";
-    }
-
     @RequestMapping(value = "/friends/outgoing", method = RequestMethod.GET)
     public String outgoingRequests(Model model) {
         model.addAttribute("auth_user", authUser);

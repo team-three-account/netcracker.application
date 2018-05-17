@@ -17,6 +17,16 @@
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 <div class="col-lg-9 col-md-10 col-xs-3 content">
+    <h3>Search for items</h3>
+    <form method="POST"
+          class="forms_form" action="/account/items/search">
+        <div class="form-group">
+            <input name="search" class="form-control" style="width: 33%" id="search"
+                   placeholder="Enter query"/>
+            <input type="submit" value="Search" class="btn btn-dark" href="/"
+                   style="margin-top: 15px; margin-bottom: 15px">
+        </div>
+    </form>
     <c:choose>
         <c:when test="${auth_user.id.equals(ownerId)}">
             <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>
