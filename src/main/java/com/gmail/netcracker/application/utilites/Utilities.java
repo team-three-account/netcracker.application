@@ -9,7 +9,6 @@ import java.util.Date;
 
 //TODO don't forget about conversation in jobs after Utilities fixing !!!
 public class Utilities {
-    //TODO удалить один парсер
     //deleted
 //    public static Timestamp parseStringIntoDate(String str_date) {
 //        try {
@@ -24,6 +23,13 @@ public class Utilities {
 //        }
 //    }
 
+    public static String getPattern(String input){
+        return input + "%";
+    }
+
+    public static String getPattern(String name, String surname){
+        return "(" + name + "|" + surname + ")%";
+    }
     public static String parseDateToString(Date date) {
         if (date == null) {
             return "";
