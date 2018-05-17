@@ -51,7 +51,7 @@ function sendMessage() {
     var senderPhoto = document.getElementById('photo').value;
 
     stompClient.send("/app/chat/" + event + "/" + sender + "/" + chat, {},
-        JSON.stringify({'from': from, 'text': text, 'senderId': sender, 'senderPhoto': senderPhoto}));
+        JSON.stringify({'from': from, 'text': text.trim(), 'senderId': sender, 'senderPhoto': senderPhoto}));
     document.getElementById('text').value = "";
     document.getElementById('sendMessage').disabled = true;
 }
@@ -101,7 +101,7 @@ function showMessageOutputFromData() {
 function checkParams() {
     var name = $('#text').val();
 
-    if (name.length != 0) {
+    if (name.trim() != 0) {
         $('#sendMessage').removeAttr('disabled');
     } else {
         $('#sendMessage').attr('disabled', 'disabled');
