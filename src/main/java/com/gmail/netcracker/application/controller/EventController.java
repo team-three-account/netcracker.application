@@ -26,13 +26,11 @@ public class EventController {
 
     private final EventService eventService;
     private final NoteService noteService;
-
     private final PhotoServiceImp photoService;
     private final UserService userService;
     private final FriendService friendService;
     private final DraftValidator draftValidator;
     private ChatService chatService;
-
     private User authUser;
     private RegisterAndUpdateEventValidator eventValidator;
 
@@ -41,7 +39,8 @@ public class EventController {
     @Autowired
     public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService,
                            UserService userService, FriendService friendService,
-                           DraftValidator draftValidator, ChatService chatService, RegisterAndUpdateEventValidator eventValidator) {
+                           ChatService chatService, RegisterAndUpdateEventValidator eventValidator,
+                           DraftValidator draftValidator) {
         this.eventService = eventService;
         this.noteService = noteService;
         this.photoService = photoService;
@@ -390,18 +389,5 @@ public class EventController {
         }
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
-    }
-
-    @RequestMapping(value = "/eventList/search", method = RequestMethod.POST)
-    public String getSearch(Model model, String search) {
-        if (search == null || search.isEmpty()) {
-            return "redirect:/account/eventList";
-        }
-        model.addAttribute("auth_user", authUser);
-        List<Event> eventListPublic = eventService.searchFromPublicEvents(search, authUser);
-        model.addAttribute("resultSearchPublic", eventListPublic);
-        List<Event> eventListUser = eventService.searchFromUsersEvents(search, authUser);
-        model.addAttribute("resultSearchUser", eventListUser);
-        return "event/resultSearch";
     }
 }
