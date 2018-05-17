@@ -14,9 +14,6 @@ import java.lang.reflect.Type;
 @PropertySource("classpath:application.properties")
 public class EventSerializer implements JsonSerializer<Event> {
 
-    @Value("${heroku.host}")
-    String URL;
-
     @Autowired
     EventService eventService;
 
