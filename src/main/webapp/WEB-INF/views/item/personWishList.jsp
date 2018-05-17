@@ -62,7 +62,11 @@
                                 </c:choose>
                                     <div style="width: 25px; height: 25px;background: ${color}; border-radius: 15px; display: inline-block; position: absolute;"></div>
                                 </li>
-                                <li class="list-group-item">Tags : </li>
+                                <li class="list-group-item">Tags :
+                                    <c:forEach var="tag" items="${item.tags}" >
+                                        #${tag.name}
+                                    </c:forEach>
+                                </li>
                             </ul>
                             <p>
                                 <c:choose>

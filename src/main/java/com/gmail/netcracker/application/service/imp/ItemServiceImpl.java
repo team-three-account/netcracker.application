@@ -55,7 +55,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getWishList(Long personId) {
-        return itemDao.findItemsByPersonId(personId);
+        List<Item> wishList= itemDao.findItemsByPersonId(personId);
+        for (Item item: wishList){
+            item.setTags(tagDao.getTagsOfItem(item.getItemId()));
+        }
+        return wishList;
     }
 
     @Override
