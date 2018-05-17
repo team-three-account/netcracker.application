@@ -20,4 +20,6 @@ public interface NoteDao {
     void setFoldersNull(Integer folderId);
 
     void deleteFromFolder(Long noteId);
+
+    void addNoteToFolderBtn(Note note);
 }

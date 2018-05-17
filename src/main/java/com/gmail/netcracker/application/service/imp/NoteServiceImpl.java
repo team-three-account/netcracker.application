@@ -55,4 +55,9 @@ public class NoteServiceImpl implements NoteService {
     public void deleteFromFolder(Long noteId) {
         noteDao.deleteFromFolder(noteId);
     }
+
+    @Override
+    public void addNoteToFolderBtn(Note note) {
+        noteDao.addNoteToFolderBtn(note);
+    }
 }

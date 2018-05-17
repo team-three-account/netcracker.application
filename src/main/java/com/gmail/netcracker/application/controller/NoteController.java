@@ -124,4 +124,22 @@ public class NoteController {
         noteService.addNoteToFolder(noteId, folderId);
         return ResponseEntity.ok("Note was moved to folder successfully.");
     }
+
+    @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.GET)
+    public ModelAndView addNoteToFolderBtn(ModelAndView modelAndView, @PathVariable Long noteId) {
+        Note note = noteService.getNote(noteId);
+        modelAndView.addObject("newNoteIntoFolder", note);
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.addObject("listFolders", folderService.folderList());
+        modelAndView.setViewName("note/addNoteToFolder");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.POST)
+    public ModelAndView saveNoteToFolderBtn(ModelAndView modelAndView, @ModelAttribute("newNoteIntoFolder") Note note) {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        noteService.addNoteToFolderBtn(note);
+        modelAndView.setViewName("redirect:/account/allNotes");
+        return modelAndView;
+    }
 }

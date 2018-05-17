@@ -35,6 +35,9 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     @Value("${sql.note.addNoteToFolder}")
     private String SQL_ADD_NOTE;
 
+    @Value("${sql.note.addNoteToFolder}")
+    private String SQL_ADD_NOTE_BTN;
+
     @Value("${sql.note.setFoldersNull}")
     private String SQL_SET_FOLDERS_NULL;
 
@@ -94,5 +97,12 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     @Override
     public void deleteFromFolder(Long noteId) {
         updateEntity(SQL_DELETE_NOTE_FROM_FOLDER, noteId);
+    }
+
+    @Override
+    public void addNoteToFolderBtn(Note note) {
+        updateEntity(SQL_ADD_NOTE_BTN,
+                note.getFolder(),
+                note.getNoteId());
     }
 }
