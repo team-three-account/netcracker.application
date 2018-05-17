@@ -57,6 +57,9 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.getPopularItems}")
     private String GET_POPULAR_ITEMS;
 
+    @Value("${sql.item.searchItems}")
+    private String SQL_SEARCH_ITEMS;
+
     private final RowMapper<Item> itemRowMapper;
 
     @Autowired
@@ -105,6 +108,11 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Override
     public List<Item> getPopularItems(int amountOfItems) {
         return findEntityList(GET_POPULAR_ITEMS, itemRowMapper, amountOfItems);
+    }
+
+    @Override
+    public List<Item> search(String query, Long userId) {
+        return findEntityList(SQL_SEARCH_ITEMS, itemRowMapper, query, userId);
     }
 
     @Override

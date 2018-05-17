@@ -29,4 +29,6 @@ public interface ItemDao {
     void setBookerFromEvent(Long itemId, Long booker, Long eventId);
 
     List<Item> getPopularItems(int amountOfItems);
+
+    List<Item> search(String query, Long userId);
 }
