@@ -23,15 +23,32 @@
 
     <div class="row form-inline">
         <div class="col-lg-8 col-md-6 col-xl-10">
-            <h3 class="caption"> Your wishList</h3>
+            <h3 class="caption"> Wish List</h3>
             <c:forEach var="item" items="${wishList}">
 
                 <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3" style="display: inline">
                     <div class="thumbnail">
                         <img class="img-circle" style="width: 200px;height: 200px" src="${item.image}" alt="">
                         <div class="caption">
-                            <h3>${item.name}</h3>
+                            <c:choose>
+                                <c:when test="${item.priority=='1'}">
+                                    <c:set var="color" value="red"/>
+                                </c:when>
+                                <c:when test="${item.priority=='2'}">
+                                    <c:set var="color" value="yellow"/>
+                                </c:when>
+                                <c:when test="${item.priority=='3'}">
+                                    <c:set var="color" value="green"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:set var="color" value="grey"/>
+                                </c:otherwise>
+                            </c:choose>
                             <ul class="list-group">
+                                <tr>
+                                    <td> <div style="width: 18px; height: 18px;background: ${color}; border-radius: 10px; display: inline-block; "></div></td>
+                                    <td><span style="font-size: 24px;"> ${item.name} </span></td>
+                                </tr>
                                 <li class="list-group-item">${item.description}</li>
                                 <li class="list-group-item">Actual to : ${item.dueDate}</li>
                                 <li class="list-group-item">Priority: <c:choose>
@@ -69,6 +86,10 @@
                                 </td>
                             </c:when>
                             <c:otherwise>
+                                <td>
+                                    <a href="/account/copy-${item.itemId}">
+                                        <input type="submit" class="btn btn-success text-center" value="Copy to my wish list"></a>
+                                </td>
                             <c:choose>
                             <c:when test="${item.booker.equals(0)}">
                                 <td>
@@ -93,7 +114,7 @@
                                 <c:otherwise>
                             <td>
                                 <b>Booked</b>
-                            <td>
+                            </td>
                                 </c:otherwise>
                                 </c:choose>
                                 </c:otherwise>
