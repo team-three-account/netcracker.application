@@ -7,46 +7,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
-    <script type="text/javascript">
-        $(function () {
-
-            $(".input-group-btn .dropdown-menu li a").click(function () {
-
-                var selText = $(this).html();
-
-                //working version - for single button //
-                //$('.btn:first-child').html(selText+'<span class="caret"></span>');
-
-                //working version - for multiple buttons //
-                $(this).parents('.input-group-btn').find('.btn-search').html(selText);
-
-            });
-
-        });
-    </script>
-    <style>
-        /* nav bar search box - drop down menu button */
-        .navbar .navbar-search .dropdown-menu {
-            min-width: 25px;
-        }
-
-        .dropdown-menu .label-icon {
-            margin-left: 5px;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            color: inherit;
-            transition: all .5s;
-        }
-    </style>
-</head>
-<body>
+<link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -82,39 +43,6 @@
                                         </span>
                                     </option>
                                 </select>
-
-                            <%--<button type="button" class="btn btn-search btn-default dropdown-toggle"--%>
-                                        <%--data-toggle="dropdown">--%>
-                                    <%--<span class="glyphicon glyphicon-search"></span>--%>
-                                    <%--<span class="label-icon">Search</span>--%>
-                                    <%--<span class="caret"></span>--%>
-                                <%--</button>--%>
-                                <%--<ul class="dropdown-menu pull-left" role="menu">--%>
-                                    <%--<li value="user">--%>
-                                        <%--<a href="#">--%>
-                                            <%--<span class="glyphicon glyphicon-user"></span>--%>
-                                            <%--<span class="label-icon">Users</span>--%>
-                                        <%--</a>--%>
-                                    <%--</li>--%>
-                                    <%--<li value="event">--%>
-                                        <%--<a href="#">--%>
-                                            <%--<span class="glyphicon glyphicon-book"></span>--%>
-                                            <%--<span class="label-icon">Events</span>--%>
-                                        <%--</a>--%>
-                                    <%--</li>--%>
-                                    <%--<li value="item">--%>
-                                        <%--<a href="#">--%>
-                                            <%--<span class="glyphicon glyphicon-gift"></span>--%>
-                                            <%--<span class="label-icon">Items</span>--%>
-                                        <%--</a>--%>
-                                    <%--</li>--%>
-                                    <%--<li value="friend">--%>
-                                        <%--<a href="#">--%>
-                                            <%--<span class="glyphicon glyphicon-heart-empty"></span>--%>
-                                            <%--<span class="label-icon">Friends</span>--%>
-                                        <%--</a>--%>
-                                    <%--</li>--%>
-                                <%--</ul>--%>
                             </div>
 
                             <input type="text" class="form-control" name="search">
@@ -137,5 +65,3 @@
         </div>
     </div>
 </div>
-</body>
-</html>
