@@ -105,7 +105,8 @@ public class EventController {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         eventService.insertEvent(event);
-        if (event.getType().equals("2") || event.getType().equals("3") && event.getDraft().equals(false)) {
+        if (event.getType().equals("1") || event.getType().equals("2") || event.getType().equals("3")
+                && event.getDraft().equals(false)) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
             eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
