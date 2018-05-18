@@ -22,20 +22,20 @@ var realStateApp = {
 })();
 
 // valid date
-(function () {
-    if (document.getElementsByClassName('dateValid')) { // перевірка на наявність інпутів які потрібно валідувати
-        var nodeDateInput = document.getElementsByClassName('dateValid'); // запис їх в змінну
-        for (var i = 0; i < nodeDateInput.length; i++) { // проходження по всіх інпутах та вішання на них обробників подій change
-            nodeDateInput[i].addEventListener('change', function () {
-                var splitValue = this.value.split('-'); // розділення в масив (yyyy-mm-dd)
-                if (splitValue[0].length > 4) { // перевірка чи довжина  року перевищує 4 цифри
-                    splitValue[0] = splitValue[0].slice(0, 4); // якщо перевищує обрізаємо до 4 цифр
-                    this.value = splitValue.join('-'); // записуємо назад
-                }
-            }, false);
-        }
-    }
-})();
+// (function () {
+//     if (document.getElementsByClassName('dateValid')) { // перевірка на наявність інпутів які потрібно валідувати
+//         var nodeDateInput = document.getElementsByClassName('dateValid'); // запис їх в змінну
+//         for (var i = 0; i < nodeDateInput.length; i++) { // проходження по всіх інпутах та вішання на них обробників подій change
+//             nodeDateInput[i].addEventListener('change', function () {
+//                 var splitValue = this.value.split('-'); // розділення в масив (yyyy-mm-dd)
+//                 if (splitValue[0].length > 4) { // перевірка чи довжина  року перевищує 4 цифри
+//                     splitValue[0] = splitValue[0].slice(0, 4); // якщо перевищує обрізаємо до 4 цифр
+//                     this.value = splitValue.join('-'); // записуємо назад
+//                 }
+//             }, false);
+//         }
+//     }
+// })();
 
 //оголошення змінних
 var marker;
@@ -215,10 +215,12 @@ document.getElementById('valid_maps').addEventListener('submit', function (event
         console.log('submit false');
         document.getElementById('eventPlaceName').style.cssText = 'border-color: #f00';
         eventObj.preventDefault();
-        return false;
     } else {
         console.log('submit true');
     }
+    console.log(jQuery(this).serialize());
+    // eventObj.preventDefault();
+    // return false;
 }, false);
 
 

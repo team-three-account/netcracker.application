@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>Edit Event </title>
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
@@ -58,13 +59,13 @@
                     </div>
                     <div class="form-group">
                         <label>Start Date: </label>
-                        <form:input path="dateStart" id="dateStart" type="date" class="form-control dateValid"
+                        <form:input path="dateStart" id="dateStart" type="text" class="form-control dateValid"
                                     placeholder="Enter event start date"/>
                         <form:errors path="dateStart" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>End Date: </label>
-                        <form:input path="dateEnd" id="dateEnd" type="date" class="form-control dateValid"
+                        <form:input path="dateEnd" id="dateEnd" type="text" class="form-control dateValid"
                                     placeholder="Enter event end date"/>
                         <form:errors path="dateEnd" cssClass="error"/>
                     </div>
@@ -466,4 +467,6 @@
 <%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
 <script>tinymce.init({ selector:'textarea' });</script>
+<script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
+<script src='${contextPath}/resources/js/datetime.js'></script>
 </html>

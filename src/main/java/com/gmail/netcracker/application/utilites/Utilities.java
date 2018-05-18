@@ -57,7 +57,7 @@ public class Utilities {
     public static Timestamp parseStringToTimestampWithSeconds(String stringDate) {
         if (stringDate != null) {
             try {
-                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date date = formatter.parse(stringDate);
                 Timestamp timestamp = new Timestamp(date.getTime());
                 return timestamp;
@@ -72,7 +72,7 @@ public class Utilities {
     public static Timestamp parseStringToTimestamp(String stringDate) {
         if (stringDate != null) {
             try {
-                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
                 Date date = formatter.parse(stringDate);
                 Timestamp timestamp = new Timestamp(date.getTime());
                 return timestamp;
@@ -116,4 +116,5 @@ public class Utilities {
         Date today = new Date();
         return new Timestamp(today.getTime());
     }
+
 }
