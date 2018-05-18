@@ -84,10 +84,10 @@
                     <td>Description : <span class="description-block eventDescriptionBlock">${event.description}</span></td>
                 </tr>
                 <tr>
-                    <td>Start : ${event.dateStart}</td>
+                    <td class="subSeconds">Start : ${event.dateStart}</td>
                 </tr>
                 <tr>
-                    <td>End : ${event.dateEnd}</td>
+                    <td class="subSeconds">End   : ${event.dateEnd}</td>
                 </tr>
                 <tr>
                     <td id="periodicity"></td>
@@ -223,5 +223,6 @@
         cron2text();
     })
 </script>
+<script src='${contextPath}/resources/js/datetime.js'></script>
 </body>
 </html>

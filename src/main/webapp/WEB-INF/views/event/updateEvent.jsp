@@ -59,13 +59,13 @@
                     </div>
                     <div class="form-group">
                         <label>Start Date: </label>
-                        <form:input path="dateStart" id="dateStart" type="text" class="form-control dateValid"
+                        <form:input path="dateStart" id="dateStart" type="text" class="form-control dateValid subSeconds"
                                     placeholder="Enter event start date"/>
                         <form:errors path="dateStart" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>End Date: </label>
-                        <form:input path="dateEnd" id="dateEnd" type="text" class="form-control dateValid"
+                        <form:input path="dateEnd" id="dateEnd" type="text" class="form-control dateValid subSeconds"
                                     placeholder="Enter event end date"/>
                         <form:errors path="dateEnd" cssClass="error"/>
                     </div>
