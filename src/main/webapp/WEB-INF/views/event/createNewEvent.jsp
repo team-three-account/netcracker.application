@@ -54,13 +54,13 @@
                             <form:errors path="description" cssClass="error"/>
                         </div>
                         <div class="form-group">
-                            <label>Start_date: </label>
+                            <label>Start Date: </label>
                             <form:input path="dateStart" id="dateStart" type="date" class="form-control dateValid "
                                         placeholder="Enter event start date"/>
                             <form:errors path="dateStart" cssClass="error"/>
                         </div>
                         <div class="form-group">
-                            <label>End_date: </label>
+                            <label>End Date: </label>
                             <form:input path="dateEnd" id="dateEnd" type="date" class="form-control dateValid"
                                         placeholder="Enter event end date"/>
                             <form:errors path="dateEnd" cssClass="error"/>
