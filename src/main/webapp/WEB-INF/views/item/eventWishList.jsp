@@ -47,26 +47,10 @@
                             <ul class="list-group">
                                 <tr>
                                     <td> <div style="width: 18px; height: 18px;background: ${color}; border-radius: 10px; display: inline-block; "></div></td>
-                                    <td><span style="font-size: 24px;"> ${item.name} </span></td>
+                                    <td><a href="/account/item-${item.itemId}"><span style="font-size: 24px;"> ${item.name} </span></a></td>
                                 </tr>
                                 <li class="list-group-item">${item.description}</li>
                                 <li class="list-group-item">Actual to : ${item.dueDate}</li>
-                                <li class="list-group-item">Priority: <c:choose>
-                                    <c:when test="${item.priority=='1'}">
-                                        <c:set var="color" value="red"/>
-                                    </c:when>
-                                    <c:when test="${item.priority=='2'}">
-                                        <c:set var="color" value="yellow"/>
-                                    </c:when>
-                                    <c:when test="${item.priority=='3'}">
-                                        <c:set var="color" value="green"/>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <c:set var="color" value="grey"/>
-                                    </c:otherwise>
-                                </c:choose>
-                                    <div style="width: 25px; height: 25px;background: ${color}; border-radius: 15px; display: inline-block; position: absolute;"></div>
-                                </li>
                                 <li class="list-group-item">Tags :
                                     <c:forEach var="tag" items="${item.tags}" >
                                         #${tag.name}
@@ -133,7 +117,7 @@
                 <h3>Top 5: Popular items</h3>
                 <c:forEach var="popularItem" items="${popularItems}">
                     <ul class="list-group">
-                        <li class="list-group-item">${popularItem.name}</li>
+                        <a href="/account/item-${popularItem.itemId}"> ${popularItem.name} </a>
                     </ul>
                 </c:forEach>
             </div>

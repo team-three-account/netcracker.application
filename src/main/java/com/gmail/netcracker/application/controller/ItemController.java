@@ -194,4 +194,11 @@ public class ItemController {
         itemService.addTagsToItem(itemService.parseTags(tags), itemId);
         return "redirect:/account/tags-" + itemId;
     }
+
+    @RequestMapping(value = "/item-{itemId}", method = RequestMethod.GET)
+    public String item(@PathVariable("itemId") Long itemId, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("item", itemService.getItem(itemId));
+        return "item/viewItem";
+    }
 }
