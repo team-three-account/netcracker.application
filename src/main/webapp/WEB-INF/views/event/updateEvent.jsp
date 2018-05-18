@@ -450,7 +450,7 @@
                         </script>
                     </div>
                 </div>
-                <input type="submit" value="Update" class="btn btn-primary"/>
+                <input type="submit" value="Update" class="btn btn-success text-center" />
             </form:form>
         </div>
     </div>

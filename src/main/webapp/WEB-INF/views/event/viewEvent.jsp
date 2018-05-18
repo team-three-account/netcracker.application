@@ -206,7 +206,7 @@
                                     <form:radiobuttons path="priority" items="${priorities}" itemValue="priorityId"
                                                        itemLabel="name"/>
                                 </tr>
-                                <input type="submit" name="submit" value="Submit">
+                                <input type="submit" class="btn btn-primary" name="submit" value="Submit">
                             </form:form>
                         </td>
                     </div>
