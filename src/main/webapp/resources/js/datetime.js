@@ -1,10 +1,17 @@
 jQuery(function ($) {
-    $('.dateValid').datetimepicker({
-        mask: '9999-19-39 29:59',
-        format: 'Y-m-d H:i'
-    });
-});
+    try{
+        $('.dateValid').datetimepicker({
+            mask: '9999-19-39 29:59',
+            format: 'Y-m-d H:i'
+        });
+    }catch (e){
+        console.log("datetimepicker not added in this page")
+    }
 
-$('.subSeconds').text(function () {
-    return $(this).text().substr(0, 24);
+    $('.subSeconds').each(function () {
+        console.log(this);
+        $(this).val($(this).val().substr(0, 16));
+        $(this).text($(this).text().substr(0, 24));
+        console.log(this);
+    });
 });
