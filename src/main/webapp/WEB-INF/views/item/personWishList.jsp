@@ -59,7 +59,7 @@
                             <ul class="list-group">
                                 <tr>
                                     <td> <div style="width: 18px; height: 18px;background: ${color}; border-radius: 10px; display: inline-block; "></div></td>
-                                    <td><span style="font-size: 24px;"> ${item.name} </span></td>
+                                    <td><a href="/account/item-${item.itemId}"><span style="font-size: 24px;"> ${item.name} </span></a></td>
                                 </tr>
                                 <li class="list-group-item">${item.description}</li>
                                 <li class="list-group-item">Actual to : ${item.dueDate}</li>
@@ -75,21 +75,17 @@
                             <p>
                                 <c:choose>
                                 <c:when test="${auth_user.id.equals(item.personId)}">
-                            <td>
-                                <a class="btn btn-success" type="submit" data-toggle="collapse"
-                                   href="/account/update-${item.itemId}" role="button">Edit</a>
-                            </td>
-                            <td>
-                                <a href="/account/wishList/deleteItem-${item.itemId}">
-                                    <input type="submit" class="btn btn-danger text-center"
-                                           value="Delete"></a>
-                            </td>
-                            </c:when>
+                                    <td>
+                                        <a class="btn btn-success" type="submit" data-toggle="collapse"
+                                           href="/account/update-${item.itemId}" role="button">Edit</a>
+                                    </td>
+                                    <td>
+                                        <a href="/account/wishList/deleteItem-${item.itemId}">
+                                            <input type="submit" class="btn btn-danger text-center"
+                                                   value="Delete"></a>
+                                    </td>
+                                </c:when>
                             <c:otherwise>
-                                <td>
-                                    <a href="/account/copy-${item.itemId}">
-                                        <input type="submit" class="btn btn-success text-center" value="Copy to my wish list"></a>
-                                </td>
                                 <c:choose>
                                     <c:when test="${item.booker.equals(0)}">
                                         <td>
@@ -101,11 +97,15 @@
                                     <c:when test="${item.booker.equals(auth_user.id)}">
                                         <td><b>Booked by you. </b>
                                             <a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">
-                                                <<input type="submit" class="btn btn-success text-center" value="Cancel booking"></a>
+                                                <input type="submit" class="btn btn-success text-center" value="Cancel booking"></a>
 
                                         </td>
                                     </c:when>
                                 </c:choose>
+                                <td>
+                                    <a href="/account/copy-${item.itemId}">
+                                        <input type="submit" class="btn btn-success text-center" value="Copy to my wish list"></a>
+                                </td>
                             </c:otherwise>
                             </c:choose>
                         </div>
@@ -118,7 +118,9 @@
                 <h3>Top 5: Popular items</h3>
                 <c:forEach var="popularItem" items="${popularItems}">
                     <ul class="list-group">
-                        <li class="list-group-item">${popularItem.name}</li>
+                        <li class="list-group-item">
+                            <a href="/account/item-${popularItem.itemId}"> ${popularItem.name} </a>
+                        </li>
                     </ul>
                 </c:forEach>
             </div>
