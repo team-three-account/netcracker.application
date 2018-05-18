@@ -30,6 +30,7 @@
         <a class="btn btn-primary" data-toggle="collapse" href="/account/subscriptions" role="button">Subscriptions</a>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/managed" role="button">Managed events</a>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/draft" role="button">Drafts</a>
+
     </p>
     <h3>Search for events</h3>
     <form method="POST"

@@ -54,11 +54,16 @@ public class ItemController {
         modelAndView.setViewName("item/editItem");
         item.setImage(image);
         itemValidator.validate(item, bindingResult);
-        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
                 && !multipartFile.isEmpty()) {
             modelAndView.addObject("message", "Image type don't supported");
+        }
+        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -93,11 +98,16 @@ public class ItemController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         item.setImage(image);
         itemValidator.validate(item, bindingResult);
-        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
                 && !multipartFile.isEmpty()) {
             modelAndView.addObject("message", "Image type don't supported");
+        }
+        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {

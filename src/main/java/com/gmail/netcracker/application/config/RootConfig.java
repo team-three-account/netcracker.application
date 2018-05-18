@@ -80,6 +80,9 @@ public class RootConfig {
     }
 
     @Bean
+    public EditUserAccountValidator editUserAccountValidator(){return new EditUserAccountValidator();}
+
+    @Bean
     public RegisterValidator registerValidator() {
         return new RegisterValidator();
     }

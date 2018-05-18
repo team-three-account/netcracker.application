@@ -6,6 +6,7 @@ import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
+import com.gmail.netcracker.application.validation.EditUserAccountValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 
 
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -41,14 +41,18 @@ public class AccountController {
 
     private PhotoServiceImp photoService;
 
+    private EditUserAccountValidator editUserAccountValidator;
+
     @Autowired
-    public AccountController(User user, EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService) {
+    public AccountController(User user, EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService, EditUserAccountValidator editUserAccountValidator) {
         this.user = user;
         this.emailConstructor = emailConstructor;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.resetConfirmPasswordValidator = resetConfirmPasswordValidator;
         this.photoService = photoService;
+
+        this.editUserAccountValidator = editUserAccountValidator;
     }
 
 
@@ -98,34 +102,44 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
-    public String profile(@PathVariable(value = "id") Long id, Model model) {
-        model.addAttribute("auth_user", userService.findUserById(id));
-        return "account/profile";
+    public ModelAndView profile(@PathVariable(value = "id") Long id, ModelAndView model) {
+        model.addObject("auth_user", userService.findUserById(id));
+        model.setViewName("account/profile");
+        return model;
     }
 
     @RequestMapping(value = "/settings-user/{id}", method = RequestMethod.GET)
     public ModelAndView settings(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
-        modelAndView.addObject("auth_user", userService.findUserById(id));
+        User user = userService.findUserById(id);
+        modelAndView.addObject("auth_user", user);
+        modelAndView.addObject("user", user);
         modelAndView.setViewName("account/edit");
         return modelAndView;
     }
 
     @RequestMapping(value = "/settings-user", method = RequestMethod.POST)
-    public ModelAndView saveSettings(@ModelAttribute(value = "auth_user") User user,
+    public ModelAndView saveSettings(@ModelAttribute(value = "user") User user,
+                                     BindingResult result,
                                      @RequestParam(value = "photo") String photo,
-                                     @RequestParam(value = "photoFile") final MultipartFile photoFile,
-                                     final ModelAndView modelAndView,
-                                     HttpServletRequest httpServletRequest) throws Exception {
-
+                                     @RequestParam(value = "photoFile") MultipartFile photoFile,
+                                     ModelAndView modelAndView) throws Exception {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        editUserAccountValidator.validate(user, result);
         user.setPhotoFile(photoFile);
         if (!photoFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !photoFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !photoFile.getContentType().equals(photoService.getImageTypePng())
                 && !photoFile.isEmpty()) {
             modelAndView.addObject("message", "Image type don't supported");
+        }
+        if (result.hasErrors() || !photoFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !photoFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !photoFile.getContentType().equals(photoService.getImageTypePng())
+                && !photoFile.isEmpty()) {
             modelAndView.setViewName("account/edit");
             return modelAndView;
         }
+
         userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         if (photoFile.isEmpty()) {
             user.setPhoto(photo);

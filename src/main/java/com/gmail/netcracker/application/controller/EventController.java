@@ -97,8 +97,13 @@ public class EventController {
         if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty() || result.hasErrors()) {
+                && !multipartFile.isEmpty()) {
             modelAndView.addObject("message", "Image type don't supported");
+        }
+        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -181,12 +186,16 @@ public class EventController {
         } else {
             eventValidator.validate(event, result);
         }
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
+            modelAndView.addObject("message", "Image type don't supported");
+        }
         if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
                 && !multipartFile.isEmpty()) {
-
-            modelAndView.addObject("message", "Image type don't supported");
             modelAndView.setViewName("event/updateEvent");
             return modelAndView;
         }
@@ -329,11 +338,16 @@ public class EventController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         event.setPhoto(photo);
         eventValidator.validate(event, result);
-        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
                 && !multipartFile.isEmpty()) {
             modelAndView.addObject("message", "Image type don't supported");
+        }
+        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -374,8 +388,13 @@ public class EventController {
         if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty() || result.hasErrors()) {
+                && !multipartFile.isEmpty()) {
             modelAndView.addObject("message", "Image type don't supported");
+        }
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty() || result.hasErrors()) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
