@@ -5,6 +5,7 @@
     <title>Event List</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 <div class="row">
@@ -38,8 +39,8 @@
                             <li><img class="img-circle" style="width: 20px;height: 20px"
                                      src="<c:url value="${emp.photo}"/>"></li></li>
                             <li>${emp.name}</li>
-                            <li>Start ${emp.dateStart}</li>
-                            <li>End ${emp.dateEnd}</li>
+                            <li>Start :<span class="subSeconds">${emp.dateStart}</span></li>
+                            <li>End :<span class="subSeconds">${emp.dateEnd}</span></li>
                         </ul>
                     </a>
                 </c:forEach>
@@ -60,8 +61,8 @@
                                 <li><img class="img-circle" style="width: 20px;height: 20px"
                                          src="<c:url value="${emp.photo}"/>"></li></li>
                                 <li>${emp.name}</li>
-                                <li>Start ${emp.dateStart}</li>
-                                <li>End ${emp.dateEnd}</li>
+                                <li>Start :<span class="subSeconds">${emp.dateStart}</span></li>
+                                <li>End :<span class="subSeconds">${emp.dateEnd}</span></li>
                             </ul>
                         </a>
                     </c:forEach>
@@ -83,18 +84,17 @@
                                 <li><img class="img-circle" style="width: 20px;height: 20px"
                                          src="<c:url value="${emp.photo}"/>"></li></li>
                                 <li>${emp.name}</li>
-                                <li>Start ${emp.dateStart}</li>
-                                <li>End ${emp.dateEnd}</li>
+                                <li>Start :<span class="subSeconds">${emp.dateStart}</span></li>
+                                <li>End :<span class="subSeconds">${emp.dateEnd}</span></li>
                             </ul>
                         </a>
 
                     </c:forEach>
                 </div>
 
-
             </div>
         </div>
     </div>
 </div>
-
+<script src='${contextPath}/resources/js/datetime.js'></script>
 </body>

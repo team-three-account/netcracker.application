@@ -9,9 +9,7 @@ jQuery(function ($) {
     }
 
     $('.subSeconds').each(function () {
-        console.log(this);
         $(this).val($(this).val().substr(0, 16));
-        $(this).text($(this).text().substr(0, 24));
-        console.log(this);
+        $(this).text($(this).text().substr(0, 16));
     });
 });

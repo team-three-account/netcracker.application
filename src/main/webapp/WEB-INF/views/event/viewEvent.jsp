@@ -84,10 +84,10 @@
                     <td>Description : <span class="description-block eventDescriptionBlock">${event.description}</span></td>
                 </tr>
                 <tr>
-                    <td class="subSeconds">Start : ${event.dateStart}</td>
+                    <td>Start : <span class="subSeconds">${event.dateStart}</span></td>
                 </tr>
                 <tr>
-                    <td class="subSeconds">End   : ${event.dateEnd}</td>
+                    <td>End   : <span class="subSeconds">${event.dateEnd}</span></td>
                 </tr>
                 <tr>
                     <td id="periodicity"></td>
