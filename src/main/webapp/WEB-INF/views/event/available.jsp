@@ -26,12 +26,15 @@
 
 
 <div class="col-md-10 content">
-    <p>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/available" role="button">All events</a>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/subscriptions" role="button">Subscriptions</a>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/managed" role="button">Managed events</a>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/draft" role="button">Drafts</a>
-    </p>
+
+    <a class="btn btn-primary" href="/account/available">All events</a>
+    <a class="btn btn-primary" href="/account/subscriptions" role="button">Subscriptions</a>
+    <a class="btn btn-primary" href="/account/managed" role="button">Managed events</a>
+    <a class="btn btn-primary" href="/account/draft" role="button">Drafts</a>
+    <sec:authorize access="hasRole('USER')">
+        <a class="btn btn-success" href="<c:url value='/account/eventList/createNewEvent' />">Add new event</a>
+    </sec:authorize>
+
     <h3>Search for events</h3>
     <form method="POST"
           class="forms_form" action="/account/eventList/search">
@@ -53,7 +56,8 @@
                                  src="<c:url value="${event.photo}"/>"></td>
                         <td class="text-right"><a href="/account/eventList/event-${event.eventId}"> ${event.name} </a>
                         </td>
-                        <td class="text-right"> Date : <span class="subSeconds">${event.dateStart}</span> - <span class="subSeconds">${event.dateEnd}</span> </td>
+                        <td class="text-right"> Date : <span class="subSeconds">${event.dateStart}</span> - <span
+                                class="subSeconds">${event.dateEnd}</span></td>
                     </tr>
                     </tbody>
                 </c:forEach>
@@ -69,8 +73,10 @@
                     <tr>
                         <td><img class="img-circle" style="width: 200px;height: 200px;"
                                  src="<c:url value="${friends.photo}"/>"></td>
-                        <td class="text-right"><a href="/account/eventList/event-${friends.eventId}"> ${friends.name} </a></td>
-                        <td class="text-right"> Date : <span class="subSeconds">${friends.dateStart}</span> - <span class="subSeconds">${friends.dateEnd}</span> </td>
+                        <td class="text-right"><a
+                                href="/account/eventList/event-${friends.eventId}"> ${friends.name} </a></td>
+                        <td class="text-right"> Date : <span class="subSeconds">${friends.dateStart}</span> - <span
+                                class="subSeconds">${friends.dateEnd}</span></td>
                     </tr>
                     </tbody>
                 </c:forEach>
