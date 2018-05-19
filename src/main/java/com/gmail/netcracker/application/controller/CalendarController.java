@@ -1,6 +1,7 @@
 package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.Event;
+import com.gmail.netcracker.application.service.interfaces.CalendarService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FilterService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
@@ -32,6 +33,9 @@ public class CalendarController {
     @Autowired
     private FilterService filterService;
 
+    @Autowired
+    private CalendarService calendarService;
+
     private Gson gson = new GsonBuilder()
             .registerTypeAdapter(Event.class, new EventSerializer())
             .create();
@@ -39,7 +43,8 @@ public class CalendarController {
     @RequestMapping(value = "/calendar", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView calendarHome(ModelAndView modelAndView) {
-        String eventList = gson.toJson(eventService.myEventsWithPriority());
+        String eventList = gson.toJson(calendarService.getEventsFromRange(userService.getAuthenticatedUser(),
+                                                                "2018-05-01 00:00:00.000000", "2018-06-01 00:00:00.000000"));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("eventList", eventList);
         modelAndView.addObject("priorities", eventService.getAllPriorities());

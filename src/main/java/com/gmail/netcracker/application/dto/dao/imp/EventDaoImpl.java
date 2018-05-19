@@ -11,6 +11,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -95,6 +96,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Value("${sql.event.searchForUser}")
     private String SQL_USER_EVENT_SEARCH;
+
+    @Value("${sql.event.getEventsByUserFromRange}")
+    private String SQL_FROM_RANGE_BY_USER;
 
     private final RowMapper<Event> eventRowMapper;
     private final RowMapper<User> friendRowMapper;
@@ -261,6 +265,12 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public List<Event> searchInUsersEvents(String query, Long userId) {
         return findEntityList(SQL_USER_EVENT_SEARCH, eventRowMapper, 100, 0, query, userId);
+    }
+
+    @Override
+    public List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end) {
+
+        return findEntityList(SQL_FROM_RANGE_BY_USER, eventRowMapper, userId, end, start, end);
     }
 }
 

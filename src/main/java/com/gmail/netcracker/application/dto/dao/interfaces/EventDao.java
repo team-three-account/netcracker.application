@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface EventDao {
@@ -58,4 +59,6 @@ public interface EventDao {
     List<Event> searchInPublic(String query, Long userId);
 
     List<Event> searchInUsersEvents(String query, Long userId);
+
+    List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end);
 }

@@ -258,6 +258,30 @@ public class EventServiceImpl implements EventService {
         eventDao.convertDraftToEvent(event);
     }
 
+    @Override
+    public Event copyEvent(Event toCopy) {
+        Event event = new Event();
+        event.setEventId(toCopy.getEventId());
+        event.setName(toCopy.getName());
+        event.setDescription(toCopy.getDescription());
+        event.setCreator(toCopy.getCreator());
+        event.setDateStart(toCopy.getDateStart());
+        event.setDateEnd(toCopy.getDateEnd());
+        event.setPlaceId(toCopy.getPlaceId());
+        event.setPlaceAddress(toCopy.getPlaceAddress());
+        event.setPeriodicity(toCopy.getPeriodicity());
+        event.setType(toCopy.getType());
+        event.setDraft(toCopy.getDraft());
+        event.setFolder(toCopy.getFolder());
+        event.setTypeId(toCopy.getTypeId());
+        event.setWidth(toCopy.getWidth());
+        event.setLongitude(toCopy.getLongitude());
+        event.setEventPlaceName(toCopy.getEventPlaceName());
+        event.setPhoto(toCopy.getPhoto());
+        event.setPriorityId(toCopy.getPriorityId());
+        return event;
+    }
+
     private void scheduleEventNotificationJob(Event event) {
         JobDetail jobDetail = createJobForEvent(event);
         CronTrigger cronTrigger = createCronTriggerForEvent(event, jobDetail);
