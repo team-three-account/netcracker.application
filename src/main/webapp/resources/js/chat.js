@@ -62,8 +62,8 @@ function showMessageOutput(message, isAppended) {
         case true: {
             var messageLeftHtml = " <div class=\"text-left\" id=\"showMessageOutputFromData\">\n" +
                 "                                        <input type=\"hidden\" id=\"sender\" value=\"" + message.senderId + "\">\n" +
-                "                                        <p><img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
-                "                                                src=\"" + message.senderPhoto + "\">" + " " + message.text + "\n" +
+                "                                        <p><a href='/account/"+message.senderId +"'><img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
+                "                                                src=\"" + message.senderPhoto + "\"></a>" + " " + message.text + "\n" +
                 "                                        </p>\n" +
                                                             "<p>"+message.time+"</p>\n"+
                 "                                    </div>";
@@ -73,9 +73,9 @@ function showMessageOutput(message, isAppended) {
         case false: {
             var messageRightHtml = "<div class=\"text-right\" id=\"showMessageOutputFromData\">\n" +
                 "                                        <p>" + message.text +
-                "                                            <img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
+                "                                           <a href='/account/"+message.senderId +"'><img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
                 "                                                 src=\"" + message.senderPhoto + "\"/>\n" +
-                "                                        </p>\n" +
+                "                                        </a></p>\n" +
                 "                                        <p>"+ message.time+"</p>\n" +
                 "                                    </div>";
             messageHtml = messageRightHtml;

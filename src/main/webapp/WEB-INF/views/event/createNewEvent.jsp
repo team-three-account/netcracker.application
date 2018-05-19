@@ -39,7 +39,6 @@
                             Browse <input type="file" onchange="readURL(this)" id = "file" name="photoFile" accept="image/*">
                             </span>
                             <span>${message}</span>
-                            <form:errors path="name" cssClass="error"/>
                         </div>
                         <div class="form-group">
                             <label>Event Name: </label>

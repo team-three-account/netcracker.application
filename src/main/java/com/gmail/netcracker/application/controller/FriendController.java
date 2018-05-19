@@ -37,7 +37,7 @@ public class FriendController {
     public String viewFriends(Model model) {
         authUser = userService.getAuthenticatedUser();
         List<User> friendList = friendService.getAllFriends(userService.getAuthenticatedUser().getId());
-        model.addAttribute("auth_user", authUser);
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("friendList", friendList);
         model.addAttribute("message", amountOfFriendsMessage(friendList.size()));
         return "friend/friends";
@@ -45,7 +45,7 @@ public class FriendController {
 
     @RequestMapping(value = "/{friend_id}", method = RequestMethod.GET)
     public ModelAndView friendAccount(@PathVariable(value = "friend_id") String friendId, ModelAndView model) {
-        model.addObject("auth_user", authUser);
+        model.addObject("auth_user", userService.getAuthenticatedUser());
         model.addObject("friend", userService.findUserById(Long.parseLong(friendId)));
         model.setViewName("friend/profile");
         return model;

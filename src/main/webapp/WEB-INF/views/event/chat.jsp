@@ -57,8 +57,8 @@
                                 <form:if test="${auth_user.id!=message.senderId}">
                                     <div class="text-left" id="showMessageOutputFromData">
                                         <input type="hidden" id="sender" value="${message.senderId}">
-                                        <p><img class="img-circle" style="width: 40px;height: 40px"
-                                                src="${message.senderPhoto}"> ${message.text} ${message.time}
+                                        <p><a href="/account/${message.senderId}"><img class="img-circle" style="width: 40px;height: 40px"
+                                                src="${message.senderPhoto}"></a> ${message.text} ${message.time}
                                         </p>
                                     </div>
                                 </form:if>
@@ -81,17 +81,17 @@
                                 <form:if test="${chat.state==false}">
                                     <form:if test="${participant.id!=event.creator}">
                                         <tr>
-                                            <td><img class="img-circle" style="width: 40px;height: 40px"
-                                                     src="${participant.photo}"></td>
-
+                                            <td><a href="/account/${participant.id}"><img class="img-circle" style="width: 40px;height: 40px"
+                                                        src="${participant.photo}"></a></td>
+                                        </tr>
                                             <td class="text-right">${participant.name} ${participant.surname}</td>
                                         </tr>
                                     </form:if>
                                 </form:if>
                                 <form:if test="${chat.state==true}">
                                     <tr>
-                                        <td><img class="img-circle" style="width: 40px;height: 40px"
-                                                 src="${participant.photo}"></td>
+                                        <td><a href="/account/${participant.id}"><img class="img-circle" style="width: 40px;height: 40px"
+                                                    src="${participant.photo}"></a></td>
 
                                         <td class="text-right">${participant.name} ${participant.surname}</td>
                                     </tr>
