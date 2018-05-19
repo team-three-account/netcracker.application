@@ -68,7 +68,7 @@
                         <input type="text" onkeyup="checkParams()" class="form-control col-md-3" id="text"
                                placeholder="Write a message..."/>
                         <input type="hidden" id="userId" value="${auth_user.id}">
-                        <button class="btn btn-primary" id="sendMessage" onclick="sendMessage()" disabled>Send
+                        <button class="btn btn-primary" type="submit" id="sendMessage" onclick="sendMessage()" disabled>Send
                         </button>
                     </div>
                 </div>

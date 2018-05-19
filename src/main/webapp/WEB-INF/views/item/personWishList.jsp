@@ -13,10 +13,10 @@
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3 col-md-2 col-xl-2 col-lg-3"
+    <div class="col-md-3 col-md-2 col-xl-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-<div class="col-lg-9 col-md-10 col-xs-3 content">
+<div class="col-md-10 col-xs-3 content">
     <h3>Search for items</h3>
     <form method="POST"
           class="forms_form" action="/account/items/search">

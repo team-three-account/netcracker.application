@@ -27,42 +27,54 @@ public class SearchController {
     @Autowired
     private FriendService friendService;
 
+
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ModelAndView mainSearch(ModelAndView modelAndView,
                                    @RequestParam("search") String search,
-                                   @RequestParam("typeSearch") String type,
-                                   RedirectAttributes redirectAttributes){
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+                                   @RequestParam("typeSearch") String typeSearch,
+                                   RedirectAttributes redirectAttributes) {
         redirectAttributes.addAttribute("search", search);
-        modelAndView.setViewName("redirect: /account/eventList/search");
-        if("user".equals(type)) modelAndView.setViewName("redirect: /account/search/user");
-//        if("friend".equals(type)) modelAndView.setViewName("redirect: /account/search/friend");
-        if("event".equals(type)) modelAndView.setViewName("redirect: /account/eventList/search");
+        if (typeSearch.equals("user")) {
+            modelAndView.setViewName("redirect: /account/search/user");
+            return modelAndView;
+        }
+//        if("friend".equals(type)) modelAndView.setViewName("redirect: /account/search
+        if (typeSearch.equals("event")) {
+            modelAndView.setViewName("redirect: /account/eventList/search");
+            return modelAndView;
+        }
+
 //        if("myEvent".equals(type)) modelAndView.setViewName("redirect: /account/search/myEvent");
-        if("item".equals(type)) modelAndView.setViewName("redirect: /account/friends/search");
+        if (typeSearch.equals("item")) {
+            modelAndView.setViewName("redirect: /account/friends/search");
+            return modelAndView;
+        }
         return modelAndView;
     }
-    
-    @RequestMapping(value = "/eventList/search", method = RequestMethod.POST)
-    public String getSearchEvent(Model model, String search) {
-        if (search==null||search.isEmpty()) return "redirect:/account/eventList";
+
+    @RequestMapping(value = "/eventList/search", method = RequestMethod.GET)
+    public String getSearchEventString(String search)
+    {
+        Model model = (Model) new ModelAndView();
+        if (search == null || search.isEmpty()) return "redirect:/account/eventList";
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("resultSearchPublic", searchService.searchPublicEvents(search, userService.getAuthenticatedUser()));
         model.addAttribute("resultSearchUserEvents", searchService.searchUserEvents(search, userService.getAuthenticatedUser()));
         return "event/resultSearch";
     }
 
-    @RequestMapping(value = "/items/search", method = RequestMethod.POST)
+    @RequestMapping(value = "/items/search", method = RequestMethod.GET)
     public String getSearchItem(Model model, String search) {
-        if (search==null||search.isEmpty()) return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
+        if (search == null || search.isEmpty())
+            return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("resultSearchItem", searchService.searchItems(search, userService.getAuthenticatedUser()));
         return "item/resultSearch";
     }
 
-    @RequestMapping(value = "/friends/search", method = RequestMethod.POST)
+    @RequestMapping(value = "/friends/search", method = RequestMethod.GET)
     public String getSearchUser(Model model, String search) {
-        if (search==null||search.isEmpty()) {
+        if (search == null || search.isEmpty()) {
             return "redirect:/account/friends";
         }
         model.addAttribute("auth_user", userService.getAuthenticatedUser());

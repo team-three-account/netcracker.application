@@ -17,7 +17,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="/">Cracker Time</a>
+            <a class="navbar-brand" href="/account">Cracker Time</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
@@ -51,8 +51,6 @@
                                 <button type="submit" class="btn btn-search btn-default">
                                     GO
                                 </button>
-
-
                             </div>
                         </div>
                     </form>

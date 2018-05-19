@@ -1,15 +1,21 @@
 package com.gmail.netcracker.application.controller;
 
 
+import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
+import com.gmail.netcracker.application.service.interfaces.EventService;
+import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConstructor;
+import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.EditUserAccountValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,8 +49,16 @@ public class AccountController {
 
     private EditUserAccountValidator editUserAccountValidator;
 
+    private EventService eventService;
+
+    private  ItemService itemService;
+
+    private Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Event.class, new EventSerializer())
+            .create();
+
     @Autowired
-    public AccountController(User user, EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService, EditUserAccountValidator editUserAccountValidator) {
+    public AccountController(User user, EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService, EditUserAccountValidator editUserAccountValidator, EventService eventService, ItemService itemService) {
         this.user = user;
         this.emailConstructor = emailConstructor;
         this.userService = userService;
@@ -53,14 +67,19 @@ public class AccountController {
         this.photoService = photoService;
 
         this.editUserAccountValidator = editUserAccountValidator;
+        this.eventService = eventService;
+        this.itemService = itemService;
     }
 
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ModelAndView homeAccount(ModelAndView model) {
-        model.addObject("auth_user", userService.getAuthenticatedUser());
-        model.setViewName("account/account");
-        return model;
+    public ModelAndView homeAccount(ModelAndView modelAndView) {
+        String eventList = gson.toJson(eventService.myEventsWithPriority());
+        modelAndView.addObject("popularItems", itemService.popularItems());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.addObject("eventList", eventList);
+        modelAndView.setViewName("account/account");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/resetpassword", method = RequestMethod.GET)

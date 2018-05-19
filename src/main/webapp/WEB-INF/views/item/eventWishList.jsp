@@ -11,10 +11,10 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-lg-3 col-md-2 col-xl-2"
+    <div class="col-md-2 col-xl-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-<div class="col-lg-9 col-md-10 content">
+<div class="col-md-10 content">
     <c:choose>
         <c:when test="${auth_user.id.equals(ownerId)}">
             <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>

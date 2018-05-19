@@ -11,10 +11,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8' />
+    <meta charset='utf-8'/>
     <title>Calendar</title>
-    <link href='../resources/calendar/css/fullcalendar.min.css' rel='stylesheet' />
-    <link href='../resources/calendar/css/fullcalendar.print.min.css' rel='stylesheet' media='print' />
+    <link href='../resources/calendar/css/fullcalendar.min.css' rel='stylesheet'/>
+    <link href='../resources/calendar/css/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
     <script src='../resources/calendar/js/moment.min.js'></script>
     <script src='../resources/calendar/js/jquery.min.js'></script>
     <script src='../resources/calendar/js/fullcalendar.min.js'></script>
@@ -22,21 +22,22 @@
 
     <script>
 
-        $(document).ready(function() {
+        $(document).ready(function () {
 
             $('#calendar').fullCalendar({
+                themeSystem: 'bootstrap3',
                 editable: false,
                 eventLimit: true, // allow "more" link when too many events
-                eventSources:[
-                        ${eventList}
-                    ],
+                eventSources: [
+                    ${eventList}
+                ],
                 <%--events: ${eventList},--%>
-                eventClick: function(event) {
-                if (event.url) {
-                    window.open(event.url);
-                    return false;
+                eventClick: function (event) {
+                    if (event.url) {
+                        window.open(event.url);
+                        return false;
+                    }
                 }
-            }
 
             });
 
@@ -48,7 +49,7 @@
         body {
             margin: 40px 10px;
             padding: 0;
-            font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
+            font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
             font-size: 14px;
         }
 
@@ -70,28 +71,48 @@
     </div>
 
     <div class="col-md-10 content">
-        <form:form method="POST" modelAttribute="filter">
-            <table>
-
-                <tr>
-                    <td>Choose the priority you like:</td>
-                    <td><form:checkboxes path="priorities" items="${priorities}" itemValue="priorityId"
-                                         itemLabel="name"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td><input type="submit" name="submit" value="Submit"></td>
-                </tr>
-                <tr>
-            </table>
-        </form:form>
+        <div class="row">
+            <div class="col-md-6">
+                <div id='calendar'></div>
+            </div>
+            <div class="col-md-4">
+                <form:form method="POST" modelAttribute="filter">
 
 
-        <div id='calendar'></div>
+                    <ul class="list-group">
+                        <li class="list-group-item">Choose the priority you like:</li>
+                        <li class="list-group-item"><form:checkboxes cssStyle="margin: 10px" path="priorities"
+                                                                     items="${priorities}"
+                                                                     itemValue="priorityId"
+                                                                     itemLabel="name"/>
+                        </li>
+                        <li class="list-group-item"><input type="submit" class="btn btn-success" name="submit"
+                                                           value="Submit"></li>
+                    </ul>
+                </form:form>
+            </div>
+            <div class="col-md-4">
+                <form:form method="POST" modelAttribute="filter">
+
+
+                    <ul class="list-group">
+                        <li class="list-group-item">Choose the priority you like:</li>
+                        <li class="list-group-item"><form:checkboxes cssStyle="margin: 10px" path="priorities"
+                                                                     items="${priorities}"
+                                                                     itemValue="priorityId"
+                                                                     itemLabel="name"/>
+                        </li>
+                        <li class="list-group-item"><input type="submit" class="btn btn-success" name="submit"
+                                                           value="Submit"></li>
+                    </ul>
+                </form:form>
+            </div>
+        </div>
     </div>
 </div>
-    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
-    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+
+<script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
 </body>
 </html>
 
