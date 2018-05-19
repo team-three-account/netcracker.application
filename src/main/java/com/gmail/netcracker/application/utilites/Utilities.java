@@ -84,6 +84,21 @@ public class Utilities {
         return null;
     }
 
+  public static Timestamp parseStringToTimestampWithoutHours(String stringDate) {
+    if (stringDate != null) {
+      try {
+        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = formatter.parse(stringDate);
+        Timestamp timestamp = new Timestamp(date.getTime());
+        return timestamp;
+      } catch (ParseException e) {
+        e.printStackTrace();
+        return null;
+      }
+    }
+    return null;
+  }
+
     public static Date parseStringToDate(String stringDate) {
         try {
             DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

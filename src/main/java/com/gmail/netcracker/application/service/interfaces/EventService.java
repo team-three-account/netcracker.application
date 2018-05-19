@@ -70,4 +70,6 @@ public interface EventService {
     Participant getParticipation(Long eventId);
 
     void convertDraftToEvent(Long eventId);
+
+    Event copyEvent(Event toCopy);
 }
