@@ -5,6 +5,7 @@
     <title>Subscriptions</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 <div class="row">
@@ -30,7 +31,7 @@
                 <td><img class="img-circle" style="width: 200px;height: 200px"
                          src="<c:url value="${event.photo}"/>"> </td>
                 <td> <a href="/account/eventList/event-${event.eventId}"> ${event.name} </a></td>
-                <td> Date : ${event.dateStart} - ${event.dateEnd} </td>
+                <td> Date : <span class="subSeconds">${event.dateStart}</span> - <span class="subSeconds">${event.dateEnd}</span> </td>
             </tr>
             </tbody>
         </c:forEach>
@@ -38,6 +39,5 @@
     </table>
 </div>
 </div>
-</div>
-</div>
+<script src='${contextPath}/resources/js/datetime.js'></script>
 </body>
