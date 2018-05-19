@@ -72,10 +72,10 @@
 
     <div class="col-md-10 content">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-7">
                 <div id='calendar'></div>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <form:form method="POST" modelAttribute="filter">
 
 
@@ -91,7 +91,7 @@
                     </ul>
                 </form:form>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <form:form method="POST" modelAttribute="filter">
 
 
