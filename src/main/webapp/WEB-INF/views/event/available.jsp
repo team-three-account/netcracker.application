@@ -12,6 +12,7 @@
 <head>
     <title>Events</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <!-- Custom styles for this template-->
@@ -53,7 +54,7 @@
                                  src="<c:url value="${event.photo}"/>"></td>
                         <td class="text-right"><a href="/account/eventList/event-${event.eventId}"> ${event.name} </a>
                         </td>
-                        <td class="text-right"> Date : ${event.dateStart} - ${event.dateEnd} </td>
+                        <td class="text-right"> Date : <span class="subSeconds">${event.dateStart}</span> - <span class="subSeconds">${event.dateEnd}</span> </td>
                     </tr>
                     </tbody>
                 </c:forEach>
@@ -70,7 +71,7 @@
                         <td><img class="img-circle" style="width: 200px;height: 200px;"
                                  src="<c:url value="${friends.photo}"/>"></td>
                         <td class="text-right"><a href="/account/eventList/event-${friends.eventId}"> ${friends.name} </a></td>
-                        <td class="text-right"> Date : ${friends.dateStart} - ${friends.dateEnd} </td>
+                        <td class="text-right"> Date : <span class="subSeconds">${friends.dateStart}</span> - <span class="subSeconds">${friends.dateEnd}</span> </td>
                     </tr>
                     </tbody>
                 </c:forEach>
@@ -81,6 +82,6 @@
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
 <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
-
+<script src='${contextPath}/resources/js/datetime.js'></script>
 </body>
 </html>
