@@ -31,6 +31,7 @@
     <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
+
     <div class="col-md-10 content">
         <form:form method="POST" modelAttribute="user" action="/account/settings-user" enctype="multipart/form-data">
             <table class="table">

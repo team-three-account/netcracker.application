@@ -136,7 +136,7 @@ article > p {
 }
 
 .menu {
-    height: 100%;
+    height: -webkit-fill-available;
     background-color: whitesmoke;
     padding-top: 120px;
 
