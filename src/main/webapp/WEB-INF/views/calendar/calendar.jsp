@@ -39,7 +39,8 @@
                         dataType: 'json',
                         data: {
                             // our hypothetical feed requires UNIX timestamps
-                            filter: JSON.stringify(${filter.priorities}),
+                            filterPriority: JSON.stringify(${filter.priorities}),
+                            filterTypes: JSON.stringify(${filter.eventTypes}),
                             start: start.unix(),
                             end: end.unix()
                         },
@@ -117,10 +118,10 @@
 
 
                     <ul class="list-group">
-                        <li class="list-group-item">Choose the priority you like:</li>
-                        <li class="list-group-item"><form:checkboxes cssStyle="margin: 10px" path="priorities"
-                                                                     items="${priorities}"
-                                                                     itemValue="priorityId"
+                        <li class="list-group-item">Choose the type you like:</li>
+                        <li class="list-group-item"><form:checkboxes cssStyle="margin: 10px" path="eventTypes"
+                                                                     items="${eventTypes}"
+                                                                     itemValue="typeId"
                                                                      itemLabel="name"/>
                         </li>
                         <li class="list-group-item"><input type="submit" class="btn btn-success" name="submit"

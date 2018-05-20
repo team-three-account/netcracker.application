@@ -1,5 +1,6 @@
 package com.gmail.netcracker.application.controller;
 
+import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.service.interfaces.CalendarService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FilterService;
@@ -40,9 +41,12 @@ public class CalendarController {
     @ResponseBody
     public String calendarRange(@RequestParam("start") Long start,
                                 @RequestParam("end") Long end,
-                                @RequestParam("filter")String jsonFilter){
-        List<Long> filter = Arrays.asList(new Gson().fromJson(jsonFilter, Long[].class));
-        return gsonEvents.toJson(filterService.filterOfPriority(filter, calendarService.getEventsFromRange(userService.getAuthenticatedUser(), start, end)));
+                                @RequestParam("filterPriority") String jsonPriority,
+                                @RequestParam("filterTypes") String jsonTypes){
+        List<Event> eventList = calendarService.getEventsFromRange(userService.getAuthenticatedUser(), start, end);
+        eventList = filterService.filterOfPriority(Arrays.asList(gsonEvents.fromJson(jsonPriority, Long[].class)), eventList);
+        eventList = filterService.filterOfType(Arrays.asList(gsonEvents.fromJson(jsonTypes, Long[].class)), eventList);
+        return gsonEvents.toJson(eventList);
     }
 
     @RequestMapping(value = "/calendar", method = RequestMethod.GET)
@@ -50,6 +54,7 @@ public class CalendarController {
     public ModelAndView calendarHome(ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("priorities", eventService.getAllPriorities());
+        modelAndView.addObject("eventTypes", eventService.getAllEventTypes());
         modelAndView.addObject("filter", new Filter());
         modelAndView.setViewName("calendar/calendar");
         return modelAndView;
@@ -57,12 +62,13 @@ public class CalendarController {
 
     @RequestMapping(value = "/calendar", method = RequestMethod.POST)
     @ResponseBody
-    public ModelAndView calendarWithFilter(@ModelAttribute("properties") Filter filter,
+    public ModelAndView calendarWithFilter(@ModelAttribute("filter") Filter filter,
                                            BindingResult result,
                                            ModelAndView modelAndView) {
 
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("priorities", eventService.getAllPriorities());
+        modelAndView.addObject("eventTypes", eventService.getAllEventTypes());
         modelAndView.addObject("filter", filter);
         modelAndView.setViewName("calendar/calendar");
         return modelAndView;
