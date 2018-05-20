@@ -19,19 +19,25 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
+
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
     <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-
-
 <div class="col-md-10 content">
     <div class="card card-register">
         <div class="card-header">Edit Event</div>
         <div class="card-body">
-            <form:form id="valid_maps" method="POST" modelAttribute="editEvent" class="forms_form" enctype="multipart/form-data">
+            <form:form id="valid_maps" method="POST" modelAttribute="editEvent" class="forms_form "
+                       enctype="multipart/form-data">
+                <c:choose>
+                    <%--<c:when test="${event.draft.equals(true)}">--%>
+                    <c:when test="${editEvent.isDraft().equals(true)}">
+                        <div id="checkDraft"></div>
+                    </c:when>
+                </c:choose>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Photo: </label>
@@ -58,7 +64,8 @@
                     </div>
                     <div class="form-group">
                         <label>Start Date: </label>
-                        <form:input path="dateStart" id="dateStart" type="text" class="form-control dateValid subSeconds"
+                        <form:input path="dateStart" id="dateStart" type="text"
+                                    class="form-control dateValid subSeconds"
                                     placeholder="Enter event start date"/>
                         <form:errors path="dateStart" cssClass="error"/>
                     </div>
@@ -443,7 +450,7 @@
                         <div id="map"></div>
                     </div>
                 </div>
-                <input type="submit" value="Update" class="btn btn-success text-center" />
+                <input type="submit" value="Update" class="btn btn-success text-center"/>
             </form:form>
         </div>
     </div>
@@ -462,7 +469,7 @@
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-<script>tinymce.init({ selector:'textarea' });</script>
+<script>tinymce.init({selector: 'textarea'});</script>
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
 </html>
