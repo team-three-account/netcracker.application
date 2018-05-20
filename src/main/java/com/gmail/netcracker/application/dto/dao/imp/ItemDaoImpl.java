@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.List;
 
-
 @Repository
 public class ItemDaoImpl extends ModelDao implements ItemDao {
 
@@ -19,22 +18,22 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     private String PK_COLUMN_NAME;
 
     @Value("${sql.item.add}")
-    private String ADD_ITEM;
+    private String SQL_ADD;
 
     @Value("${sql.item.update}")
-    private String UPDATE_ITEM;
+    private String SQL_UPDATE;
 
     @Value("${sql.item.delete}")
     private String DELETE_ITEM;
 
-    @Value("${sql.item.getItem}")
-    private String SELECT_ITEM;
+    @Value("${sql.item.find}")
+    private String SQL_FIND_BY_ID;
 
     @Value("{sql.item.findItemByName}")
-    private String SELECT_ITEM_BY_NAME;
+    private String SQL_FIND_BY_NAME;
 
-    @Value("${sql.item.findItemByPersonId}")
-    private String SQL_FIND_ITEM_BY_PERSON_ID;
+    @Value("${sql.item.findByUserId}")
+    private String SQL_FIND_BY_PERSON_ID;
 
     @Value("${sql.item.setRoot}")
     private String SQL_SET_ROOT;
@@ -48,17 +47,20 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.setBooker}")
     private String SQL_SET_BOOKER;
 
-    @Value("${sql.item.clearBooker}")
-    private String SQL_CLEAR_BOOKER;
+    @Value("${sql.item.unbook}")
+    private String SQL_CANCEL_BOOKING;
 
     @Value("${sql.item.setBookerFromEvent}")
     private String SQL_SET_BOOKER_FROM_EVENT;
 
     @Value("${sql.item.getPopularItems}")
-    private String GET_POPULAR_ITEMS;
+    private String SQL_GET_POPULAR_ITEMS;
 
     @Value("${sql.item.searchItems}")
     private String SQL_SEARCH_ITEMS;
+
+    @Value("${sql.item.cancelItemsBookingFromEvent}")
+    private String SQL_CANCEL_ITEMS_BOOKING_FROM_EVENT;
 
     private final RowMapper<Item> itemRowMapper;
 
@@ -70,7 +72,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Override
     public Long add(Item item) {
-        return insertEntity(ADD_ITEM, PK_COLUMN_NAME,
+        return insertEntity(SQL_ADD, PK_COLUMN_NAME,
                 item.getPersonId(), item.getName(), item.getDescription(),
                 item.getLink(), Utilities.parseStringToTimestamp(item.getDueDate()), item.getPriority(), item.getRoot(), item.getImage());
     }
@@ -80,14 +82,14 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     }
 
     @Override
-    public Long insertCopiedItem(Item item, Long id) {
-        return insertEntity(SQL_INSERT_COPIED_ITEM, PK_COLUMN_NAME, id, item.getName(), item.getDescription(),
+    public Long insertCopiedItem(Item item, Long userId) {
+        return insertEntity(SQL_INSERT_COPIED_ITEM, PK_COLUMN_NAME, userId, item.getName(), item.getDescription(),
                 item.getLink(), item.getRoot(), item.getImage());
     }
 
     @Override
-    public void setBooker(Long itemId, Long booker) {
-        updateEntity(SQL_SET_BOOKER, booker, itemId);
+    public void setBooker(Long itemId, Long bookedId) {
+        updateEntity(SQL_SET_BOOKER, bookedId, itemId);
     }
 
     @Override
@@ -96,29 +98,29 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     }
 
     @Override
-    public void clearBooker(Long itemId, Long booker) {
-        updateEntity(SQL_CLEAR_BOOKER, itemId, booker);
+    public void cancelBooking(Long itemId, Long bookerId) {
+        updateEntity(SQL_CANCEL_BOOKING, itemId, bookerId);
     }
 
     @Override
-    public void setBookerFromEvent( Long itemId, Long booker, Long eventId) {
-        updateEntity(SQL_SET_BOOKER_FROM_EVENT, booker, eventId, itemId);
+    public void setBookerFromEvent(Long itemId, Long bookerId, Long eventId) {
+        updateEntity(SQL_SET_BOOKER_FROM_EVENT, bookerId, eventId, itemId);
     }
 
     @Override
     public List<Item> getPopularItems(int amountOfItems) {
-        return findEntityList(GET_POPULAR_ITEMS, itemRowMapper, amountOfItems);
+        return findEntityList(SQL_GET_POPULAR_ITEMS, itemRowMapper, amountOfItems);
     }
 
     @Override
-    public List<Item> search(String query, Long userId) {
-        return findEntityList(SQL_SEARCH_ITEMS, itemRowMapper, query, userId);
+    public List<Item> search(String phrase, Long userId) {
+        return findEntityList(SQL_SEARCH_ITEMS, itemRowMapper, phrase, userId);
     }
 
     @Override
     public void update(Item item) {
-        updateEntity(UPDATE_ITEM, item.getPersonId(), item.getName(), item.getDescription(),
-                item.getLink(), Utilities.parseStringToTimestamp(item.getDueDate()), item.getPriority(),item.getImage(), item.getItemId());
+        updateEntity(SQL_UPDATE, item.getPersonId(), item.getName(), item.getDescription(),
+                item.getLink(), Utilities.parseStringToTimestamp(item.getDueDate()), item.getPriority(), item.getImage(), item.getItemId());
     }
 
     @Override
@@ -129,13 +131,17 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Override
     public Item getItem(Long itemId) {
-        return findEntity(SELECT_ITEM, itemRowMapper, itemId);
+        return findEntity(SQL_FIND_BY_ID, itemRowMapper, itemId);
     }
 
     @Override
-    public List<Item> findItemsByPersonId(Long personId) {
-        return jdbcTemplate.query(SQL_FIND_ITEM_BY_PERSON_ID, itemRowMapper, personId);
+    public List<Item> findItemsByUserId(Long userId) {
+        return findEntityList(SQL_FIND_BY_PERSON_ID, itemRowMapper, userId);
     }
 
+    @Override
+    public void cancelItemsBookingFromEvent(Long eventId) {
+        updateEntity(SQL_CANCEL_ITEMS_BOOKING_FROM_EVENT, eventId);
+    }
 }
 

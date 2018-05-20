@@ -14,21 +14,23 @@ public interface ItemDao {
 
     Item getItem(Long itemId);
 
-    List<Item> findItemsByPersonId(Long personId);
+    List<Item> findItemsByUserId(Long userId);
 
     void setRoot (Long itemId);
 
-    Long insertCopiedItem(Item item, Long id);
+    Long insertCopiedItem(Item item, Long userId);
 
-    void setBooker(Long itemId, Long id);
+    void setBooker(Long itemId, Long bookerId);
 
     Long getBookerId(Long itemId);
 
-    void clearBooker(Long itemId, Long id);
+    void cancelBooking(Long itemId, Long id);
 
-    void setBookerFromEvent(Long itemId, Long booker, Long eventId);
+    void setBookerFromEvent(Long itemId, Long bookerId, Long eventId);
 
     List<Item> getPopularItems(int amountOfItems);
 
     List<Item> search(String query, Long userId);
+
+    void cancelItemsBookingFromEvent(Long eventId);
 }

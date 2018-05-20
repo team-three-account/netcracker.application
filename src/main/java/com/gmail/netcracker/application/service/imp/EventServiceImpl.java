@@ -1,9 +1,6 @@
 package com.gmail.netcracker.application.service.imp;
 
-import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
-import com.gmail.netcracker.application.dto.dao.interfaces.EventTypeDao;
-import com.gmail.netcracker.application.dto.dao.interfaces.NoteDao;
-import com.gmail.netcracker.application.dto.dao.interfaces.PriorityDao;
+import com.gmail.netcracker.application.dto.dao.interfaces.*;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
@@ -38,20 +35,22 @@ public class EventServiceImpl implements EventService {
     private FriendService friendService;
     private PriorityDao priorityDao;
     private NoteDao noteDao;
+    private ItemDao itemDao;
 
     private Scheduler scheduler;
     private EmailConstructor emailConstructor;
 
     @Autowired
     public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService,
-                            FriendService friendService, PriorityDao priorityDao, NoteDao noteDao, Scheduler scheduler,
-                            EmailConstructor emailConstructor) {
+                            FriendService friendService, PriorityDao priorityDao, NoteDao noteDao, ItemDao itemDao,
+                            Scheduler scheduler, EmailConstructor emailConstructor) {
         this.eventDao = eventDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
         this.friendService = friendService;
         this.priorityDao = priorityDao;
         this.noteDao = noteDao;
+        this.itemDao = itemDao;
         this.scheduler = scheduler;
         this.emailConstructor = emailConstructor;
     }
@@ -64,11 +63,12 @@ public class EventServiceImpl implements EventService {
         if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
     }
 
-    //TODO set Long
     @Override
+    @Transactional
     public void delete(Long eventId) {
+        itemDao.cancelItemsBookingFromEvent(eventId);
         eventDao.delete(eventId);
-        deleteEventNotificationJob((long) eventId);
+        deleteEventNotificationJob(eventId); //TODO check next case: will be this method executed if transaction is failed
     }
 
     @Override
@@ -294,7 +294,7 @@ public class EventServiceImpl implements EventService {
 
     private JobDetail createJobForEvent(Event event) {
         final Class<EventNotificationJob> eventNotificationJobClass = EventNotificationJob.class;
-        JobDataMap jobDataMap = new JobDataMap(); //TODO try not use new JobDataMap()
+        JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
         jobDataMap.put(EVENT_FIELD_NAME, event);
         return newJob()
@@ -308,7 +308,7 @@ public class EventServiceImpl implements EventService {
     private CronTrigger createCronTriggerForEvent(Event event, JobDetail jobDetail) {
         CronTrigger cronTrigger = newTrigger()
 //                .withSchedule(cronSchedule(event.getPeriodicity())) //this is for using
-                .withSchedule(cronSchedule("0/10 * * ? * * *")) //this is for test
+                .withSchedule(cronSchedule("0/10 * * ? * * *")) //this is for demonstration
                 .withIdentity(EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX + event.getEventId(),
                         EVENT_NOTIFICATION_TRIGGER_GROUP_NAME)
                 .forJob(jobDetail)

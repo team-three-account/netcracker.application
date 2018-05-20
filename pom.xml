@@ -170,11 +170,11 @@
             <artifactId>dropbox-core-sdk</artifactId>
             <version>3.0.7</version>
         </dependency>
-      <dependency>
-        <groupId>commons-validator</groupId>
-        <artifactId>commons-validator</artifactId>
-        <version>1.6</version>
-      </dependency>
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>1.6</version>
+        </dependency>
         <!-- Pdf library -->
         <dependency>
             <groupId>com.lowagie</groupId>

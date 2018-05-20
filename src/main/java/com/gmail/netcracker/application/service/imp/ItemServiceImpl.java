@@ -55,7 +55,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public List<Item> getWishList(Long personId) {
-        List<Item> wishList= itemDao.findItemsByPersonId(personId);
+        List<Item> wishList= itemDao.findItemsByUserId(personId);
         for (Item item: wishList){
             item.setTags(tagDao.getTagsOfItem(item.getItemId()));
         }
@@ -85,7 +85,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void cancelBookingItem(Long itemId) {
-        itemDao.clearBooker(itemId, userService.getAuthenticatedUser().getId());
+        itemDao.cancelBooking(itemId, userService.getAuthenticatedUser().getId());
     }
 
     @Override
