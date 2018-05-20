@@ -19,6 +19,6 @@ public class DraftValidator implements Validator {
     @Override
     public void validate(Object o, Errors errors) {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required.field");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "eventPlaceName", "required.field");
+//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "eventPlaceName", "required.field");
     }
 }

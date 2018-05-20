@@ -43,7 +43,7 @@ var map;
 
 // це колбек функція яку ми загружаємо коли підгружається карта
 function initMap() {
-    map = new google.maps.Map(document.getElementById('map'), // init map
+     map = new google.maps.Map(document.getElementById('map'), // init map
         {
             zoom: 11,
             center: {lat: 50.449420, lng: 30.522503}
@@ -144,7 +144,6 @@ function placeMarkerAndPanTo(latLng) {
             latInput.value = latLng.lat;
             lngInput.value = latLng.lng;
         }
-
         getAddress();
     }
 }
@@ -210,17 +209,17 @@ function getFormattedAddress(latitude, longitude) {
     });
 };
 
+document.getElementById('draft').addEventListener('click', function () {
+    realStateApp.maps = true;
+}, false);
+
 document.getElementById('valid_maps').addEventListener('submit', function (eventObj) {
     if ( !realStateApp.maps ) {
         console.log('submit false');
         document.getElementById('eventPlaceName').style.cssText = 'border-color: #f00';
         eventObj.preventDefault();
-    } else {
-        console.log('submit true');
+        return false;
     }
-    console.log(jQuery(this).serialize());
-    // eventObj.preventDefault();
-    // return false;
 }, false);
 
 

@@ -431,10 +431,6 @@
                             <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
                             <form:errors path="eventPlaceName" cssClass="error"/>
                             <div id="map"></div>
-                            <script src='${contextPath}/resources/js/pamCode.js'></script>
-                            <script type="text/javascript"
-                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
-
                         </div>
                     </div>
                 </div>
@@ -467,6 +463,10 @@
 </body>
 <%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
 <%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
+<script src='${contextPath}/resources/js/pamCode.js'></script>
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
+
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
 <script>tinymce.init({ selector:'textarea' });</script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
