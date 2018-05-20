@@ -259,6 +259,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<Event> getTimelines(Long id) {
+        return eventDao.getAllPersonEvents(id);
+    }
+
+    @Override
     public Event copyEvent(Event toCopy) {
         Event event = new Event();
         event.setEventId(toCopy.getEventId());

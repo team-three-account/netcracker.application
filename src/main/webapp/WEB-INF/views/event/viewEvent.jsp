@@ -99,10 +99,12 @@
                     <td>Participants : <a href="/account/event-${event.eventId}/participants"> ${participants}
                         people</a></td>
                 </tr>
+                <c:if test="${isParticipated == true}">
                 <tr>
                     <td><a href="/account/event-${event.eventId}-${event.creator}/wishList">Wish List</a>
                     </td>
                 </tr>
+                </c:if>
                 <tr>
                     <td>
                         <c:choose>

@@ -55,6 +55,9 @@
             <tr>
                 <td><a href="/account/user-${friend.id}/wishList">Wish List</a></td>
             </tr>
+            <tr>
+                <td><a href="/account/${friend.id}/timeline">Timeline</a></td>
+            </tr>
             </tbody>
         </table>
     </div>

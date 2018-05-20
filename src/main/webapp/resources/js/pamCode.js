@@ -1,5 +1,5 @@
 var realStateApp = {
-  maps: false,
+    maps: false,
 };
 
 
@@ -43,7 +43,7 @@ var map;
 
 // це колбек функція яку ми загружаємо коли підгружається карта
 function initMap() {
-     map = new google.maps.Map(document.getElementById('map'), // init map
+    map = new google.maps.Map(document.getElementById('map'), // init map
         {
             zoom: 11,
             center: {lat: 50.449420, lng: 30.522503}
@@ -214,7 +214,9 @@ document.getElementById('draft').addEventListener('click', function () {
 }, false);
 
 document.getElementById('valid_maps').addEventListener('submit', function (eventObj) {
-    if ( !realStateApp.maps ) {
+    if (document.getElementById('checkDraft') && location.href.indexOf('convertToEvent') === -1) realStateApp.maps = true;
+
+    if (!realStateApp.maps) {
         console.log('submit false');
         document.getElementById('eventPlaceName').style.cssText = 'border-color: #f00';
         eventObj.preventDefault();
