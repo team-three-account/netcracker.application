@@ -40,7 +40,7 @@
 <div class="col-md-10 content">
     <sec:authorize access="hasRole('USER')">
         <a class="btn btn-primary" href="<c:url value='/account/createNote' />">Add Note</a>
-        <a class="btn btn-primary" href="<c:url value='/account/eventList/createFolder' />">Create Folder</a>
+        <a class="btn btn-primary" href="<c:url value='/account/createFolder' />">Create Folder</a>
         <a class="btn btn-primary" href="<c:url value='/account/sharedFoldersToMe' />">Shared to me</a>
     </sec:authorize>
     <div class="row">
@@ -49,7 +49,7 @@
             <c:forEach var="folder" items="${folderList}">
             <div class="droppable">
                 <input type="hidden" class="folderId" value="${folder.folderId}">
-                <a class="notes-item" href="<c:url value='/account/eventList/folder-${folder.folderId}' />">
+                <a class="notes-item" href="<c:url value='/account/folder-${folder.folderId}' />">
                     <img src="${contextPath}/resources/img/001-folder.svg" alt="folder">
                     <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
                         <li>${folder.name}</li>

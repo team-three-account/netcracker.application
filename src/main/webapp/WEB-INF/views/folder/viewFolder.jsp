@@ -18,9 +18,9 @@
             <h3>Folder - ${folder.name}</h3>
             <a href="/account/share-${folder.folderId}">
                 <input type="submit" class="btn btn-success text-center" value="Share"></a>
-            <a href="/account/eventList/editFolder-${folder.folderId}">
+            <a href="/account/editFolder-${folder.folderId}">
                 <input type="submit" class="btn btn-success text-center" value="Edit Folder"></a>
-            <a href="/account/eventList/deleteFolder-${folder.folderId}">
+            <a href="/account/deleteFolder-${folder.folderId}">
                 <input type="submit" class="btn btn-danger text-center" value="Delete Folder"></a>
         </div>
         <h3>${message}</h3>

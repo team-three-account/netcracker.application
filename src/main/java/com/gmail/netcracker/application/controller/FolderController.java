@@ -39,14 +39,14 @@ public class FolderController {
         this.friendService = friendService;
     }
 
-    @RequestMapping(value = "/eventList/createFolder", method = RequestMethod.GET)
+    @RequestMapping(value = "/createFolder", method = RequestMethod.GET)
     public ModelAndView createFolder(@ModelAttribute(value = "createFolder") Folder folder, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("folder/createFolder");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/eventList/createFolder", method = RequestMethod.POST)
+    @RequestMapping(value = "/createFolder", method = RequestMethod.POST)
     public ModelAndView saveFolder(@ModelAttribute("createFolder") Folder folder, BindingResult result,
                                    ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -60,7 +60,7 @@ public class FolderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/eventList/folder-{folderId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/folder-{folderId}", method = RequestMethod.GET)
     public ModelAndView viewFolder(@PathVariable("folderId") int folderId, ModelAndView modelAndView) {
         List<Note> noteList = folderService.getNoteListIntoFolder(folderId);
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -72,13 +72,13 @@ public class FolderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/eventList/deleteFolder-{folderId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/deleteFolder-{folderId}"}, method = RequestMethod.GET)
     public String deleteFolder(@PathVariable int folderId) {
         folderService.delete(folderId);
         return "redirect:/account/allNotes";
     }
 
-    @RequestMapping(value = {"/eventList/editFolder-{folderId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/editFolder-{folderId}"}, method = RequestMethod.GET)
     public ModelAndView editFolder(@PathVariable int folderId, ModelAndView modelAndView) {
         modelAndView.addObject("editFolder", folderService.getFolder(folderId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -86,7 +86,7 @@ public class FolderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/eventList/editFolder-{folderId}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/editFolder-{folderId}"}, method = RequestMethod.POST)
     public ModelAndView updateFolder(@ModelAttribute("editFolder") Folder folder,
                                      ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
