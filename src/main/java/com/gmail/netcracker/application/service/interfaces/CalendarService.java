@@ -6,5 +6,5 @@ import com.gmail.netcracker.application.dto.model.User;
 import java.util.List;
 
 public interface CalendarService {
-    List<Event> getEventsFromRange(User user, String start, String end);
+    List<Event> getEventsFromRange(User user, Long start, Long end);
 }

@@ -26,10 +26,10 @@ public class Utilities {
     public static String getPattern(String input){
         return input + "%";
     }
-
     public static String getPattern(String name, String surname){
         return "(" + name + "|" + surname + ")%";
     }
+
     public static String parseDateToString(Date date) {
         if (date == null) {
             return "";
@@ -109,6 +109,12 @@ public class Utilities {
         }
     }
 
+    public static Date parseLongToDate(Long longDate){
+        return new Date(longDate*1000);
+    }
+    public static Timestamp parseLongToTimestamp(Long longDate){
+        return new Timestamp(longDate*1000);
+    }
     public static int parseStringToInt(String srt) {
         int value = 0;
         try {

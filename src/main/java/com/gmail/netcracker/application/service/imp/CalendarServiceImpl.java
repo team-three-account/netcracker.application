@@ -29,17 +29,17 @@ public class CalendarServiceImpl implements CalendarService {
     private Logger log = Logger.getLogger(CalendarServiceImpl.class.getName());
 
     @Override
-    public List<Event> getEventsFromRange(User user, String start, String end) {
+    public List<Event> getEventsFromRange(User user, Long start, Long end) {
         List<Event> eventList = new ArrayList<>();
 
         for(Event event: eventDao.searchByUserFromRange(user.getId(),
-                                                        Utilities.parseStringToTimestamp(start),
-                                                        Utilities.parseStringToTimestamp(end))){
+                                                        Utilities.parseLongToTimestamp(start),
+                                                        Utilities.parseLongToTimestamp(end))){
             if ((event.getPeriodicity()==null))
                 eventList.add(event);
             else eventList.addAll(getAllDateFromPeriodical(event,
-                                                    Utilities.parseStringToDate(start),
-                                                    Utilities.parseStringToDate(end)));
+                                                    Utilities.parseLongToDate(start),
+                                                    Utilities.parseLongToDate(end)));
 
         }
         return eventList;
