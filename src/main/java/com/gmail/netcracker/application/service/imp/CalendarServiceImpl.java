@@ -28,6 +28,7 @@ public class CalendarServiceImpl implements CalendarService {
 
     private Logger log = Logger.getLogger(CalendarServiceImpl.class.getName());
 
+
     @Override
     public List<Event> getEventsFromRange(User user, Long start, Long end) {
         List<Event> eventList = new ArrayList<>();

@@ -39,11 +39,16 @@
                         dataType: 'json',
                         data: {
                             // our hypothetical feed requires UNIX timestamps
+                            filter: JSON.stringify(${filter.priorities}),
                             start: start.unix(),
                             end: end.unix()
                         },
                         success: function (doc) {
                             callback(doc);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
                         }
                     });
                 },

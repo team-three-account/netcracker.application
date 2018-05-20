@@ -84,4 +84,37 @@ public class SearchController {
         model.addAttribute("subtractionUsers", subtractionUsers);
         return "friend/friends";
     }
+
+    @RequestMapping(value = "/eventList/search", method = RequestMethod.POST)
+    public String postSearchEventString(String search)
+    {
+        Model model = (Model) new ModelAndView();
+        if (search == null || search.isEmpty()) return "redirect:/account/eventList";
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("resultSearchPublic", searchService.searchPublicEvents(search, userService.getAuthenticatedUser()));
+        model.addAttribute("resultSearchUserEvents", searchService.searchUserEvents(search, userService.getAuthenticatedUser()));
+        return "event/resultSearch";
+    }
+
+    @RequestMapping(value = "/items/search", method = RequestMethod.POST)
+    public String postSearchItem(Model model, String search) {
+        if (search == null || search.isEmpty())
+            return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("resultSearchItem", searchService.searchItems(search, userService.getAuthenticatedUser()));
+        return "item/resultSearch";
+    }
+
+    @RequestMapping(value = "/friends/search", method = RequestMethod.POST)
+    public String postSearchUser(Model model, String search) {
+        if (search == null || search.isEmpty()) {
+            return "redirect:/account/friends";
+        }
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        List<User> friendList = friendService.searchFriends(userService.getAuthenticatedUser().getId(), search);
+        model.addAttribute("friendList", friendList);
+        List<User> subtractionUsers = friendService.subtractionFromFriendList(friendService.searchUsers(userService.getAuthenticatedUser().getId(), search));
+        model.addAttribute("subtractionUsers", subtractionUsers);
+        return "friend/friends";
+    }
 }

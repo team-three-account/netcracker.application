@@ -415,4 +415,10 @@ public class RootConfig {
         return new GsonBuilder()
             .registerTypeAdapter(Event.class, new TimelineSerializer())
             .create(); }
+
+    @Bean
+    public Gson gsonEvents() {
+        return new GsonBuilder()
+                .registerTypeAdapter(Event.class, new EventSerializer())
+                .create(); }
 }
