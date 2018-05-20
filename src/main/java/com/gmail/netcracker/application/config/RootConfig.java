@@ -9,8 +9,11 @@ import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.EventSerializer;
+import com.gmail.netcracker.application.utilites.TimelineSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -146,10 +149,6 @@ public class RootConfig {
     Chat chat() {
         return new Chat();
     }
-
-//    public PdfReport pdfReport() {
-//        return new PdfReport();
-//    }
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -410,4 +409,10 @@ public class RootConfig {
             return tag;
         };
     }
+
+    @Bean
+    public Gson gsonTimeline() {
+        return new GsonBuilder()
+            .registerTypeAdapter(Event.class, new TimelineSerializer())
+            .create(); }
 }

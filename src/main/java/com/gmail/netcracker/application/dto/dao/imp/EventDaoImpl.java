@@ -97,6 +97,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.searchForUser}")
     private String SQL_USER_EVENT_SEARCH;
 
+    @Value("${sql.event.getAllPersonEvents}")
+    private String SQL_GET_ALL_PERSON_EVENTS;
+
     @Value("${sql.event.getEventsByUserFromRange}")
     private String SQL_FROM_RANGE_BY_USER;
 
@@ -265,6 +268,11 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public List<Event> searchInUsersEvents(String query, Long userId) {
         return findEntityList(SQL_USER_EVENT_SEARCH, eventRowMapper, 100, 0, query, userId);
+    }
+
+    @Override
+    public List<Event> getAllPersonEvents(Long id) {
+        return findEntityList(SQL_GET_ALL_PERSON_EVENTS, eventRowMapper, id);
     }
 
     @Override

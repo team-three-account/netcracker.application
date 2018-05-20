@@ -71,5 +71,7 @@ public interface EventService {
 
     void convertDraftToEvent(Long eventId);
 
+    List<Event> getTimelines(Long id);
+
     Event copyEvent(Event toCopy);
 }

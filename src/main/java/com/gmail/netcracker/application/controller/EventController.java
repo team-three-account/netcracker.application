@@ -6,6 +6,7 @@ import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.validation.DraftValidator;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
+import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,6 +34,8 @@ public class EventController {
     private ChatService chatService;
     private User authUser;
     private RegisterAndUpdateEventValidator eventValidator;
+    @Autowired
+    private Gson gsonTimeline;
 
     private Logger logger = Logger.getLogger(EventController.class.getName());
 
@@ -409,5 +412,12 @@ public class EventController {
         }
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/{userId}/timeline", method = RequestMethod.GET)
+    public String timeLine(Model model, @PathVariable Long userId) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("eventList", gsonTimeline.toJson(eventService.getTimelines(userId)));
+        return "calendar/timeline";
     }
 }
