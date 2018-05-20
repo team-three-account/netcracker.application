@@ -26,14 +26,14 @@
                         <li>Description : <span class="description-block">${note.description}</span></li>
                         <c:if test="${auth_user.id.equals(user_creator.id)}">
                             <li class="button_block">
-                                <a href="/account/eventList/editNote-${note.noteId}">
+                                <a href="/account/editNote-${note.noteId}">
                                     <input type="submit" class="btn btn-success text-center" value="Edit Note"></a>
                                 <c:if test="${note.folder!=0}">
-                                    <a href="/account/eventList/deleteFF-${note.noteId}">
+                                    <a href="/account/deleteFF-${note.noteId}">
                                         <input type="submit" class="btn btn-danger text-center"
                                                value="Delete note from folder"></a>
                                 </c:if>
-                                <a href="/account/eventList/deleteNote-${note.noteId}">
+                                <a href="/account/deleteNote-${note.noteId}">
                                     <input type="submit" class="btn btn-danger text-center" value="Delete Note"></a>
                                 <c:if test="${note.folder==0}">
                                     <a href="/account/add-note-${note.noteId}">

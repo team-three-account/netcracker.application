@@ -44,14 +44,14 @@ public class NoteController {
         this.eventController = eventController;
     }
 
-    @RequestMapping(value = "/eventList/createNote", method = RequestMethod.GET)
+    @RequestMapping(value = "/createNote", method = RequestMethod.GET)
     public ModelAndView createNote(@ModelAttribute(value = "createNote") Note note, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("note/createNote");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/eventList/createNote", method = RequestMethod.POST)
+    @RequestMapping(value = "/createNote", method = RequestMethod.POST)
     public ModelAndView saveNote(@ModelAttribute("createNote") Note note, BindingResult result,
                                  ModelAndView modelAndView) {
         modelAndView.setViewName("note/createNote");
@@ -65,7 +65,7 @@ public class NoteController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/eventList/note-{noteId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/note-{noteId}", method = RequestMethod.GET)
     public ModelAndView viewNote(@PathVariable("noteId") Long noteId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("note", noteService.getNote(noteId));
@@ -74,19 +74,19 @@ public class NoteController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/eventList/deleteNote-{noteId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/deleteNote-{noteId}"}, method = RequestMethod.GET)
     public String deleteNote(@PathVariable Long noteId) {
         noteService.delete(noteId);
         return "redirect:/account/allNotes";
     }
 
-    @RequestMapping(value = {"/eventList/deleteFF-{noteId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/deleteFF-{noteId}"}, method = RequestMethod.GET)
     public String deleteNoteFromFolder(@PathVariable Long noteId) {
         noteService.deleteFromFolder(noteId);
         return "redirect:/account/allNotes";
     }
 
-    @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/editNote-{noteId}"}, method = RequestMethod.GET)
     public ModelAndView editNote(@PathVariable Long noteId, ModelAndView modelAndView) {
         modelAndView.addObject("editNote", noteService.getNote(noteId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -94,7 +94,7 @@ public class NoteController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/editNote-{noteId}"}, method = RequestMethod.POST)
     public ModelAndView updateNote(@ModelAttribute("editNote") Note note, BindingResult result,
                                    ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());

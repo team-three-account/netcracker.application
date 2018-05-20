@@ -39,7 +39,7 @@
 
 <div class="col-md-10 content">
     <sec:authorize access="hasRole('USER')">
-        <a class="btn btn-primary" href="<c:url value='/account/eventList/createNote' />">Add Note</a>
+        <a class="btn btn-primary" href="<c:url value='/account/createNote' />">Add Note</a>
         <a class="btn btn-primary" href="<c:url value='/account/eventList/createFolder' />">Create Folder</a>
         <a class="btn btn-primary" href="<c:url value='/account/sharedFoldersToMe' />">Shared to me</a>
     </sec:authorize>
@@ -61,7 +61,7 @@
             <c:forEach var="note" items="${noteList}">
             <div class="draggable">
                 <input type="hidden" class="noteId" value="${note.noteId}">
-                <a class="notes-item" href="<c:url value='/account/eventList/note-${note.noteId}' />">
+                <a class="notes-item" href="<c:url value='/account/note-${note.noteId}' />">
                     <img src="${contextPath}/resources/img/003-notepad.svg" alt="notepad">
                     <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
                         <li>${note.name}</li>

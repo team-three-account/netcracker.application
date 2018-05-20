@@ -25,7 +25,7 @@
         </div>
         <h3>${message}</h3>
         <c:forEach var="note" items="${listNotesIntoFolder}">
-            <a class="notes-item" href="<c:url value='/account/eventList/note-${note.noteId}' />">
+            <a class="notes-item" href="<c:url value='/account/note-${note.noteId}' />">
                 <img src="${contextPath}/resources/img/003-notepad.svg" alt="notepad">
                 <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
                     <li>${note.name}</li>
