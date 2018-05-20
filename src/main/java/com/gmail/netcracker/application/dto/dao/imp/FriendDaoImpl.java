@@ -3,6 +3,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 import com.gmail.netcracker.application.dto.dao.interfaces.FriendDao;
 import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
@@ -71,14 +72,16 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
 
     @Override
     public List<User> getFriendsByNameOrSurname(Long id, String input) {
+        input = Utilities.getPattern(input);
         return findEntityList(SQL_FIND_FRIEND_BY_NAME_OR_SURNAME, userRowMapper,
-                id, id, id, input, input, input, input);
+                id, id, id, input, input);
     }
 
     @Override
     public List<User> getFriendsByNameAndSurname(Long id, String name, String surname) {
+        String input = Utilities.getPattern(name,surname);
         return findEntityList(SQL_FIND_FRIEND_BY_NAME_AND_SURNAME, userRowMapper,
-                id, id, id, name, surname, name, surname);
+                id, id, id, input, input);
     }
 
     @Override
@@ -111,15 +114,17 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
     public void acceptRequest(Long id, Long friendId) {
         updateEntity(SQL_ACCEPT_REQUEST, id, friendId, id, friendId);
     }
-
+    //TODO edit search(not supported search with 3+ words)
     @Override
     public List<User> searchUsersByNameAndSurname(Long id, String name, String surname) {
+        String input = Utilities.getPattern(name,surname);
         return findEntityList(SQL_FIND_USER_BY_NAME_AND_SURNAME, userRowMapper,
-                name, surname, name, surname, id);
+                input, input, id);
     }
 
     @Override
     public List<User> searchUsersByNameOrSurname(Long id, String search) {
+        search = Utilities.getPattern(search);
         return findEntityList(SQL_FIND_USER_BY_NAME_OR_SURNAME, userRowMapper,
                 search,search,id);
     }

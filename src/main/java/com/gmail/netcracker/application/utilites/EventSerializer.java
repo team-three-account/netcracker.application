@@ -14,9 +14,6 @@ import java.lang.reflect.Type;
 @PropertySource("classpath:application.properties")
 public class EventSerializer implements JsonSerializer<Event> {
 
-    @Value("${heroku.host}")
-    String URL;
-
     @Autowired
     EventService eventService;
 
@@ -28,15 +25,17 @@ public class EventSerializer implements JsonSerializer<Event> {
         result.addProperty("title", src.getName());
         result.addProperty("start", src.getDateStart());
         result.addProperty("end", src.getDateEnd());
-        result.addProperty("color", getColorFromPriority(src.getPriorityId()));
+        getColorFromPriority(result, src.getPriorityId());
         result.addProperty("url", "/account/eventList/event-"+src.getEventId());
         return result;
     }
 
-    private static String getColorFromPriority(Integer priority){
-        if(priority == 1) return "red";
-        if(priority == 2) return "yellow";
-        if(priority == 3) return "green";
-        return "grey";
+    private static void getColorFromPriority(JsonObject json, Long priority){
+        if (priority == 1) json.addProperty("color", "red");
+        else if (priority == 2) {
+            json.addProperty("color", "yellow");
+            json.addProperty("textColor", "black");
+        } else if (priority == 3) json.addProperty("color", "green");
+        else json.addProperty("color", "grey");
     }
 }

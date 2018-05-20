@@ -72,8 +72,13 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     }
 
     @Override
-    public List<EventMessage> getMessages(Event event, Long chatId, Boolean state) {
-        return findEntityList(SQL_GET_LIST, rowMapper, event.getEventId(), chatId, state);
+    public List<EventMessage> getMessages(Long eventId, Long chatId, Boolean state) {
+        return findEntityList(SQL_GET_LIST, rowMapper, eventId, chatId, state);
+    }
+
+    @Override
+    public List<EventMessage> getMessages(Long eventId, Long chatId, Boolean state, Integer limit, Integer offset) {
+        return findEntityList(SQL_GET_LIST, rowMapper, limit, offset, eventId, chatId, state);
     }
 
     @Override

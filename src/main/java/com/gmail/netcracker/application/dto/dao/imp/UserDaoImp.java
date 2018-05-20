@@ -2,18 +2,16 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.model.User;
-import com.gmail.netcracker.application.utilites.Utilites;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-
 import java.util.List;
 
-import static com.gmail.netcracker.application.utilites.Utilites.parseStringIntoDate;
+import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
+import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestamp;
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
@@ -55,8 +53,9 @@ public class UserDaoImp extends ModelDao implements UserDao {
                 user.getPassword(),
                 "ROLE_USER",
                 user.getPhone(),
-                parseStringIntoDate(user.getBirthdayDate()),
-                user.getPhoto()
+                parseStringToTimestamp(user.getBirthdayDate()),
+                user.getPhoto(),
+                user.getGender()
         ));
     }
 
@@ -77,6 +76,8 @@ public class UserDaoImp extends ModelDao implements UserDao {
                 user.getName(),
                 user.getSurname(),
                 user.getPhone(),
+                parseStringToDate(user.getBirthdayDate()),
+                user.getPhoto(),
                 user.getId());
     }
 

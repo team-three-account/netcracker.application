@@ -1,16 +1,19 @@
 package com.gmail.netcracker.application.config;
 
 import com.gmail.netcracker.application.aspects.TokenLifeAspect;
-import com.gmail.netcracker.application.dto.dao.imp.ChatDaoImpl;
-import com.gmail.netcracker.application.dto.dao.interfaces.ChatDao;
 import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.*;
-import com.gmail.netcracker.application.service.interfaces.*;
-import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.service.interfaces.ChatService;
+import com.gmail.netcracker.application.service.interfaces.FriendService;
+import com.gmail.netcracker.application.service.interfaces.NoteService;
+import com.gmail.netcracker.application.service.interfaces.PhotoService;
+import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.EventSerializer;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.TimelineSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
@@ -18,6 +21,7 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.LocaleResolver;
@@ -27,9 +31,8 @@ import javax.sql.DataSource;
 import java.util.Locale;
 
 import static com.gmail.netcracker.application.utilites.ResultSetColumnValueExtractor.*;
-import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoString;
-import static com.gmail.netcracker.application.utilites.Utilites.parseDateIntoStringFormatWithSeconds;
-import static com.gmail.netcracker.application.utilites.Utilites.parseTimeWithSeconds;
+import static com.gmail.netcracker.application.utilites.Utilities.parseDateToString;
+import static com.gmail.netcracker.application.utilites.Utilities.parseDateToStringWithSeconds;
 
 @Configuration
 @ComponentScan("com.gmail.netcracker.application.*")
@@ -40,8 +43,8 @@ public class RootConfig {
     private final Environment env;
 
     @Bean
-    public EmailConcructor emailConcructor() {
-        return new EmailConcructor();
+    public EmailConstructor emailConcructor() {
+        return new EmailConstructor();
     }
 
     @Autowired
@@ -78,6 +81,9 @@ public class RootConfig {
     public Friend friendship() {
         return new Friend();
     }
+
+    @Bean
+    public EditUserAccountValidator editUserAccountValidator(){return new EditUserAccountValidator();}
 
     @Bean
     public RegisterValidator registerValidator() {
@@ -130,7 +136,7 @@ public class RootConfig {
     }
 
     @Bean
-    public  ItemValidator itemValidator() {
+    public ItemValidator itemValidator() {
         return new ItemValidator();
     }
 
@@ -145,7 +151,7 @@ public class RootConfig {
     }
 
     @Bean
-    public  LocaleResolver localeResolver() {
+    public LocaleResolver localeResolver() {
         CookieLocaleResolver cookieLocaleResolver = new CookieLocaleResolver();
         cookieLocaleResolver.setDefaultLocale(Locale.ENGLISH);
         return cookieLocaleResolver;
@@ -158,6 +164,34 @@ public class RootConfig {
         resourceBundleMessageSource.setBasename("classpath:message");
         resourceBundleMessageSource.setDefaultEncoding("UTF-8");
         return resourceBundleMessageSource;
+    }
+
+//    @Bean
+//    public JobDetailFactoryBean jobDetailFactoryBean() {
+//        JobDetailFactoryBean factory = new JobDetailFactoryBean();
+//        factory.setJobClass(EventNotificationJob.class);
+//        Map<String, Object> params = new HashMap<>();
+//        params.put("text", "testText);
+//        factory.setJobDataAsMap(params);
+//        factory.setGroup("testGroup");
+//        factory.setName("testJob");
+//        return factory;
+//    }
+//
+//    @Bean
+//    public CronTriggerFactoryBean cronTriggerFactoryBean() {
+//        CronTriggerFactoryBean factory = new CronTriggerFactoryBean();
+//        factory.setJobDetail(jobDetailFactoryBean().getObject());
+//        factory.setCronExpression("0/5 * * ? * * *");
+//        factory.setGroup("testTriggers");
+//        factory.setName("testTrigger");
+//        return factory;
+//    }
+
+    @Bean
+    public SchedulerFactoryBean schedulerFactoryBean() {
+        SchedulerFactoryBean factory = new SchedulerFactoryBean();
+        return factory;
     }
 
     @Bean
@@ -191,7 +225,7 @@ public class RootConfig {
             EventMessage eventMessage = new EventMessage();
             eventMessage.setFrom(getString(resultSet, "name"));
             eventMessage.setText(getString(resultSet, "text"));
-            eventMessage.setTime(parseDateIntoStringFormatWithSeconds(resultSet.getTimestamp("date")));
+            eventMessage.setTime(parseDateToStringWithSeconds(resultSet.getTimestamp("date")));
             eventMessage.setSenderPhoto(getString(resultSet, "photo"));
             eventMessage.setSenderId(getLong(resultSet, "sender_id"));
             return eventMessage;
@@ -221,8 +255,9 @@ public class RootConfig {
             user.setPassword(getString(resultSet, "password"));
             user.setRole(getString(resultSet, "role"));
             user.setPhone(getString(resultSet, "phone"));
-            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthdate")));
+            user.setBirthdayDate(parseDateToString(getDate(resultSet, "birthdate")));
             user.setPhoto(getString(resultSet, "photo"));
+            user.setGender(getString(resultSet,"gender"));
             return user;
         };
     }
@@ -240,7 +275,8 @@ public class RootConfig {
             user.setPassword(getString(resultSet, "password"));
             user.setRole(getString(resultSet, "role"));
             user.setPhone(getString(resultSet, "phone"));
-            user.setBirthdayDate(parseDateIntoString(getDate(resultSet, "birthdate")));
+            user.setBirthdayDate(parseDateToString(getDate(resultSet, "birthdate")));
+            user.setGender(getString(resultSet,"gender"));
             verificationToken.setUser(user);
             return verificationToken;
         };
@@ -256,7 +292,7 @@ public class RootConfig {
             event.setCreator(getLong(rs, "creator_id"));
             event.setDateStart(getString(rs, "start_date"));
             event.setDateEnd(getString(rs, "end_date"));
-            event.setTypeId(getInt(rs, "type_id"));
+            event.setTypeId(getLong(rs, "type_id"));
             event.setDraft(getBoolean(rs, "is_draft"));
             event.setFolder(getInt(rs, "folder_id"));
             event.setWidth(getDouble(rs, "latitude"));
@@ -264,7 +300,7 @@ public class RootConfig {
             event.setEventPlaceName(getString(rs, "place_name"));
             event.setPeriodicity(getString(rs, "periodicity"));
             event.setPhoto(getString(rs, "photo"));
-            event.setPriorityId(getInt(rs, "priority_id"));
+            event.setPriorityId(getLong(rs, "priority_id"));
             return event;
         };
     }
@@ -294,7 +330,7 @@ public class RootConfig {
     public RowMapper<Priority> priorityRowMapper() {
         return (resultSet, i) -> {
             Priority priority = new Priority();
-            priority.setPriorityId(getInt(resultSet, "priority_id"));
+            priority.setPriorityId(getLong(resultSet, "priority_id"));
             priority.setName(getString(resultSet, "name"));
             return priority;
         };
@@ -304,8 +340,8 @@ public class RootConfig {
     public RowMapper<Participant> participantRowMapper() {
         return (resultSet, i) -> {
             Participant participant = new Participant();
-            participant.setEventId(getInt(resultSet, "event_id"));
-            participant.setPriority(getInt(resultSet, "priority_id"));
+            participant.setEventId(getLong(resultSet, "event_id"));
+            participant.setPriority(getLong(resultSet, "priority_id"));
             return participant;
         };
     }
@@ -356,15 +392,16 @@ public class RootConfig {
             item.setDescription(getString(resultSet, "description"));
             item.setLink(getString(resultSet, "link"));
             item.setDueDate(getString(resultSet, "due_date"));
-            item.setPriority(getInt(resultSet, "priority_id"));
+            item.setPriority(getLong(resultSet, "priority_id"));
             item.setRoot(getLong(resultSet, "root_id"));
             item.setEvent(getInt(resultSet, "event_id"));
+            item.setImage(getString(resultSet,"image"));
             return item;
         };
     }
 
     @Bean
-    public RowMapper<Tag> tagRowMapper(){
+    public RowMapper<Tag> tagRowMapper() {
         return (resultSet, i) -> {
             Tag tag = new Tag();
             tag.setTagId(getLong(resultSet, "tag_id"));
@@ -372,4 +409,10 @@ public class RootConfig {
             return tag;
         };
     }
+
+    @Bean
+    public Gson gsonTimeline() {
+        return new GsonBuilder()
+            .registerTypeAdapter(Event.class, new TimelineSerializer())
+            .create(); }
 }

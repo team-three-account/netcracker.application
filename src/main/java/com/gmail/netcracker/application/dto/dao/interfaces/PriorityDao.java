@@ -8,7 +8,7 @@ import java.util.List;
 public interface PriorityDao {
     List<Priority> getAllPriority();
 
-    void setPriorityToEvent(Integer priority, int eventId, Long userId);
+    void setPriorityToEvent(Long priority, Long eventId, Long userId);
 
-    Participant getParticipant(int eventId, Long personId);
+    Participant getParticipant(Long eventId, Long personId);
 }

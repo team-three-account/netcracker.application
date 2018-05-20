@@ -10,14 +10,26 @@
 </head>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-<div align="center" class="col-md-9 content">
+<div class="col-md-10 content">
     <div class="card card-register">
         <div class="card-header">Edit Item</div>
         <div class="card-body">
-            <form:form method="POST" modelAttribute="updateItem" class="forms_form">
+            <form:form method="POST" modelAttribute="updateItem" class="forms_form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Photo: </label>
+
+                    <img class="img-circle" style="width: 200px;height: 200px" id="blah"
+                         src="<c:url value="${updateItem.image}.jpg"/>">
+                    <input type="hidden" name="photoInput" value="${updateItem.image}">
+                    <br><span class="btn btn-default btn-file">
+                            Browse <input type="file" onchange="readURL(this)" id = "file" name="photoFile" accept="image/*">
+                            </span>
+                    <span>${message}</span>
+                    <form:errors path="name" cssClass="error"/>
+                </div>
             <div class="form-group">
                 <label>Item Name: </label>
                 <form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
@@ -64,4 +76,6 @@
 </div>
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
 <script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
+<script src='${contextPath}/resources/js/imageUpload.js'></script>
 </html>

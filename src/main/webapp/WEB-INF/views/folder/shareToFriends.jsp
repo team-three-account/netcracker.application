@@ -19,14 +19,14 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
 
-<div class="col-md-9 content">
+<div class="col-md-10 content">
     <p>
-        <a class="btn btn-primary" data-toggle="collapse" href="" role="button"> < Back</a>
+        <a class="btn btn-primary"  href="<c:url value='/account/eventList/folder-${folderId}'/>" > < Back</a>
     </p>
 
 

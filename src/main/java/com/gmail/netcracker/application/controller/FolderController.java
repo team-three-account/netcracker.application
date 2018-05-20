@@ -5,10 +5,12 @@ import com.gmail.netcracker.application.dto.model.Folder;
 import com.gmail.netcracker.application.dto.model.Note;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FolderService;
+import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 
 import com.gmail.netcracker.application.validation.FolderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/account")
@@ -26,21 +29,24 @@ public class FolderController {
 
     private final FolderValidator folderValidator;
 
+    private final FriendService friendService;
+
     @Autowired
-    public FolderController(FolderService folderService, UserService userService, FolderValidator folderValidator) {
+    public FolderController(FolderService folderService, UserService userService, FolderValidator folderValidator, FriendService friendService) {
         this.folderService = folderService;
         this.userService = userService;
         this.folderValidator = folderValidator;
+        this.friendService = friendService;
     }
 
-    @RequestMapping(value = "/eventList/createFolder", method = RequestMethod.GET)
+    @RequestMapping(value = "/createFolder", method = RequestMethod.GET)
     public ModelAndView createFolder(@ModelAttribute(value = "createFolder") Folder folder, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("folder/createFolder");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/eventList/createFolder", method = RequestMethod.POST)
+    @RequestMapping(value = "/createFolder", method = RequestMethod.POST)
     public ModelAndView saveFolder(@ModelAttribute("createFolder") Folder folder, BindingResult result,
                                    ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -54,7 +60,7 @@ public class FolderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/eventList/folder-{folderId}", method = RequestMethod.GET)
+    @RequestMapping(value = "/folder-{folderId}", method = RequestMethod.GET)
     public ModelAndView viewFolder(@PathVariable("folderId") int folderId, ModelAndView modelAndView) {
         List<Note> noteList = folderService.getNoteListIntoFolder(folderId);
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -66,13 +72,13 @@ public class FolderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/eventList/deleteFolder-{folderId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/deleteFolder-{folderId}"}, method = RequestMethod.GET)
     public String deleteFolder(@PathVariable int folderId) {
         folderService.delete(folderId);
         return "redirect:/account/allNotes";
     }
 
-    @RequestMapping(value = {"/eventList/editFolder-{folderId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/editFolder-{folderId}"}, method = RequestMethod.GET)
     public ModelAndView editFolder(@PathVariable int folderId, ModelAndView modelAndView) {
         modelAndView.addObject("editFolder", folderService.getFolder(folderId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -80,7 +86,7 @@ public class FolderController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/eventList/editFolder-{folderId}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/editFolder-{folderId}"}, method = RequestMethod.POST)
     public ModelAndView updateFolder(@ModelAttribute("editFolder") Folder folder,
                                      ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -121,5 +127,12 @@ public class FolderController {
         String folderHaveNotes = "Folder don't have any notes";
         String message = sizeNoteList > 0 ? clearFolder : folderHaveNotes;
         return message;
+    }
+
+    @RequestMapping(value = {"/sharedFoldersToMe"}, method = RequestMethod.GET)
+    public String sharedFoldersToMe(Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("folderList", folderService.sharedFoldersToMe());
+        return "folder/sharedToMe";
     }
 }

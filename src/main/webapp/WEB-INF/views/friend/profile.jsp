@@ -21,10 +21,10 @@
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
-    <div class="col-md-9 content ">
+    <div class="col-md-10 content ">
         <table class="table">
             <tbody>
             <tr>
@@ -54,6 +54,9 @@
             </tr>
             <tr>
                 <td><a href="/account/user-${friend.id}/wishList">Wish List</a></td>
+            </tr>
+            <tr>
+                <td><a href="/account/${friend.id}/timeline">Timeline</a></td>
             </tr>
             </tbody>
         </table>

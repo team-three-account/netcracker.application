@@ -1,7 +1,9 @@
 package com.gmail.netcracker.application.controller;
 
+import com.dropbox.core.DbxException;
 import com.gmail.netcracker.application.dto.model.Item;
 import com.gmail.netcracker.application.dto.model.Priority;
+import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.ItemValidator;
@@ -10,9 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/account")
@@ -21,12 +26,14 @@ public class ItemController {
     private final UserService userService;
     private final ItemService itemService;
     private final ItemValidator itemValidator;
+    private PhotoServiceImp photoService;
 
     @Autowired
-    public ItemController(ItemService itemService, UserService userService, ItemValidator itemValidator) {
+    public ItemController(ItemService itemService, UserService userService, ItemValidator itemValidator, PhotoServiceImp photoService) {
         this.itemService = itemService;
         this.userService = userService;
         this.itemValidator = itemValidator;
+        this.photoService = photoService;
     }
 
     @RequestMapping(value = "/update-{itemId}", method = RequestMethod.GET)
@@ -38,12 +45,29 @@ public class ItemController {
     }
 
     @RequestMapping(value = {"/update-{itemId}"}, method = RequestMethod.POST)
-    public ModelAndView updateItem(@ModelAttribute("updateItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView updateItem(@ModelAttribute("updateItem") Item item,
+                                   @RequestParam(value = "photoInput") String image,
+                                   @RequestParam(value = "photoFile") MultipartFile multipartFile,
+                                   BindingResult bindingResult,
+                                   ModelAndView modelAndView) throws IOException, DbxException {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("item/editItem");
+        item.setImage(image);
         itemValidator.validate(item, bindingResult);
-        if (bindingResult.hasErrors()) {
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
+            modelAndView.addObject("message", "Image type don't supported");
+        }
+        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
             return modelAndView;
+        }
+        if (!multipartFile.isEmpty()) {
+            item.setImage(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         itemService.update(item);
         modelAndView.setViewName("redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList");
@@ -58,18 +82,36 @@ public class ItemController {
 
     @RequestMapping(value = "/addItem", method = RequestMethod.GET)
     public ModelAndView createItem(@ModelAttribute(value = "createItem") Item item, ModelAndView modelAndView) {
+        item.setImage(photoService.getDefaultImageForItems());
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("item/addItem");
         return modelAndView;
     }
 
     @RequestMapping(value = "/addItem", method = RequestMethod.POST)
-    public ModelAndView addItem(@ModelAttribute("createItem") Item item, BindingResult bindingResult, ModelAndView modelAndView) {
+    public ModelAndView addItem(@ModelAttribute("createItem") Item item,
+                                @RequestParam(value = "photoInput") String image,
+                                @RequestParam(value = "photoFile") MultipartFile multipartFile,
+                                BindingResult bindingResult,
+                                ModelAndView modelAndView) throws IOException, DbxException {
         modelAndView.setViewName("item/addItem");
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        item.setImage(image);
         itemValidator.validate(item, bindingResult);
-        if (bindingResult.hasErrors()) {
+        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
+            modelAndView.addObject("message", "Image type don't supported");
+        }
+        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
+                && !multipartFile.isEmpty()) {
             return modelAndView;
+        }
+        if (!multipartFile.isEmpty()) {
+            item.setImage(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         itemService.add(item);
         modelAndView.setViewName("redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList");
@@ -120,6 +162,7 @@ public class ItemController {
     public String eventWishList(@PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("eventId", eventId);
+        model.addAttribute("ownerId", creator);
         model.addAttribute("wishList", itemService.getWishList(creator));
         model.addAttribute("popularItems", itemService.popularItems());
         return "item/eventWishList";
@@ -132,23 +175,30 @@ public class ItemController {
     }
 
     @RequestMapping(value = "/tags-{itemId}", method = RequestMethod.GET)
-    public String tagsView(@PathVariable("itemId") Long itemId, Model model){
+    public String tagsView(@PathVariable("itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("tags", itemService.getTagsOfItem(itemId));
         return "item/tags";
     }
 
     @RequestMapping(value = "/tagsEdit-{itemId}", method = RequestMethod.GET)
-    public String tagsEdit(@PathVariable("itemId") Long itemId, Model model){
+    public String tagsEdit(@PathVariable("itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         return "item/tagsEdit";
     }
 
     @RequestMapping(value = "/tagsEdit-{itemId}", method = RequestMethod.POST)
     public String tagsSave(@PathVariable("itemId") Long itemId,
-                           @RequestParam("tags") String tags, Model model){
+                           @RequestParam("tags") String tags, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         itemService.addTagsToItem(itemService.parseTags(tags), itemId);
-        return "redirect:/account/tags-"+itemId;
+        return "redirect:/account/tags-" + itemId;
+    }
+
+    @RequestMapping(value = "/item-{itemId}", method = RequestMethod.GET)
+    public String item(@PathVariable("itemId") Long itemId, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("item", itemService.getItem(itemId));
+        return "item/viewItem";
     }
 }

@@ -16,17 +16,19 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
-<div class="col-md-9 content">
+<div class="col-md-10 content">
     <p>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/available" role="button">All events</a>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/subscriptions" role="button">Subscriptions</a>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/managed" role="button">Managed events</a>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/draft" role="button">Drafts</a>
-
+        <sec:authorize access="hasRole('USER')">
+            <a class="btn btn-success" href="<c:url value='/account/eventList/createNewEvent' />">Add new event</a>
+        </sec:authorize>
     </p>
     <h3>${message}</h3>
     <%--<div class="row">--%>

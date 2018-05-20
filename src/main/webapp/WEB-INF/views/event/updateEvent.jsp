@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>Edit Event </title>
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
@@ -18,30 +19,36 @@
 
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
+
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-
-
-<div class="col-md-9 content">
+<div class="col-md-10 content">
     <div class="card card-register">
         <div class="card-header">Edit Event</div>
         <div class="card-body">
-            <form:form method="POST" modelAttribute="editEvent" class="forms_form" enctype="multipart/form-data">
+            <form:form id="valid_maps" method="POST" modelAttribute="editEvent" class="forms_form "
+                       enctype="multipart/form-data">
+                <c:choose>
+                    <%--<c:when test="${event.draft.equals(true)}">--%>
+                    <c:when test="${editEvent.isDraft().equals(true)}">
+                        <div id="checkDraft"></div>
+                    </c:when>
+                </c:choose>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Photo: </label>
-                        <img id = "blah" class="img-circle" style="width: 200px;height: 200px"
+                        <img id="blah" class="img-circle" style="width: 200px;height: 200px"
                              src="<c:url value="${editEvent.photo}"/>">
                         <input type="hidden" name="photo" value="${editEvent.photo}">
                         <br><span class="btn btn-default btn-file">
-                            Browse <input id = "file" onchange="readURL(this)" type="file" name="photoFile" accept="image/*">
+                            Browse <input id="file" onchange="readURL(this)" type="file" name="photoFile"
+                                          accept="image/*">
                             </span>
                         <span class="has-error">${message}</span>
-                        <form:errors path="name" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>Event Name: </label>
@@ -56,43 +63,40 @@
                         <form:errors path="description" cssClass="error"/>
                     </div>
                     <div class="form-group">
-                        <label>Start_date: </label>
-                        <form:input path="dateStart" id="dateStart" type="date" class="form-control dateValid"
+                        <label>Start Date: </label>
+                        <form:input path="dateStart" id="dateStart" type="text"
+                                    class="form-control dateValid subSeconds"
                                     placeholder="Enter event start date"/>
                         <form:errors path="dateStart" cssClass="error"/>
                     </div>
                     <div class="form-group">
-                        <label>End_date: </label>
-                        <form:input path="dateEnd" id="dateEnd" type="date" class="form-control dateValid"
+                        <label>End Date: </label>
+                        <form:input path="dateEnd" id="dateEnd" type="text" class="form-control dateValid subSeconds"
                                     placeholder="Enter event end date"/>
                         <form:errors path="dateEnd" cssClass="error"/>
                     </div>
-                    <div class="form-group">
-                        <label>Event type: </label>
-                        <form:select path="type" class="form-control" disabled="true">
-                            <c:if test="${editEvent.typeId == 1}">
-                                <form:option value="${editEvent.typeId}" label="private" />
-                            </c:if>
-                            <c:if test="${editEvent.typeId == 2}">
-                                <form:option value="${editEvent.typeId}" label="public" />
-                            </c:if>
-                            <c:if test="${editEvent.typeId == 3}">
-                                <form:option value="${editEvent.typeId}" label="only for friends" />
-                            </c:if>
-                            <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
-                        </form:select>
-                        <%--<form:errors path="type" cssClass="error"/>--%>
-                    </div>
+                    <c:if test="${editEvent.draft==true}">
+                        <div class="form-group">
+                            <label>Event type: </label>
+                            <form:select path="type" class="form-control">
+                                <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
+                            </form:select>
+                            <form:errors path="type" cssClass="error"/>
+                        </div>
+                    </c:if>
+                    <c:if test="${editEvent.draft==false}">
+                        <form:input type="hidden" path="typeId" class="form-controll"/>
+                    </c:if>
                     <form:input path="draft" value="${editEvent.draft}" type="hidden"></form:input>
                     <div class="form-group">
                         <label>Periodicity:</label>
                         <input id="periodicity" class="form-control" type="text" readonly></input>
                         <form:input path="periodicity" type="hidden" id="cron"
                                     value="${editEvent.periodicity}"></form:input>
-                        <%--<input type="checkbox" id="isPeriodical" name="isPeriodical" onclick="changePeriodicity()">Show--%>
-                        <%--periodicity options</br>--%>
+                            <%--<input type="checkbox" id="isPeriodical" name="isPeriodical" onclick="changePeriodicity()">Show--%>
+                            <%--periodicity options</br>--%>
                         <button type="button" id="isPeriodical" name="isPeriodical" onclick="changePeriodicity()">
-                           Show periodicity options
+                            Show periodicity options
                         </button>
                         <button type="button" onclick="deletePeriodicity()">Delete periodicity</button>
                         <div id="crontabs" style="display: none;">
@@ -444,15 +448,9 @@
                         <label>Event place</label>
                         <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
                         <div id="map"></div>
-                        <script src='${contextPath}/resources/js/pamCode.js' async defer></script>
-                        <script type="text/javascript"
-                                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
-                        <script>
-                            setMarkerFromInput();
-                        </script>
                     </div>
                 </div>
-                <input type="submit" value="Update" class="btn btn-dark text-center"/>
+                <input type="submit" value="Update" class="btn btn-success text-center"/>
             </form:form>
         </div>
     </div>
@@ -465,6 +463,13 @@
 </script>
 </body>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
-<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
-<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
+<%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
+<%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
+<script src='${contextPath}/resources/js/pamCode.js'></script>
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<script>tinymce.init({selector: 'textarea'});</script>
+<script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
+<script src='${contextPath}/resources/js/datetime.js'></script>
 </html>

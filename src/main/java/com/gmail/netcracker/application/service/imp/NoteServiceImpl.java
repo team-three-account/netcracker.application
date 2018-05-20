@@ -31,7 +31,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public Note getNote(int noteId) {
+    public Note getNote(Long noteId) {
         return noteDao.getNote(noteId);
     }
 
@@ -47,7 +47,17 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void addNoteToFolder(Note note) {
-        noteDao.addNoteToFolder(note);
+    public void addNoteToFolder(int noteId, int folderId) {
+        noteDao.addNoteToFolder(noteId, folderId);
+    }
+
+    @Override
+    public void deleteFromFolder(Long noteId) {
+        noteDao.deleteFromFolder(noteId);
+    }
+
+    @Override
+    public void addNoteToFolderBtn(Note note) {
+        noteDao.addNoteToFolderBtn(note);
     }
 }

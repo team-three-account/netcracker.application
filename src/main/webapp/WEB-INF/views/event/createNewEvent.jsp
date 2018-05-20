@@ -5,9 +5,9 @@
 <html>
 <head>
     <title>Create New Event </title>
+    <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-
     <%--for periodicity--%>
     <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/later.min.js"></script>
@@ -17,16 +17,16 @@
 </head>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
-<div class="col-md-9 content">
+<div class="col-md-10 content">
     <div class="card card-register">
         <div class="card-header">Create New Event</div>
         <div class="card-body">
             <%--action="/account/eventList/createNewEvent"--%>
-            <form:form method="POST" modelAttribute="createNewEvent" class="forms_form" enctype="multipart/form-data">
+            <form:form id="valid_maps" method="POST" modelAttribute="createNewEvent" class="forms_form" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -39,7 +39,6 @@
                             Browse <input type="file" onchange="readURL(this)" id = "file" name="photoFile" accept="image/*">
                             </span>
                             <span>${message}</span>
-                            <form:errors path="name" cssClass="error"/>
                         </div>
                         <div class="form-group">
                             <label>Event Name: </label>
@@ -54,14 +53,14 @@
                             <form:errors path="description" cssClass="error"/>
                         </div>
                         <div class="form-group">
-                            <label>Start_date: </label>
-                            <form:input path="dateStart" id="dateStart" type="date" class="form-control dateValid "
+                            <label>Start Date: </label>
+                            <form:input path="dateStart" id="dateStart" type="text" class="form-control dateValid "
                                         placeholder="Enter event start date"/>
                             <form:errors path="dateStart" cssClass="error"/>
                         </div>
                         <div class="form-group">
-                            <label>End_date: </label>
-                            <form:input path="dateEnd" id="dateEnd" type="date" class="form-control dateValid"
+                            <label>End Date: </label>
+                            <form:input path="dateEnd" id="dateEnd " type="text" class="form-control dateValid"
                                         placeholder="Enter event end date"/>
                             <form:errors path="dateEnd" cssClass="error"/>
                         </div>
@@ -432,10 +431,6 @@
                             <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
                             <form:errors path="eventPlaceName" cssClass="error"/>
                             <div id="map"></div>
-                            <script src='${contextPath}/resources/js/pamCode.js'></script>
-                            <script type="text/javascript"
-                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
-
                         </div>
                     </div>
                 </div>
@@ -466,7 +461,15 @@
     };
 </script>
 </body>
-<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
-<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
+<%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
+<%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
+<script src='${contextPath}/resources/js/pamCode.js'></script>
+<script type="text/javascript"
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
+
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<script>tinymce.init({ selector:'textarea' });</script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
+<script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
+<script src='${contextPath}/resources/js/datetime.js'></script>
 </html>

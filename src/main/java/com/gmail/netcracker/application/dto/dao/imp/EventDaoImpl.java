@@ -4,13 +4,14 @@ import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -90,6 +91,18 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.convertDraft}")
     private String SQL_CONVERT_DRAFT;
 
+    @Value("${sql.event.searchPublic}")
+    private String SQL_EVENT_SEARCH;
+
+    @Value("${sql.event.searchForUser}")
+    private String SQL_USER_EVENT_SEARCH;
+
+    @Value("${sql.event.getAllPersonEvents}")
+    private String SQL_GET_ALL_PERSON_EVENTS;
+
+    @Value("${sql.event.getEventsByUserFromRange}")
+    private String SQL_FROM_RANGE_BY_USER;
+
     private final RowMapper<Event> eventRowMapper;
     private final RowMapper<User> friendRowMapper;
     private final RowMapper<Participant> participantRowMapper;
@@ -108,9 +121,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
         updateEntity(SQL_UPDATE,
                 event.getName(),
                 event.getDescription(),
-                Utilites.parseTime(event.getDateStart()),
-                Utilites.parseTime(event.getDateEnd()),
-                Utilites.parseStringToInt(event.getType()),
+                Utilities.parseStringToTimestamp(event.getDateStart()),
+                Utilities.parseStringToTimestamp(event.getDateEnd()),
+                Utilities.parseStringToInt(event.getType()),
                 event.isDraft(),
                 event.getWidth(),
                 event.getLongitude(),
@@ -121,7 +134,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public void delete(int eventId) {
+    public void delete(Long eventId) {
         deleteEntity(SQL_DELETE, eventId);
     }
 
@@ -131,19 +144,19 @@ public class EventDaoImpl extends ModelDao implements EventDao {
                 event.getName(),
                 event.getDescription(),
                 event.getCreator(),
-                Utilites.parseTime(event.getDateStart()),
-                Utilites.parseTime(event.getDateEnd()),
+                Utilities.parseStringToTimestamp(event.getDateStart()),
+                Utilities.parseStringToTimestamp(event.getDateEnd()),
                 event.getWidth(),
                 event.getLongitude(),
                 event.getEventPlaceName(),
                 event.getPeriodicity(),
-                Utilites.parseStringToInt(event.getType()),
+                Utilities.parseStringToInt(event.getType()),
                 event.isDraft(),
                 event.getPhoto()));
     }
 
     @Override
-    public Event getEvent(int eventId) {
+    public Event getEvent(Long eventId) {
         return findEntity(SQL_FIND, eventRowMapper, eventId);
     }
 
@@ -178,27 +191,27 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public void participate(Long userId, long eventId) {
+    public void participate(Long userId, Long eventId) {
         updateEntity(SQL_PARTICIPATE, userId, eventId);
     }
 
     @Override
-    public int getParticipantsCount(int eventId) {
-        return countRows(SQL_COUNT_PARTICIPANTS, eventId);
+    public int getParticipantsCount(Long eventId) {
+        return countRows(SQL_COUNT_PARTICIPANTS, Math.toIntExact(eventId));
     }
 
     @Override
-    public List<User> getParticipants(long eventId) {
+    public List<User> getParticipants(Long eventId) {
         return findEntityList(SQL_GET_PARTICIPANTS, friendRowMapper, eventId);
     }
 
     @Override
-    public Participant isParticipated(Long id, int eventId) {
+    public Participant isParticipated(Long id, Long eventId) {
         return findEntity(SQL_IS_PARTICIPATED, participantRowMapper, id, eventId);
     }
 
     @Override
-    public void unsubscribe(long id, long eventId) {
+    public void unsubscribe(Long id, Long eventId) {
         deleteEntity(SQL_UNSUBSCRIBE, id, eventId);
     }
 
@@ -218,21 +231,21 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public int getEventType(int eventId) {
-        return countRows(SQL_GET_EVENT_TYPE, eventId);
+    public int getEventType(Long eventId) {
+        return countRows(SQL_GET_EVENT_TYPE, Math.toIntExact(eventId));
     }
 
     @Override
-    public User getCreator(int eventId) {
+    public User getCreator(Long eventId) {
         return findEntity(SQL_GET_CREATOR, friendRowMapper, eventId);
     }
 
     @Override
-    public Event checkCreatorById(Long personId, int eventId) {
+    public Event checkCreatorById(Long personId, Long eventId) {
         return findEntity(SQL_CHECK_CREATOR, eventRowMapper, personId, eventId);
     }
 
-    public Event getEventWithPriority(Long personId, int eventId) {
+    public Event getEventWithPriority(Long personId, Long eventId) {
         return findEntity(SQL_GET_EVENT_WITH_PRIORITY, eventRowMapper, personId, eventId);
     }
 
@@ -245,6 +258,27 @@ public class EventDaoImpl extends ModelDao implements EventDao {
         updateEntity(SQL_CONVERT_DRAFT,
                 event.getDraft(),
                 event.getEventId());
+    }
+
+    @Override
+    public List<Event> searchInPublic(String query, Long userId) {
+        return findEntityList(SQL_EVENT_SEARCH, eventRowMapper, query, userId);
+    }
+
+    @Override
+    public List<Event> searchInUsersEvents(String query, Long userId) {
+        return findEntityList(SQL_USER_EVENT_SEARCH, eventRowMapper, 100, 0, query, userId);
+    }
+
+    @Override
+    public List<Event> getAllPersonEvents(Long id) {
+        return findEntityList(SQL_GET_ALL_PERSON_EVENTS, eventRowMapper, id);
+    }
+
+    @Override
+    public List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end) {
+
+        return findEntityList(SQL_FROM_RANGE_BY_USER, eventRowMapper, userId, end, start, end);
     }
 }
 

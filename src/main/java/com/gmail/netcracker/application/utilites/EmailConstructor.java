@@ -1,5 +1,6 @@
 package com.gmail.netcracker.application.utilites;
 
+import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import java.util.UUID;
 
 @PropertySource("classpath:application.properties")
 @Component
-public class EmailConcructor {
+public class EmailConstructor {
 
     @Autowired
     UserService userService;
@@ -55,7 +56,20 @@ public class EmailConcructor {
         final String recipientAddress = userService.findUserById(recipientId).getEmail();
         final String subject = "Notification about new request";
         final String viewUrl = env.getProperty("heroku.host") + "/account/friends/incoming";
-        final String message = "User " + sender.getName() + " " + sender.getSurname()+ " want to add you to friends. \r\n View request: ";
+        final String message = "User " + sender.getName() + " " + sender.getSurname() + " want to add you to friends. \r\n View request: ";
+        final SimpleMailMessage email = new SimpleMailMessage();
+        email.setTo(recipientAddress);
+        email.setSubject(subject);
+        email.setText(message + viewUrl);
+        email.setFrom(env.getProperty("email.server"));
+        return email;
+    }
+
+    private SimpleMailMessage createEventNotification(Event event) {
+        final String recipientAddress = userService.findUserById(event.getCreator()).getEmail();
+        final String subject = "Notification about event";
+        final String viewUrl = env.getProperty("heroku.host") + "/account/eventList/event-" + event.getEventId();
+        final String message = event.getName() + " is now!!! View event: ";
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
@@ -78,8 +92,13 @@ public class EmailConcructor {
         javaMailSender.send(email);
     }
 
-    public void notifyNewFriendEmailSender(User sender, Long recipientId){
-        final SimpleMailMessage email = constructNewFriendEmailMessage(sender,recipientId );
+    public void notifyNewFriendEmailSender(User sender, Long recipientId) {
+        final SimpleMailMessage email = constructNewFriendEmailMessage(sender, recipientId);
+        javaMailSender.send(email);
+    }
+
+    public void notifyAboutEvent(Event event) {
+        final SimpleMailMessage email = createEventNotification(event);
         javaMailSender.send(email);
     }
 }

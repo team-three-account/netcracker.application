@@ -26,4 +26,6 @@ public interface FolderService {
     void allowAccessToFolder(int folderId, int userId);
 
     void disableAccessToFolder(int folderId, int friendId);
+
+    List<Folder> sharedFoldersToMe();
 }

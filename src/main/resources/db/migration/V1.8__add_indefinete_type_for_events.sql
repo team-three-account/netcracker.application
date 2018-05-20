@@ -1,0 +1,1 @@
+INSERT INTO event_types("type_id", "name") VALUES (0, 'indefinite');

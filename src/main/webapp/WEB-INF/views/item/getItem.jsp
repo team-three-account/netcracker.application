@@ -11,11 +11,11 @@
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
-<div class="col-md-6 content">
+<div class="col-md-10 content">
     <div class="col-md-6">
         <a class="btn btn-primary" href="<c:url value='/account/user-${getItem.personId}/wishList'/>"> < Back</a>
         <div class="panel panel-success">

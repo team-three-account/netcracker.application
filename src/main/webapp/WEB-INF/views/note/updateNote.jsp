@@ -11,12 +11,12 @@
 </head>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
 
-<div class="col-md-9 content">
+<div class="col-md-10 content">
     <div class="card card-register">
         <div class="card-header">Update Note</div>
         <div class="card-body">
@@ -40,7 +40,9 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
-<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
+<%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
+<%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<script>tinymce.init({ selector:'textarea' });</script>
 </html>
 

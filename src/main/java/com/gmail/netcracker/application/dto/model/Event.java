@@ -16,12 +16,12 @@ public class Event {
     private String type;
     private Boolean draft;
     private Integer folder;
-    private Integer typeId;
+    private Long typeId;
     private Double width;
     private Double longitude;
     private String eventPlaceName;
     private String photo;
-    private Integer priorityId;
+    private Long priorityId;
 
     public Boolean isDraft() {
         return draft;

@@ -9,13 +9,17 @@ public interface NoteDao {
 
     List<Note> noteList();
 
-    Note getNote(int noteId);
+    Note getNote(Long noteId);
 
     void delete(Long noteId);
 
     void update(Note note);
 
-    void addNoteToFolder(Note note);
+    void addNoteToFolder(int noteId, int folderId);
 
     void setFoldersNull(Integer folderId);
+
+    void deleteFromFolder(Long noteId);
+
+    void addNoteToFolderBtn(Note note);
 }

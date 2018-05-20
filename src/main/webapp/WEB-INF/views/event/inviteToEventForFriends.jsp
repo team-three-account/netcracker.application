@@ -18,11 +18,11 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3"
+    <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
-<div class="col-md-9 content">
+<div class="col-md-10 content">
     <p>
         <a href="/account/eventList/event-${eventId}">
             <input type="submit" class="btn btn-primary text-center" value="< Back to event"></a>

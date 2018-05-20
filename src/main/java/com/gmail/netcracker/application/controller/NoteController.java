@@ -8,6 +8,7 @@ import com.gmail.netcracker.application.service.interfaces.FolderService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.NoteValidator;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.LoggingPermission;
 
 
 @Controller
@@ -41,14 +44,14 @@ public class NoteController {
         this.eventController = eventController;
     }
 
-    @RequestMapping(value = "/eventList/createNote", method = RequestMethod.GET)
+    @RequestMapping(value = "/createNote", method = RequestMethod.GET)
     public ModelAndView createNote(@ModelAttribute(value = "createNote") Note note, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("note/createNote");
         return modelAndView;
     }
 
-    @RequestMapping(value = "/eventList/createNote", method = RequestMethod.POST)
+    @RequestMapping(value = "/createNote", method = RequestMethod.POST)
     public ModelAndView saveNote(@ModelAttribute("createNote") Note note, BindingResult result,
                                  ModelAndView modelAndView) {
         modelAndView.setViewName("note/createNote");
@@ -62,8 +65,8 @@ public class NoteController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/eventList/note-{noteId}", method = RequestMethod.GET)
-    public ModelAndView viewNote(@PathVariable("noteId") int noteId, ModelAndView modelAndView) {
+    @RequestMapping(value = "/note-{noteId}", method = RequestMethod.GET)
+    public ModelAndView viewNote(@PathVariable("noteId") Long noteId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("note", noteService.getNote(noteId));
         modelAndView.addObject("user_creator", userService.findUserById(noteService.getNote(noteId).getCreator()));
@@ -71,21 +74,27 @@ public class NoteController {
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/eventList/deleteNote-{noteId}"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/deleteNote-{noteId}"}, method = RequestMethod.GET)
     public String deleteNote(@PathVariable Long noteId) {
         noteService.delete(noteId);
         return "redirect:/account/allNotes";
     }
 
-    @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.GET)
-    public ModelAndView editNote(@PathVariable int noteId, ModelAndView modelAndView) {
+    @RequestMapping(value = {"/deleteFF-{noteId}"}, method = RequestMethod.GET)
+    public String deleteNoteFromFolder(@PathVariable Long noteId) {
+        noteService.deleteFromFolder(noteId);
+        return "redirect:/account/allNotes";
+    }
+
+    @RequestMapping(value = {"/editNote-{noteId}"}, method = RequestMethod.GET)
+    public ModelAndView editNote(@PathVariable Long noteId, ModelAndView modelAndView) {
         modelAndView.addObject("editNote", noteService.getNote(noteId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("note/updateNote");
         return modelAndView;
     }
 
-    @RequestMapping(value = {"/eventList/editNote-{noteId}"}, method = RequestMethod.POST)
+    @RequestMapping(value = {"/editNote-{noteId}"}, method = RequestMethod.POST)
     public ModelAndView updateNote(@ModelAttribute("editNote") Note note, BindingResult result,
                                    ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -108,17 +117,16 @@ public class NoteController {
         return "note/allNotes";
     }
 
-//    @RequestMapping(value = "/folder-{folderId}/notes", method = RequestMethod.GET)
-//    public String getNotes(@PathVariable(value = "folderId") int folderId, Model model) {
-//        List<Note> listNotesIntoFolder = folderService.getNoteListIntoFolder(folderId);
-//        model.addAttribute("listNotesIntoFolder", listNotesIntoFolder);
-//        model.addAttribute("folderName", folderService.getFolder(folderId));
-//        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-//        return "folder/notesIntoFolder";
-//    }
+    @RequestMapping(value = "/move", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity moveNote(@RequestParam int folderId,
+                                   @RequestParam int noteId) {
+        noteService.addNoteToFolder(noteId, folderId);
+        return ResponseEntity.ok("Note was moved to folder successfully.");
+    }
 
     @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.GET)
-    public ModelAndView addNoteToFolder(ModelAndView modelAndView, @PathVariable int noteId) {
+    public ModelAndView addNoteToFolderBtn(ModelAndView modelAndView, @PathVariable Long noteId) {
         Note note = noteService.getNote(noteId);
         modelAndView.addObject("newNoteIntoFolder", note);
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -128,12 +136,10 @@ public class NoteController {
     }
 
     @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.POST)
-    public ModelAndView saveNoteToFolder(ModelAndView modelAndView, @ModelAttribute("newNoteIntoFolder") Note note) {
+    public ModelAndView saveNoteToFolderBtn(ModelAndView modelAndView, @ModelAttribute("newNoteIntoFolder") Note note) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        noteService.addNoteToFolder(note);
+        noteService.addNoteToFolderBtn(note);
         modelAndView.setViewName("redirect:/account/allNotes");
         return modelAndView;
     }
-
-
 }

@@ -21,10 +21,7 @@ public class NoteValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        Note note = (Note)o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required.field");
-        if(note.getDescription().equals("<br>")){
-            errors.rejectValue("description","required.field");
-        }
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "required.field");
     }
 }

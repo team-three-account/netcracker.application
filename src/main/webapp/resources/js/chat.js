@@ -1,6 +1,19 @@
 var stompClient = null;
 var connectState = true;
+var messagesLimit = 15;
+var messagesOffset = 0;
+var authUserId;
+var eventId;
+var chatId;
+var isChatWithCreator;
 
+$(document).ready(function () {
+    authUserId = $("#authUserId").val();
+    eventId = $("#event").val();
+    chatId = $("#chat").val();
+    isChatWithCreator = $("#chatWithCreator").val();
+    loadPrevMessages();
+});
 
 function setConnected(connected) {
     document.getElementById('connect').disabled = connected;
@@ -18,11 +31,10 @@ function connect() {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/messages/' + chat, function (message) {
-            showMessageOutput(JSON.parse(message.body));
+            showMessageOutput(JSON.parse(message.body), true);
         });
     });
     divElement.scrollTop = 9999;
-
 }
 
 function disconnect() {
@@ -37,51 +49,45 @@ function sendMessage() {
     var sender = document.getElementById('userId').value;
     var chat = document.getElementById('chat').value;
     var senderPhoto = document.getElementById('photo').value;
-    var divElement = document.getElementById('sms');
 
     stompClient.send("/app/chat/" + event + "/" + sender + "/" + chat, {},
-        JSON.stringify({'from': from, 'text': text, 'senderId': sender, 'senderPhoto': senderPhoto}));
-    divElement.scrollTop = 9999;
+        JSON.stringify({'from': from, 'text': text.trim(), 'senderId': sender, 'senderPhoto': senderPhoto}));
     document.getElementById('text').value = "";
     document.getElementById('sendMessage').disabled = true;
-
 }
 
-function showMessageOutput(message) {
-    var response = document.getElementById('response');
-    var p = document.createElement('p');
-    var img = document.createElement('img');
-    var userId = document.getElementById('userId').value;
-    var senderPhoto = document.getElementById('photo').value;
-    var div = document.createElement('div');
-    var divElement = document.getElementById('sms');
-    divElement.scrollTop = 9999;
-    img.src = message.senderPhoto;
-    img.classList.add("img-circle");
-    img.style.display = 'inline';
-    img.style.width = '40px';
-    img.style.height = '40px';
-    img.classList.add("text-right");
-    p.style.wordWrap = 'break-word';
-    p.style.display = 'inline';
-    if (message.senderId == userId) {
-        div.classList.add("text-right")
-
-        p.appendChild(document.createTextNode(message.from + ": "
-            + message.text + " (" + message.time + ")"));
-
-        div.appendChild(p);
-        div.appendChild(img);
-        response.appendChild(div);
-    } else {
-        div.appendChild(img);
-        p.appendChild(document.createTextNode(message.from + ": "
-            + message.text + " (" + message.time + ")"));
-
-        div.appendChild(p);
-        response.appendChild(div);
+function showMessageOutput(message, isAppended) {
+    var messageHtml;
+    switch (authUserId != message.senderId) {
+        case true: {
+            var messageLeftHtml = " <div class=\"text-left\" id=\"showMessageOutputFromData\">\n" +
+                "                                        <input type=\"hidden\" id=\"sender\" value=\"" + message.senderId + "\">\n" +
+                "                                        <p><a href='/account/"+message.senderId +"'><img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
+                "                                                src=\"" + message.senderPhoto + "\"></a>" + " " + message.text + "\n" +
+                "                                        </p>\n" +
+                                                            "<p>"+message.time+"</p>\n"+
+                "                                    </div>";
+            messageHtml = messageLeftHtml;
+            break;
+        }
+        case false: {
+            var messageRightHtml = "<div class=\"text-right\" id=\"showMessageOutputFromData\">\n" +
+                "                                        <p>" + message.text +
+                "                                           <a href='/account/"+message.senderId +"'><img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
+                "                                                 src=\"" + message.senderPhoto + "\"/>\n" +
+                "                                        </a></p>\n" +
+                "                                        <p>"+ message.time+"</p>\n" +
+                "                                    </div>";
+            messageHtml = messageRightHtml;
+            break;
+        }
     }
-    divElement.scrollTop = 9999;
+    if (isAppended === true) {
+        $("#sms").append($(messageHtml));
+        document.getElementById('sms').scrollTop = 9999;
+    } else {
+        $("#sms").prepend($(messageHtml));
+    }
 }
 
 function showMessageOutputFromData() {
@@ -90,15 +96,47 @@ function showMessageOutputFromData() {
     var divElement = document.getElementById('sms');
     div.classList.add("text-right");
     div.scrollTop = 9999;
-
 }
 
 function checkParams() {
     var name = $('#text').val();
 
-    if (name.length != 0) {
+    if (name.trim() != 0) {
         $('#sendMessage').removeAttr('disabled');
     } else {
         $('#sendMessage').attr('disabled', 'disabled');
+    }
+}
+
+function loadPrevMessages() {
+    var sms = document.getElementById('sms');
+    if (sms.scrollTop === 0) {
+        $.ajax({
+            type: 'GET',
+            url: "/account/eventList/eventChat/main/getChatMessages",
+            dataType: 'json',
+            data:{
+                eventId: eventId,
+                chatId: chatId,
+                state: isChatWithCreator,
+                limit: messagesLimit,
+                offset: messagesOffset
+            },
+            success: function (data) {
+                console.log(JSON.stringify(data));
+                data.forEach(function (message) {
+                    showMessageOutput(message, false); //TODO set last message id
+                });
+                if (messagesOffset === 0) {
+                    sms.scrollTop = 9999;
+                } else {
+                    sms.scrollTop = 1;
+                }
+                messagesOffset += messagesLimit;
+            },
+            error: function (data) {
+                console.log(JSON.stringify(data));
+            }
+        })
     }
 }

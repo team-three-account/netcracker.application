@@ -19,7 +19,8 @@ public class FilterServiceImpl implements FilterService {
     private EventService eventService;
 
     @Override
-    public List<Event> filterOfPriority(List<Integer> validPriorities) {
+    public List<Event> filterOfPriority(List<Long> validPriorities) {
+        if (validPriorities.isEmpty()) return eventService.myEventsWithPriority();
         List<Event> filterEvents = new ArrayList<>();
         for (Event event: eventService.myEventsWithPriority()){
             if(validPriorities.contains(event.getPriorityId()))
@@ -29,7 +30,8 @@ public class FilterServiceImpl implements FilterService {
     }
 
     @Override
-    public List<Event> filterOfType(List<Integer> validType) {
+    public List<Event> filterOfType(List<Long> validType) {
+        if (validType.isEmpty()) return eventService.getAllMyEvents();
         List<Event> filterEvents = new ArrayList<>();
         for (Event event: eventService.getAllMyEvents()){
             if(validType.contains(event.getTypeId()))

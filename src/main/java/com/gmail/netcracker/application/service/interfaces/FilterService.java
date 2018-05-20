@@ -5,7 +5,7 @@ import com.gmail.netcracker.application.dto.model.Event;
 import java.util.List;
 
 public interface FilterService {
-    List<Event> filterOfPriority(List<Integer> validPriorities);
+    List<Event> filterOfPriority(List<Long> validPriorities);
 
-    List<Event> filterOfType(List<Integer> validType);
+    List<Event> filterOfType(List<Long> validType);
 }

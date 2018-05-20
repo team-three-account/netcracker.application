@@ -28,19 +28,18 @@
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-3">
+    <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
 
-    <div class="col-md-9 content">
-        <form:form method="POST" modelAttribute="auth_user" enctype="multipart/form-data"
-                   action="/account/settings-user">
+    <div class="col-md-10 content">
+        <form:form method="POST" modelAttribute="user" action="/account/settings-user" enctype="multipart/form-data">
             <table class="table">
                 <tr>
                     <td>Avatar:</td>
-                    <td><img id = "blah" class="img-circle" style="width: 200px;height: 200px"src="${auth_user.photo}"
-                             />
-                        <input type="hidden" name="photo"  value="${auth_user.photo}" />
+                    <td><img id="blah" class="img-circle" style="width: 200px;height: 200px" src="${user.photo}"
+                    />
+                        <input type="hidden" name="photo" value="${user.photo}"/>
                         <br><span class="btn btn-default btn-file">
     Browse <input type="file" name="photoFile" id="file" accept="image/*" onchange="readURL(this)">
 </span>
@@ -50,34 +49,36 @@
                 <tr>
                     <th>Name:</th>
                     <td>
-                        <form:input type="hidden" name="id" value="${auth_user.id}" path="id"/>
-                        <form:input name="name" class="form-control"
-                                    readonly="readonly" value="${auth_user.name}"
-                                    placeholder="Enter name" path="name"/>
+                        <form:input type="hidden" path="id"/>
+                        <form:input path="name" id="name" type="text" class="form-control"
+                                    placeholder="Enter event name"/>
+
                     </td>
+                    <td><form:errors path="name" cssClass="error"/></td>
+
                 </tr>
                 <tr>
                     <th>Surname:</th>
                     <td>
-                        <form:input class="form-control"
-                                    name="surname" maxlength="500" value="${auth_user.surname}" path="surname"/>
+                        <form:input path="surname" id="surname" type="text" class="form-control"
+                                    placeholder="Enter event name"/>
+
                     </td>
+                    <td><form:errors path="surname" cssClass="error"/></td>
                 </tr>
                 <tr>
-                    <th>Email:</th>
+                    <th>Birthday Date</th>
                     <td>
-                        <form:input class="form-control" name="email"
-                                    readonly="readonly" maxlength="500" value="${auth_user.email}" path="email"/>
+                        <form:input path="birthdayDate" id="dateEnd" type="date" class="form-control dateValid"
+                                    placeholder="Enter event end date"/>
                     </td>
                 </tr>
-
                 <tr>
                     <th>Phone</th>
                     <td>
                         <form:input name="phone" class="form-control phone"
-                                    type="phone" value="${auth_user.phone}"
+                                    type="phone"
                                     placeholder="Enter phone" path="phone"/>
-
                     </td>
                 </tr>
                 <tr>

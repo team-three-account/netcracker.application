@@ -8,10 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="netcracker.application" />
+        <module name="netcracker.application2" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="netcracker.application" target="1.8" />
+      <module name="netcracker.application2" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

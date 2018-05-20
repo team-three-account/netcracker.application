@@ -3,7 +3,7 @@ package com.gmail.netcracker.application.controller;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.UserService;
-import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class RegistrationController {
@@ -21,18 +24,22 @@ public class RegistrationController {
 
     private final RegisterValidator registerValidator;
 
-    private final EmailConcructor emailConcructor;
+    private final EmailConstructor emailConstructor;
 
     private final UserService userService;
 
     private PhotoServiceImp photoService;
 
+    private final String MALE = "Male";
+
+    private final String FEMALE = "Female";
+
     @Autowired
-    public RegistrationController(VerificationToken verificationToken, User user, RegisterValidator registerValidator, EmailConcructor emailConcructor, UserService userService, PhotoServiceImp photoService) {
+    public RegistrationController(VerificationToken verificationToken, User user, RegisterValidator registerValidator, EmailConstructor emailConstructor, UserService userService, PhotoServiceImp photoService) {
         this.verificationToken = verificationToken;
         this.user = user;
         this.registerValidator = registerValidator;
-        this.emailConcructor = emailConcructor;
+        this.emailConstructor = emailConstructor;
         this.userService = userService;
         this.photoService = photoService;
     }
@@ -65,7 +72,7 @@ public class RegistrationController {
         if (bindingResult.hasErrors()) {
             return "user/registration/registration";
         }
-        emailConcructor.registerEmailSender(user);
+        emailConstructor.registerEmailSender(user);
         return "user/registration/approve";
     }
 
@@ -80,7 +87,12 @@ public class RegistrationController {
             (@PathVariable(value = "token") String token) {
         verificationToken = userService.getVerificationToken(token);
         user = verificationToken.getUser();
-        user.setPhoto(photoService.getDefaultImage());
+        if (user.getGender().equals(MALE)) {
+            user.setPhoto(photoService.getDefaultImageMale());
+        }
+        if (user.getGender().equals(FEMALE)) {
+            user.setPhoto(photoService.getDefaultImageFemale());
+        }
         userService.saveRegisteredUser(user);
         userService.deleteVerificationToken(verificationToken);
         return "user/registration/successfulRegistration";

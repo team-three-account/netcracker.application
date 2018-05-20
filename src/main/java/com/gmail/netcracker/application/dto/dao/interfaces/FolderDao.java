@@ -24,4 +24,6 @@ public interface FolderDao {
     void disableAccessToFolder(int folderId, int friendId);
 
     void allowAccessToFolder(int folderId, int userId);
+
+    List<Folder> getSharedFoldersToMe(Long id);
 }

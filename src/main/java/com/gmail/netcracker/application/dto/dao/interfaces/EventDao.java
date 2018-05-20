@@ -4,16 +4,17 @@ import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.User;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface EventDao {
     void update(Event event);
 
-    void delete(int eventId);
+    void delete(Long eventId);
 
     void insertEvent(Event event);
 
-    Event getEvent(int eventId);
+    Event getEvent(Long eventId);
 
     List<Event> eventList();
 
@@ -27,15 +28,15 @@ public interface EventDao {
 
     List<Event> getAllMyEvents(Long personId);
 
-    void participate(Long userId, long eventId);
+    void participate(Long userId, Long eventId);
 
-    int getParticipantsCount(int eventId);
+    int getParticipantsCount(Long eventId);
 
-    List<User> getParticipants(long eventId);
+    List<User> getParticipants(Long eventId);
 
-    Participant isParticipated(Long id, int eventId);
+    Participant isParticipated(Long id, Long eventId);
 
-    void unsubscribe(long id, long eventId);
+    void unsubscribe(Long id, Long eventId);
 
     List<Event> findCreatedFriendsEvents(Long id);
 
@@ -43,15 +44,23 @@ public interface EventDao {
 
     int getMaxId();
 
-    int getEventType(int eventId);
+    int getEventType(Long eventId);
 
-    User getCreator(int eventId);
+    User getCreator(Long eventId);
 
-    Event checkCreatorById(Long personId, int eventId);
+    Event checkCreatorById(Long personId, Long eventId);
 
-    Event getEventWithPriority(Long personId, int eventId);
+    Event getEventWithPriority(Long personId, Long eventId);
 
     List<Event> listEventsWithPriority(Long personId);
 
     void convertDraftToEvent(Event event);
+
+    List<Event> searchInPublic(String query, Long userId);
+
+    List<Event> searchInUsersEvents(String query, Long userId);
+
+    List<Event> getAllPersonEvents(Long id);
+
+    List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end);
 }

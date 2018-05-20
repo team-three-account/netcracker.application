@@ -3,6 +3,8 @@ package com.gmail.netcracker.application.dto.model;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.Set;
 
 @Data
 public class Item {
@@ -13,7 +15,9 @@ public class Item {
     private String description;
     private String link;
     private String dueDate;
-    private Integer priority;
+    private Long priority;
     private Long root;
     private Integer event;
+    private String image;
+    private Set<Tag> tags;
 }

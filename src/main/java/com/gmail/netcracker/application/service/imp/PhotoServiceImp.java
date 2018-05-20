@@ -30,8 +30,19 @@ public class PhotoServiceImp implements PhotoService, Serializable {
     @Autowired
     private UserService userService;
 
-    @Value("${image.default}")
-    private String defaultImage;
+    @Value("${image.default.male}")
+    private String defaultImageMale;
+
+    @Value("${image.default.female}")
+    private String defaultImageFemale;
+
+    @Value("${image.default.event}")
+    private String defaultImageForEvents;
+
+    @Value("${image.default.item}")
+    private String defaultImageForItems;
+
+
 
     @Value("${image.type.png}")
     private String imageTypePng;

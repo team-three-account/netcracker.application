@@ -9,11 +9,11 @@ public interface EventService {
 
     void update(Event event);
 
-    void delete(int eventId);
+    void delete(Long eventId);
 
     void insertEvent(Event event);
 
-    Event getEvent(int eventId);
+    Event getEvent(Long eventId);
 
     List<Event> eventList();
 
@@ -31,17 +31,17 @@ public interface EventService {
 
     List<Event> getAllMyEvents();
 
-    void participate(Long userId, long eventId);
+    void participate(Long userId, Long eventId);
 
-    int countParticipants(int eventId);
+    int countParticipants(Long eventId);
 
-    List<User> getParticipants(long eventId);
+    List<User> getParticipants(Long eventId);
 
     List<Priority> getAllPriorities();
 
-    boolean isParticipated(Long id, int eventId);
+    boolean isParticipated(Long id, Long eventId);
 
-    void unsubscribe(long id, long eventId);
+    void unsubscribe(Long id, Long eventId);
 
     List<Event> findCreatedFriendsEvents(Long id);
 
@@ -49,25 +49,29 @@ public interface EventService {
 
     int getMaxId();
 
-    void setPriority(Integer priority, int eventId, Long userId);
+    void setPriority(Long priority, Long eventId, Long userId);
 
-    boolean allowAccess(Long personId, int eventId);
+    boolean allowAccess(Long personId, Long eventId);
 
-    boolean isCreator(Long personId, int eventId);
+    boolean isCreator(Long personId, Long eventId);
 
-    List<User> getUsersToInvite(Long id, int eventId);
+    List<User> getUsersToInvite(Long id, Long eventId);
 
     List<User> subtraction(List<User> minuend, List<User> subtrahend);
 
-    List<User> getFriendsToInvite(Long id, int eventId);
+    List<User> getFriendsToInvite(Long id, Long eventId);
 
     void transferNoteToEvent(Long noteId,Long userId, Event event);
 
     List<Event> myEventsWithPriority();
 
-    Event getMyEventWithPriority(int eventId);
+    Event getMyEventWithPriority(Long eventId);
 
-    Participant getParticipation(int eventId);
+    Participant getParticipation(Long eventId);
 
-    void convertDraftToEvent(int eventId);
+    void convertDraftToEvent(Long eventId);
+
+    List<Event> getTimelines(Long id);
+
+    Event copyEvent(Event toCopy);
 }

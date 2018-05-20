@@ -5,7 +5,7 @@ import com.gmail.netcracker.application.dto.model.Chat;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.EventMessage;
 import com.gmail.netcracker.application.dto.model.User;
-import com.gmail.netcracker.application.utilites.Utilites;
+import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +35,7 @@ public class EventMessageDaoImp extends ModelDao implements EventMessageDao {
                         SQL_INSERT,
                         PK_COLUMN_NAME,
                         message.getText(),
-                        Utilites.parseTimeWithSeconds(message.getTime()),
+                        Utilities.parseStringToTimestampWithSeconds(message.getTime()),
                         user.getId(),
                         chat.getChatId())));
     }

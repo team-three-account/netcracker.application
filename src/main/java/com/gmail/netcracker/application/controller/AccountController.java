@@ -1,14 +1,21 @@
 package com.gmail.netcracker.application.controller;
 
 
+import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
+import com.gmail.netcracker.application.service.interfaces.EventService;
+import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
-import com.gmail.netcracker.application.utilites.EmailConcructor;
+import com.gmail.netcracker.application.utilites.EmailConstructor;
+import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
+import com.gmail.netcracker.application.validation.EditUserAccountValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,8 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 
 @Controller
@@ -30,7 +37,7 @@ public class AccountController {
 
     private User user;
 
-    private EmailConcructor emailConcructor;
+    private EmailConstructor emailConstructor;
 
     private UserService userService;
 
@@ -40,28 +47,45 @@ public class AccountController {
 
     private PhotoServiceImp photoService;
 
+    private EditUserAccountValidator editUserAccountValidator;
+
+    private EventService eventService;
+
+    private  ItemService itemService;
+
+    private Gson gson = new GsonBuilder()
+            .registerTypeAdapter(Event.class, new EventSerializer())
+            .create();
+
     @Autowired
-    public AccountController(User user, EmailConcructor emailConcructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService) {
+    public AccountController(User user, EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService, EditUserAccountValidator editUserAccountValidator, EventService eventService, ItemService itemService) {
         this.user = user;
-        this.emailConcructor = emailConcructor;
+        this.emailConstructor = emailConstructor;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.resetConfirmPasswordValidator = resetConfirmPasswordValidator;
         this.photoService = photoService;
+
+        this.editUserAccountValidator = editUserAccountValidator;
+        this.eventService = eventService;
+        this.itemService = itemService;
     }
 
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public ModelAndView homeAccount(ModelAndView model) {
-        model.addObject("auth_user", userService.getAuthenticatedUser());
-        model.setViewName("account/account");
-        return model;
+    public ModelAndView homeAccount(ModelAndView modelAndView) {
+        String eventList = gson.toJson(eventService.myEventsWithPriority());
+        modelAndView.addObject("popularItems", itemService.popularItems());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.addObject("eventList", eventList);
+        modelAndView.setViewName("account/account");
+        return modelAndView;
     }
 
     @RequestMapping(value = "/resetpassword", method = RequestMethod.GET)
     public String passwordResetSuccessful() {
 
-        emailConcructor.resetPasswordEmailSender(userService.getAuthenticatedUser());
+        emailConstructor.resetPasswordEmailSender(userService.getAuthenticatedUser());
         return "account/passwordResetSuccessful";
     }
 
@@ -97,44 +121,56 @@ public class AccountController {
     }
 
     @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
-    public String profile(@PathVariable(value = "id") Long id, Model model) {
-        model.addAttribute("auth_user", userService.findUserById(id));
-        return "account/profile";
+    public ModelAndView profile(@PathVariable(value = "id") Long id, ModelAndView model) {
+        model.addObject("auth_user", userService.findUserById(id));
+        model.setViewName("account/profile");
+        return model;
     }
 
     @RequestMapping(value = "/settings-user/{id}", method = RequestMethod.GET)
     public ModelAndView settings(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
-        modelAndView.addObject("auth_user", userService.findUserById(id));
+        User user = userService.findUserById(id);
+        modelAndView.addObject("auth_user", user);
+        modelAndView.addObject("user", user);
         modelAndView.setViewName("account/edit");
         return modelAndView;
     }
 
     @RequestMapping(value = "/settings-user", method = RequestMethod.POST)
-    public ModelAndView saveSettings(@ModelAttribute(value = "auth_user") User user,
+    public ModelAndView saveSettings(@ModelAttribute(value = "user") User user,
+                                     BindingResult result,
                                      @RequestParam(value = "photo") String photo,
-                                     @RequestParam(value = "photoFile") final MultipartFile photoFile,
-                                     final ModelAndView modelAndView,
-                                     HttpServletRequest httpServletRequest) throws Exception {
-
+                                     @RequestParam(value = "photoFile") MultipartFile photoFile,
+                                     ModelAndView modelAndView) throws Exception {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        editUserAccountValidator.validate(user, result);
         user.setPhotoFile(photoFile);
         if (!photoFile.getContentType().equals(photoService.getImageTypeJpeg())
                 && !photoFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !photoFile.getContentType().equals(photoService.getImageTypePng())
                 && !photoFile.isEmpty()) {
             modelAndView.addObject("message", "Image type don't supported");
+        }
+        if (result.hasErrors() || !photoFile.getContentType().equals(photoService.getImageTypeJpeg())
+                && !photoFile.getContentType().equals(photoService.getImageTypeJpg())
+                && !photoFile.getContentType().equals(photoService.getImageTypePng())
+                && !photoFile.isEmpty()) {
             modelAndView.setViewName("account/edit");
             return modelAndView;
         }
+
         userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         if (photoFile.isEmpty()) {
             user.setPhoto(photo);
         } else {
             user.setPhoto(photoService.uploadFileOnDropBox(photoFile, UUID.randomUUID().toString()));
-            userService.getAuthenticatedUser().setPhoto(user.getPhoto());
+
         }
+        userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         userService.getAuthenticatedUser().setName(user.getName());
         userService.getAuthenticatedUser().setSurname(user.getSurname());
-        photoService.saveFileInDB(user.getPhoto(), user.getId());
+        userService.getAuthenticatedUser().setBirthdayDate(user.getBirthdayDate());
+        Logger.getLogger(AccountController.class.getName()).info(user.toString());
         userService.updateUser(user);
         modelAndView.setViewName("redirect:/account/profile/" + user.getId());
         return modelAndView;
