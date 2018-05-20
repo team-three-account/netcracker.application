@@ -1,0 +1,1 @@
+ALTER TABLE participants DROP COLUMN is_accepted;
