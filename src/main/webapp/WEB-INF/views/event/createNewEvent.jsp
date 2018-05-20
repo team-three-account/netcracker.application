@@ -26,7 +26,8 @@
         <div class="card-header">Create New Event</div>
         <div class="card-body">
             <%--action="/account/eventList/createNewEvent"--%>
-            <form:form id="valid_maps" method="POST" modelAttribute="createNewEvent" class="forms_form" enctype="multipart/form-data">
+            <form:form id="valid_maps" method="POST" modelAttribute="createNewEvent" class="forms_form"
+                       enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -36,7 +37,8 @@
                                  src="<c:url value="${createNewEvent.photo}.jpg"/>">
                             <input type="hidden" name="photoInput" value="${createNewEvent.photo}">
                             <br><span class="btn btn-default btn-file">
-                            Browse <input type="file" onchange="readURL(this)" id = "file" name="photoFile" accept="image/*">
+                            Browse <input type="file" onchange="readURL(this)" id="file" name="photoFile"
+                                          accept="image/*">
                             </span>
                             <span>${message}</span>
                         </div>
@@ -48,7 +50,8 @@
                         </div>
                         <div class="form-group">
                             <label>Description: </label>
-                            <form:textarea path="description" name="description" id="description" type="text" class="form-control"
+                            <form:textarea path="description" name="description" id="description" type="text"
+                                           class="form-control"
                                            placeholder="Enter event description"/>
                             <form:errors path="description" cssClass="error"/>
                         </div>
@@ -82,7 +85,7 @@
                             </button>
                             <button type="button" onclick="deletePeriodicity()">Delete periodicity</button>
                             <div id="crontabs" style="display: none;">
-                                <div>
+                                <div style="border: 1px solid #ccc; border-radius: 4px;">
                                     <div class="cron-option" style="padding-bottom:10px;">
                                         <label for="time" class="nofloat">Time</label>
                                         <input type="time" id="time" name="time" value="00:00">
@@ -321,7 +324,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div>
+                                <div  style="border: 1px solid #ccc; border-radius: 4px;">
                                     <div class="cron-option" style="padding-bottom:10px">
                                         <input type="radio" id="cronEveryMonth" name="cronMonth" checked="checked">
                                         <label for="cronEveryMonth" class="nofloat">Every month</label>
@@ -468,7 +471,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
 
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-<script>tinymce.init({ selector:'textarea' });</script>
+<script>tinymce.init({selector: 'textarea'});</script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>

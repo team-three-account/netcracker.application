@@ -93,7 +93,8 @@
                         </button>
                         <button type="button" onclick="deletePeriodicity()">Delete periodicity</button>
                         <div id="crontabs" style="display: none;">
-                            <div>
+                            <div  style="border: 1px solid #ccc; border-radius: 4px;">
+                                <h3>Days</h3>
                                 <div class="cron-option" style="padding-bottom:10px;">
                                     <label for="time" class="nofloat">Time</label>
                                     <input type="time" id="time" name="time" value="00:00">
@@ -332,7 +333,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div>
+                            <div  style="border: 1px solid #ccc; border-radius: 4px;">
+                                <h3>Months</h3>
                                 <div class="cron-option" style="padding-bottom:10px">
                                     <input type="radio" id="cronEveryMonth" name="cronMonth" checked="checked">
                                     <label for="cronEveryMonth" class="nofloat">Every month</label>
