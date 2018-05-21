@@ -9,8 +9,20 @@
 <html>
 <head>
     <title>Password reset successful</title>
+    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="${contextPath}/resources/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-We send on your email link on reset your password
+<div class="container">
+    <div class="card card-register mx-auto mt-5 col-md-6">
+        <div class="card-header">Error page</div>
+        <div class="card-body">
+            <h2>Check your email add edit password</h2>
+            <a href="/account/">Account Home</a>
+        </div>
+    </div>
+</div>
 </body>
 </html>
