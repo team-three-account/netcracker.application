@@ -34,8 +34,6 @@ public class EventController {
     private ChatService chatService;
     private User authUser;
     private RegisterAndUpdateEventValidator eventValidator;
-    @Autowired
-    private Gson gsonTimeline;
 
     private Logger logger = Logger.getLogger(EventController.class.getName());
 
@@ -52,21 +50,6 @@ public class EventController {
         this.chatService = chatService;
         this.eventValidator = eventValidator;
         this.friendService = friendService;
-    }
-
-
-    @RequestMapping(value = "/eventlist", method = RequestMethod.GET)
-    public ModelAndView eventList(ModelAndView modelAndView) {
-
-        Long userId = userService.getAuthenticatedUser().getId();
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.addObject("publicEventList", eventService.findPublicEvents());
-        modelAndView.addObject("privateEventList", eventService.findPrivateEvents(userId));
-        modelAndView.addObject("friendsEventList", eventService.findFriendsEvents(userId));
-        modelAndView.addObject("drafts", eventService.findDrafts(userId));
-        modelAndView.addObject("noteList", noteService.noteList());
-        modelAndView.setViewName("event/eventList");
-        return modelAndView;
     }
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
@@ -417,7 +400,7 @@ public class EventController {
     @RequestMapping(value = "/{userId}/timeline", method = RequestMethod.GET)
     public String timeLine(Model model, @PathVariable Long userId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("eventList", gsonTimeline.toJson(eventService.getTimelines(userId)));
+        model.addAttribute("user_id", userId);
         return "calendar/timeline";
     }
 }

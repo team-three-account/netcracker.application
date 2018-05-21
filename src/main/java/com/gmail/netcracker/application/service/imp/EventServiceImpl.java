@@ -277,7 +277,6 @@ public class EventServiceImpl implements EventService {
         event.setPeriodicity(toCopy.getPeriodicity());
         event.setType(toCopy.getType());
         event.setDraft(toCopy.getDraft());
-        event.setFolder(toCopy.getFolder());
         event.setTypeId(toCopy.getTypeId());
         event.setWidth(toCopy.getWidth());
         event.setLongitude(toCopy.getLongitude());

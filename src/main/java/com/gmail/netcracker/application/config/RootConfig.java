@@ -294,7 +294,6 @@ public class RootConfig {
             event.setDateEnd(getString(rs, "end_date"));
             event.setTypeId(getLong(rs, "type_id"));
             event.setDraft(getBoolean(rs, "is_draft"));
-            event.setFolder(getInt(rs, "folder_id"));
             event.setWidth(getDouble(rs, "latitude"));
             event.setLongitude(getDouble(rs, "longitude"));
             event.setEventPlaceName(getString(rs, "place_name"));
@@ -415,4 +414,10 @@ public class RootConfig {
         return new GsonBuilder()
             .registerTypeAdapter(Event.class, new TimelineSerializer())
             .create(); }
+
+    @Bean
+    public Gson gsonEvents() {
+        return new GsonBuilder()
+                .registerTypeAdapter(Event.class, new EventSerializer())
+                .create(); }
 }

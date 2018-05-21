@@ -25,7 +25,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<Note> noteList() {
-        List<Note> listNoteWithoutFolder = noteDao.noteList();
+        List<Note> listNoteWithoutFolder = noteDao.noteList(userService.getAuthenticatedUser().getId());
         listNoteWithoutFolder.removeIf(note -> note.getFolder() > 0);
         return listNoteWithoutFolder;
     }

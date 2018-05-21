@@ -16,12 +16,14 @@
     <div class="col-md-10 main-content">
         <div class="d-flex">
             <h3>Folder - ${folder.name}</h3>
-            <a href="/account/share-${folder.folderId}">
-                <input type="submit" class="btn btn-success text-center" value="Share"></a>
-            <a href="/account/editFolder-${folder.folderId}">
-                <input type="submit" class="btn btn-success text-center" value="Edit Folder"></a>
-            <a href="/account/deleteFolder-${folder.folderId}">
-                <input type="submit" class="btn btn-danger text-center" value="Delete Folder"></a>
+                <c:if test="${auth_user.id.equals(folder.creator)}">
+                    <a href="/account/share-${folder.folderId}">
+                        <input type="submit" class="btn btn-success text-center" value="Share"></a>
+                    <a href="/account/editFolder-${folder.folderId}">
+                        <input type="submit" class="btn btn-success text-center" value="Edit Folder"></a>
+                    <a href="/account/deleteFolder-${folder.folderId}">
+                        <input type="submit" class="btn btn-danger text-center" value="Delete Folder"></a>
+                </c:if>
         </div>
         <h3>${message}</h3>
         <c:forEach var="note" items="${listNotesIntoFolder}">

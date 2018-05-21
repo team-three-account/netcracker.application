@@ -16,29 +16,21 @@ import javax.servlet.http.HttpServletRequest;
 @ComponentScan(basePackages = "com.gmail.netcraker.application.service*")
 public class ExceptionController {
 
-    /**
-     * Сообщение исключения NoHandlerFoundException.
-     */
     private final static String NO_HANDLER_FOUND_EXCEPTION_MESSAGE
-            = "Ошибка 404. Не найдено!";
+            = "Error 404. Not found url!";
 
     /**
      * Сообщение исключения BadRequestException.
      */
     private final static String BAD_REQUEST_EXCEPTION_MESSAGE
-            = "Ошибка в запросе!";
+            = "Error in query!";
 
-    /**
-     * Сообщение исключения WrongInformationException.
-     */
-    private final static String WRONG_INFORMATION_EXCEPTION_MESSAGE
-            = "Ошибка в запросе!";
 
     /**
      * Сообщение исключения ForbriddenException.
      */
     private final static String FORBIDDEN_EXCEPTION_MESSAGE
-            = "У Вас нет достаточных прав для доступа к этой странице.";
+            = "You do not have permissions to access this page.\n.";
 
     /**
      * Сообщение исключения DuplicateException.
@@ -50,7 +42,7 @@ public class ExceptionController {
      * Сообщение все других исключений.
      */
     private final static String OTHER_EXCEPTION_MESSAGE
-            = "Временные неполадки с сервером... Приносим свои извинения!";
+            = "Temporary problems with the server ... We apologize!";
 
 
     /**
@@ -59,7 +51,7 @@ public class ExceptionController {
      *
      * @return Объект класса {@link ModelAndView}.
      */
-    /*
+
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ModelAndView noHandlerFoundException(
@@ -131,5 +123,5 @@ public class ExceptionController {
         );
         modelAndView.setViewName("error");
         return modelAndView;
-    }*/
+    }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public interface NoteDao {
     void insertNote(Note note);
 
-    List<Note> noteList();
+    List<Note> noteList(Long creator);
 
     Note getNote(Long noteId);
 

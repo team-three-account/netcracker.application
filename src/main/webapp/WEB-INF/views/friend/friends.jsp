@@ -53,7 +53,7 @@
                     <td>
                         <form action="/account/delete-friend" method="POST">
                             <button type="submit"  class="btn btn-danger">
-                                <input type="hidden" name="friend_id" value=${friend.id} />
+                                <input type="hidden" name="friendId" value=${friend.id} />
                                 Remove from friends </span>
                             </button>
                         </form>
@@ -74,7 +74,7 @@
                 <td>
                     <form action="/account/friends/add-friend" method="POST">
                         <button type="submit"  class="btn btn-success">
-                            <input type="hidden" name="friend_id" value=${user.id} />
+                            <input type="hidden" name="friendId" value=${user.id} />
                             Add to friends </span>
                         </button>
                     </form>

@@ -35,15 +35,21 @@
                 eventLimit: true, // allow "more" link when too many events
                 events: function (start, end, timezone, callback) {
                     $.ajax({
-                        url: '/account/getEvents',
+                        url: '/account/getEventsWithFilter',
                         dataType: 'json',
                         data: {
                             // our hypothetical feed requires UNIX timestamps
+                            filterPriority: JSON.stringify(${filter.priorities}),
+                            filterTypes: JSON.stringify(${filter.eventTypes}),
                             start: start.unix(),
                             end: end.unix()
                         },
                         success: function (doc) {
                             callback(doc);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
                         }
                     });
                 },
@@ -112,10 +118,10 @@
 
 
                     <ul class="list-group">
-                        <li class="list-group-item">Choose the priority you like:</li>
-                        <li class="list-group-item"><form:checkboxes cssStyle="margin: 10px" path="priorities"
-                                                                     items="${priorities}"
-                                                                     itemValue="priorityId"
+                        <li class="list-group-item">Choose the type you like:</li>
+                        <li class="list-group-item"><form:checkboxes cssStyle="margin: 10px" path="eventTypes"
+                                                                     items="${eventTypes}"
+                                                                     itemValue="typeId"
                                                                      itemLabel="name"/>
                         </li>
                         <li class="list-group-item"><input type="submit" class="btn btn-success" name="submit"

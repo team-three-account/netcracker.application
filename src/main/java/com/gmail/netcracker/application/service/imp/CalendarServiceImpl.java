@@ -28,18 +28,24 @@ public class CalendarServiceImpl implements CalendarService {
 
     private Logger log = Logger.getLogger(CalendarServiceImpl.class.getName());
 
+
     @Override
     public List<Event> getEventsFromRange(User user, Long start, Long end) {
+        return getEventsFromRange(user.getId(), start, end);
+    }
+
+    @Override
+    public List<Event> getEventsFromRange(Long userId, Long start, Long end) {
         List<Event> eventList = new ArrayList<>();
 
-        for(Event event: eventDao.searchByUserFromRange(user.getId(),
-                                                        Utilities.parseLongToTimestamp(start),
-                                                        Utilities.parseLongToTimestamp(end))){
+        for(Event event: eventDao.searchByUserFromRange(userId,
+                Utilities.parseLongToTimestamp(start),
+                Utilities.parseLongToTimestamp(end))){
             if ((event.getPeriodicity()==null))
                 eventList.add(event);
             else eventList.addAll(getAllDateFromPeriodical(event,
-                                                    Utilities.parseLongToDate(start),
-                                                    Utilities.parseLongToDate(end)));
+                    Utilities.parseLongToDate(start),
+                    Utilities.parseLongToDate(end)));
 
         }
         return eventList;
