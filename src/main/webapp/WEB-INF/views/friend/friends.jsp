@@ -35,7 +35,7 @@
     <h1>${message}</h1>
     <h3>Search for friends</h3>
     <form method="POST"
-          class="forms_form" action="/account/friends/search">
+          class="forms_form" action="/account/search/users">
 
         <div class="form-group">
             <input name="search" class="form-control" style="width: 33%" id="search"  placeholder="Enter name or surname"/>

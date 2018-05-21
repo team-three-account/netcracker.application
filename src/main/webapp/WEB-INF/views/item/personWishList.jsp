@@ -19,7 +19,7 @@
 <div class="col-md-10 col-xs-3 content">
     <h3>Search for items</h3>
     <form method="POST"
-          class="forms_form" action="/account/items/search">
+          class="forms_form" action="/account/search/items">
         <div class="form-group">
             <input name="search" class="form-control" style="width: 33%" id="search"
                    placeholder="Enter query"/>
