@@ -41,7 +41,7 @@
                 <td>
                     <form action="/account/friends/accept-request" method="POST">
                         <button type="submit"  class="btn btn-success">
-                            <input type="hidden" name="friend_id" value=${friend.id} />
+                            <input type="hidden" name="friendId" value=${friend.id} />
                             Accept request </span>
                         </button>
                     </form>

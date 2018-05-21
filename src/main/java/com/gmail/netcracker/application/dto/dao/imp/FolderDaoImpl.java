@@ -66,8 +66,8 @@ public class FolderDaoImpl extends ModelDao implements FolderDao {
     }
 
     @Override
-    public List<Folder> folderList() {
-        return findEntityList(SQL_FIND_LIST_FOLDERS, folderRowMapper);
+    public List<Folder> folderList(Long creator) {
+        return findEntityList(SQL_FIND_LIST_FOLDERS, folderRowMapper, creator);
     }
 
     @Override

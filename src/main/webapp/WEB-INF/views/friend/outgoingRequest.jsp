@@ -43,7 +43,7 @@
                 <td>
                     <form action="/account/friends/cancel-request" method="POST">
                         <button type="submit"  class="btn btn-success">
-                            <input type="hidden" name="friend_id" value=${friend.id} />
+                            <input type="hidden" name="friendId" value=${friend.id} />
                             Cancel request </span>
                         </button>
                     </form>

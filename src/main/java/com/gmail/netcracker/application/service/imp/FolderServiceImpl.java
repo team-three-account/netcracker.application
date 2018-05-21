@@ -35,7 +35,7 @@ public class FolderServiceImpl implements FolderService {
 
     @Override
     public List<Folder> folderList() {
-        return folderDao.folderList();
+        return folderDao.folderList(userService.getAuthenticatedUser().getId());
     }
 
     @Override
