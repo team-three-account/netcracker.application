@@ -27,11 +27,31 @@
 
             $('#calendar').fullCalendar({
                 themeSystem: 'bootstrap3',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay,listMonth'
+                },
                 editable: false,
                 eventLimit: true, // allow "more" link when too many events
-                eventSources: [
-                    ${eventList}
-                ],
+                events: function (start, end, timezone, callback) {
+                    $.ajax({
+                        url: '/account/getEvents',
+                        dataType: 'json',
+                        data: {
+                            // our hypothetical feed requires UNIX timestamps
+                            start: start.unix(),
+                            end: end.unix()
+                        },
+                        success: function (doc) {
+                            callback(doc);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }
+                    });
+                },
                 <%--events: ${eventList},--%>
                 eventClick: function (event) {
                     if (event.url) {

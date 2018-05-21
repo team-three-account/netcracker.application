@@ -7,4 +7,7 @@ import java.util.List;
 
 public interface CalendarService {
     List<Event> getEventsFromRange(User user, Long start, Long end);
+
+    List<Event> getEventsFromRange(Long userId, Long start, Long end);
+
 }

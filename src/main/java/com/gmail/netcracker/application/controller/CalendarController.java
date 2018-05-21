@@ -37,9 +37,12 @@ public class CalendarController {
     @Autowired
     private Gson gsonEvents;
 
-    @RequestMapping(value = "/getEvents", method = RequestMethod.GET, produces = "application/json")
+    @Autowired
+    private Gson gsonTimeline;
+
+    @RequestMapping(value = "/getEventsWithFilter", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public String calendarRange(@RequestParam("start") Long start,
+    public String calendarRangeWithFilter(@RequestParam("start") Long start,
                                 @RequestParam("end") Long end,
                                 @RequestParam("filterPriority") String jsonPriority,
                                 @RequestParam("filterTypes") String jsonTypes){
@@ -47,6 +50,22 @@ public class CalendarController {
         eventList = filterService.filterOfPriority(Arrays.asList(gsonEvents.fromJson(jsonPriority, Long[].class)), eventList);
         eventList = filterService.filterOfType(Arrays.asList(gsonEvents.fromJson(jsonTypes, Long[].class)), eventList);
         return gsonEvents.toJson(eventList);
+    }
+
+    @RequestMapping(value = "/getEvents", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public String calendarRange(@RequestParam("start") Long start,
+                                @RequestParam("end") Long end){
+        return gsonEvents.toJson(calendarService.getEventsFromRange(userService.getAuthenticatedUser(), start, end));
+    }
+
+    @RequestMapping(value = "/getTimeline", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public String timeline(@RequestParam("start") Long start,
+                           @RequestParam("end") Long end,
+                            @RequestParam("userId") Long userId){
+
+        return gsonTimeline.toJson(calendarService.getEventsFromRange(userId, start, end));
     }
 
     @RequestMapping(value = "/calendar", method = RequestMethod.GET)

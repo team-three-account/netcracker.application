@@ -35,7 +35,7 @@
                 eventLimit: true, // allow "more" link when too many events
                 events: function (start, end, timezone, callback) {
                     $.ajax({
-                        url: '/account/getEvents',
+                        url: '/account/getEventsWithFilter',
                         dataType: 'json',
                         data: {
                             // our hypothetical feed requires UNIX timestamps

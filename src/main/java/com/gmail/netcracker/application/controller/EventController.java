@@ -34,8 +34,6 @@ public class EventController {
     private ChatService chatService;
     private User authUser;
     private RegisterAndUpdateEventValidator eventValidator;
-    @Autowired
-    private Gson gsonTimeline;
 
     private Logger logger = Logger.getLogger(EventController.class.getName());
 
@@ -417,7 +415,7 @@ public class EventController {
     @RequestMapping(value = "/{userId}/timeline", method = RequestMethod.GET)
     public String timeLine(Model model, @PathVariable Long userId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("eventList", gsonTimeline.toJson(eventService.getTimelines(userId)));
+        model.addAttribute("user_id", userId);
         return "calendar/timeline";
     }
 }
