@@ -18,9 +18,9 @@
 <body>
 <div class="container">
     <div class="card card-register mx-auto mt-5 col-md-6">
-        <div class="card-header">Register an Account</div>
+        <div class="card-header">Error page</div>
         <div class="card-body">
-            <h2>${message_error}</h2>
+            <h2>${text_error}</h2>
             <a href="/">Home</a>
         </div>
     </div>
