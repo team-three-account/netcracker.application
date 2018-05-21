@@ -26,8 +26,11 @@
                 header: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'agendaWeek'
+                    right: 'agendaWeek,agendaDay,listMonth'
                 },
+                columnHeaderFormat : 'dddd D',
+                slotLabelFormat: 'HH:mm',
+                timeFormat: 'HH:mm',
                 editable: false,
                 defaultView: 'agendaWeek',
                 eventLimit: true, // allow "more" link when too many events
@@ -65,10 +68,13 @@
     <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
-
-    <div class="col-md-9 content">
-        <div id='calendar'></div>
-    </div>
+        <div class="col-md-10 content">
+            <div class="row">
+                <div class="col-md-8">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
 </div>
 
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
