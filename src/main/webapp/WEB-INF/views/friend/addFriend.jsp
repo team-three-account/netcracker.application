@@ -48,7 +48,7 @@
                         <td>
                             <form action="/account/friends/add-friend" method="POST">
                                 <button type="submit">
-                                    <input type="hidden" name="friend_id" value=${friend.id}/>
+                                    <input type="hidden" name="friendId" value=${friend.id}/>
                                     Add </span>
                                 </button>
                             </form>
