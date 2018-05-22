@@ -5,8 +5,8 @@ import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.validation.DraftValidator;
+import com.gmail.netcracker.application.validation.ImageValidator;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +34,7 @@ public class EventController {
     private ChatService chatService;
     private User authUser;
     private RegisterAndUpdateEventValidator eventValidator;
+    private final ImageValidator imageValidator;
 
     private Logger logger = Logger.getLogger(EventController.class.getName());
 
@@ -41,7 +42,7 @@ public class EventController {
     public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService,
                            UserService userService, FriendService friendService,
                            ChatService chatService, RegisterAndUpdateEventValidator eventValidator,
-                           DraftValidator draftValidator) {
+                           DraftValidator draftValidator, ImageValidator imageValidator) {
         this.eventService = eventService;
         this.noteService = noteService;
         this.photoService = photoService;
@@ -50,6 +51,7 @@ public class EventController {
         this.chatService = chatService;
         this.eventValidator = eventValidator;
         this.friendService = friendService;
+        this.imageValidator = imageValidator;
     }
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
@@ -80,16 +82,8 @@ public class EventController {
         } else {
             eventValidator.validate(event, result);
         }
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (result.hasErrors() || imageFormat.equals(false)) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -172,16 +166,8 @@ public class EventController {
         } else {
             eventValidator.validate(event, result);
         }
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (result.hasErrors() || imageFormat.equals(false)) {
             modelAndView.setViewName("event/updateEvent");
             return modelAndView;
         }
@@ -324,16 +310,8 @@ public class EventController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         event.setPhoto(photo);
         eventValidator.validate(event, result);
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (result.hasErrors() || imageFormat.equals(false)) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -371,16 +349,8 @@ public class EventController {
             event.setPeriodicity(null);
         }
         eventValidator.validate(event, result);
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty() || result.hasErrors()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (imageFormat.equals(false) || result.hasErrors()) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {

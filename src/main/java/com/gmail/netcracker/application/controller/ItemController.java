@@ -6,6 +6,7 @@ import com.gmail.netcracker.application.dto.model.Priority;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
+import com.gmail.netcracker.application.validation.ImageValidator;
 import com.gmail.netcracker.application.validation.ItemValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,13 +28,15 @@ public class ItemController {
     private final ItemService itemService;
     private final ItemValidator itemValidator;
     private PhotoServiceImp photoService;
+    private final ImageValidator imageValidator;
 
     @Autowired
-    public ItemController(ItemService itemService, UserService userService, ItemValidator itemValidator, PhotoServiceImp photoService) {
+    public ItemController(ItemService itemService, UserService userService, ItemValidator itemValidator, PhotoServiceImp photoService, ImageValidator imageValidator) {
         this.itemService = itemService;
         this.userService = userService;
         this.itemValidator = itemValidator;
         this.photoService = photoService;
+        this.imageValidator = imageValidator;
     }
 
     @RequestMapping(value = "/update-{itemId}", method = RequestMethod.GET)
@@ -54,16 +57,8 @@ public class ItemController {
         modelAndView.setViewName("item/editItem");
         item.setImage(image);
         itemValidator.validate(item, bindingResult);
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (bindingResult.hasErrors() || imageFormat.equals(false)) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -98,16 +93,8 @@ public class ItemController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         item.setImage(image);
         itemValidator.validate(item, bindingResult);
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (bindingResult.hasErrors() || imageFormat.equals(false)) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {

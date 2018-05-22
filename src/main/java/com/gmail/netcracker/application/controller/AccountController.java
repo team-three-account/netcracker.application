@@ -11,6 +11,7 @@ import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.EditUserAccountValidator;
+import com.gmail.netcracker.application.validation.ImageValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 
 
@@ -35,6 +36,8 @@ import java.util.logging.Logger;
 @RequestMapping(value = "/account")
 public class AccountController {
 
+    private User user;
+
     private EmailConstructor emailConstructor;
 
     private UserService userService;
@@ -49,7 +52,9 @@ public class AccountController {
 
     private EventService eventService;
 
-    private ItemService itemService;
+    private  ItemService itemService;
+
+    private ImageValidator imageValidator;
 
     private Gson gson = new GsonBuilder()
             .registerTypeAdapter(Event.class, new EventSerializer())
@@ -65,6 +70,7 @@ public class AccountController {
         this.editUserAccountValidator = editUserAccountValidator;
         this.eventService = eventService;
         this.itemService = itemService;
+        this.imageValidator = imageValidator;
     }
 
 
@@ -159,20 +165,13 @@ public class AccountController {
                                      BindingResult result,
                                      @RequestParam(value = "photo") String photo,
                                      @RequestParam(value = "photoFile") MultipartFile photoFile,
-                                     ModelAndView modelAndView) throws Exception {
+                                     ModelAndView modelAndView,
+                                     Boolean imageFormat) throws Exception {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        imageFormat = imageValidator.validateImageFormat(modelAndView, photoFile);
         editUserAccountValidator.validate(user, result);
         user.setPhotoFile(photoFile);
-        if (!photoFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !photoFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !photoFile.getContentType().equals(photoService.getImageTypePng())
-                && !photoFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (result.hasErrors() || !photoFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !photoFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !photoFile.getContentType().equals(photoService.getImageTypePng())
-                && !photoFile.isEmpty()) {
+        if (result.hasErrors() || imageFormat.equals(false)) {
             modelAndView.setViewName("account/edit");
             return modelAndView;
         }

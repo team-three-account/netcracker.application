@@ -45,6 +45,7 @@
                             end: end.unix()
                         },
                         success: function (doc) {
+                            console.log(doc);
                             callback(doc);
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
