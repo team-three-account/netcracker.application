@@ -151,6 +151,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public List<Tag> popularTags() {
+        return tagDao.getPopularTags(5L);
+    }
+
+    @Override
     public Set<Tag> getTagsOfItem(Long itemId) {
         return tagDao.getTagsOfItem(itemId);
     }

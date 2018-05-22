@@ -7,7 +7,7 @@ import java.util.Set;
 
 public interface TagDao {
 
-    Set<Tag> getAllTag();
+    Set<Tag> getAllTags();
 
     Set<Tag> getTagsOfItem(Long itemId);
 
@@ -18,4 +18,6 @@ public interface TagDao {
     Tag findTagByName(String name);
 
     void deleteTagOfItem(Long tagId, Long itemId);
+
+    List<Tag> getPopularTags(Long limit);
 }

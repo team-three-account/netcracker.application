@@ -148,6 +148,7 @@ public class ItemController {
         model.addAttribute("ownerId", userId);
         model.addAttribute("wishList", itemService.getWishList(userId));
         model.addAttribute("popularItems", itemService.popularItems());
+        model.addAttribute("popularTags", itemService.popularTags());
         return "item/personWishList";
     }
 
@@ -158,6 +159,7 @@ public class ItemController {
         model.addAttribute("ownerId", creator);
         model.addAttribute("wishList", itemService.getWishList(creator));
         model.addAttribute("popularItems", itemService.popularItems());
+        model.addAttribute("popularTags", itemService.popularTags());
         return "item/eventWishList";
     }
 

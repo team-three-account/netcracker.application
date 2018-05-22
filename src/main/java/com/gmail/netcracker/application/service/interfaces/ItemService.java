@@ -44,4 +44,6 @@ public interface ItemService {
     void addTagsToNewItem(Set<String> tags, Long itemId);
 
     List<Item> popularItems();
+
+    List<Tag> popularTags();
 }

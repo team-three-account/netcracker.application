@@ -123,9 +123,9 @@
             </div>
             <div>
                 <h3>Top 5: Popular tags</h3>
-                <c:forEach var="popularItem" items="${popularItems}">
+                <c:forEach var="popularTag" items="${popularTags}">
                     <ul class="list-group">
-                        <li class="list-group-item">IN WORKS!!!!</li>
+                        <li class="list-group-item">#${popularTag.name}</li>
                     </ul>
                 </c:forEach>
             </div>
