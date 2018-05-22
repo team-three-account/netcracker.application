@@ -36,7 +36,7 @@
     </p>
     <h3>Search for events</h3>
     <form method="POST"
-          class="forms_form" action="/account/eventList/search">
+          class="forms_form" action="/account/search/events">
         <div class="form-group">
             <input name="search" class="form-control" style="width: 33%" id="search"  placeholder="Enter name or surname"/>
             <input type="submit" value="Search" class="btn btn-dark" href="/" style="margin-top: 15px; margin-bottom: 15px">
@@ -45,7 +45,7 @@
     <h3>Events feed</h3>
     <div class="row">
         <table class="table">
-            <c:forEach var="event" items="${resultSearchUser}">
+            <c:forEach var="event" items="${resultSearchUserEvents}">
                 <tbody>
                 <tr>
                     <td><img class="img-circle" style="width: 200px;height: 200px"

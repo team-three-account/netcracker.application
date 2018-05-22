@@ -14,10 +14,10 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="sidebar menu">
-            <ul class="nav nav-sidebar">
-                <li><img class="img-circle text-center" style="width: 40px;height: 40px" src="<c:url value="${auth_user.photo}"/>"></li>
-                <li style="background-color : #dee5fc"><a href="/account/profile/${auth_user.id}">${auth_user.name} ${auth_user.surname}</a>
+        <div class="sidebar menu nav-style">
+            <ul class="nav nav-sidebar" style="padding-top: 150px">
+                <li><img class="img-circle text-center" style="margin-left:10%;width: 40px;height: 40px" src="<c:url value="${auth_user.photo}"/>"></li>
+                <li><a href="/account/profile/${auth_user.id}">${auth_user.name} ${auth_user.surname}</a>
                 </li>
             </ul>
             <ul class="nav nav-sidebar">
