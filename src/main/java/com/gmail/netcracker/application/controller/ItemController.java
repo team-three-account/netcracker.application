@@ -169,27 +169,6 @@ public class ItemController {
         return "redirect:/account/event-" + eventId + "-" + creator + "/wishList";
     }
 
-    @RequestMapping(value = "/tags-{itemId}", method = RequestMethod.GET)
-    public String tagsView(@PathVariable("itemId") Long itemId, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("tags", itemService.getTagsOfItem(itemId));
-        return "item/tags";
-    }
-
-    @RequestMapping(value = "/tagsEdit-{itemId}", method = RequestMethod.GET)
-    public String tagsEdit(@PathVariable("itemId") Long itemId, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        return "item/tagsEdit";
-    }
-
-    @RequestMapping(value = "/tagsEdit-{itemId}", method = RequestMethod.POST)
-    public String tagsSave(@PathVariable("itemId") Long itemId,
-                           @RequestParam("tags") String tags, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        itemService.addTagsToItem(itemService.parseTags(tags), itemId);
-        return "redirect:/account/tags-" + itemId;
-    }
-
     @RequestMapping(value = "/item-{itemId}", method = RequestMethod.GET)
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
