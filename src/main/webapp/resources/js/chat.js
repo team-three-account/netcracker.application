@@ -103,12 +103,13 @@ function checkParams() {
 
     if (name.trim() != 0) {
         $('#sendMessage').removeAttr('disabled');
+        if (event.keyCode === 13) {
+            $('#sendMessage').click();
+        }
     } else {
         $('#sendMessage').attr('disabled', 'disabled');
     }
-    if (event.keyCode === 13) {
-        $('#sendMessage').click();
-    }
+
 }
 
 function loadPrevMessages() {
