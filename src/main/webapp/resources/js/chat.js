@@ -106,6 +106,9 @@ function checkParams() {
     } else {
         $('#sendMessage').attr('disabled', 'disabled');
     }
+    if (event.keyCode === 13) {
+        $('#sendMessage').click();
+    }
 }
 
 function loadPrevMessages() {
