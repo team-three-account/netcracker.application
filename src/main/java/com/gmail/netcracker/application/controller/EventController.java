@@ -103,6 +103,7 @@ public class EventController {
 
     @RequestMapping(value = {"/eventList/deleteEvent-{eventId}"}, method = RequestMethod.GET)
     public String deleteEvent(@PathVariable Long eventId) {
+        photoService.deleteFile(eventService.getEvent(eventId).getPhoto());
         eventService.delete(eventId);
         return "redirect:/account/managed";
     }
@@ -171,9 +172,10 @@ public class EventController {
             modelAndView.setViewName("event/updateEvent");
             return modelAndView;
         }
-        if (multipartFile.isEmpty()) {
-            event.setPhoto(photo);
-        } else {
+        if (!multipartFile.isEmpty()) {
+            if (!event.getPhoto().equals(photoService.getDefaultImageForEvents())) {
+                photoService.deleteFile(event.getPhoto());
+            }
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         modelAndView.setViewName("event/updateEvent");

@@ -52,7 +52,7 @@ public class AccountController {
 
     private EventService eventService;
 
-    private  ItemService itemService;
+    private ItemService itemService;
 
     private ImageValidator imageValidator;
 
@@ -61,7 +61,15 @@ public class AccountController {
             .create();
 
     @Autowired
-    public AccountController( EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService, EditUserAccountValidator editUserAccountValidator, EventService eventService, ItemService itemService) {
+    public AccountController(EmailConstructor emailConstructor,
+                             UserService userService,
+                             PasswordEncoder passwordEncoder,
+                             ResetConfirmPasswordValidator resetConfirmPasswordValidator,
+                             PhotoServiceImp photoService,
+                             EditUserAccountValidator editUserAccountValidator,
+                             EventService eventService,
+                             ItemService itemService,
+                             ImageValidator imageValidator) {
         this.emailConstructor = emailConstructor;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -165,10 +173,9 @@ public class AccountController {
                                      BindingResult result,
                                      @RequestParam(value = "photo") String photo,
                                      @RequestParam(value = "photoFile") MultipartFile photoFile,
-                                     ModelAndView modelAndView,
-                                     Boolean imageFormat) throws Exception {
+                                     ModelAndView modelAndView) throws Exception {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        imageFormat = imageValidator.validateImageFormat(modelAndView, photoFile);
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, photoFile);
         editUserAccountValidator.validate(user, result);
         user.setPhotoFile(photoFile);
         if (result.hasErrors() || imageFormat.equals(false)) {
@@ -179,7 +186,8 @@ public class AccountController {
         userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         if (photoFile.isEmpty()) {
             user.setPhoto(photo);
-        } else {
+        } else if (!photo.equals(photoService.getDefaultImageFemale()) || !photo.equals(photoService.getDefaultImageMale())) {
+            photoService.deleteFile(user.getPhoto());
             user.setPhoto(photoService.uploadFileOnDropBox(photoFile, UUID.randomUUID().toString()));
 
         }

@@ -62,6 +62,9 @@ public class ItemController {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
+            if(!item.getImage().equals(photoService.getDefaultImageForItems())){
+                photoService.deleteFile(item.getImage());
+            }
             item.setImage(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         itemService.update(item);
@@ -71,6 +74,9 @@ public class ItemController {
 
     @RequestMapping(value = "/wishList/deleteItem-{itemId}", method = RequestMethod.GET)
     public String deleteItem(@PathVariable("itemId") Long itemId) {
+        if (!itemService.getItem(itemId).getImage().equals(photoService.getDefaultImageForItems())) {
+            photoService.deleteFile(itemService.getItem(itemId).getImage());
+        }
         itemService.delete(itemId);
         return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
     }
