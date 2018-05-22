@@ -64,7 +64,6 @@ public class AppInitializer
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
         servletContext.addListener(new SessionListener());
-
     }
 
     @Override

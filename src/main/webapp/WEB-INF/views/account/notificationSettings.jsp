@@ -29,25 +29,26 @@
     <div class="col-md-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-<div class="col-md-10 content">
+<div class="col-md-10" style="padding-top: 3%">
+    <div class="card-header"><h2>Notification settings</h2></div>
+    <div class="card-body">
     <div class="card card-register">
-        <div class="card-header"><h2>Notification settings</h2></div>
-        <div class="card-body">
-
             <form:form method="POST" action="/account/notificationSettings/save"
                        modelAttribute="userNotificationOptions"
                        class="forms_form ">
-                <div class="form-group">
-                    <label for="isNotificationsEnabled" class="nofloat">Enable notifications</label>
-                    <c:if test="${userNotificationOptions.notificationPeriodicity!=null}">
-                        <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
-                               name="isNotificationsEnabled" checked value="true"/>
-                    </c:if>
-                    <c:if test="${userNotificationOptions.notificationPeriodicity==null}">
-                        <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
-                               name="isNotificationsEnabled" value="false"/>
-                    </c:if>
-                    <input type="submit" value="Save settings" class="btn btn-success text-center"/>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="isNotificationsEnabled" class="nofloat">Enable notifications</label>
+                        <c:if test="${userNotificationOptions.notificationPeriodicity!=null}">
+                            <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
+                                   name="isNotificationsEnabled" checked value="true"/>
+                        </c:if>
+                        <c:if test="${userNotificationOptions.notificationPeriodicity==null}">
+                            <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
+                                   name="isNotificationsEnabled" value="false"/>
+                        </c:if>
+                        <input type="submit" value="Save settings" class="btn btn-success text-center"/>
+                    </div>
                 </div>
                 <div id="notificationOptions" class="col-md-6">
                     <form:input path="id" type="hidden"
@@ -432,7 +433,7 @@
 
     function changeOptionsVisibility() {
         var notificationOptions = $("#notificationOptions");
-        var isNotificationsEnabled=$("#isNotificationsEnabled");
+        var isNotificationsEnabled = $("#isNotificationsEnabled");
         if (isNotificationOptionsHidden) {
             notificationOptions.show();
             isNotificationsEnabled.val(true);
