@@ -1,25 +1,28 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: Ihor
+  Date: 20.05.2018
+  Time: 18:24
+  To change this template use File | Settings | File Templates.
+--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
 <html>
 <head>
-    <title>Edit Event </title>
+    <title>Notification settings</title>
     <link href="${contextPath}/resources/css/jquery.datetimepicker.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 
-    <%--for periodicity--%>
     <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
+    <%--for periodicity--%>
     <script src="${contextPath}/resources/vendor/bootstrap/js/later.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/moment.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/prettycron.js"></script>
     <script src="${contextPath}/resources/js/periodicity.js"></script>
-
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
-
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
@@ -28,77 +31,50 @@
 </div>
 <div class="col-md-10 content">
     <div class="card card-register">
-        <div class="card-header">Edit Event</div>
+        <div class="card-header"><h2>Notification settings</h2></div>
         <div class="card-body">
-            <form:form id="valid_maps" method="POST" modelAttribute="editEvent" class="forms_form "
-                       enctype="multipart/form-data">
-                <c:choose>
-                    <%--<c:when test="${event.draft.equals(true)}">--%>
-                    <c:when test="${editEvent.isDraft().equals(true)}">
-                        <div id="checkDraft"></div>
-                    </c:when>
-                </c:choose>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Photo: </label>
-                        <img id="blah" class="img-circle" style="width: 200px;height: 200px"
-                             src="<c:url value="${editEvent.photo}"/>">
-                        <input type="hidden" name="photo" value="${editEvent.photo}">
-                        <br><span class="btn btn-default btn-file">
-                            Browse <input id="file" onchange="readURL(this)" type="file" name="photoFile"
-                                          accept="image/*">
-                            </span>
-                        <span class="has-error">${message}</span>
-                    </div>
-                    <div class="form-group">
-                        <label>Event Name: </label>
-                        <form:input path="name" id="name" type="text" class="form-control"
-                                    placeholder="Enter event name"/>
-                        <form:errors path="name" cssClass="error"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Description: </label>
-                        <form:textarea path="description" id="description" type="text" class="form-control"
-                                       placeholder="Enter event description"/>
-                        <form:errors path="description" cssClass="error"/>
-                    </div>
+
+            <form:form method="POST" action="/account/notificationSettings/save"
+                       modelAttribute="userNotificationOptions"
+                       class="forms_form ">
+                <div class="form-group">
+                    <label for="isNotificationsEnabled" class="nofloat">Enable notifications</label>
+                    <c:if test="${userNotificationOptions.notificationPeriodicity!=null}">
+                        <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
+                               name="isNotificationsEnabled" checked value="true"/>
+                    </c:if>
+                    <c:if test="${userNotificationOptions.notificationPeriodicity==null}">
+                        <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
+                               name="isNotificationsEnabled" value="false"/>
+                    </c:if>
+                    <input type="submit" value="Save settings" class="btn btn-success text-center"/>
+                </div>
+                <div id="notificationOptions" class="col-md-6">
+                    <form:input path="id" type="hidden"
+                                id="userId" value="${userNotificationOptions.id}"></form:input>
                     <div class="form-group">
                         <label>Start Date: </label>
-                        <form:input path="dateStart" id="dateStart" type="text"
+                        <form:input path="notificationStartDate" id="notificationStartDate" type="text"
                                     class="form-control dateValid subSeconds"
-                                    placeholder="Enter event start date"/>
-                        <form:errors path="dateStart" cssClass="error"/>
+                                    value="${userNotificationOptions.notificationStartDate}"
+                                    placeholder="Enter notification start date"/>
+                        <form:errors path="notificationEndDate" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>End Date: </label>
-                        <form:input path="dateEnd" id="dateEnd" type="text" class="form-control dateValid subSeconds"
-                                    placeholder="Enter event end date"/>
-                        <form:errors path="dateEnd" cssClass="error"/>
+                        <form:input path="notificationEndDate" id="notificationEndDate" type="text"
+                                    class="form-control dateValid subSeconds"
+                                    value="${userNotificationOptions.notificationEndDate}"
+                                    placeholder="Enter notification end date"/>
+                        <form:errors path="notificationEndDate" cssClass="error"/>
                     </div>
-                    <c:if test="${editEvent.draft==true}">
-                        <div class="form-group">
-                            <label>Event type: </label>
-                            <form:select path="type" class="form-control">
-                                <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
-                            </form:select>
-                            <form:errors path="type" cssClass="error"/>
-                        </div>
-                    </c:if>
-                    <c:if test="${editEvent.draft==false}">
-                        <form:input type="hidden" path="typeId" class="form-controll"/>
-                    </c:if>
-                    <form:input path="draft" value="${editEvent.draft}" type="hidden"></form:input>
                     <div class="form-group">
                         <label>Periodicity:</label>
                         <input id="periodicity" class="form-control" type="text" readonly></input>
-                        <form:input path="periodicity" type="hidden" id="cron"
-                                    value="${editEvent.periodicity}"></form:input>
-                        <button type="button" id="isPeriodical" name="isPeriodical" onclick="changePeriodicity()">
-                            Show periodicity options
-                        </button>
-                        <button type="button" onclick="deletePeriodicity()">Delete periodicity</button>
-                        <div id="crontabs" style="display: none;">
-                            <div  style="border: 1px solid #ccc; border-radius: 4px;">
+                        <form:input path="notificationPeriodicity" type="hidden" id="cron"
+                                    value="${userNotificationOptions.notificationPeriodicity}"></form:input>
+                        <div id="crontabs">
+                            <div style="border: 1px solid #ccc; border-radius: 4px;">
                                 <h3>Days</h3>
                                 <div class="cron-option" style="padding-bottom:10px;">
                                     <label for="time" class="nofloat">Time</label>
@@ -338,7 +314,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div  style="border: 1px solid #ccc; border-radius: 4px;">
+                            <div style="border: 1px solid #ccc; border-radius: 4px;">
                                 <h3>Months</h3>
                                 <div class="cron-option" style="padding-bottom:10px">
                                     <input type="radio" id="cronEveryMonth" name="cronMonth" checked="checked">
@@ -441,35 +417,34 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <form:input path="width" type="hidden" id="latitude"></form:input>
-                    <form:input path="longitude" type="hidden" id="longitude"></form:input>
-                    <div class="form-group">
-                        <label>Event place</label>
-                        <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
-                        <div id="map"></div>
-                    </div>
-                </div>
-                <input type="submit" value="Update" class="btn btn-success text-center"/>
             </form:form>
         </div>
     </div>
 </div>
 <script>
+    var isNotificationOptionsHidden;
     $(function () {
-        cron2text();
         $('#crontabs input, #crontabs select').change(cron);
+        cron2text();
+        isNotificationOptionsHidden = $("#isNotificationsEnabled").prop("checked");
+        changeOptionsVisibility();
     });
+
+    function changeOptionsVisibility() {
+        var notificationOptions = $("#notificationOptions");
+        var isNotificationsEnabled=$("#isNotificationsEnabled");
+        if (isNotificationOptionsHidden) {
+            notificationOptions.show();
+            isNotificationsEnabled.val(true);
+            isNotificationOptionsHidden = false;
+        } else {
+            notificationOptions.hide();
+            isNotificationsEnabled.val(false);
+            isNotificationOptionsHidden = true;
+        }
+    }
 </script>
-</body>
-<script src='${contextPath}/resources/js/imageUpload.js'></script>
-<%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
-<%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
-<script src='${contextPath}/resources/js/pamCode.js'></script>
-<script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
-<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-<script>tinymce.init({selector: 'textarea'});</script>
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
+</body>
 </html>

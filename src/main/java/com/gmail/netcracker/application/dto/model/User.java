@@ -26,6 +26,9 @@ public class User implements UserDetails {
     private String photo;
     private MultipartFile photoFile;
     private String gender;
+    private String notificationPeriodicity;
+    private String notificationStartDate;
+    private String notificationEndDate;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

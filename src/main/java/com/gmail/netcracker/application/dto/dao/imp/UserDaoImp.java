@@ -12,6 +12,7 @@ import java.util.List;
 
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestamp;
+import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestampWithSeconds;
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
@@ -36,7 +37,14 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Value("${sql.user.getAllUsers}")
     private String SQL_GET_ALL_USERS;
 
+    @Value("${sql.user.updateNotificationsSchedule}")
+    private String SQL_UPDATE_NOTIFICATIONS_SCHEDULE;
+
+    @Value("${sql.user.getNotificationsSchedule}")
+    private String SQL_GET_NOTIFICATIONS_SCHEDULE;
+
     private final RowMapper<User> rowMapper;
+
     @Autowired
     public UserDaoImp(DataSource dataSource, RowMapper<User> rowMapper) {
         super(dataSource);
@@ -89,5 +97,25 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Override
     public User findUserById(Long id) {
         return findEntity(SQL_FIND, rowMapper, id);
+    }
+
+    @Override
+    public void updateNotificationsSchedule(User user) {
+        updateEntity(SQL_UPDATE_NOTIFICATIONS_SCHEDULE,
+                user.getNotificationPeriodicity(),
+                parseStringToTimestamp(user.getNotificationStartDate()),
+                parseStringToTimestamp(user.getNotificationEndDate()),
+                user.getId()
+        );
+    }
+
+    @Override
+    public User getNotificationsSchedule(Long userId) {
+        return findEntity(SQL_GET_NOTIFICATIONS_SCHEDULE, rowMapper, userId);
+    }
+
+    @Override
+    public void disableNotifications(Long userId) {
+        updateEntity(SQL_UPDATE_NOTIFICATIONS_SCHEDULE, null, null, null, userId);
     }
 }

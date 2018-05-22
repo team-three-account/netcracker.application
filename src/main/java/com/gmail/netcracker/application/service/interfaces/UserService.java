@@ -29,4 +29,8 @@ public interface UserService {
     User findUserById(Long id);
 
     List<User> getAllUsers(Long currentId);
+
+    void updateNotificationSchedule(User user);
+
+    void disableNotifications(Long userId);
 }

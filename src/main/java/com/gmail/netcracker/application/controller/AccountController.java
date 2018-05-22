@@ -35,8 +35,6 @@ import java.util.logging.Logger;
 @RequestMapping(value = "/account")
 public class AccountController {
 
-    private User user;
-
     private EmailConstructor emailConstructor;
 
     private UserService userService;
@@ -51,21 +49,19 @@ public class AccountController {
 
     private EventService eventService;
 
-    private  ItemService itemService;
+    private ItemService itemService;
 
     private Gson gson = new GsonBuilder()
             .registerTypeAdapter(Event.class, new EventSerializer())
             .create();
 
     @Autowired
-    public AccountController(User user, EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService, EditUserAccountValidator editUserAccountValidator, EventService eventService, ItemService itemService) {
-        this.user = user;
+    public AccountController( EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService, EditUserAccountValidator editUserAccountValidator, EventService eventService, ItemService itemService) {
         this.emailConstructor = emailConstructor;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.resetConfirmPasswordValidator = resetConfirmPasswordValidator;
         this.photoService = photoService;
-
         this.editUserAccountValidator = editUserAccountValidator;
         this.eventService = eventService;
         this.itemService = itemService;
@@ -133,6 +129,28 @@ public class AccountController {
         modelAndView.addObject("auth_user", user);
         modelAndView.addObject("user", user);
         modelAndView.setViewName("account/edit");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/notificationSettings/{id}", method = RequestMethod.GET)
+    public ModelAndView notificationSettings(@PathVariable(value = "id") Long userId,
+                                             ModelAndView modelAndView) {
+        modelAndView.addObject("userNotificationOptions", userService.findUserById(userId));
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("account/notificationSettings");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/notificationSettings/save", method = RequestMethod.POST)
+    public ModelAndView saveNotificationSettings(@ModelAttribute("userNotificationOptions") User userNotificationOptions,
+                                                 @RequestParam(value = "isNotificationsEnabled", required = false) Boolean isNotificationEnabled,
+                                                 ModelAndView modelAndView) {
+        if (isNotificationEnabled == null) {
+            userService.disableNotifications(userNotificationOptions.getId());
+        } else if (isNotificationEnabled.equals(true)) {
+            userService.updateNotificationSchedule(userNotificationOptions);
+        }
+        modelAndView.setViewName("redirect:/account/profile/" + userNotificationOptions.getId());
         return modelAndView;
     }
 

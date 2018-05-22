@@ -6,29 +6,20 @@ import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConstructor;
+import com.gmail.netcracker.application.utilites.scheduling.JobSchedulingManager;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.EventNotificationJob;
-import org.quartz.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
+import java.util.Map;
 
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
-import static org.quartz.CronScheduleBuilder.cronSchedule;
-import static org.quartz.JobBuilder.newJob;
-import static org.quartz.TriggerBuilder.newTrigger;
 
 @Service
 public class EventServiceImpl implements EventService {
-    final String EVENT_FIELD_NAME = "event";
-    final String EMAIL_CONSTRUCTOR_FIELD_NAME = "emailConstructor";
-    final String EVENT_NOTIFICATION_JOB_GROUP_NAME = "notificationAboutEventJob";
-    final String EVENT_NOTIFICATION_TRIGGER_GROUP_NAME = "notificationAboutEventTrigger";
-    final String EVENT_NOTIFICATION_JOB_NAME_PREFIX = "eventJob_";
-    final String EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX = "eventTrigger_";
-
     private EventDao eventDao;
     private EventTypeDao eventTypeDao;
     private UserService userService;
@@ -37,13 +28,13 @@ public class EventServiceImpl implements EventService {
     private NoteDao noteDao;
     private ItemDao itemDao;
 
-    private Scheduler scheduler;
+    private JobSchedulingManager jobSchedulingManager;
     private EmailConstructor emailConstructor;
 
     @Autowired
     public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService,
                             FriendService friendService, PriorityDao priorityDao, NoteDao noteDao, ItemDao itemDao,
-                            Scheduler scheduler, EmailConstructor emailConstructor) {
+                            JobSchedulingManager jobSchedulingManager, EmailConstructor emailConstructor) {
         this.eventDao = eventDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
@@ -51,7 +42,7 @@ public class EventServiceImpl implements EventService {
         this.priorityDao = priorityDao;
         this.noteDao = noteDao;
         this.itemDao = itemDao;
-        this.scheduler = scheduler;
+        this.jobSchedulingManager = jobSchedulingManager;
         this.emailConstructor = emailConstructor;
     }
 
@@ -287,48 +278,25 @@ public class EventServiceImpl implements EventService {
     }
 
     private void scheduleEventNotificationJob(Event event) {
-        JobDetail jobDetail = createJobForEvent(event);
-        CronTrigger cronTrigger = createCronTriggerForEvent(event, jobDetail);
-        try {
-            scheduler.scheduleJob(jobDetail, cronTrigger);
-        } catch (SchedulerException e) {
-            Logger.getLogger(EventServiceImpl.class.getName()).info(e.getMessage());
-        }
+        final String EVENT_NOTIFICATION_TRIGGER_GROUP_NAME = "eventNotificationTriggers";
+        final String EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX = "eventNotificationTrigger_";
+        final String EVENT_NOTIFICATION_JOB_GROUP_NAME = "eventNotificationJobs";
+        final String EVENT_NOTIFICATION_JOB_NAME_PREFIX = "eventNotificationJob_";
+        final String EMAIL_CONSTRUCTOR_FIELD_NAME = "emailConstructor";
+        final String EVENT_FIELD_NAME = "event";
+        Map<String, Object> params = new HashMap<>();
+        params.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
+        params.put(EVENT_FIELD_NAME, event);
+        jobSchedulingManager.scheduleJob(event.getEventId(), params, EventNotificationJob.class,
+                parseStringToDate(event.getDateStart()), parseStringToDate(event.getDateEnd()), event.getPeriodicity(),
+                EVENT_NOTIFICATION_JOB_NAME_PREFIX, EVENT_NOTIFICATION_JOB_GROUP_NAME,
+                EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX, EVENT_NOTIFICATION_TRIGGER_GROUP_NAME);
     }
 
-    private JobDetail createJobForEvent(Event event) {
-        final Class<EventNotificationJob> eventNotificationJobClass = EventNotificationJob.class;
-        JobDataMap jobDataMap = new JobDataMap();
-        jobDataMap.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
-        jobDataMap.put(EVENT_FIELD_NAME, event);
-        return newJob()
-                .ofType(eventNotificationJobClass)
-                .setJobData(jobDataMap)
-                .withIdentity(EVENT_NOTIFICATION_JOB_NAME_PREFIX + event.getEventId(),
-                        EVENT_NOTIFICATION_JOB_GROUP_NAME)
-                .build();
-    }
-
-    private CronTrigger createCronTriggerForEvent(Event event, JobDetail jobDetail) {
-        CronTrigger cronTrigger = newTrigger()
-//                .withSchedule(cronSchedule(event.getPeriodicity())) //this is for using
-                .withSchedule(cronSchedule("0/10 * * ? * * *")) //this is for demonstration
-                .withIdentity(EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX + event.getEventId(),
-                        EVENT_NOTIFICATION_TRIGGER_GROUP_NAME)
-                .forJob(jobDetail)
-                .startAt(parseStringToDate(event.getDateStart()))
-                .endAt(parseStringToDate(event.getDateEnd()))
-                .build();
-        return cronTrigger;
-    }
 
     private void deleteEventNotificationJob(Long eventId) {
-        try {
-            scheduler.deleteJob(JobKey.jobKey(EVENT_NOTIFICATION_JOB_NAME_PREFIX + eventId,
-                    EVENT_NOTIFICATION_JOB_GROUP_NAME));
-        } catch (SchedulerException e) {
-            Logger.getLogger(EventServiceImpl.class.getName()).info(e.getMessage());
-        }
+        final String EVENT_NOTIFICATION_JOB_GROUP_NAME = "eventNotificationJobs";
+        final String EVENT_NOTIFICATION_JOB_NAME_PREFIX = "eventNotificationJob_";
+        jobSchedulingManager.deleteJob(eventId, EVENT_NOTIFICATION_JOB_NAME_PREFIX, EVENT_NOTIFICATION_JOB_GROUP_NAME);
     }
-
 }
