@@ -29,7 +29,7 @@ public class SecurityConfig
 
     private final DataSource dataSource;
 
-    @Autowired
+
     private final UserServiceImp userService;
 
     @Autowired
@@ -45,17 +45,7 @@ public class SecurityConfig
     protected void configure(final AuthenticationManagerBuilder builder)
             throws Exception {
         builder.authenticationProvider(authProvider());
-
-
     }
-
-    @Autowired
-    protected void registerGlobalAuthentication(AuthenticationManagerBuilder registry, PasswordEncoder passwordEncoder) throws Exception {
-        registry
-                .userDetailsService(userService)
-                .passwordEncoder(passwordEncoder);
-    }
-
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

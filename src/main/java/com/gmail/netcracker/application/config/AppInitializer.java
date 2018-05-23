@@ -31,7 +31,6 @@ public class AppInitializer
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
                 RootConfig.class,
-
         };
     }
 
@@ -78,8 +77,6 @@ public class AppInitializer
                         maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);
 
         registration.setMultipartConfig(multipartConfigElement);
-
-
     }
 
     /**

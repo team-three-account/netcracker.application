@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.multipart.MultipartResolver;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -44,16 +43,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      */
 
     private static final String RESOURCES_URL = "/resources/";
-    /**
-     * URL запроса для авторизации.
-     */
-    private static final String LOGIN_URL = "/login";
-
-    /**
-     * Название вьюшки авторизации.
-     */
-    private static final String LOGIN_VIEW_NAME = "login";
-
 
     /**
      * Указывает Spring'у где находятся
@@ -82,8 +71,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         return new StandardServletMultipartResolver();
     }
 
-
-
     /**
      * Указывает где будут хранится ресурсы.
      */
@@ -93,21 +80,4 @@ public class WebConfig extends WebMvcConfigurerAdapter {
                 .addResourceLocations(RESOURCES_URL);
     }
 
-    /**
-     * Настройка логин-контроллера.
-     * Оказывает помощь в регистрации
-     * простого автоматизированного
-     * логин-контроллера предварительно
-     * сконфигурированных с кодом
-     * состояния и вьюшкой.
-     */
-
-    /*public void addViewControllers(
-            final ViewControllerRegistry viewController
-    ) {
-        viewController.addViewController("").setViewName("");
-        viewController.addViewController(LOGIN_URL)
-                .setViewName(LOGIN_VIEW_NAME);
-
-    }*/
 }
