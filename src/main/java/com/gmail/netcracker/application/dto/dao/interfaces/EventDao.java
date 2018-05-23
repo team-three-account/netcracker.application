@@ -30,7 +30,7 @@ public interface EventDao {
 
     void participate(Long userId, Long eventId);
 
-    int getParticipantsCount(Long eventId);
+    Long getParticipantsCount(Long eventId);
 
     List<User> getParticipants(Long eventId);
 
@@ -42,9 +42,7 @@ public interface EventDao {
 
     List<Event> findCreatedPublicEvents(Long id);
 
-    int getMaxId();
-
-    int getEventType(Long eventId);
+    Long getEventType(Long eventId);
 
     User getCreator(Long eventId);
 

@@ -123,7 +123,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
                 event.getDescription(),
                 Utilities.parseStringToTimestamp(event.getDateStart()),
                 Utilities.parseStringToTimestamp(event.getDateEnd()),
-                Utilities.parseStringToInt(event.getType()),
+                event.getType(),
                 event.isDraft(),
                 event.getWidth(),
                 event.getLongitude(),
@@ -150,7 +150,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
                 event.getLongitude(),
                 event.getEventPlaceName(),
                 event.getPeriodicity(),
-                Utilities.parseStringToInt(event.getType()),
+                event.getType(),
                 event.isDraft(),
                 event.getPhoto()));
     }
@@ -196,8 +196,8 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public int getParticipantsCount(Long eventId) {
-        return countRows(SQL_COUNT_PARTICIPANTS, Math.toIntExact(eventId));
+    public Long getParticipantsCount(Long eventId) {
+        return countRows(SQL_COUNT_PARTICIPANTS, eventId);
     }
 
     @Override
@@ -225,14 +225,10 @@ public class EventDaoImpl extends ModelDao implements EventDao {
         return findEntityList(SQL_FIND_CREATED_PUBLIC_EVENTS, eventRowMapper, id);
     }
 
-    @Override
-    public int getMaxId() {
-        return maxIdValue(SQL_MAX_ID);
-    }
 
     @Override
-    public int getEventType(Long eventId) {
-        return countRows(SQL_GET_EVENT_TYPE, Math.toIntExact(eventId));
+    public Long getEventType(Long eventId) {
+        return countRows(SQL_GET_EVENT_TYPE, eventId);
     }
 
     @Override

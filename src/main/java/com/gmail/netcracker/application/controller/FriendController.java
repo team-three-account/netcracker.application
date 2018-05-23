@@ -37,7 +37,7 @@ public class FriendController {
         List<User> friendList = friendService.getAllFriends(userService.getAuthenticatedUser().getId());
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("friendList", friendList);
-        model.addAttribute("message", amountOfFriendsMessage(friendList.size()));
+        model.addAttribute("message", amountOfFriendsMessage((long) friendList.size()));
         return "friend/friends";
     }
 
@@ -95,12 +95,11 @@ public class FriendController {
         return "redirect:/account/friends/incoming";
     }
 
-    private static String amountOfFriendsMessage(int amount) {
+    private static String amountOfFriendsMessage(Long amount) {
         String noFriend = "You have not any friend yet";
         String oneFriend = "You have 1 friend";
         String manyFriends = "You have " + amount + " friends";
-        String message = amount < 1 ? noFriend : amount == 1 ? oneFriend : manyFriends;
-        return message;
+        return amount < 1 ? noFriend : amount == 1 ? oneFriend : manyFriends;
     }
 }
 

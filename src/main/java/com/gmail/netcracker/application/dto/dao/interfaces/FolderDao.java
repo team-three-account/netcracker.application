@@ -11,19 +11,19 @@ public interface FolderDao {
 
     List<Folder> folderList(Long creator);
 
-    Folder getFolder(int folderId);
+    Folder getFolder(Long folderId);
 
-    void delete(int folderId);
+    void delete(Long folderId);
 
     void update(Folder folder);
 
-    List<Note> getNoteListIntoFolder(int folderId);
+    List<Note> getNoteListIntoFolder(Long folderId);
 
-    List<User> getFriendsThatHaveAccess(int folderId);
+    List<User> getFriendsThatHaveAccess(Long folderId);
 
-    void disableAccessToFolder(int folderId, int friendId);
+    void disableAccessToFolder(Long folderId, Long friendId);
 
-    void allowAccessToFolder(int folderId, int userId);
+    void allowAccessToFolder(Long folderId, Long userId);
 
     List<Folder> getSharedFoldersToMe(Long id);
 }

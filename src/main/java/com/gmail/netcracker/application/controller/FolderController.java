@@ -61,25 +61,25 @@ public class FolderController {
     }
 
     @RequestMapping(value = "/folder-{folderId}", method = RequestMethod.GET)
-    public ModelAndView viewFolder(@PathVariable("folderId") int folderId, ModelAndView modelAndView) {
+    public ModelAndView viewFolder(@PathVariable("folderId") Long folderId, ModelAndView modelAndView) {
         List<Note> noteList = folderService.getNoteListIntoFolder(folderId);
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("folder", folderService.getFolder(folderId));
         modelAndView.addObject("user_creator", userService.findUserById(folderService.getFolder(folderId).getCreator()));
         modelAndView.addObject("listNotesIntoFolder", noteList);
-        modelAndView.addObject("message", folderMessage(noteList.size()));
+        modelAndView.addObject("message", folderMessage((long) noteList.size()));
         modelAndView.setViewName("folder/viewFolder");
         return modelAndView;
     }
 
     @RequestMapping(value = {"/deleteFolder-{folderId}"}, method = RequestMethod.GET)
-    public String deleteFolder(@PathVariable int folderId) {
+    public String deleteFolder(@PathVariable Long folderId) {
         folderService.delete(folderId);
         return "redirect:/account/allNotes";
     }
 
     @RequestMapping(value = {"/editFolder-{folderId}"}, method = RequestMethod.GET)
-    public ModelAndView editFolder(@PathVariable int folderId, ModelAndView modelAndView) {
+    public ModelAndView editFolder(@PathVariable Long folderId, ModelAndView modelAndView) {
         modelAndView.addObject("editFolder", folderService.getFolder(folderId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("folder/updateFolder");
@@ -96,7 +96,7 @@ public class FolderController {
     }
 
     @RequestMapping(value = {"/share-{folderId}"}, method = RequestMethod.GET)
-    public String viewFriendsToShareFolder(@PathVariable int folderId, Model model) {
+    public String viewFriendsToShareFolder(@PathVariable Long folderId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("folderId", folderId);
         List<User> friendsThatHaveAccessList = folderService.getFriendsThatHaveAccess(folderId);
@@ -111,22 +111,21 @@ public class FolderController {
     }
 
     @RequestMapping(value = {"/share-{folderId}/share"}, method = RequestMethod.POST)
-    public String allowAccessToFolder(@PathVariable int folderId, @RequestParam(value = "userId") int userId) {
+    public String allowAccessToFolder(@PathVariable Long folderId, @RequestParam(value = "userId") Long userId) {
         folderService.allowAccessToFolder(folderId, userId);
         return "redirect:/account/share-" + folderId;
     }
 
     @RequestMapping(value = {"/share-{folderId}/disable"}, method = RequestMethod.POST)
-    public String disableAccessToFolder(@PathVariable int folderId, @RequestParam(value = "friendId") int friendId) {
+    public String disableAccessToFolder(@PathVariable Long folderId, @RequestParam(value = "friendId") Long friendId) {
         folderService.disableAccessToFolder(folderId, friendId);
         return "redirect:/account/share-" + folderId;
     }
 
-    private static String folderMessage(int sizeNoteList) {
+    private static String folderMessage(Long sizeNoteList) {
         String clearFolder = "Notes into this folder: ";
         String folderHaveNotes = "Folder don't have any notes";
-        String message = sizeNoteList > 0 ? clearFolder : folderHaveNotes;
-        return message;
+        return sizeNoteList > 0 ? clearFolder : folderHaveNotes;
     }
 
     @RequestMapping(value = {"/sharedFoldersToMe"}, method = RequestMethod.GET)

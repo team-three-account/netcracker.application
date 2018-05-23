@@ -14,7 +14,7 @@ public interface NoteService {
 
     void update(Note note);
 
-    void addNoteToFolder(int noteId, int folderId);
+    void addNoteToFolder(Long noteId, Long folderId);
 
     void addNoteToFolderBtn(Note note);
     void deleteFromFolder(Long noteId);

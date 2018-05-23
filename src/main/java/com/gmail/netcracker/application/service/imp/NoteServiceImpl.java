@@ -49,7 +49,7 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public void addNoteToFolder(int noteId, int folderId) {
+    public void addNoteToFolder(Long noteId, Long folderId) {
         noteDao.addNoteToFolder(noteId, folderId);
     }
 

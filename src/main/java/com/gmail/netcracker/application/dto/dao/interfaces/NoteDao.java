@@ -15,9 +15,9 @@ public interface NoteDao {
 
     void update(Note note);
 
-    void addNoteToFolder(int noteId, int folderId);
+    void addNoteToFolder(Long noteId, Long folderId);
 
-    void setFoldersNull(Integer folderId);
+    void setFoldersNull(Long folderId);
 
     void deleteFromFolder(Long noteId);
 

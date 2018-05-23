@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label>Note Name: </label>
                         <form:input path="name" id="nameNote" type="text" class="form-control"
-                                    placeholder="Enter Note name" pattern="[A-Za-z0-9_]{4,50}"/>
+                                    placeholder="Enter Note name" pattern="[A-Za-z0-9\s]{4,50}"/>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                     <div class="form-group">

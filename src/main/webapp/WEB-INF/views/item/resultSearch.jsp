@@ -23,14 +23,14 @@
 </div>
 <div class="col-lg-10 col-md-10 content">
     <div class="row form-inline">
-        <h3 class="caption"> Result search items</h3>
+        <h3 class="caption"> Result search in my items</h3>
         <div class="parent">
             <c:forEach var="item" items="${resultSearchMyItem}">
                 <div class="col-sm-6 col-md-2 col-lg-2 col-xl-3" style="display: inline-block">
 
                     <div class="thumbnail child">
                         <img class="img-circle" style="width: 200px;height: 200px" src="${item.image}" alt="">
-                        <div class="caption">
+                        <div class="caption" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                             <c:choose>
                                 <c:when test="${item.priority=='1'}">
                                     <c:set var="color" value="red"/>
@@ -50,8 +50,8 @@
                                     <td>
                                         <div style="width: 18px; height: 18px;background: ${color}; border-radius: 10px; display: inline-block; "></div>
                                     </td>
-                                    <td><a href="/account/item-${item.itemId}"><span
-                                            style="font-size: 24px;"> ${item.name} </span></a></td>
+                                    <td><a style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" href="/account/item-${item.itemId}"><span
+                                            style="font-size: 24px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"> ${item.name} </span></a></td>
                                 </tr>
                                 <li class="list-group-item"
                                     style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.description}</li>
@@ -99,7 +99,7 @@
             <div class="col-sm-6 col-md-3 col-lg-2 col-xl-3" style="display: inline">
                 <div class="thumbnail child">
                     <img class="img-circle" style="width: 200px;height: 200px" src="${item.image}" alt="">
-                    <div class="caption">
+                    <div class="caption" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                         <c:choose>
                             <c:when test="${item.priority=='1'}">
                                 <c:set var="color" value="red"/>
@@ -119,8 +119,8 @@
                                 <td>
                                     <div style="width: 18px; height: 18px;background: ${color}; border-radius: 10px; display: inline-block; "></div>
                                 </td>
-                                <td><a href="/account/item-${item.itemId}"><span
-                                        style="font-size: 24px;"> ${item.name} </span></a></td>
+                                <td><a style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" href="/account/item-${item.itemId}"><span
+                                        style="font-size: 24px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"> ${item.name} </span></a></td>
                             </tr>
                             <li class="list-group-item"
                                 style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.description}</li>

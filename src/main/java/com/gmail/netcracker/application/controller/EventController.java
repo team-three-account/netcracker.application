@@ -78,7 +78,7 @@ public class EventController {
         }
         if (event.getDraft().equals(true)) {
             draftValidator.validate(event, result);
-            event.setType(String.valueOf(0));
+            event.setType((long) 0);
         } else {
             eventValidator.validate(event, result);
         }
@@ -90,7 +90,7 @@ public class EventController {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         eventService.insertEvent(event);
-        if (event.getType().equals("1") || event.getType().equals("2") || event.getType().equals("3")
+        if (event.getType().equals((long) 1) || event.getType().equals((long) 2) || event.getType().equals((long) 3)
                 && event.getDraft().equals(false)) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
@@ -121,7 +121,7 @@ public class EventController {
             modelAndView.addObject("photo", eventService.getEvent(eventId).getPhoto());
             Logger.getLogger(EventController.class.getName()).info(eventService.getEvent(eventId).getPhoto());
             modelAndView.addObject("user_creator", userService.findUserById(eventService.getEvent(eventId).getCreator()));
-            int participants = eventService.countParticipants(eventId);
+            Long participants = eventService.countParticipants(eventId);
             modelAndView.addObject("participants", participants);
             boolean isParticipated = eventService.isParticipated(authUser.getId(), eventId);
             modelAndView.addObject("participation", eventService.getParticipation(eventId));
@@ -160,7 +160,7 @@ public class EventController {
                                     BindingResult result,
                                     ModelAndView modelAndView) throws IOException, DbxException {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        event.setType(String.valueOf(event.getTypeId()));
+        event.setType(event.getTypeId());
         if ("".equals(event.getPeriodicity())) {
             event.setPeriodicity(null);
         }
@@ -329,9 +329,8 @@ public class EventController {
 
     @RequestMapping(value = {"/eventList/convertToEvent-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView getPageConvertDraftToEvent(@PathVariable Long eventId,
-                                                   Event event,
                                                    ModelAndView modelAndView) {
-        event = eventService.getEvent(eventId);
+        Event event = eventService.getEvent(eventId);
         event.setPhoto(photoService.getDefaultImageForEvents());
         modelAndView.addObject("editEvent", event);
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -362,7 +361,7 @@ public class EventController {
         }
         eventService.update(event);
         eventService.convertDraftToEvent(eventId);
-        if (event.getType().equals("2") || event.getType().equals("3") && event.getDraft().equals(false)) {
+        if (event.getType().equals((long) 2) || event.getType().equals((long) 3) && event.getDraft().equals(false)) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
             eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());

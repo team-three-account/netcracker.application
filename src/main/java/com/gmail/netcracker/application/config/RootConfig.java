@@ -215,7 +215,7 @@ public class RootConfig {
     public RowMapper<EventType> eventTypeRowMapper() {
         return (resultSet, i) -> {
             EventType eventType = new EventType();
-            eventType.setTypeId(getInt(resultSet, "type_id"));
+            eventType.setTypeId(getLong(resultSet, "type_id"));
             eventType.setName(getString(resultSet, "name"));
             return eventType;
         };
@@ -225,7 +225,7 @@ public class RootConfig {
     public RowMapper<Folder> folderRowMapper() {
         return (resultSet, i) -> {
             Folder folder = new Folder();
-            folder.setFolderId(resultSet.getInt("folder_id"));
+            folder.setFolderId(resultSet.getLong("folder_id"));
             folder.setName(resultSet.getString("name"));
             folder.setCreator(resultSet.getLong("creator_id"));
             return folder;
@@ -260,7 +260,7 @@ public class RootConfig {
             note.setName(getString(rs, "name"));
             note.setDescription(getString(rs, "description"));
             note.setCreator(getLong(rs, "creator_id"));
-            note.setFolder(getInt(rs, "folder_id"));
+            note.setFolder(getLong(rs, "folder_id"));
             return note;
         };
     }
@@ -271,7 +271,7 @@ public class RootConfig {
             Note note = new Note();
             note.setNoteId(rs.getLong("note_id"));
             note.setName(rs.getString("name"));
-            note.setFolder(rs.getInt("folder_id"));
+            note.setFolder(rs.getLong("folder_id"));
             return note;
         };
     }
@@ -282,7 +282,7 @@ public class RootConfig {
             Friend friendship = new Friend();
             friendship.setRecipient(getLong(resultSet, "recipient_id"));
             friendship.setSender(getLong(resultSet, "sender_id"));
-            friendship.setAccepted(getBoolean(resultSet, "is_accepted"));
+            friendship.setIsAccepted(getBoolean(resultSet, "is_accepted"));
             return friendship;
         };
     }
@@ -300,7 +300,7 @@ public class RootConfig {
             item.setDueDate(getString(resultSet, "due_date"));
             item.setPriority(getLong(resultSet, "priority_id"));
             item.setRoot(getLong(resultSet, "root_id"));
-            item.setEvent(getInt(resultSet, "event_id"));
+            item.setEvent(getLong(resultSet, "event_id"));
             item.setImage(getString(resultSet,"image"));
             item.setIsLiked(getInt(resultSet,"is_liked"));
             return item;

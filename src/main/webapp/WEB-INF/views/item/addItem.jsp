@@ -35,7 +35,7 @@
             <div class="form-group">
                 <label>Item Name: </label>
                 <form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
-                            placeholder="Enter item name" pattern="[A-Za-z0-9_]{2,50}"/>
+                            placeholder="Enter item name" pattern="[A-Za-z\s]{2,50}"/>
                 <form:errors path="name" cssClass="error"/>
             </div>
 

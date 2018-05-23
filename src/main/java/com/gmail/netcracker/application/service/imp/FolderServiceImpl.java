@@ -39,12 +39,12 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    public Folder getFolder(int folderId) {
+    public Folder getFolder(Long folderId) {
         return folderDao.getFolder(folderId);
     }
 
     @Override
-    public void delete(int folderId) {
+    public void delete(Long folderId) {
         noteDao.setFoldersNull(folderId);
         folderDao.delete(folderId);
     }
@@ -55,7 +55,7 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    public List<Note> getNoteListIntoFolder(int folderId) {
+    public List<Note> getNoteListIntoFolder(Long folderId) {
         return folderDao.getNoteListIntoFolder(folderId);
     }
 
@@ -71,17 +71,17 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    public List<User> getFriendsThatHaveAccess(int folderId) {
+    public List<User> getFriendsThatHaveAccess(Long folderId) {
         return folderDao.getFriendsThatHaveAccess(folderId);
     }
 
     @Override
-    public void allowAccessToFolder(int folderId, int userId) {
+    public void allowAccessToFolder(Long folderId, Long userId) {
         folderDao.allowAccessToFolder(folderId, userId);
     }
 
     @Override
-    public void disableAccessToFolder(int folderId, int friendId) {
+    public void disableAccessToFolder(Long folderId, Long friendId) {
         folderDao.disableAccessToFolder(folderId, friendId);
     }
 

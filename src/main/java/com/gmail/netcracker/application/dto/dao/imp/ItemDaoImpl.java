@@ -134,7 +134,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     }
 
     @Override
-    public List<Item> getPopularItems(int amountOfItems) {
+    public List<Item> getPopularItems(Long amountOfItems) {
         return findEntityList(SQL_GET_POPULAR_ITEMS, itemRowMapper, amountOfItems);
     }
 
@@ -193,7 +193,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     }
 
     @Override
-    public int getLikesCount(int itemId) {
+    public Long getLikesCount(Long itemId) {
         return countRows(SQL_COUNT_LIKES, itemId);
     }
 

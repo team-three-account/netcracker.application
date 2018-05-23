@@ -120,7 +120,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public int countParticipants(Long eventId) {
+    public Long countParticipants(Long eventId) {
         return eventDao.getParticipantsCount(eventId);
     }
 
@@ -130,7 +130,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public boolean isParticipated(Long id, Long eventId) {
+    public Boolean isParticipated(Long id, Long eventId) {
         return eventDao.isParticipated(id, eventId) != null;
     }
 
@@ -140,14 +140,9 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public int getMaxId() {
-        return eventDao.getMaxId();
-    }
-
-    @Override
-    public boolean allowAccess(Long personId, Long eventId) {
+    public Boolean allowAccess(Long personId, Long eventId) {
         boolean access = false;
-        switch (eventDao.getEventType(eventId)) {
+        switch (Math.toIntExact(eventDao.getEventType(eventId))) {
             case 0:
                 access = isCreator(personId, eventId);
                 break;//indefinite
@@ -164,7 +159,8 @@ public class EventServiceImpl implements EventService {
         return access;
     }
 
-    public boolean isCreator(Long personId, Long eventId) {
+    @Override
+    public Boolean isCreator(Long personId, Long eventId) {
         return eventDao.checkCreatorById(personId, eventId) != null;
     }
 
@@ -263,8 +259,6 @@ public class EventServiceImpl implements EventService {
         event.setCreator(toCopy.getCreator());
         event.setDateStart(toCopy.getDateStart());
         event.setDateEnd(toCopy.getDateEnd());
-        event.setPlaceId(toCopy.getPlaceId());
-        event.setPlaceAddress(toCopy.getPlaceAddress());
         event.setPeriodicity(toCopy.getPeriodicity());
         event.setType(toCopy.getType());
         event.setDraft(toCopy.getDraft());

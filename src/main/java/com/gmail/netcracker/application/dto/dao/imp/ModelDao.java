@@ -107,12 +107,12 @@ public abstract class ModelDao {
         return new HashSet<>(findEntityList(sql, rowMapper, limit, offset, params));
     }
 
-    protected int countRows(String sql, int id) {
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class);
+    protected Long countRows(String sql, Long id) {
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Long.class);
     }
 
-    protected int maxIdValue(String sql) {
-        return jdbcTemplate.queryForObject(sql, new Object[]{}, Integer.class);
+    protected Long maxIdValue(String sql) {
+        return jdbcTemplate.queryForObject(sql, new Object[]{}, Long.class);
     }
 
 }

@@ -85,12 +85,12 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     }
 
     @Override
-    public void addNoteToFolder(int noteId, int folderId) {
+    public void addNoteToFolder(Long noteId, Long folderId) {
         updateEntity(SQL_ADD_NOTE, folderId, noteId);
     }
 
     @Override
-    public void setFoldersNull(Integer folderId) {
+    public void setFoldersNull(Long folderId) {
         updateEntity(SQL_SET_FOLDERS_NULL, folderId);
     }
 

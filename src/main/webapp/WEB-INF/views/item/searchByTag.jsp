@@ -43,14 +43,14 @@
                     <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" style="display: inline">
                         <div class="thumbnail child">
                             <img class="img-circle" style="width: 200px;height: 200px" src="${item.image}" alt="">
-                            <div class="caption">
+                            <div class="caption" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                                 <ul class="list-group">
                                     <tr>
                                         <td>
                                             <div style="width: 18px; height: 18px;background: ${color}; border-radius: 10px; display: inline-block; "></div>
                                         </td>
                                         <td><a href="/account/item-${item.itemId}"><span
-                                                style="font-size: 24px;"> ${item.name} </span></a></td>
+                                                style="font-size: 24px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"> ${item.name} </span></a></td>
                                     </tr>
                                     <li class="list-group-item"
                                         style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.description}</li>

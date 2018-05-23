@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <label>Folder Name: </label>
                         <form:input path="name" id="name" type="text" class="form-control"
-                                    placeholder="Enter folder name" pattern="[A-Za-z0-9_]{4,50}"/>
+                                    placeholder="Enter folder name" pattern="[A-Za-z0-9\s]{2,50}"/>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                     <button id="create" class="btn btn-success text-center">Create</button>

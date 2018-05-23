@@ -8,5 +8,5 @@ import org.springframework.stereotype.Component;
 public class Friend {
     private Long sender;
     private Long recipient;
-    private boolean isAccepted;
+    private Boolean isAccepted;
 }

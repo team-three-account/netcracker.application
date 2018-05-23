@@ -11,5 +11,5 @@ public class Note {
     private String name;
     private String description;
     private Long creator;
-    private Integer folder;
+    private Long folder;
 }

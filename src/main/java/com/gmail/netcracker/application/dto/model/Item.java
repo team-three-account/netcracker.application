@@ -19,9 +19,9 @@ public class Item {
     private String dueDate;
     private Long priority;
     private Long root;
-    private Integer event;
+    private Long event;
     private String image;
     private Set<Tag> tags;
-    private int likes;
+    private Long likes;
     private Integer isLiked;
 }

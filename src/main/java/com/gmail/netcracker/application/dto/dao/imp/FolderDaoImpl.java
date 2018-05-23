@@ -71,12 +71,12 @@ public class FolderDaoImpl extends ModelDao implements FolderDao {
     }
 
     @Override
-    public Folder getFolder(int folderId) {
+    public Folder getFolder(Long folderId) {
         return findEntity(SQL_FIND, folderRowMapper, folderId);
     }
 
     @Override
-    public void delete(int folderId) {
+    public void delete(Long folderId) {
         deleteEntity(SQL_DELETE, folderId);
     }
 
@@ -88,22 +88,22 @@ public class FolderDaoImpl extends ModelDao implements FolderDao {
     }
 
     @Override
-    public List<Note> getNoteListIntoFolder(int folderId) {
+    public List<Note> getNoteListIntoFolder(Long folderId) {
         return findEntityList(SQL_GET_NOTES, notesIntoFolderRowMapper, folderId);
     }
 
     @Override
-    public List<User> getFriendsThatHaveAccess(int folderId) {
+    public List<User> getFriendsThatHaveAccess(Long folderId) {
         return findEntityList(SQL_GET_FRIENDS_THAT_HAVE_ACCESS, userRowMapper, folderId);
     }
 
     @Override
-    public void disableAccessToFolder(int folderId, int friendId) {
+    public void disableAccessToFolder(Long folderId, Long friendId) {
         deleteEntity(SQL_DISABLE_ACCESS_TO_FOLDER, folderId, friendId);
     }
 
     @Override
-    public void allowAccessToFolder(int folderId, int userId) {
+    public void allowAccessToFolder(Long folderId, Long userId) {
         insertEntity(SQL_ALLOW_ACCESS_TO_FOLDER, PK_COLUMN_NAME,folderId, userId);
     }
 

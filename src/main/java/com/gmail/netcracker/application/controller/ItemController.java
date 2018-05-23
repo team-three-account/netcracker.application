@@ -115,9 +115,9 @@ public class ItemController {
     public ModelAndView getItem(@PathVariable("itemId") Long itemId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("getItem", itemService.getItem(itemId));
-        int likes = itemService.countLikes(Math.toIntExact(itemId));
+        Long likes = itemService.countLikes(itemId);
         modelAndView.addObject("likes", likes);
-        boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
+        Boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
         modelAndView.addObject("isLiked", isLiked);
         modelAndView.setViewName("item/getItem");
         return modelAndView;
@@ -177,9 +177,9 @@ public class ItemController {
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("item", itemService.getItem(itemId));
-        int likes = itemService.countLikes(Math.toIntExact(itemId));
+        Long likes = itemService.countLikes(itemId);
         model.addAttribute("likes", likes);
-        boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
+        Boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
         model.addAttribute("isLiked", isLiked);
         return "item/viewItem";
     }

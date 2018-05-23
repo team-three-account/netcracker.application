@@ -33,13 +33,13 @@ public interface EventService {
 
     void participate(Long userId, Long eventId);
 
-    int countParticipants(Long eventId);
+    Long countParticipants(Long eventId);
 
     List<User> getParticipants(Long eventId);
 
     List<Priority> getAllPriorities();
 
-    boolean isParticipated(Long id, Long eventId);
+    Boolean isParticipated(Long id, Long eventId);
 
     void unsubscribe(Long id, Long eventId);
 
@@ -47,13 +47,12 @@ public interface EventService {
 
     List<Event> findCreatedPublicEvents(Long id);
 
-    int getMaxId();
 
     void setPriority(Long priority, Long eventId, Long userId);
 
-    boolean allowAccess(Long personId, Long eventId);
+    Boolean allowAccess(Long personId, Long eventId);
 
-    boolean isCreator(Long personId, Long eventId);
+    Boolean isCreator(Long personId, Long eventId);
 
     List<User> getUsersToInvite(Long id, Long eventId);
 

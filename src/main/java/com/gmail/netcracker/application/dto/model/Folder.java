@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class Folder {
-    private int folderId;
+    private Long folderId;
     private String name;
     private Long creator;
 }

@@ -47,9 +47,9 @@ public interface ItemService {
 
     void like(Long itemId, Long userId);
 
-    int countLikes(int itemId);
+    Long countLikes(Long itemId);
 
-    boolean isLiked(Long itemId, Long userId);
+    Boolean isLiked(Long itemId, Long userId);
 
     void dislike(Long itemId, Long userId);
 

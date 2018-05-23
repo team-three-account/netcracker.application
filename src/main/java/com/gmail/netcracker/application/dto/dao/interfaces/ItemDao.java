@@ -29,7 +29,7 @@ public interface ItemDao {
 
     void setBookerFromEvent(Long itemId, Long bookerId, Long eventId);
 
-    List<Item> getPopularItems(int amountOfItems);
+    List<Item> getPopularItems(Long amountOfItems);
 
     List<Item> search(String query, Long userId);
 
@@ -41,7 +41,7 @@ public interface ItemDao {
 
     void like(Long itemId, Long userId);
 
-    int getLikesCount(int itemId);
+    Long getLikesCount(Long itemId);
 
     Like isLiked(Long itemId, Long userId);
 

@@ -8,6 +8,7 @@ import com.gmail.netcracker.application.service.interfaces.FolderService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.NoteValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,15 +34,13 @@ public class NoteController {
 
     private final NoteValidator noteValidator;
 
-    private final EventController eventController;
-
+    @Autowired
     public NoteController(NoteService noteService, FolderService folderService, UserService userService,
-                          NoteValidator noteValidator, EventController eventController) {
+                          NoteValidator noteValidator) {
         this.noteService = noteService;
         this.folderService = folderService;
         this.userService = userService;
         this.noteValidator = noteValidator;
-        this.eventController = eventController;
     }
 
     @RequestMapping(value = "/createNote", method = RequestMethod.GET)
@@ -119,8 +118,8 @@ public class NoteController {
 
     @RequestMapping(value = "/move", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity moveNote(@RequestParam int folderId,
-                                   @RequestParam int noteId) {
+    public ResponseEntity moveNote(@RequestParam Long folderId,
+                                   @RequestParam Long noteId) {
         noteService.addNoteToFolder(noteId, folderId);
         return ResponseEntity.ok("Note was moved to folder successfully.");
     }
