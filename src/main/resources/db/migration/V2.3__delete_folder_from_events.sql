@@ -1,0 +1,1 @@
+ALTER TABLE events DROP COLUMN folder_id;

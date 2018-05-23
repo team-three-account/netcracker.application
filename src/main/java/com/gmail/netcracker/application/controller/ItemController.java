@@ -4,7 +4,6 @@ import com.dropbox.core.DbxException;
 import com.gmail.netcracker.application.dto.model.Item;
 import com.gmail.netcracker.application.dto.model.Priority;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
-import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.validation.ItemValidator;
@@ -26,15 +25,13 @@ public class ItemController {
 
     private final UserService userService;
     private final ItemService itemService;
-    private final EventService eventService;
     private final ItemValidator itemValidator;
     private PhotoServiceImp photoService;
 
     @Autowired
-    public ItemController(ItemService itemService, UserService userService, EventService eventService, ItemValidator itemValidator, PhotoServiceImp photoService) {
+    public ItemController(ItemService itemService, UserService userService, ItemValidator itemValidator, PhotoServiceImp photoService) {
         this.itemService = itemService;
         this.userService = userService;
-        this.eventService = eventService;
         this.itemValidator = itemValidator;
         this.photoService = photoService;
     }
@@ -125,64 +122,9 @@ public class ItemController {
     public ModelAndView getItem(@PathVariable("itemId") Long itemId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("getItem", itemService.getItem(itemId));
-        int likes = itemService.countLikes(Math.toIntExact(itemId));
-        modelAndView.addObject("likes", likes);
-        boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
-        modelAndView.addObject("isLiked", isLiked);
         modelAndView.setViewName("item/getItem");
         return modelAndView;
     }
-
-    @RequestMapping(value = "/viewItem/like", method = RequestMethod.POST)
-    public String likeFromItem(@RequestParam(value = "item_id") Long itemId, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        itemService.like(itemId, userService.getAuthenticatedUser().getId());
-        return "redirect:/account/item-" + itemId;
-    }
-
-    @RequestMapping(value = "/viewItem/dislike", method = RequestMethod.POST)
-    public String dislikeFromItem(@RequestParam(value = "item_id") Long itemId, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        itemService.dislike(itemId, userService.getAuthenticatedUser().getId());
-        return "redirect:/account/item-" + itemId;
-    }
-
-    @RequestMapping(value = "/personWishList/like", method = RequestMethod.POST)
-    public String likeFromPersonWishList(@RequestParam(value = "item_id") Long itemId, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        itemService.like(itemId, userService.getAuthenticatedUser().getId());
-        return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
-    }
-
-    @RequestMapping(value = "/personWishList/dislike", method = RequestMethod.POST)
-    public String dislikeFromPersonWishList(@RequestParam(value = "item_id") Long itemId, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        itemService.dislike(itemId, userService.getAuthenticatedUser().getId());
-        return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
-    }
-
-//    @RequestMapping(value = "/eventWishList/like", method = RequestMethod.POST)
-//    public String likeFromEventWishList(@RequestParam(value = "item_id") Long itemId,
-//                                        @RequestParam(value = "event_id") Long eventId,
-//                                        @RequestParam(value = "creator") Long creator, Model model) {
-//        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-//        System.out.println(userService.getAuthenticatedUser());
-//        model.addAttribute("eventId", eventId);
-//        itemService.like(itemId, userService.getAuthenticatedUser().getId());
-//
-//        return "redirect:/account/event-" +  eventId + "-" + creator + "/wishList";
-//    }
-//
-//    @RequestMapping(value = "/eventWishList/dislike", method = RequestMethod.POST)
-//    public String dislikeFromEventWishList(@RequestParam(value = "item_id") Long itemId,
-//                                        @RequestParam(value = "event_id") Long eventId,
-//                                        @RequestParam(value = "creator") Long creator, Model model) {
-//        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-//        model.addAttribute("eventId", eventId);
-//        itemService.dislike(itemId, userService.getAuthenticatedUser().getId());
-//        return "redirect:/account/event-" + eventId + "-" + creator + "/wishList";
-//    }
-
 
     @RequestMapping(value = "/copy-{itemId}", method = RequestMethod.GET)
     public String copyItem(@PathVariable("itemId") Long itemId) {
@@ -257,12 +199,6 @@ public class ItemController {
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("item", itemService.getItem(itemId));
-        int likes = itemService.countLikes(Math.toIntExact(itemId));
-        model.addAttribute("likes", likes);
-        boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
-        model.addAttribute("isLiked", isLiked);
         return "item/viewItem";
     }
-
-
 }

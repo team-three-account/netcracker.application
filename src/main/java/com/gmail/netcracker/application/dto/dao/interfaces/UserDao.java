@@ -17,4 +17,10 @@ public interface UserDao {
     void updateUser(User user);
 
     List<User> getAllUsers(Long currentId);
+
+    void updateNotificationsSchedule(User user);
+
+    User getNotificationsSchedule(Long userId);
+
+    void disableNotifications(Long userId);
 }

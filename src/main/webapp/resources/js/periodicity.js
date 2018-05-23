@@ -26,7 +26,6 @@ function cron2text() {
 };
 
 function deletePeriodicity(){
-    $("#crontabs").hide();
     $('#periodicity').val(null);
     $('#cron').val(null);
 }
@@ -36,7 +35,6 @@ var isCrontabsHidden = true;
 function changePeriodicity() {
     // if (!$("#isPeriodical").prop("checked") || $("#crontabs").is(":hidden")) {
     if (!isCrontabsHidden) {
-        $("#crontabs").hide();
         $('#periodicity').val(null);
         $('#cron').val(null);
     } else {

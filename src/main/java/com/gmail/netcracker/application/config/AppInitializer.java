@@ -31,7 +31,6 @@ public class AppInitializer
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
                 RootConfig.class,
-
         };
     }
 
@@ -64,7 +63,6 @@ public class AppInitializer
         encodingFilter.setInitParameter("forceEncoding", "true");
         encodingFilter.addMappingForUrlPatterns(null, true, "/*");
         servletContext.addListener(new SessionListener());
-
     }
 
     @Override
@@ -79,8 +77,6 @@ public class AppInitializer
                         maxUploadSizeInMb, maxUploadSizeInMb * 2, maxUploadSizeInMb / 2);
 
         registration.setMultipartConfig(multipartConfigElement);
-
-
     }
 
     /**

@@ -1,9 +1,6 @@
 package com.gmail.netcracker.application.utilites;
 
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class ResultSetColumnValueExtractor {
     private static boolean isColumnPresent(ResultSet rs, String columnName) throws SQLException {
@@ -39,5 +36,9 @@ public class ResultSetColumnValueExtractor {
 
     public static Double getDouble(ResultSet rs, String columnName) throws SQLException {
         return isColumnPresent(rs, columnName) ? rs.getDouble(columnName) : null;
+    }
+
+    public static Timestamp getTimestamp(ResultSet rs, String columnName) throws SQLException {
+        return isColumnPresent(rs, columnName) ? rs.getTimestamp(columnName) : null;
     }
 }

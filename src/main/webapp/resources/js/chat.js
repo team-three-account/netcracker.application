@@ -60,23 +60,23 @@ function showMessageOutput(message, isAppended) {
     var messageHtml;
     switch (authUserId != message.senderId) {
         case true: {
-            var messageLeftHtml = " <div class=\"text-left\" id=\"showMessageOutputFromData\">\n" +
-                "                                        <input type=\"hidden\" id=\"sender\" value=\"" + message.senderId + "\">\n" +
-                "                                        <p><a href='/account/"+message.senderId +"'><img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
-                "                                                src=\"" + message.senderPhoto + "\"></a>" + " " + message.text + "\n" +
+            var messageLeftHtml = " <div class=\"text-left \" id=\"showMessageOutputFromData\">\n" +
+                "                                        <div class='col-md-6 smssender ' style='    padding: 5px; '><input type=\"hidden\" id=\"sender\" value=\"" + message.senderId + "\">\n" +
+                "                                        <p style='display: inline-flex;'><a href='/account/"+message.senderId +"'><img class=\"img-circle\" style=\"width: 40px;height: 40px;margin: 5px;\"\n" +
+                "                                                src=\"" + message.senderPhoto + "\"></a>" + "  " + message.text + "\n" +
                 "                                        </p>\n" +
-                                                            "<p>"+message.time+"</p>\n"+
+                "<p>"+message.time+"</p></div>\n"+
                 "                                    </div>";
             messageHtml = messageLeftHtml;
             break;
         }
         case false: {
             var messageRightHtml = "<div class=\"text-right\" id=\"showMessageOutputFromData\">\n" +
-                "                                        <p>" + message.text +
-                "                                           <a href='/account/"+message.senderId +"'><img class=\"img-circle\" style=\"width: 40px;height: 40px\"\n" +
+                "                                      <div class=\"smssender col-md-6\" style='float: right !important;    padding: 5px;'>  <p style='display: inline-flex;'>" + message.text +" "+
+                "                                           <a href='/account/"+message.senderId +"'><img class=\"img-circle\" style=\"width: 40px;height: 40px;margin: 5px;\"\n" +
                 "                                                 src=\"" + message.senderPhoto + "\"/>\n" +
                 "                                        </a></p>\n" +
-                "                                        <p>"+ message.time+"</p>\n" +
+                "                                        <p>"+ message.time+"</p></div>\n" +
                 "                                    </div>";
             messageHtml = messageRightHtml;
             break;
@@ -103,9 +103,13 @@ function checkParams() {
 
     if (name.trim() != 0) {
         $('#sendMessage').removeAttr('disabled');
+        if (event.keyCode === 13) {
+            $('#sendMessage').click();
+        }
     } else {
         $('#sendMessage').attr('disabled', 'disabled');
     }
+
 }
 
 function loadPrevMessages() {

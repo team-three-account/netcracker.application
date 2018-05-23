@@ -7,6 +7,5 @@ public class Participant {
     private Long person;
     private Long eventId;
     private Long priority;
-    private boolean countdown;
-    private boolean isAccepted;
+    private Boolean countdown;
 }

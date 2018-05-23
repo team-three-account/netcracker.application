@@ -7,10 +7,7 @@ import com.gmail.netcracker.application.service.interfaces.ChatService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.PhotoService;
-import com.gmail.netcracker.application.utilites.EmailConstructor;
-import com.gmail.netcracker.application.utilites.EventSerializer;
-import com.gmail.netcracker.application.utilites.TimelineSerializer;
-import com.gmail.netcracker.application.utilites.VerificationToken;
+import com.gmail.netcracker.application.utilites.*;
 import com.gmail.netcracker.application.validation.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -63,11 +60,6 @@ public class RootConfig {
     }
 
     @Bean
-    public UserServiceImp userServiceImp() {
-        return new UserServiceImp();
-    }
-
-    @Bean
     public VerificationToken verificationToken() {
         return new VerificationToken();
     }
@@ -83,7 +75,9 @@ public class RootConfig {
     }
 
     @Bean
-    public EditUserAccountValidator editUserAccountValidator(){return new EditUserAccountValidator();}
+    public EditUserAccountValidator editUserAccountValidator() {
+        return new EditUserAccountValidator();
+    }
 
     @Bean
     public RegisterValidator registerValidator() {
@@ -225,7 +219,7 @@ public class RootConfig {
             EventMessage eventMessage = new EventMessage();
             eventMessage.setFrom(getString(resultSet, "name"));
             eventMessage.setText(getString(resultSet, "text"));
-            eventMessage.setTime(parseDateToStringWithSeconds(resultSet.getTimestamp("date")));
+            eventMessage.setTime(parseDateToStringWithSeconds(getTimestamp(resultSet, "date")));
             eventMessage.setSenderPhoto(getString(resultSet, "photo"));
             eventMessage.setSenderId(getLong(resultSet, "sender_id"));
             return eventMessage;
@@ -257,7 +251,10 @@ public class RootConfig {
             user.setPhone(getString(resultSet, "phone"));
             user.setBirthdayDate(parseDateToString(getDate(resultSet, "birthdate")));
             user.setPhoto(getString(resultSet, "photo"));
-            user.setGender(getString(resultSet,"gender"));
+            user.setGender(getString(resultSet, "gender"));
+            user.setNotificationPeriodicity(getString(resultSet, "notification_periodicity"));
+            user.setNotificationStartDate(getString(resultSet, "notification_start_date"));
+            user.setNotificationEndDate(getString(resultSet, "notification_end_date"));
             return user;
         };
     }
@@ -276,7 +273,7 @@ public class RootConfig {
             user.setRole(getString(resultSet, "role"));
             user.setPhone(getString(resultSet, "phone"));
             user.setBirthdayDate(parseDateToString(getDate(resultSet, "birthdate")));
-            user.setGender(getString(resultSet,"gender"));
+            user.setGender(getString(resultSet, "gender"));
             verificationToken.setUser(user);
             return verificationToken;
         };
@@ -294,7 +291,6 @@ public class RootConfig {
             event.setDateEnd(getString(rs, "end_date"));
             event.setTypeId(getLong(rs, "type_id"));
             event.setDraft(getBoolean(rs, "is_draft"));
-            event.setFolder(getInt(rs, "folder_id"));
             event.setWidth(getDouble(rs, "latitude"));
             event.setLongitude(getDouble(rs, "longitude"));
             event.setEventPlaceName(getString(rs, "place_name"));
@@ -425,5 +421,12 @@ public class RootConfig {
             like.setUserId(getLong(resultSet, "user_id"));
             return like;
         };
+
     }
+
+    @Bean
+    public Gson gsonEvents() {
+        return new GsonBuilder()
+                .registerTypeAdapter(Event.class, new EventSerializer())
+                .create(); }
 }

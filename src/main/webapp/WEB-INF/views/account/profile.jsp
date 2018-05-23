@@ -56,6 +56,9 @@
             <a href="<c:url value="/account/resetpassword"/>">
                 <input type="button" class="btn btn-outline-dark" value="Change password">
             </a>
+            <a href="<c:url value="/account/notificationSettings/${auth_user.id}"/>">
+                <input type="button" class="btn btn-outline-dark" value="Notification settings">
+            </a>
         </table>
     </div>
 </body>

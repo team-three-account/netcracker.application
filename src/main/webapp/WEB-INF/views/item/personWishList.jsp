@@ -19,7 +19,7 @@
 <div class="col-md-10 col-xs-3 content">
     <h3>Search for items</h3>
     <form method="POST"
-          class="forms_form" action="/account/items/search">
+          class="forms_form" action="/account/search/items">
         <div class="form-group">
             <input name="search" class="form-control" style="width: 33%" id="search"
                    placeholder="Enter query"/>
@@ -68,7 +68,7 @@
                                 <%--</li>--%>
                                 <li class="list-group-item">Tags :
                                     <c:forEach var="tag" items="${item.tags}" >
-                                        #${tag.name}
+                                        <a href="/account/search-tag/${tag.tagId}">#${tag.name}</a>
                                     </c:forEach>
                                 </li>
                                 <li class="list-group-item">Likes: ${item.likes}
@@ -163,9 +163,11 @@
             </div>
             <div>
                 <h3>Top 5: Popular tags</h3>
-                <c:forEach var="popularItem" items="${popularItems}">
+                <c:forEach var="popularTag" items="${popularTags}">
                     <ul class="list-group">
-                        <li class="list-group-item">IN WORKS!!!!</li>
+                        <li class="list-group-item">
+                            <a href="/account/search-tag/${popularTag.tagId}"> #${popularTag.name}</a>
+                        </li>
                     </ul>
                 </c:forEach>
             </div>

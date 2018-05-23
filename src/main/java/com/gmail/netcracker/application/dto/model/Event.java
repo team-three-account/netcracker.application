@@ -15,7 +15,6 @@ public class Event {
     private String periodicity;
     private String type;
     private Boolean draft;
-    private Integer folder;
     private Long typeId;
     private Double width;
     private Double longitude;

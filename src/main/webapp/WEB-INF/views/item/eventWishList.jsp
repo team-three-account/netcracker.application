@@ -53,7 +53,7 @@
                                 <li class="list-group-item">Actual to : ${item.dueDate}</li>
                                 <li class="list-group-item">Tags :
                                     <c:forEach var="tag" items="${item.tags}" >
-                                        #${tag.name}
+                                        <a href="/account/search-tag/${tag.tagId}">#${tag.name}</a>
                                     </c:forEach>
                                 </li>
                                 <%--<li class="list-group-item">Likes: ${item.likes}--%>
@@ -145,9 +145,11 @@
             </div>
             <div>
                 <h3>Top 5: Popular tags</h3>
-                <c:forEach var="popularItem" items="${popularItems}">
+                <c:forEach var="popularTag" items="${popularTags}">
                     <ul class="list-group">
-                        <li class="list-group-item">IN WORKS!!!!</li>
+                        <li class="list-group-item">
+                            <a href="account/search-tag/${popularTag.tagId}"> #${popularTag.name}</a>
+                        </li>
                     </ul>
                 </c:forEach>
             </div>

@@ -12,11 +12,8 @@ import java.util.logging.Logger;
 @Aspect
 public class TokenLifeAspect {
 
-    public TokenLifeAspect() {
-    }
-
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @AfterReturning(pointcut = "execution(* com.gmail.netcracker.application.dto.dao.interfaces.VerificationTokenDao.create(..))",
             returning = "result")
@@ -32,6 +29,4 @@ public class TokenLifeAspect {
                 }, 86400000
         );
     }
-
-
 }

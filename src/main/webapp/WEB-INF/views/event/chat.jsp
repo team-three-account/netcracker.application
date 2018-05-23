@@ -58,7 +58,7 @@
                                     <div class="text-left" id="showMessageOutputFromData">
                                         <input type="hidden" id="sender" value="${message.senderId}">
                                         <p><a href="/account/${message.senderId}"><img class="img-circle" style="width: 40px;height: 40px"
-                                                src="${message.senderPhoto}"></a> ${message.text} ${message.time}
+                                                                                       src="${message.senderPhoto}"></a> ${message.text} ${message.time}
                                         </p>
                                     </div>
                                 </form:if>
@@ -68,8 +68,7 @@
                         <input type="text" onkeyup="checkParams()" class="form-control col-md-3" id="text"
                                placeholder="Write a message..."/>
                         <input type="hidden" id="userId" value="${auth_user.id}">
-                        <button class="btn btn-primary" type="submit" id="sendMessage" onclick="sendMessage()" disabled>Send
-                        </button>
+                        <input class="btn btn-primary" type="submit" id="sendMessage" onclick="sendMessage()" disabled value="Send">
                     </div>
                 </div>
                 <div class="col-md-4 col-lg-4">
@@ -82,16 +81,15 @@
                                     <form:if test="${participant.id!=event.creator}">
                                         <tr>
                                             <td><a href="/account/${participant.id}"><img class="img-circle" style="width: 40px;height: 40px"
-                                                        src="${participant.photo}"></a></td>
-                                        </tr>
-                                            <td class="text-right">${participant.name} ${participant.surname}</td>
+                                                                                          src="${participant.photo}"></a></td>
+                                        <td class="text-right">${participant.name} ${participant.surname}</td>
                                         </tr>
                                     </form:if>
                                 </form:if>
                                 <form:if test="${chat.state==true}">
                                     <tr>
                                         <td><a href="/account/${participant.id}"><img class="img-circle" style="width: 40px;height: 40px"
-                                                    src="${participant.photo}"></a></td>
+                                                                                      src="${participant.photo}"></a></td>
 
                                         <td class="text-right">${participant.name} ${participant.surname}</td>
                                     </tr>
@@ -105,8 +103,8 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+
 <script src="${contextPath}/resources/js/stomp.js"></script>
 <script src="${contextPath}/resources/js/sockjs-0.3.4.js"></script>
 <script src="${contextPath}/resources/js/chat.js"></script>

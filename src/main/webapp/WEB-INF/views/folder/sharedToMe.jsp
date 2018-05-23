@@ -28,7 +28,7 @@
         <table class="table">
             <h1>Folders</h1>
             <c:forEach var="folder" items="${folderList}">
-                <a class="notes-item" href="<c:url value='/account/eventList/folder-${folder.folderId}' />">
+                <a class="notes-item" href="<c:url value='/account/folder-${folder.folderId}' />">
                         <img src="${contextPath}/resources/img/001-folder.svg" alt="folder">
                         <ul class="list-unstyled mt-3 mb-4 eventCardItem notesEventCardItem">
                             <li>${folder.name}</li>

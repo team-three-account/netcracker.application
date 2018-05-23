@@ -396,6 +396,7 @@ a.notes-item img {
 .sms{margin-top: 10%;
     height: 600px;
     overflow: auto;
+
 }
 
 li.button_block {
@@ -410,5 +411,15 @@ li.button_block a input {
     width: 100%;
 }
 
+.smssender {
+    border-radius: 10px;
+    margin: 15px;
+    background: powderblue;
+}
 
+.nav-style{
+    margin-top: 5%;
+    padding-top: 160px;
+    padding: 15px;
+}
 

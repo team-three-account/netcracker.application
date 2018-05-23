@@ -10,7 +10,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Wish list</title>
+    <title>Search</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <%--<link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">--%>
@@ -53,7 +53,7 @@
                                 </li>
                                 <li class="list-group-item">Tags :
                                     <c:forEach var="tag" items="${item.tags}" >
-                                        #${tag.name}
+                                        <a href="/account/search-tag/${tag.tagId}">#${tag.name}</a>
                                     </c:forEach>
                                 </li>
                             </ul>

@@ -36,6 +36,9 @@ public class TagDaoImpl extends ModelDao implements TagDao {
     @Value("${sql.tag.deleteTagOfItem}")
     String SQL_DELETE_TAG_OF_ITEM;
 
+    @Value("${sql.tag.getPopular}")
+    String SQL_POPULAR_TAGS;
+
     RowMapper<Tag> tagRowMapper;
 
     @Autowired
@@ -45,7 +48,7 @@ public class TagDaoImpl extends ModelDao implements TagDao {
     }
 
     @Override
-    public Set<Tag> getAllTag() {
+    public Set<Tag> getAllTags() {
         return findEntitySet(SQL_GET_ALL_TAG, tagRowMapper);
     }
 
@@ -72,6 +75,11 @@ public class TagDaoImpl extends ModelDao implements TagDao {
     @Override
     public void deleteTagOfItem(Long tagId, Long itemId) {
         deleteEntity(SQL_DELETE_TAG_OF_ITEM, tagId, itemId);
+    }
+
+    @Override
+    public List<Tag> getPopularTags(Long limit) {
+        return findEntityList(SQL_POPULAR_TAGS, tagRowMapper, limit);
     }
 
 }

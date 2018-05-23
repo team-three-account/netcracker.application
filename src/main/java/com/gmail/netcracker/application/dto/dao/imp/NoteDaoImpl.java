@@ -62,8 +62,8 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     }
 
     @Override
-    public List<Note> noteList() {
-        return findEntityList(SQL_FIND_LIST_NOTES, noteRowMapper);
+    public List<Note> noteList(Long creator) {
+        return findEntityList(SQL_FIND_LIST_NOTES, noteRowMapper, creator);
     }
 
     @Override

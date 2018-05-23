@@ -5,8 +5,8 @@ import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.validation.DraftValidator;
+import com.gmail.netcracker.application.validation.ImageValidator;
 import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
-import com.google.gson.Gson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,8 +34,7 @@ public class EventController {
     private ChatService chatService;
     private User authUser;
     private RegisterAndUpdateEventValidator eventValidator;
-    @Autowired
-    private Gson gsonTimeline;
+    private final ImageValidator imageValidator;
 
     private Logger logger = Logger.getLogger(EventController.class.getName());
 
@@ -43,7 +42,7 @@ public class EventController {
     public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService,
                            UserService userService, FriendService friendService,
                            ChatService chatService, RegisterAndUpdateEventValidator eventValidator,
-                           DraftValidator draftValidator) {
+                           DraftValidator draftValidator, ImageValidator imageValidator) {
         this.eventService = eventService;
         this.noteService = noteService;
         this.photoService = photoService;
@@ -52,21 +51,7 @@ public class EventController {
         this.chatService = chatService;
         this.eventValidator = eventValidator;
         this.friendService = friendService;
-    }
-
-
-    @RequestMapping(value = "/eventlist", method = RequestMethod.GET)
-    public ModelAndView eventList(ModelAndView modelAndView) {
-
-        Long userId = userService.getAuthenticatedUser().getId();
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.addObject("publicEventList", eventService.findPublicEvents());
-        modelAndView.addObject("privateEventList", eventService.findPrivateEvents(userId));
-        modelAndView.addObject("friendsEventList", eventService.findFriendsEvents(userId));
-        modelAndView.addObject("drafts", eventService.findDrafts(userId));
-        modelAndView.addObject("noteList", noteService.noteList());
-        modelAndView.setViewName("event/eventList");
-        return modelAndView;
+        this.imageValidator = imageValidator;
     }
 
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
@@ -97,16 +82,8 @@ public class EventController {
         } else {
             eventValidator.validate(event, result);
         }
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (result.hasErrors() || imageFormat.equals(false)) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -126,6 +103,9 @@ public class EventController {
 
     @RequestMapping(value = {"/eventList/deleteEvent-{eventId}"}, method = RequestMethod.GET)
     public String deleteEvent(@PathVariable Long eventId) {
+        if (!eventService.getEvent(eventId).getPhoto().equals(photoService.getDefaultImageForEvents())) {
+            photoService.deleteFile(eventService.getEvent(eventId).getPhoto());
+        }
         eventService.delete(eventId);
         return "redirect:/account/managed";
     }
@@ -189,22 +169,15 @@ public class EventController {
         } else {
             eventValidator.validate(event, result);
         }
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (result.hasErrors() || imageFormat.equals(false)) {
             modelAndView.setViewName("event/updateEvent");
             return modelAndView;
         }
-        if (multipartFile.isEmpty()) {
-            event.setPhoto(photo);
-        } else {
+        if (!multipartFile.isEmpty()) {
+            if (!event.getPhoto().equals(photoService.getDefaultImageForEvents())) {
+                photoService.deleteFile(event.getPhoto());
+            }
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         modelAndView.setViewName("event/updateEvent");
@@ -341,16 +314,8 @@ public class EventController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         event.setPhoto(photo);
         eventValidator.validate(event, result);
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (result.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (result.hasErrors() || imageFormat.equals(false)) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -388,16 +353,8 @@ public class EventController {
             event.setPeriodicity(null);
         }
         eventValidator.validate(event, result);
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty() || result.hasErrors()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (imageFormat.equals(false) || result.hasErrors()) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -417,7 +374,7 @@ public class EventController {
     @RequestMapping(value = "/{userId}/timeline", method = RequestMethod.GET)
     public String timeLine(Model model, @PathVariable Long userId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("eventList", gsonTimeline.toJson(eventService.getTimelines(userId)));
+        model.addAttribute("user_id", userId);
         return "calendar/timeline";
     }
 }

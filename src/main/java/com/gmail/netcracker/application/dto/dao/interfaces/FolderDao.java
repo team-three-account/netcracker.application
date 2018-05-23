@@ -9,7 +9,7 @@ import java.util.List;
 public interface FolderDao {
     void createFolder(Folder folder);
 
-    List<Folder> folderList();
+    List<Folder> folderList(Long creator);
 
     Folder getFolder(int folderId);
 

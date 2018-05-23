@@ -11,6 +11,7 @@ import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.EditUserAccountValidator;
+import com.gmail.netcracker.application.validation.ImageValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
 
 
@@ -51,24 +52,33 @@ public class AccountController {
 
     private EventService eventService;
 
-    private  ItemService itemService;
+    private ItemService itemService;
+
+    private ImageValidator imageValidator;
 
     private Gson gson = new GsonBuilder()
             .registerTypeAdapter(Event.class, new EventSerializer())
             .create();
 
     @Autowired
-    public AccountController(User user, EmailConstructor emailConstructor, UserService userService, PasswordEncoder passwordEncoder, ResetConfirmPasswordValidator resetConfirmPasswordValidator, PhotoServiceImp photoService, EditUserAccountValidator editUserAccountValidator, EventService eventService, ItemService itemService) {
-        this.user = user;
+    public AccountController(EmailConstructor emailConstructor,
+                             UserService userService,
+                             PasswordEncoder passwordEncoder,
+                             ResetConfirmPasswordValidator resetConfirmPasswordValidator,
+                             PhotoServiceImp photoService,
+                             EditUserAccountValidator editUserAccountValidator,
+                             EventService eventService,
+                             ItemService itemService,
+                             ImageValidator imageValidator) {
         this.emailConstructor = emailConstructor;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.resetConfirmPasswordValidator = resetConfirmPasswordValidator;
         this.photoService = photoService;
-
         this.editUserAccountValidator = editUserAccountValidator;
         this.eventService = eventService;
         this.itemService = itemService;
+        this.imageValidator = imageValidator;
     }
 
 
@@ -136,6 +146,28 @@ public class AccountController {
         return modelAndView;
     }
 
+    @RequestMapping(value = "/notificationSettings/{id}", method = RequestMethod.GET)
+    public ModelAndView notificationSettings(@PathVariable(value = "id") Long userId,
+                                             ModelAndView modelAndView) {
+        modelAndView.addObject("userNotificationOptions", userService.findUserById(userId));
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("account/notificationSettings");
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/notificationSettings/save", method = RequestMethod.POST)
+    public ModelAndView saveNotificationSettings(@ModelAttribute("userNotificationOptions") User userNotificationOptions,
+                                                 @RequestParam(value = "isNotificationsEnabled", required = false) Boolean isNotificationEnabled,
+                                                 ModelAndView modelAndView) {
+        if (isNotificationEnabled == null) {
+            userService.disableNotifications(userNotificationOptions.getId());
+        } else if (isNotificationEnabled.equals(true)) {
+            userService.updateNotificationSchedule(userNotificationOptions);
+        }
+        modelAndView.setViewName("redirect:/account/profile/" + userNotificationOptions.getId());
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/settings-user", method = RequestMethod.POST)
     public ModelAndView saveSettings(@ModelAttribute(value = "user") User user,
                                      BindingResult result,
@@ -143,18 +175,10 @@ public class AccountController {
                                      @RequestParam(value = "photoFile") MultipartFile photoFile,
                                      ModelAndView modelAndView) throws Exception {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, photoFile);
         editUserAccountValidator.validate(user, result);
         user.setPhotoFile(photoFile);
-        if (!photoFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !photoFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !photoFile.getContentType().equals(photoService.getImageTypePng())
-                && !photoFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (result.hasErrors() || !photoFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !photoFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !photoFile.getContentType().equals(photoService.getImageTypePng())
-                && !photoFile.isEmpty()) {
+        if (result.hasErrors() || imageFormat.equals(false)) {
             modelAndView.setViewName("account/edit");
             return modelAndView;
         }
@@ -162,7 +186,8 @@ public class AccountController {
         userService.getAuthenticatedUser().setPhoto(user.getPhoto());
         if (photoFile.isEmpty()) {
             user.setPhoto(photo);
-        } else {
+        } else if (!photo.equals(photoService.getDefaultImageFemale()) || !photo.equals(photoService.getDefaultImageMale())) {
+            photoService.deleteFile(user.getPhoto());
             user.setPhoto(photoService.uploadFileOnDropBox(photoFile, UUID.randomUUID().toString()));
 
         }

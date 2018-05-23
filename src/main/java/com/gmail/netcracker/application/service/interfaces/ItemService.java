@@ -52,4 +52,10 @@ public interface ItemService {
     boolean isLiked(Long itemId, Long userId);
 
     void dislike(Long itemId, Long userId);
+
+    List<Tag> popularTags();
+
+    List<Item> getItemsByTag(Long tag);
+
+    Tag getTagByName(String tagName);
 }

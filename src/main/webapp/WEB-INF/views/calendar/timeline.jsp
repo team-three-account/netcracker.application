@@ -14,28 +14,47 @@
     <meta charset='utf-8'/>
     <title>Calendar</title>
     <link href='${contextPath}/resources/calendar/css/fullcalendar.min.css' rel='stylesheet'/>
-    <link href='${contextPath}/resources/calendar/css/scheduler.min.css' rel='stylesheet'/>
     <script src='${contextPath}/resources/calendar/js/moment.min.js'></script>
     <script src='${contextPath}/resources/calendar/js/jquery.min.js'></script>
     <script src='${contextPath}/resources/calendar/js/fullcalendar.min.js'></script>
-    <script src='${contextPath}/resources/calendar/js/scheduler.min.js'></script>
-
     <script>
 
         $(document).ready(function () {
 
             $('#calendar').fullCalendar({
-                defaultView: 'agendaWeek',
                 themeSystem: 'bootstrap3',
-                schedulerLicenseKey: 'CC-Attribution-NonCommercial-NoDerivatives',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'agendaWeek,agendaDay,listMonth'
+                },
                 columnHeaderFormat : 'dddd D',
-                displayEventEnd : true,
                 slotLabelFormat: 'HH:mm',
                 timeFormat: 'HH:mm',
-                eventSources: [
-                    ${eventList}
-                ],
+                editable: false,
+                defaultView: 'agendaWeek',
+                eventLimit: true, // allow "more" link when too many events
+                events: function (start, end, timezone, callback) {
+                    $.ajax({
+                        url: '/account/getTimeline',
+                        dataType: 'json',
+                        data: {
+                            // our hypothetical feed requires UNIX timestamps
+                            userId: ${user_id},
+                            start: start.unix(),
+                            end: end.unix()
+                        },
+                        success: function (doc) {
+                            callback(doc);
+                        },
+                        error: function (xhr, ajaxOptions, thrownError) {
+                            alert(xhr.status);
+                            alert(thrownError);
+                        }
+                    });
+                },
             });
+
         });
 
     </script>
@@ -49,10 +68,13 @@
     <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
-
-    <div class="col-md-9 content">
-        <div id='calendar'></div>
-    </div>
+        <div class="col-md-10 content">
+            <div class="row">
+                <div class="col-md-8">
+                    <div id='calendar'></div>
+                </div>
+            </div>
+        </div>
 </div>
 
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>

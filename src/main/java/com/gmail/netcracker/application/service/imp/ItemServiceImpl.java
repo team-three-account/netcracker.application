@@ -43,28 +43,27 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    //@Transactional
     public void add(Item item) {
         setPersonId(item);
-        itemDao.setRoot(itemDao.add(item));
+        item.setItemId(itemDao.add(item));
+        addTagsToNewItem(parseTags(item.getDescription()),item.getItemId());
+        itemDao.setRoot(item.getItemId());
     }
 
     @Override
     public Item getItem(Long itemId) {
-        return itemDao.getItem(itemId);
+        Item item = itemDao.getItem(itemId);
+        item.setTags(tagDao.getTagsOfItem(itemId));
+        return item;
     }
 
     @Override
     public List<Item> getWishList(Long personId) {
         List<Item> wishList= itemDao.findItemsByUserId(personId);
         for (Item item: wishList){
-            //item.setTags(tagDao.getTagsOfItem(item.getItemId()));
+            item.setTags(tagDao.getTagsOfItem(item.getItemId()));
             item.setLikes(itemDao.getLikesCount(Math.toIntExact(item.getItemId())));
-            System.out.println(item + "=item");
-//            if(itemDao.isLiked(item.getItemId(), personId)=1) {
-//                item.setLiked(true);
-//            }else{
-//                item.setLiked(true);
-//            }
         }
         return wishList;
     }
@@ -153,6 +152,20 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public List<Tag> popularTags() {
+        return tagDao.getPopularTags(5L);
+    }
+
+    @Override
+    public List<Item> getItemsByTag(Long tag) {
+        List<Item> items = itemDao.getItemsByTag(tag);
+        for (Item item: items){
+            item.setTags(tagDao.getTagsOfItem(item.getItemId()));
+        }
+        return items;
+    }
+
+    @Override
     public List<Item> popularItems() {
         return itemDao.getPopularItems(5);
     }
@@ -160,6 +173,11 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Set<Tag> getTagsOfItem(Long itemId) {
         return tagDao.getTagsOfItem(itemId);
+    }
+
+    @Override
+    public Tag getTagByName(String tagName){
+        return tagDao.findTagByName(tagName);
     }
 
     @Override

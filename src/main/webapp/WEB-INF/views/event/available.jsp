@@ -27,10 +27,10 @@
 
 <div class="col-md-10 content">
     <p>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/available" role="button">All events</a>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/subscriptions" role="button">Subscriptions</a>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/managed" role="button">Managed events</a>
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/draft" role="button">Drafts</a>
+        <a class="btn btn-primary"  href="/account/available" role="button">All events</a>
+        <a class="btn btn-primary"  href="/account/subscriptions" role="button">Subscriptions</a>
+        <a class="btn btn-primary"  href="/account/managed" role="button">Managed events</a>
+        <a class="btn btn-primary"  href="/account/draft" role="button">Drafts</a>
         <a class="btn btn-success" href="<c:url value='/account/eventList/createNewEvent' />">Add new event</a>
     </p>
     <h3>Search for events</h3>
@@ -45,7 +45,7 @@
     </form>
     <h3>Events feed</h3>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <table class="table">
                 <c:forEach var="event" items="${publicEventList}">
                     <tbody>
