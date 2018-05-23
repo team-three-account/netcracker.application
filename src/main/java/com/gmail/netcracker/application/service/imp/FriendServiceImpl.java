@@ -6,9 +6,12 @@ import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class FriendServiceImpl implements FriendService {
 
     @Autowired
@@ -45,7 +48,9 @@ public class FriendServiceImpl implements FriendService {
         return friendDao.getOutgoingRequests(id);
     }
 
-    public Friend getFriendshipById(Long personId, Long friendId){return friendDao.getFriendshipById(personId, friendId);}
+    public Friend getFriendshipById(Long personId, Long friendId) {
+        return friendDao.getFriendshipById(personId, friendId);
+    }
 
     @Override
     public void cancelRequest(Long id, Long friendId) {

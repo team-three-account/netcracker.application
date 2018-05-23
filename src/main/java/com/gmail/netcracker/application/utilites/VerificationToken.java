@@ -2,11 +2,13 @@ package com.gmail.netcracker.application.utilites;
 
 
 import com.gmail.netcracker.application.dto.model.User;
+import lombok.Data;
 import org.springframework.stereotype.Component;
 
 
 
 @Component
+@Data
 public class VerificationToken {
 
     private String id;
@@ -23,28 +25,4 @@ public class VerificationToken {
     public VerificationToken() {
     }
 
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "VerificationToken{" +
-                "id='" + id + '\'' +
-                ", user=" + user +
-                '}';
-    }
 }

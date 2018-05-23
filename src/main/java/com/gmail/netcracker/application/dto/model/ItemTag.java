@@ -1,5 +1,8 @@
 package com.gmail.netcracker.application.dto.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ItemTag {
     private String item;
     private String tag;

@@ -6,6 +6,7 @@ import org.apache.commons.validator.routines.UrlValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -13,6 +14,7 @@ import org.springframework.validation.Validator;
 import java.sql.Timestamp;
 
 @PropertySource(value = "classpath:message_en.properties")
+@Component
 public class ItemValidator implements Validator {
 
   @Autowired

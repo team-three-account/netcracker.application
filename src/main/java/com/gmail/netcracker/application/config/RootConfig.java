@@ -17,10 +17,12 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
@@ -49,100 +51,8 @@ public class RootConfig {
         this.env = env;
     }
 
-    @Bean
-    public PhotoService photoService() {
-        return new PhotoServiceImp();
-    }
 
-    @Bean
-    public TokenLifeAspect tokenLifeAspect() {
-        return new TokenLifeAspect();
-    }
 
-    @Bean
-    public VerificationToken verificationToken() {
-        return new VerificationToken();
-    }
-
-    @Bean
-    public User user() {
-        return new User();
-    }
-
-    @Bean
-    public Friend friendship() {
-        return new Friend();
-    }
-
-    @Bean
-    public EditUserAccountValidator editUserAccountValidator() {
-        return new EditUserAccountValidator();
-    }
-
-    @Bean
-    public RegisterValidator registerValidator() {
-        return new RegisterValidator();
-    }
-
-    @Bean
-    public RegisterAndUpdateEventValidator registerEventValidator() {
-        return new RegisterAndUpdateEventValidator();
-    }
-
-    @Bean
-    public ResetConfirmPasswordValidator resetConfirmPasswordValidator() {
-        return new ResetConfirmPasswordValidator();
-    }
-
-    @Bean
-    public EventSerializer eventSerializer() {
-        return new EventSerializer();
-    }
-
-    @Bean
-    public Event event() {
-        return new Event();
-    }
-
-    @Bean
-    public FriendService friendService() {
-        return new FriendServiceImpl();
-    }
-
-    @Bean
-    public Note note() {
-        return new Note();
-    }
-
-    @Bean
-    public NoteService noteService() {
-        return new NoteServiceImpl();
-    }
-
-    @Bean
-    public NoteValidator noteValidator() {
-        return new NoteValidator();
-    }
-
-    @Bean
-    public Item item() {
-        return new Item();
-    }
-
-    @Bean
-    public ItemValidator itemValidator() {
-        return new ItemValidator();
-    }
-
-    @Bean
-    ChatService chatService() {
-        return new ChatServiceImpl();
-    }
-
-    @Bean
-    Chat chat() {
-        return new Chat();
-    }
 
     @Bean
     public LocaleResolver localeResolver() {
@@ -429,4 +339,10 @@ public class RootConfig {
         return new GsonBuilder()
                 .registerTypeAdapter(Event.class, new EventSerializer())
                 .create(); }
+
+    @Bean
+    @Autowired
+    public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
 }

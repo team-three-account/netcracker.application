@@ -5,13 +5,14 @@ import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import java.sql.Timestamp;
 
-
+@Component
 @PropertySource(value = "classpath:message_en.properties")
 public class RegisterAndUpdateEventValidator implements Validator {
 

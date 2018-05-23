@@ -12,6 +12,7 @@ import org.springframework.validation.Validator;
 
 
 @PropertySource(value = "classpath:message_en.properties")
+@Component
 public class EditUserAccountValidator implements Validator {
 
 

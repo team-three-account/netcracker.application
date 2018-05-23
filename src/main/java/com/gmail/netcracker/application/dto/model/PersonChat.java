@@ -1,5 +1,8 @@
 package com.gmail.netcracker.application.dto.model;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PersonChat {
     private String personId;
     private String chatId;

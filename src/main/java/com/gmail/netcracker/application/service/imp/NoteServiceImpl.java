@@ -6,10 +6,12 @@ import com.gmail.netcracker.application.dto.model.Note;
 import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Iterator;
 import java.util.List;
 
+@Service
 public class NoteServiceImpl implements NoteService {
     @Autowired
     private NoteDao noteDao;
