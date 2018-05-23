@@ -22,5 +22,4 @@ public class Item {
     private Set<Tag> tags;
     private int likes;
     private Integer isLiked;
-
 }

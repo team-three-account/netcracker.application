@@ -29,7 +29,6 @@ public class SecurityConfig
 
     private final DataSource dataSource;
 
-
     private final UserServiceImp userService;
 
     @Autowired

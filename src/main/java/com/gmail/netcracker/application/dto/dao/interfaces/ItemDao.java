@@ -1,6 +1,7 @@
 package com.gmail.netcracker.application.dto.dao.interfaces;
 
 import com.gmail.netcracker.application.dto.model.Item;
+import com.gmail.netcracker.application.dto.model.Like;
 
 import java.util.List;
 
@@ -33,4 +34,14 @@ public interface ItemDao {
     List<Item> search(String query, Long userId);
 
     void cancelItemsBookingFromEvent(Long eventId);
+
+    List<Item> getItemsByTag(Long tagId);
+
+    void like(Long itemId, Long userId);
+
+    int getLikesCount(int itemId);
+
+    Like isLiked(Long itemId, Long userId);
+
+    void dislike(Long itemId, Long userId);
 }

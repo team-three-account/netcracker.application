@@ -6,5 +6,5 @@ import lombok.Data;
 public class Like {
     private Long itemId;
     private Long userId;
-    private boolean isLiked;
+    private Boolean isLiked;
 }

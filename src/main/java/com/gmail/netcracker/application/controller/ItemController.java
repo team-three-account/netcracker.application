@@ -6,6 +6,7 @@ import com.gmail.netcracker.application.dto.model.Priority;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
+import com.gmail.netcracker.application.validation.ImageValidator;
 import com.gmail.netcracker.application.validation.ItemValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,13 +28,15 @@ public class ItemController {
     private final ItemService itemService;
     private final ItemValidator itemValidator;
     private PhotoServiceImp photoService;
+    private final ImageValidator imageValidator;
 
     @Autowired
-    public ItemController(ItemService itemService, UserService userService, ItemValidator itemValidator, PhotoServiceImp photoService) {
+    public ItemController(ItemService itemService, UserService userService, ItemValidator itemValidator, PhotoServiceImp photoService, ImageValidator imageValidator) {
         this.itemService = itemService;
         this.userService = userService;
         this.itemValidator = itemValidator;
         this.photoService = photoService;
+        this.imageValidator = imageValidator;
     }
 
     @RequestMapping(value = "/update-{itemId}", method = RequestMethod.GET)
@@ -54,19 +57,14 @@ public class ItemController {
         modelAndView.setViewName("item/editItem");
         item.setImage(image);
         itemValidator.validate(item, bindingResult);
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (bindingResult.hasErrors() || imageFormat.equals(false)) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
+            if (!item.getImage().equals(photoService.getDefaultImageForItems())) {
+                photoService.deleteFile(item.getImage());
+            }
             item.setImage(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         itemService.update(item);
@@ -76,6 +74,9 @@ public class ItemController {
 
     @RequestMapping(value = "/wishList/deleteItem-{itemId}", method = RequestMethod.GET)
     public String deleteItem(@PathVariable("itemId") Long itemId) {
+        if (!itemService.getItem(itemId).getImage().equals(photoService.getDefaultImageForItems())) {
+            photoService.deleteFile(itemService.getItem(itemId).getImage());
+        }
         itemService.delete(itemId);
         return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
     }
@@ -98,16 +99,8 @@ public class ItemController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         item.setImage(image);
         itemValidator.validate(item, bindingResult);
-        if (!multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
-        }
-        if (bindingResult.hasErrors() || !multipartFile.getContentType().equals(photoService.getImageTypeJpeg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypeJpg())
-                && !multipartFile.getContentType().equals(photoService.getImageTypePng())
-                && !multipartFile.isEmpty()) {
+        Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
+        if (bindingResult.hasErrors() || imageFormat.equals(false)) {
             return modelAndView;
         }
         if (!multipartFile.isEmpty()) {
@@ -122,6 +115,10 @@ public class ItemController {
     public ModelAndView getItem(@PathVariable("itemId") Long itemId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("getItem", itemService.getItem(itemId));
+        int likes = itemService.countLikes(Math.toIntExact(itemId));
+        modelAndView.addObject("likes", likes);
+        boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
+        modelAndView.addObject("isLiked", isLiked);
         modelAndView.setViewName("item/getItem");
         return modelAndView;
     }
@@ -155,6 +152,7 @@ public class ItemController {
         model.addAttribute("ownerId", userId);
         model.addAttribute("wishList", itemService.getWishList(userId));
         model.addAttribute("popularItems", itemService.popularItems());
+        model.addAttribute("popularTags", itemService.popularTags());
         return "item/personWishList";
     }
 
@@ -165,6 +163,7 @@ public class ItemController {
         model.addAttribute("ownerId", creator);
         model.addAttribute("wishList", itemService.getWishList(creator));
         model.addAttribute("popularItems", itemService.popularItems());
+        model.addAttribute("popularTags", itemService.popularTags());
         return "item/eventWishList";
     }
 
@@ -174,31 +173,49 @@ public class ItemController {
         return "redirect:/account/event-" + eventId + "-" + creator + "/wishList";
     }
 
-    @RequestMapping(value = "/tags-{itemId}", method = RequestMethod.GET)
-    public String tagsView(@PathVariable("itemId") Long itemId, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("tags", itemService.getTagsOfItem(itemId));
-        return "item/tags";
-    }
-
-    @RequestMapping(value = "/tagsEdit-{itemId}", method = RequestMethod.GET)
-    public String tagsEdit(@PathVariable("itemId") Long itemId, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        return "item/tagsEdit";
-    }
-
-    @RequestMapping(value = "/tagsEdit-{itemId}", method = RequestMethod.POST)
-    public String tagsSave(@PathVariable("itemId") Long itemId,
-                           @RequestParam("tags") String tags, Model model) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        itemService.addTagsToItem(itemService.parseTags(tags), itemId);
-        return "redirect:/account/tags-" + itemId;
-    }
-
     @RequestMapping(value = "/item-{itemId}", method = RequestMethod.GET)
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("item", itemService.getItem(itemId));
+        int likes = itemService.countLikes(Math.toIntExact(itemId));
+        model.addAttribute("likes", likes);
+        boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
+        model.addAttribute("isLiked", isLiked);
         return "item/viewItem";
+    }
+
+    @RequestMapping(value = "/search-tag/{tag}", method = RequestMethod.GET)
+    public String searchByTag(@PathVariable("tag") Long tagId, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("items", itemService.getItemsByTag(tagId));
+        return "item/searchByTag";
+    }
+
+    @RequestMapping(value = "/viewItem/like", method = RequestMethod.POST)
+    public String likeFromItem(@RequestParam(value = "item_id") Long itemId, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        itemService.like(itemId, userService.getAuthenticatedUser().getId());
+        return "redirect:/account/item-" + itemId;
+    }
+
+    @RequestMapping(value = "/viewItem/dislike", method = RequestMethod.POST)
+    public String dislikeFromItem(@RequestParam(value = "item_id") Long itemId, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        itemService.dislike(itemId, userService.getAuthenticatedUser().getId());
+        return "redirect:/account/item-" + itemId;
+    }
+
+    @RequestMapping(value = "/personWishList/like", method = RequestMethod.POST)
+    public String likeFromPersonWishList(@RequestParam(value = "item_id") Long itemId, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        itemService.like(itemId, userService.getAuthenticatedUser().getId());
+        return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
+    }
+
+    @RequestMapping(value = "/personWishList/dislike", method = RequestMethod.POST)
+    public String dislikeFromPersonWishList(@RequestParam(value = "item_id") Long itemId, Model model) {
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        itemService.dislike(itemId, userService.getAuthenticatedUser().getId());
+        return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
     }
 }

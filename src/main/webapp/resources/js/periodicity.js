@@ -149,6 +149,6 @@ function getMonth() {
 };
 
 function getYear() {
-    var year = '2018';
+    var year = '*';
     return year;
 };

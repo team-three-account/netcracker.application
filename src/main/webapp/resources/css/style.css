@@ -382,17 +382,6 @@ a.notes-item img {
     cursor: inherit;
     display: block;
 }
-
-/*.btn-like {*/
-    /*background: url(../img/) center center no-repeat transparent;*/
-    /*height: 100px;*/
-    /*width: 100px;*/
-/*}*/
-
-/*.btn-dislike {*/
-
-/*}*/
-
 .sms{margin-top: 10%;
     height: 600px;
     overflow: auto;

@@ -1,0 +1,1 @@
+ALTER TABLE items ADD COLUMN is_deprecated boolean DEFAULT false;

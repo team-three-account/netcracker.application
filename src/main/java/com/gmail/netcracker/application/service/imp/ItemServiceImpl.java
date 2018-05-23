@@ -10,6 +10,7 @@ import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -32,8 +33,10 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    //@Transactional
     public void update(Item item) {
         setPersonId(item);
+        addTagsToItem(parseTags(item.getDescription()),item.getItemId());
         itemDao.update(item);
     }
 
@@ -152,6 +155,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public List<Item> popularItems() {
+        return itemDao.getPopularItems(5);
+    }
+
+    @Override
     public List<Tag> popularTags() {
         return tagDao.getPopularTags(5L);
     }
@@ -165,10 +173,6 @@ public class ItemServiceImpl implements ItemService {
         return items;
     }
 
-    @Override
-    public List<Item> popularItems() {
-        return itemDao.getPopularItems(5);
-    }
 
     @Override
     public Set<Tag> getTagsOfItem(Long itemId) {
