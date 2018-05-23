@@ -56,6 +56,28 @@
                                         #${tag.name}
                                     </c:forEach>
                                 </li>
+                                <%--<li class="list-group-item">Likes: ${item.likes}--%>
+                                    <%--<c:if test="${item.isLiked == 1}">--%>
+                                        <%--<form action="/account/eventWishList/dislike" method="POST">--%>
+                                            <%--<button type="submit" class="btn btn-danger text-center">--%>
+                                                <%--<input type="hidden" name="item_id" value="${item.itemId}"/>--%>
+                                                <%--<input type="hidden" name="event_id" value="${eventId}"/>--%>
+                                                <%--<input type="hidden" name="creator" value="${ownerId}"/>--%>
+                                                <%--Dislike--%>
+                                            <%--</button>--%>
+                                        <%--</form>--%>
+                                    <%--</c:if>--%>
+                                    <%--<c:if test="${item.isLiked == 0}">--%>
+                                        <%--<form action="/account/eventWishList/like" method="POST">--%>
+                                            <%--<button type="submit" class="btn btn-success">--%>
+                                                <%--<input type="hidden" name="item_id" value="${item.itemId}"/>--%>
+                                                <%--<input type="hidden" name="event_id" value="${eventId}"/>--%>
+                                                <%--<input type="hidden" name="creator" value="${ownerId}"/>--%>
+                                                <%--Like--%>
+                                            <%--</button>--%>
+                                        <%--</form>--%>
+                                    <%--</c:if>--%>
+                                <%--</li>--%>
                             </ul>
 
                             <c:choose>

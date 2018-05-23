@@ -71,6 +71,24 @@
                                         #${tag.name}
                                     </c:forEach>
                                 </li>
+                                <li class="list-group-item">Likes: ${item.likes}
+                                    <c:if test="${item.isLiked == 1}">
+                                        <form action="/account/personWishList/dislike" method="POST">
+                                            <button type="submit" class="btn btn-danger text-center">
+                                                <input type="hidden" name="item_id" value="${item.itemId}"/>
+                                                Dislike
+                                            </button>
+                                        </form>
+                                    </c:if>
+                                    <c:if test="${item.isLiked == 0}">
+                                        <form action="/account/personWishList/like" method="POST">
+                                            <button type="submit" class="btn btn-success">
+                                                <input type="hidden" name="item_id" value="${item.itemId}"/>
+                                                Like
+                                            </button>
+                                        </form>
+                                    </c:if>
+                                </li>
                             </ul>
                             <p>
                                 <c:choose>
@@ -102,9 +120,28 @@
                                         </td>
                                     </c:when>
                                 </c:choose>
-                                <td>
-                                    <a href="/account/copy-${item.itemId}">
-                                        <input type="submit" class="btn btn-success text-center" value="Copy to my wish list"></a>
+                                <%--<td>--%>
+                                    <%--<span>${item.likes}</span>--%>
+                                    <%--<a href="/account/copy-${item.itemId}">--%>
+                                        <%--<input type="submit" class="btn btn-success text-center" value="Copy to my wish list"></a>--%>
+                                <%--</td>--%>
+                                <%--<td>--%>
+                                    <%--<c:if test="${isLiked == true}">--%>
+                                        <%--<button type="submit" class="btn btn-danger text-center">--%>
+                                            <%--<input type="hidden" name="item_id" value="$item.itemId}"/>--%>
+                                            <%--<input type="hidden" name="user_id" value="$auth_user.id}"/>--%>
+                                            <%--Dislike </span>--%>
+                                        <%--</button>--%>
+                                    <%--</c:if>--%>
+                                    <%--<c:if test="${isLiked == false}">--%>
+                                            <%--<button type="submit" class="btn btn-success">--%>
+                                                <%--<input type="hidden" name="item_id" value="$item.itemId}"/>--%>
+                                                <%--<input type="hidden" name="user_id" value="$auth_user.id}"/>--%>
+                                                <%--Like </span>--%>
+                                            <%--</button>--%>
+                                    <%--</c:if>--%>
+                                   <!--<a href="/account/copy-${item.itemId}">
+                                        <input type="submit" class="btn btn-success text-center" value="Copy to my wish list"></a>-->
                                 </td>
                             </c:otherwise>
                             </c:choose>

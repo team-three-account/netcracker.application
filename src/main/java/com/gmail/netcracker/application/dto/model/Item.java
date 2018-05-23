@@ -20,4 +20,7 @@ public class Item {
     private Integer event;
     private String image;
     private Set<Tag> tags;
+    private int likes;
+    private Integer isLiked;
+
 }

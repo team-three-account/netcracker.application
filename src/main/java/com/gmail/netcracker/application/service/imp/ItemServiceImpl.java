@@ -57,7 +57,14 @@ public class ItemServiceImpl implements ItemService {
     public List<Item> getWishList(Long personId) {
         List<Item> wishList= itemDao.findItemsByUserId(personId);
         for (Item item: wishList){
-            item.setTags(tagDao.getTagsOfItem(item.getItemId()));
+            //item.setTags(tagDao.getTagsOfItem(item.getItemId()));
+            item.setLikes(itemDao.getLikesCount(Math.toIntExact(item.getItemId())));
+            System.out.println(item + "=item");
+//            if(itemDao.isLiked(item.getItemId(), personId)=1) {
+//                item.setLiked(true);
+//            }else{
+//                item.setLiked(true);
+//            }
         }
         return wishList;
     }
@@ -153,5 +160,25 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Set<Tag> getTagsOfItem(Long itemId) {
         return tagDao.getTagsOfItem(itemId);
+    }
+
+    @Override
+    public void like(Long itemId, Long userId) {
+        itemDao.like(itemId, userId);
+    }
+
+    @Override
+    public int countLikes(int itemId) {
+        return itemDao.getLikesCount(itemId);
+    }
+
+    @Override
+    public boolean isLiked(Long itemId, Long userId) {
+        return itemDao.isLiked(itemId, userId) != null;
+    }
+
+    @Override
+    public void dislike(Long itemId, Long userId) {
+        itemDao.dislike(itemId, userId);
     }
 }

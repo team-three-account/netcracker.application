@@ -32,6 +32,38 @@
                     <li><b>Date:</b> ${getItem.dueDate}</li>
                     <li><b>Priority:</b> ${getItem.priority}</li>
                     <%--<li><b>Root:</b> ${getItem.root}</li>--%>
+                    <li><b>Likes:</b> ${likes}</li>
+                    <li><c:if test="${isLiked == true}">
+                        <form action="/account/dislike" method="POST">
+                            <button type="submit" class="btn btn-danger text-center">
+                                <input type="hidden" name="event_id" value="${getItem.itemId}"/>
+                                Dislike </span>
+                            </button>
+                        </form>
+                    </c:if>
+                        <c:if test="${isLiked == false}">
+                            <form action="/account/like" method="POST">
+                                <button type="submit" class="btn btn-success">
+                                    <input type="hidden" name="event_id" value="${getItem.itemId}"/>
+                                    Like </span>
+                                </button>
+                            </form>
+                        </c:if>
+                    </li>
+                    <%--<li><c:if test="${isLiked == true}">--%>
+                        <%--<button type="submit" class="btn btn-danger text-center">--%>
+                            <%--<input type="hidden" name="item_id" value="$getItem.itemId}"/>--%>
+                            <%--Dislike--%>
+                        <%--</button>--%>
+                        <%--</c:if>--%>
+                        <%--<c:if test="${isLiked == false}">--%>
+                        <%--<button type="submit" class="btn btn-success">--%>
+                        <%--<input type="hidden" name="item_id" value="$getItem.itemId}"/>--%>
+                        <%--&lt;%&ndash;<input type="hidden" name="user_id" value="$auth_user.id}"/>&ndash;%&gt;--%>
+                        <%--Like--%>
+                        <%--</button>--%>
+                        <%--</c:if>--%>
+                    <%--</li>--%>
                     <c:choose>
                         <c:when  test="${auth_user.id.equals(getItem.personId)}">
                             <li>

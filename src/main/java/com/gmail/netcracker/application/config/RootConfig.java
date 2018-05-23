@@ -396,6 +396,7 @@ public class RootConfig {
             item.setRoot(getLong(resultSet, "root_id"));
             item.setEvent(getInt(resultSet, "event_id"));
             item.setImage(getString(resultSet,"image"));
+            item.setIsLiked(getInt(resultSet,"is_liked"));
             return item;
         };
     }
@@ -415,4 +416,14 @@ public class RootConfig {
         return new GsonBuilder()
             .registerTypeAdapter(Event.class, new TimelineSerializer())
             .create(); }
+
+    @Bean
+    public RowMapper<Like> likeRowMapper() {
+        return (resultSet, i) -> {
+            Like like = new Like();
+            like.setItemId(getLong(resultSet, "item_id"));
+            like.setUserId(getLong(resultSet, "user_id"));
+            return like;
+        };
+    }
 }

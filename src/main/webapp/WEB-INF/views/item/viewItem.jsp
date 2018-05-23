@@ -61,6 +61,26 @@
                 <td>Actual to:</td>
                 <td>${item.dueDate}</td>
             </tr>
+                <tr>
+                    <td>Likes: ${likes}</td>
+                    <td><c:if test="${isLiked == true}">
+                            <form action="/account/viewItem/dislike" method="POST">
+                                <button type="submit" class="btn btn-danger text-center">
+                                    <input type="hidden" name="item_id" value="${item.itemId}"/>
+                                    Dislike
+                                </button>
+                            </form>
+                        </c:if>
+                        <c:if test="${isLiked == false}">
+                            <form action="/account/viewItem/like" method="POST">
+                                <button type="submit" class="btn btn-success">
+                                    <input type="hidden" name="item_id" value="${item.itemId}"/>
+                                    Like
+                                </button>
+                            </form>
+                        </c:if>
+                    </td>
+                </tr>
             <c:choose>
                 <c:when test="${auth_user.id.equals(item.personId)}">
                     <td>
@@ -78,8 +98,6 @@
                         <a href="/account/copy-${item.itemId}">
                         <input type="submit" class="btn btn-success text-center" value="Copy to my wish list"></a>
                     </td>
-                <td>
-                </td>
                 </c:otherwise>
             </c:choose>
             </tbody>

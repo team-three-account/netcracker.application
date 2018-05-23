@@ -44,4 +44,12 @@ public interface ItemService {
     void addTagsToNewItem(Set<String> tags, Long itemId);
 
     List<Item> popularItems();
+
+    void like(Long itemId, Long userId);
+
+    int countLikes(int itemId);
+
+    boolean isLiked(Long itemId, Long userId);
+
+    void dislike(Long itemId, Long userId);
 }

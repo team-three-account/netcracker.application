@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.ItemDao;
 import com.gmail.netcracker.application.dto.model.Item;
+import com.gmail.netcracker.application.dto.model.Like;
 import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,12 +63,26 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.cancelItemsBookingFromEvent}")
     private String SQL_CANCEL_ITEMS_BOOKING_FROM_EVENT;
 
+    @Value("${sql.item.like}")
+    private String SQL_LIKE;
+
+    @Value("${sql.item.countLikes}")
+    private String SQL_COUNT_LIKES;
+
+    @Value("${sql.item.isLiked}")
+    private String SQL_IS_LIKED;
+
+    @Value("${sql.item.dislike}")
+    private String SQL_DISLIKE;
+
     private final RowMapper<Item> itemRowMapper;
+    private final RowMapper<Like> likeRowMapper;
 
     @Autowired
-    public ItemDaoImpl(DataSource dataSource, RowMapper<Item> itemRowMapper) {
+    public ItemDaoImpl(DataSource dataSource, RowMapper<Item> itemRowMapper, RowMapper<Like> likeRowMapper) {
         super(dataSource);
         this.itemRowMapper = itemRowMapper;
+        this.likeRowMapper = likeRowMapper;
     }
 
     @Override
@@ -142,6 +157,27 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Override
     public void cancelItemsBookingFromEvent(Long eventId) {
         updateEntity(SQL_CANCEL_ITEMS_BOOKING_FROM_EVENT, eventId);
+    }
+
+
+    @Override
+    public void like(Long itemId, Long userId) {
+        updateEntity(SQL_LIKE, itemId, userId);
+    }
+
+    @Override
+    public int getLikesCount(int itemId) {
+        return countRows(SQL_COUNT_LIKES, itemId);
+    }
+
+    @Override
+    public Like isLiked(Long itemId, Long userId) {
+        return findEntity(SQL_IS_LIKED, likeRowMapper, itemId, userId);
+    }
+
+    @Override
+    public void dislike(Long itemId, Long userId) {
+        deleteEntity(SQL_DISLIKE, itemId, userId);
     }
 }
 
