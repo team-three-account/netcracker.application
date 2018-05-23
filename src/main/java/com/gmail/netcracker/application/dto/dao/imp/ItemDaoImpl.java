@@ -93,7 +93,15 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Override
     public Long add(Item item) {
-        return insertEntity(SQL_ADD, PK_COLUMN_NAME, item.getPersonId(), item.getName(), item.getDescription(), item.getLink(), Utilities.parseStringToTimestamp(item.getDueDate()), item.getPriority(), item.getRoot(), item.getImage());
+        return insertEntity(SQL_ADD, PK_COLUMN_NAME,
+                item.getPersonId(),
+                item.getName(),
+                item.getDescription(),
+                item.getLink(),
+                Utilities.parseStringToDate(item.getDueDate()),
+                item.getPriority(),
+                item.getRoot(),
+                item.getImage());
     }
 
     public void setRoot(Long itemId) {
@@ -142,7 +150,15 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Override
     public void update(Item item) {
-        updateEntity(SQL_UPDATE, item.getPersonId(), item.getName(), item.getDescription(), item.getLink(), Utilities.parseStringToTimestamp(item.getDueDate()), item.getPriority(), item.getImage(), item.getItemId());
+        updateEntity(SQL_UPDATE,
+                item.getPersonId(),
+                item.getName(),
+                item.getDescription(),
+                item.getLink(),
+                Utilities.parseStringToDate(item.getDueDate()),
+                item.getPriority(),
+                item.getImage(),
+                item.getItemId());
     }
 
     @Override
