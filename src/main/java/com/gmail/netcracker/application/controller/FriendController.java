@@ -42,9 +42,9 @@ public class FriendController {
     }
 
     @RequestMapping(value = "/{friendId}", method = RequestMethod.GET)
-    public ModelAndView friendAccount(@PathVariable(value = "friendId") String friendId, ModelAndView model) {
+    public ModelAndView friendAccount(@PathVariable(value = "friendId") Long friendId, ModelAndView model) {
         model.addObject("auth_user", userService.getAuthenticatedUser());
-        model.addObject("friend", userService.findUserById(Long.parseLong(friendId)));
+        model.addObject("friend", userService.findUserById(friendId));
         model.setViewName("friend/profile");
         return model;
     }
