@@ -78,23 +78,17 @@ public class PhotoServiceImp implements PhotoService, Serializable {
         DbxRequestConfig config = new DbxRequestConfig(appName, Locale.getDefault().toString());
         DbxClientV2 client = new DbxClientV2(config, sessionStoreKey);
         InputStream inputStream = file.getInputStream();
-        String link = null;
+        String link;
         try {
             FileMetadata fileMetadata = client.files().uploadBuilder("/" + name + ".jpg").uploadAndFinish(inputStream);
             String url = client.sharing().createSharedLinkWithSettings("/" + name + ".jpg", SharedLinkSettings.newBuilder().build()).getUrl();
-            String id = fileMetadata.getId();
-            String fileName = fileMetadata.getName();
-            String url2 = url.substring(26, url.length());
-            link = "https://dl.dropboxusercontent.com/s/" + url2;
-            logger.info(url2);
-            logger.info(link);
+            link = "https://dl.dropboxusercontent.com/s/" + url.substring(26,url.length());
         } catch (Exception e) {
 
             throw e;
         } finally {
             inputStream.close();
         }
-
         return link;
     }
 
