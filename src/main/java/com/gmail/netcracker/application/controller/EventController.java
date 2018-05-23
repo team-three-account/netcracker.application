@@ -89,6 +89,7 @@ public class EventController {
         if (!multipartFile.isEmpty()) {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
+
         eventService.insertEvent(event);
         if (event.getType().equals((long) 1) || event.getType().equals((long) 2) || event.getType().equals((long) 3)
                 && event.getDraft().equals(false)) {

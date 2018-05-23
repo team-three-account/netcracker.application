@@ -12,6 +12,7 @@ public class Event {
     private Long creator;
     private String dateStart;
     private String dateEnd;
+    private String endRepeat;
     private String periodicity;
     private Long type;
     private Boolean draft;

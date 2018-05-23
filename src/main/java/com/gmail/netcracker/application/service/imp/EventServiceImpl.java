@@ -159,7 +159,6 @@ public class EventServiceImpl implements EventService {
         return access;
     }
 
-    @Override
     public Boolean isCreator(Long personId, Long eventId) {
         return eventDao.checkCreatorById(personId, eventId) != null;
     }
@@ -169,8 +168,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void setPriority(Long priority, Long eventId, Long user_id) {
-        priorityDao.setPriorityToEvent(priority, eventId, user_id);
+    public void setPriority(Long priority, Long eventId, Long userId) {
+        priorityDao.setPriorityToEvent(priority, eventId, userId);
     }
 
     @Override
@@ -259,6 +258,8 @@ public class EventServiceImpl implements EventService {
         event.setCreator(toCopy.getCreator());
         event.setDateStart(toCopy.getDateStart());
         event.setDateEnd(toCopy.getDateEnd());
+        event.setDuration(toCopy.getDuration());
+        event.setEndRepeat(toCopy.getEndRepeat());
         event.setPeriodicity(toCopy.getPeriodicity());
         event.setType(toCopy.getType());
         event.setDraft(toCopy.getDraft());

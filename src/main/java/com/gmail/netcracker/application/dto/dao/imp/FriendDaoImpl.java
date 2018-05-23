@@ -18,10 +18,10 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
     private String SQL_FIND_FRIENDS;
 
     @Value("${sql.friend.findUserByNameOrSurname}")
-    private String SQL_FIND_USER_BY_NAME_OR_SURNAME; //TODO use LIKE
+    private String SQL_FIND_USER_BY_NAME_OR_SURNAME;
 
     @Value("${sql.friend.findUserByNameAndSurname}")
-    private String SQL_FIND_USER_BY_NAME_AND_SURNAME;  //TODO use LIKE
+    private String SQL_FIND_USER_BY_NAME_AND_SURNAME;
 
     @Value("${sql.friend.findFriendshipById}")
     private String SQL_FIND_FRIENDSHIP_BY_ID;
