@@ -109,8 +109,8 @@ public class Utilities {
         }
     }
 
-    public static Date parseLongToDate(Long longDate){
-        return new Date(longDate*1000);
+    public static Date parseLongToDate(Long seconds){
+        return new Date(seconds*1000);
     }
     public static Timestamp parseLongToTimestamp(Long longDate){
         return new Timestamp(longDate*1000);

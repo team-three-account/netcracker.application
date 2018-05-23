@@ -80,8 +80,8 @@ public class CalendarServiceImpl implements CalendarService {
                                         cron, start, end);
         else if(startEvent.before(end)){
             Event eventCopy = eventService.copyEvent(event);
-            eventCopy.setDateStart(Utilities.parseDateToString(startEvent));
-            eventCopy.setDateEnd(Utilities.parseDateToString(endEvent));
+            eventCopy.setDateStart(Utilities.parseDateToStringWithSeconds(startEvent));
+            eventCopy.setDateEnd(Utilities.parseDateToStringWithSeconds(endEvent));
             result.add(eventCopy);
             return getAllDateFromPeriodical(result, event,
                                         cron.getNextValidTimeAfter(startEvent),
