@@ -11,7 +11,6 @@
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 
     <%--for periodicity--%>
-    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/later.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/moment.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/prettycron.js"></script>
@@ -214,4 +213,10 @@
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
 <script src='${contextPath}/resources/bootstrap3/js/bootstrap.min.js'></script>
+<script>
+    var input = document.getElementById('name');
+    input.oninvalid = function(event) {
+        event.target.setCustomValidity('Event name should only contain english letters.');
+    }
+</script>
 </html>

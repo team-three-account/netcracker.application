@@ -11,8 +11,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<html lang="en">
 <head>
     <title>Settings</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
@@ -51,7 +50,7 @@
                     <td>
                         <form:input type="hidden" path="id"/>
                         <form:input path="name" id="name" type="text" class="form-control"
-                                    placeholder="Enter event name" pattern="[A-Za-z0-9_]{2,20}"/>
+                                    placeholder="Enter event name" pattern="[A-Za-z0-9]{2,20}" title="Name should only contain english letters."/>
 
                     </td>
                     <td><form:errors path="name" cssClass="error"/></td>
@@ -93,23 +92,29 @@
         </form:form>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
 <!-- Bootstrap core JavaScript-->
-<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
-<script src="${contextPath}/resources/vendor/bootstrap/js/jquery.appear.js"></script>
-<script src="${contextPath}/resources/vendor/bootstrap/js/jquery.maskedinput.min.js"></script>
+<script src='${contextPath}/resources/js/js/languages/jquery.validationEngine-en.js'></script>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
-<script src="${contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="${contextPath}/resources/js/google.js"></script>
 <script src='${contextPath}/resources/js/pamCode.js'></script>
 <script
         src="https://code.jquery.com/jquery-3.3.1.min.js"
         integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
         crossorigin="anonymous"></script>
+<script>
+    var input = document.getElementById('name');
+    var inputSurname = document.getElementById('surname');
+    input.oninvalid = function(event) {
+        event.target.setCustomValidity('Name should only contain english letters.');
+    }
+    inputSurname.oninvalid = function(event) {
+        event.target.setCustomValidity('Surname should only contain english letters.');
+    }
+</script>
 </body>
 
 </html>

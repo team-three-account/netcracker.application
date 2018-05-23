@@ -44,10 +44,12 @@
         </div>
     </div>
 </div>
-<script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+<script>
+    var input = document.getElementById('name');
+    input.oninvalid = function(event) {
+        event.target.setCustomValidity('Event name should only contain english letters.');
+    }
+</script>
 </body>
 <%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
 <%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>

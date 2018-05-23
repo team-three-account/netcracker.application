@@ -46,13 +46,13 @@
         <div class="form-group" style="clear: both">
           <label>Name</label>
           <form:input path="name" name="name" class="form-control"
-                      type="name" readonly="readonly"
+                      type="name" readonly="readonly" id="name"
                       placeholder="Enter name" pattern="[A-Za-z0-9_]{2,20}"/>
           <form:errors path="name" cssClass="error"/>
         </div>
         <div class="form-group">
           <label>Surname</label>
-          <form:input path="surname" name="surname" class="form-control"
+          <form:input path="surname" name="surname" class="form-control" id="surname"
                       type="surname"
                       placeholder="Enter surname" pattern="[A-Za-z0-9_]{3,20}"/>
           <form:errors path="surname" cssClass="error"/>
@@ -128,5 +128,15 @@
 <script src="${contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src='${contextPath}/resources/js/pamCode.js'></script>
 <script src="${contextPath}/resources/js/google.js"></script>
+<script>
+    var input = document.getElementById('name');
+    var inputSurname = document.getElementById('surname');
+    input.oninvalid = function(event) {
+        event.target.setCustomValidity('Name should only contain english letters.');
+    }
+    inputSurname.oninvalid = function(event) {
+        event.target.setCustomValidity('Surname should only contain english letters.');
+    }
+</script>
 </body>
 </html>
