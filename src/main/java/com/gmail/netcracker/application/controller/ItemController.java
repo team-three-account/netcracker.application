@@ -124,13 +124,11 @@ public class ItemController {
     @RequestMapping(value = "/getItem-{itemId}", method = RequestMethod.GET)
     public ModelAndView getItem(@PathVariable("itemId") Long itemId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        //itemService.getItem(itemId).setLikes(itemService.countLikes(Math.toIntExact(itemId)));
         modelAndView.addObject("getItem", itemService.getItem(itemId));
         int likes = itemService.countLikes(Math.toIntExact(itemId));
         modelAndView.addObject("likes", likes);
         boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
         modelAndView.addObject("isLiked", isLiked);
-//        itemService.like(itemId, userService.getAuthenticatedUser().getId());
         modelAndView.setViewName("item/getItem");
         return modelAndView;
     }
