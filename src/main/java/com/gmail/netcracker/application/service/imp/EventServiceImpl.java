@@ -173,8 +173,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public void setPriority(Long priority, Long eventId, Long user_id) {
-        priorityDao.setPriorityToEvent(priority, eventId, user_id);
+    public void setPriority(Long priority, Long eventId, Long userId) {
+        priorityDao.setPriorityToEvent(priority, eventId, userId);
     }
 
     @Override
@@ -263,6 +263,8 @@ public class EventServiceImpl implements EventService {
         event.setCreator(toCopy.getCreator());
         event.setDateStart(toCopy.getDateStart());
         event.setDateEnd(toCopy.getDateEnd());
+        event.setDuration(toCopy.getDuration());
+        event.setEndRepeat(toCopy.getEndRepeat());
         event.setPlaceId(toCopy.getPlaceId());
         event.setPlaceAddress(toCopy.getPlaceAddress());
         event.setPeriodicity(toCopy.getPeriodicity());

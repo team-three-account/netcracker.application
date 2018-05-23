@@ -70,27 +70,11 @@ public class RootConfig {
         return resourceBundleMessageSource;
     }
 
-//    @Bean
-//    public JobDetailFactoryBean jobDetailFactoryBean() {
-//        JobDetailFactoryBean factory = new JobDetailFactoryBean();
-//        factory.setJobClass(EventNotificationJob.class);
-//        Map<String, Object> params = new HashMap<>();
-//        params.put("text", "testText);
-//        factory.setJobDataAsMap(params);
-//        factory.setGroup("testGroup");
-//        factory.setName("testJob");
-//        return factory;
-//    }
-//
-//    @Bean
-//    public CronTriggerFactoryBean cronTriggerFactoryBean() {
-//        CronTriggerFactoryBean factory = new CronTriggerFactoryBean();
-//        factory.setJobDetail(jobDetailFactoryBean().getObject());
-//        factory.setCronExpression("0/5 * * ? * * *");
-//        factory.setGroup("testTriggers");
-//        factory.setName("testTrigger");
-//        return factory;
-//    }
+    @Bean
+    @Autowired
+    public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
+    }
 
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
@@ -198,7 +182,8 @@ public class RootConfig {
             event.setDescription(getString(rs, "description"));
             event.setCreator(getLong(rs, "creator_id"));
             event.setDateStart(getString(rs, "start_date"));
-            event.setDateEnd(getString(rs, "end_date"));
+            event.setDuration(getInt(rs, "duration"));
+            event.setEndRepeat(getString(rs, "end_repeat"));
             event.setTypeId(getLong(rs, "type_id"));
             event.setDraft(getBoolean(rs, "is_draft"));
             event.setWidth(getDouble(rs, "latitude"));
@@ -339,10 +324,4 @@ public class RootConfig {
         return new GsonBuilder()
                 .registerTypeAdapter(Event.class, new EventSerializer())
                 .create(); }
-
-    @Bean
-    @Autowired
-    public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
 }

@@ -13,6 +13,7 @@ public class Event {
     private String dateStart;
     private Integer duration;
     private String dateEnd;
+    private String endRepeat;
     private String periodicity;
     private String placeId;
     private String placeAddress;

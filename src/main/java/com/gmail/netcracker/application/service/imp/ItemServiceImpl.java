@@ -33,7 +33,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public void update(Item item) {
         setPersonId(item);
         addTagsToItem(parseTags(item.getDescription()),item.getItemId());
@@ -41,12 +41,14 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public void delete(Long itemId) {
+        itemDao.chargeRootToEarliest(itemId);
         itemDao.delete(itemId);
     }
 
     @Override
-    //@Transactional
+    @Transactional
     public void add(Item item) {
         setPersonId(item);
         item.setItemId(itemDao.add(item));
@@ -55,6 +57,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public Item getItem(Long itemId) {
         Item item = itemDao.getItem(itemId);
         item.setTags(tagDao.getTagsOfItem(itemId));
@@ -62,6 +65,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public List<Item> getWishList(Long personId) {
         List<Item> wishList= itemDao.findItemsByUserId(personId);
         for (Item item: wishList){
@@ -82,6 +86,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public void copyItem(Long itemId) {
         Long copiedId = itemDao.insertCopiedItem(itemDao.getItem(itemId), userService.getAuthenticatedUser().getId());
         addTagsToCopiedItem(tagDao.getTagsOfItem(itemId), copiedId);
@@ -111,6 +116,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public void addTagsToItem(Set<String> tags, Long itemId) {
         Set<Tag> currentTags = tagDao.getTagsOfItem(itemId);
         Set<Tag> addTags = new HashSet<>();
@@ -135,6 +141,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+
     public void addTagsToCopiedItem(Set<Tag> tags, Long itemId){
         for(Tag tag: tags){
             tagDao.addTagToItem(tag.getTagId(), itemId);
@@ -142,6 +149,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public void addTagsToNewItem(Set<String> tags, Long itemId){
         for(String tagString: tags){
             Tag tag = tagDao.findTagByName(tagString);
@@ -165,6 +173,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public List<Item> getItemsByTag(Long tag) {
         List<Item> items = itemDao.getItemsByTag(tag);
         for (Item item: items){
