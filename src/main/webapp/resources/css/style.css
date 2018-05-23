@@ -1,6 +1,6 @@
 body {
     color: #404040;
-
+    overflow-x: hidden;
     background: #f9f9f9;
     font-family: "OpenSans-Regular", sans-serif;
 }
@@ -161,7 +161,7 @@ article > p {
 }
 
 .d-flex h3 {
-    margin:0 auto 0 0;
+    margin: 0 auto 0 0;
     line-height: 1;
 }
 
@@ -192,11 +192,11 @@ article > p {
     width: 100%;
 }
 
-.error{
+.error {
     color: #FF0000;
 }
 
-.itemCardBody{
+.itemCardBody {
     margin-bottom: 40px;
 }
 
@@ -218,7 +218,7 @@ article > p {
     border-radius: 50px;
 }
 
-.center{
+.center {
     /*width: 900px;*/
     /*height: 900px;*/
     position: absolute;
@@ -235,7 +235,7 @@ article > p {
 /*}*/
 /*}*/
 
-.viewItem{
+.viewItem {
     background: whitesmoke;
 
 }
@@ -263,7 +263,7 @@ article > p {
 
 .notesEventCardItem {
     margin: 0;
-    padding: 10px 0 0 0 ;
+    padding: 10px 0 0 0;
     border: none;
     background-color: transparent;
     display: inline-block;
@@ -311,7 +311,7 @@ article > p {
 
 .notes-item:hover {
     text-decoration: none;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0, 0, 0, 0.3);
 }
 
 a.notes-item img {
@@ -382,7 +382,9 @@ a.notes-item img {
     cursor: inherit;
     display: block;
 }
-.sms{margin-top: 10%;
+
+.sms {
+    margin-top: 10%;
     height: 600px;
     overflow: auto;
 
@@ -392,10 +394,12 @@ li.button_block {
     display: flex;
     flex-wrap: wrap;
 }
+
 li.button_block a {
     width: 50%;
     padding: 2px;
 }
+
 li.button_block a input {
     width: 100%;
 }
@@ -406,9 +410,37 @@ li.button_block a input {
     background: powderblue;
 }
 
-.nav-style{
+.nav-style {
     margin-top: 5%;
     padding-top: 160px;
     padding: 15px;
+}
+
+.parent {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.child {
+    width: 200px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px grey;
 }
 

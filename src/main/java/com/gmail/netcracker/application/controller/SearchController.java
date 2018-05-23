@@ -53,6 +53,7 @@ public class SearchController {
         if (search == null || search.isEmpty())
             return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("resultSearchMyItem", searchService.searchMyItems(search, userService.getAuthenticatedUser()));
         model.addAttribute("resultSearchItem", searchService.searchItems(search, userService.getAuthenticatedUser()));
         return "item/resultSearch";
     }

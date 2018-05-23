@@ -46,4 +46,9 @@ public class SearchServiceImpl implements SearchService {
     public List<Item> searchItems(String query, User user){
         return itemDao.search(query, user.getId());
     }
+
+    @Override
+    public List<Item> searchMyItems(String query, User user){
+        return itemDao.searchMy(query, user.getId());
+    }
 }
