@@ -25,7 +25,7 @@
                     <div class="form-group">
                         <label>Folder Name: </label>
                         <form:input path="name" id="nameFolder" type="text" class="form-control"
-                                    placeholder="Enter Folder name"/>
+                                    placeholder="Enter Folder name" pattern="[A-Za-z0-9_]{4,50}"/>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                 </div>
@@ -34,5 +34,9 @@
         </div>
     </div>
 </div>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 </html>
 

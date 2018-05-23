@@ -47,14 +47,14 @@
           <label>Name</label>
           <form:input path="name" name="name" class="form-control"
                       type="name" readonly="readonly"
-                      placeholder="Enter name"/>
+                      placeholder="Enter name" pattern="[A-Za-z0-9_]{2,20}"/>
           <form:errors path="name" cssClass="error"/>
         </div>
         <div class="form-group">
           <label>Surname</label>
           <form:input path="surname" name="surname" class="form-control"
                       type="surname"
-                      placeholder="Enter surname"/>
+                      placeholder="Enter surname" pattern="[A-Za-z0-9_]{3,20}"/>
           <form:errors path="surname" cssClass="error"/>
         </div>
         <div class="form-group">
@@ -113,7 +113,10 @@
     </div>
   </div>
 </div>
-
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 <!-- Bootstrap core JavaScript-->
 <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 <script src="${contextPath}/resources/vendor/bootstrap/js/jquery.appear.js"></script>

@@ -51,7 +51,7 @@
                     <td>
                         <form:input type="hidden" path="id"/>
                         <form:input path="name" id="name" type="text" class="form-control"
-                                    placeholder="Enter event name"/>
+                                    placeholder="Enter event name" pattern="[A-Za-z0-9_]{2,20}"/>
 
                     </td>
                     <td><form:errors path="name" cssClass="error"/></td>
@@ -61,7 +61,7 @@
                     <th>Surname:</th>
                     <td>
                         <form:input path="surname" id="surname" type="text" class="form-control"
-                                    placeholder="Enter event name"/>
+                                    placeholder="Enter event name" pattern="[A-Za-z0-9_]{2,20}"/>
 
                     </td>
                     <td><form:errors path="surname" cssClass="error"/></td>
@@ -106,5 +106,10 @@
 <script src="${contextPath}/resources/vendor/jquery-easing/jquery.easing.min.js"></script>
 <script src="${contextPath}/resources/js/google.js"></script>
 <script src='${contextPath}/resources/js/pamCode.js'></script>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

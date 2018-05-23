@@ -54,13 +54,13 @@
                 <div class="form-group">
                     <label>Event Name: </label>
                     <form:input path="name" id="name" type="text" class="form-control"
-                                placeholder="Enter event name"/>
+                                placeholder="Enter event name" pattern="[A-Za-z0-9_]{4,50}"/>
                     <form:errors path="name" cssClass="error"/>
                 </div>
                 <div class="form-group">
                     <label>Description: </label>
                     <form:textarea path="description" id="description" type="text" class="form-control"
-                                   placeholder="Enter event description"/>
+                                   placeholder="Enter event description" pattern="[A-Za-z0-9_]{4,200}"/>
                     <form:errors path="description" cssClass="error"/>
                 </div>
                 <div class="form-group">
@@ -207,6 +207,10 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
 <script>tinymce.init({selector: 'textarea'});</script>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
 <script src='${contextPath}/resources/bootstrap3/js/bootstrap.min.js'></script>

@@ -31,12 +31,11 @@
                                           accept="image/*">
                             </span>
                 <span>${message}</span>
-                <form:errors path="name" cssClass="error"/>
             </div>
             <div class="form-group">
                 <label>Item Name: </label>
                 <form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
-                            placeholder="Enter item name"/>
+                            placeholder="Enter item name" pattern="[A-Za-z0-9_]{2,50}"/>
                 <form:errors path="name" cssClass="error"/>
             </div>
 
@@ -44,7 +43,7 @@
                 <label>Description: </label>
                 <form:input path="description" id="description" style="width: 30%" type="text"
                             class="form-control decodingHtml"
-                            placeholder="Enter description"/>
+                            placeholder="Enter description" pattern="[A-Za-z0-9_]{3,200}"/>
                 <form:errors path="description" cssClass="error"/>
             </div>
 
@@ -79,4 +78,8 @@
 </div>
 <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 </html>

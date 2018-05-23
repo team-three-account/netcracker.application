@@ -25,13 +25,13 @@
                     <div class="form-group">
                         <label>Note Name: </label>
                         <form:input path="name" id="nameNote" type="text" class="form-control"
-                                    placeholder="Enter Note name"/>
+                                    placeholder="Enter Note name" pattern="[A-Za-z0-9_]{4,50}"/>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>Description: </label>
                         <form:textarea path="description" id="descriptionNote" type="text" class="form-control"
-                                    placeholder="Enter Note description"/>
+                                    placeholder="Enter Note description" pattern="[A-Za-z0-9_]{4,50}"/>
                         <form:errors path="description" cssClass="error"/>
                     </div>
                 </div>
@@ -40,6 +40,10 @@
         </div>
     </div>
 </div>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 <%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
 <%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
