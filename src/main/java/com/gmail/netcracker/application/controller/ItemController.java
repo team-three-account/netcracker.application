@@ -175,4 +175,11 @@ public class ItemController {
         model.addAttribute("item", itemService.getItem(itemId));
         return "item/viewItem";
     }
+
+    @RequestMapping(value = "/search-tag/{tag}", method = RequestMethod.GET)
+    public String searchByTag(@PathVariable("tag") Long tagId, Model model){
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("items", itemService.getItemsByTag(tagId));
+        return "item/searchByTag";
+    }
 }

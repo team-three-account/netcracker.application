@@ -56,7 +56,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item getItem(Long itemId) {
-        return itemDao.getItem(itemId);
+        Item item = itemDao.getItem(itemId);
+        item.setTags(tagDao.getTagsOfItem(itemId));
+        return item;
     }
 
     @Override
@@ -162,7 +164,22 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public List<Item> getItemsByTag(Long tag) {
+        List<Item> items = itemDao.getItemsByTag(tag);
+        for (Item item: items){
+            item.setTags(tagDao.getTagsOfItem(item.getItemId()));
+        }
+        return items;
+    }
+
+    @Override
     public Set<Tag> getTagsOfItem(Long itemId) {
         return tagDao.getTagsOfItem(itemId);
     }
+
+    @Override
+    public Tag getTagByName(String tagName){
+        return tagDao.findTagByName(tagName);
+    }
+
 }

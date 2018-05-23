@@ -62,6 +62,9 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.cancelItemsBookingFromEvent}")
     private String SQL_CANCEL_ITEMS_BOOKING_FROM_EVENT;
 
+    @Value("${sql.tag.getItemsByTag}")
+    private String SQL_GET_ITEMS_BY_TAG;
+
     private final RowMapper<Item> itemRowMapper;
 
     @Autowired
@@ -142,6 +145,11 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Override
     public void cancelItemsBookingFromEvent(Long eventId) {
         updateEntity(SQL_CANCEL_ITEMS_BOOKING_FROM_EVENT, eventId);
+    }
+
+    @Override
+    public List<Item> getItemsByTag(Long tagId) {
+        return findEntityList(SQL_GET_ITEMS_BY_TAG, itemRowMapper, tagId);
     }
 }
 

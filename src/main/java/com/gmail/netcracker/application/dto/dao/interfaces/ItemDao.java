@@ -33,4 +33,6 @@ public interface ItemDao {
     List<Item> search(String query, Long userId);
 
     void cancelItemsBookingFromEvent(Long eventId);
+
+    List<Item> getItemsByTag(Long tagId);
 }

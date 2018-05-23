@@ -46,4 +46,8 @@ public interface ItemService {
     List<Item> popularItems();
 
     List<Tag> popularTags();
+
+    List<Item> getItemsByTag(Long tag);
+
+    Tag getTagByName(String tagName);
 }
