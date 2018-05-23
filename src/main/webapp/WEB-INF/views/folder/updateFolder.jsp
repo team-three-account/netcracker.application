@@ -37,7 +37,7 @@
 <script>
     var input = document.getElementById('nameFolder');
     input.oninvalid = function(event) {
-        event.target.setCustomValidity('Event name should only contain english letters.');
+        event.target.setCustomValidity('Folder name should only contain english letters.');
     }
 </script>
 </html>

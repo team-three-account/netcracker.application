@@ -43,7 +43,7 @@
 <script>
     var input = document.getElementById('nameNote');
     input.oninvalid = function(event) {
-        event.target.setCustomValidity('Event name should only contain english letters.');
+        event.target.setCustomValidity('Note name should only contain english letters.');
     }
 </script>
 <%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>

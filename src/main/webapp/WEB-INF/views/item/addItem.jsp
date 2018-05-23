@@ -81,7 +81,7 @@
 <script>
     var input = document.getElementById('name');
     input.oninvalid = function(event) {
-        event.target.setCustomValidity('Event name should only contain english letters.');
+        event.target.setCustomValidity('Item name should only contain english letters.');
     }
 </script>
 </html>
