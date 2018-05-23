@@ -103,7 +103,9 @@ public class EventController {
 
     @RequestMapping(value = {"/eventList/deleteEvent-{eventId}"}, method = RequestMethod.GET)
     public String deleteEvent(@PathVariable Long eventId) {
-        photoService.deleteFile(eventService.getEvent(eventId).getPhoto());
+        if (!eventService.getEvent(eventId).getPhoto().equals(photoService.getDefaultImageForEvents())) {
+            photoService.deleteFile(eventService.getEvent(eventId).getPhoto());
+        }
         eventService.delete(eventId);
         return "redirect:/account/managed";
     }

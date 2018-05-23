@@ -45,7 +45,7 @@
     </form>
     <h3>Events feed</h3>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-10">
             <table class="table">
                 <c:forEach var="event" items="${publicEventList}">
                     <tbody>
