@@ -23,10 +23,11 @@ public class Utilities {
 //        }
 //    }
 
-    public static String getPattern(String input){
+    public static String getPattern(String input) {
         return input + "%";
     }
-    public static String getPattern(String name, String surname){
+
+    public static String getPattern(String name, String surname) {
         return "(" + name + "|" + surname + ")%";
     }
 
@@ -84,20 +85,20 @@ public class Utilities {
         return null;
     }
 
-  public static Timestamp parseStringToTimestampWithoutHours(String stringDate) {
-    if (stringDate != null) {
-      try {
-        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = formatter.parse(stringDate);
-        Timestamp timestamp = new Timestamp(date.getTime());
-        return timestamp;
-      } catch (ParseException e) {
-        e.printStackTrace();
+    public static Timestamp parseStringToTimestampWithoutHours(String stringDate) {
+        if (stringDate != null) {
+            try {
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = formatter.parse(stringDate);
+                Timestamp timestamp = new Timestamp(date.getTime());
+                return timestamp;
+            } catch (ParseException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
         return null;
-      }
     }
-    return null;
-  }
 
     public static Date parseStringToDate(String stringDate) {
         try {
@@ -109,12 +110,14 @@ public class Utilities {
         }
     }
 
-    public static Date parseLongToDate(Long longDate){
-        return new Date(longDate*1000);
+    public static Date parseLongToDate(Long longDate) {
+        return new Date(longDate * 1000);
     }
-    public static Timestamp parseLongToTimestamp(Long longDate){
-        return new Timestamp(longDate*1000);
+
+    public static Timestamp parseLongToTimestamp(Long longDate) {
+        return new Timestamp(longDate * 1000);
     }
+
     public static int parseStringToInt(String srt) {
         int value = 0;
         try {

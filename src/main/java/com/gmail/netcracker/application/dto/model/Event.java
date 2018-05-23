@@ -9,10 +9,11 @@ public class Event {
     private String description;
     private Long creator;
     private String dateStart;
+    private Integer duration;
     private String dateEnd;
+    private String periodicity;
     private String placeId;
     private String placeAddress;
-    private String periodicity;
     private String type;
     private Boolean draft;
     private Long typeId;
