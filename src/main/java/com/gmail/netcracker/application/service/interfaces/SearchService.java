@@ -17,4 +17,6 @@ public interface SearchService {
     List<User> searchUsers(String query, User user);
 
     List<Item> searchItems(String query, User user);
+
+    List<Item> searchMyItems(String query, User user);
 }

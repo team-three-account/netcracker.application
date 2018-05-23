@@ -78,6 +78,9 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.dislike}")
     private String SQL_DISLIKE;
 
+    @Value("${sql.item.searchMyItems}")
+    private String SQL_SEARCH_MY_ITEMS;
+
     private final RowMapper<Item> itemRowMapper;
     private final RowMapper<Like> likeRowMapper;
 
@@ -130,6 +133,11 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Override
     public List<Item> search(String phrase, Long userId) {
         return findEntityList(SQL_SEARCH_ITEMS, itemRowMapper, phrase, userId);
+    }
+
+    @Override
+    public List<Item> searchMy(String query, Long userId) {
+        return findEntityList(SQL_SEARCH_MY_ITEMS, itemRowMapper, query, userId);
     }
 
     @Override
