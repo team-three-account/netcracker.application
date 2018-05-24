@@ -10,7 +10,7 @@ public class Event {
     private String name;
     private String description;
     private Long creator;
-    private Integer duration;
+    private Long duration;
     private String dateStart;
     private String dateEnd;
     private String endRepeat;

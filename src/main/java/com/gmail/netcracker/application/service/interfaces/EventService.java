@@ -73,4 +73,8 @@ public interface EventService {
     List<Event> getTimelines(Long id);
 
     Event copyEvent(Event toCopy);
+
+    Long getDurationFromStartAndEnd(String start, String end);
+
+    String getEndDateFromDuration(String start, Long duration);
 }

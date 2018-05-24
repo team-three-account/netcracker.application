@@ -182,7 +182,7 @@ public class RootConfig {
             event.setDescription(getString(rs, "description"));
             event.setCreator(getLong(rs, "creator_id"));
             event.setDateStart(getString(rs, "start_date"));
-            event.setDuration(getInt(rs, "duration"));
+            event.setDuration(getLong(rs, "duration"));
             event.setEndRepeat(getString(rs, "end_repeat"));
             event.setTypeId(getLong(rs, "type_id"));
             event.setDraft(getBoolean(rs, "is_draft"));

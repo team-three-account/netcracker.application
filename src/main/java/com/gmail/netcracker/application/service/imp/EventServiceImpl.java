@@ -6,6 +6,7 @@ import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.EmailConstructor;
+import com.gmail.netcracker.application.utilites.Utilities;
 import com.gmail.netcracker.application.utilites.scheduling.JobSchedulingManager;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.EventNotificationJob;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public void update(Event event) {
         setPersonId(event);
+        event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
         eventDao.update(event);
         deleteEventNotificationJob(event.getEventId());
         if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
@@ -65,38 +67,39 @@ public class EventServiceImpl implements EventService {
     @Override
     public void insertEvent(Event event) {
         setPersonId(event);
+        event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
         eventDao.insertEvent(event);
         if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
     }
 
     @Override
     public Event getEvent(Long eventId) {
-        return eventDao.getEvent(eventId);
+        return setDateEnd(eventDao.getEvent(eventId));
     }
 
     @Override
     public List<Event> eventList() {
-        return eventDao.eventList();
+       return setDateEnd(eventDao.eventList());
     }
 
     @Override
     public List<Event> findPublicEvents() {
-        return eventDao.findPublicEvents();
+        return setDateEnd(eventDao.findPublicEvents());
     }
 
     @Override
     public List<Event> findPrivateEvents(Long userId) {
-        return eventDao.findPrivateEvents(userId);
+        return setDateEnd(eventDao.findPrivateEvents(userId));
     }
 
     @Override
     public List<Event> findFriendsEvents(Long userId) {
-        return eventDao.findFriendsEvents(userId);
+        return setDateEnd(eventDao.findFriendsEvents(userId));
     }
 
     @Override
     public List<Event> findDrafts(Long userId) {
-        return eventDao.findDrafts(userId);
+        return setDateEnd(eventDao.findDrafts(userId));
     }
 
     @Override
@@ -111,7 +114,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getAllMyEvents() {
-        return eventDao.getAllMyEvents(userService.getAuthenticatedUser().getId());
+        return setDateEnd(eventDao.getAllMyEvents(userService.getAuthenticatedUser().getId()));
     }
 
     @Override
@@ -174,13 +177,13 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> myEventsWithPriority() {
-        return eventDao.listEventsWithPriority(userService.getAuthenticatedUser().getId());
+        return setDateEnd(eventDao.listEventsWithPriority(userService.getAuthenticatedUser().getId()));
     }
 
     @Override
     public Event getMyEventWithPriority(Long eventId) {
-        return eventDao.getEventWithPriority(userService.getAuthenticatedUser().getId(),
-                eventId);
+        return setDateEnd(eventDao.getEventWithPriority(userService.getAuthenticatedUser().getId(),
+                eventId));
     }
 
     @Override
@@ -195,12 +198,12 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> findCreatedFriendsEvents(Long id) {
-        return eventDao.findCreatedFriendsEvents(id);
+        return setDateEnd(eventDao.findCreatedFriendsEvents(id));
     }
 
     @Override
     public List<Event> findCreatedPublicEvents(Long id) {
-        return eventDao.findCreatedPublicEvents(id);
+        return setDateEnd(eventDao.findCreatedPublicEvents(id));
     }
 
     @Override
@@ -232,9 +235,8 @@ public class EventServiceImpl implements EventService {
     public void transferNoteToEvent(Long noteId, Long userId, Event event) {
         noteDao.delete(noteId);
         event.setCreator(userId);
-        eventDao.insertEvent(event);
+        insertEvent(event);
         eventDao.participate(userId, event.getEventId());
-
     }
 
     @Override
@@ -246,7 +248,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> getTimelines(Long id) {
-        return eventDao.getAllPersonEvents(id);
+        return setDateEnd(eventDao.getAllPersonEvents(id));
     }
 
     @Override
@@ -293,5 +295,24 @@ public class EventServiceImpl implements EventService {
         final String EVENT_NOTIFICATION_JOB_GROUP_NAME = "eventNotificationJobs";
         final String EVENT_NOTIFICATION_JOB_NAME_PREFIX = "eventNotificationJob_";
         jobSchedulingManager.deleteJob(eventId, EVENT_NOTIFICATION_JOB_NAME_PREFIX, EVENT_NOTIFICATION_JOB_GROUP_NAME);
+    }
+    @Override
+    public Long getDurationFromStartAndEnd(String start, String end){
+        return (Utilities.parseStringToTimestamp(end).getTime() - Utilities.parseStringToTimestamp(start).getTime())/1000;
+    }
+
+    private Event setDateEnd(Event event){
+        event.setDateEnd(getEndDateFromDuration(event.getDateStart(),event.getDuration()));
+        return event;
+    }
+    private List<Event> setDateEnd(List<Event> events){
+        for(Event event: events){
+            setDateEnd(event);
+        }
+        return events;
+    }
+    @Override
+    public String getEndDateFromDuration(String start, Long duration){
+        return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(Utilities.parseStringToTimestamp(start).getTime()/1000 + duration));
     }
 }
