@@ -47,5 +47,7 @@ public interface ItemDao {
 
     void dislike(Long itemId, Long userId);
 
-    void chargeRootToEarliest(Long itemId);
+    void changeRootToEarliest(Long itemId);
+
+    void deleteLikesOfItem(Long itemId);
 }

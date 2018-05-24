@@ -84,6 +84,9 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.chargeRootToEarliest}")
     private String SQL_CHANGE_ROOT_TO_EARLIEST;
 
+    @Value("${sql.item.deleteLikesOfItem}")
+    private String SQL_DELETE_LIKES_OF_ITEM;
+
     private final RowMapper<Item> itemRowMapper;
     private final RowMapper<Like> likeRowMapper;
 
@@ -211,8 +214,13 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     }
 
     @Override
-    public void chargeRootToEarliest(Long itemId) {
+    public void changeRootToEarliest(Long itemId) {
         updateEntity(SQL_CHANGE_ROOT_TO_EARLIEST, itemId, itemId);
+    }
+
+    @Override
+    public void deleteLikesOfItem(Long itemId) {
+        deleteEntity(SQL_DELETE_LIKES_OF_ITEM, itemId);
     }
 }
 

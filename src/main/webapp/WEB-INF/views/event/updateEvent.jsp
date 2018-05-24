@@ -11,6 +11,7 @@
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
 
     <%--for periodicity--%>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/later.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/moment.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/prettycron.js"></script>
@@ -205,6 +206,10 @@
     });
 </script>
 </body>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js"
+        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
 <%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
 <%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
@@ -213,10 +218,7 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
 <script>tinymce.init({selector: 'textarea'});</script>
-<script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
+
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
 <script src='${contextPath}/resources/bootstrap3/js/bootstrap.min.js'></script>

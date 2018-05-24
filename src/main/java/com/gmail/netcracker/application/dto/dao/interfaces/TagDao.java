@@ -19,5 +19,7 @@ public interface TagDao {
 
     void deleteTagOfItem(Long tagId, Long itemId);
 
+    void deleteTagsOfItem(Long itemId);
+
     List<Tag> getPopularTags(Long limit);
 }

@@ -43,7 +43,9 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public void delete(Long itemId) {
-        itemDao.chargeRootToEarliest(itemId);
+        itemDao.deleteLikesOfItem(itemId);
+        tagDao.deleteTagsOfItem(itemId);
+        itemDao.changeRootToEarliest(itemId);
         itemDao.delete(itemId);
     }
 
