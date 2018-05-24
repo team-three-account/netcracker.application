@@ -87,9 +87,14 @@ public class FolderController {
     }
 
     @RequestMapping(value = {"/editFolder-{folderId}"}, method = RequestMethod.POST)
-    public ModelAndView updateFolder(@ModelAttribute("editFolder") Folder folder,
+    public ModelAndView updateFolder(@ModelAttribute("editFolder") Folder folder, BindingResult result,
                                      ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("folder/updateFolder");
+        folderValidator.validate(folder, result);
+        if (result.hasErrors()) {
+            return modelAndView;
+        }
         folderService.update(folder);
         modelAndView.setViewName("redirect:/account/allNotes");
         return modelAndView;

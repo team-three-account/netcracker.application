@@ -211,7 +211,7 @@
 <%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
 <script src='${contextPath}/resources/js/pamCode.js'></script>
 <script type="text/javascript"
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places&region=en"></script>
 
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
 <script
