@@ -283,7 +283,7 @@ public class EventServiceImpl implements EventService {
         params.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
         params.put(EVENT_FIELD_NAME, event);
         jobSchedulingManager.scheduleJob(event.getEventId(), params, EventNotificationJob.class,
-                parseStringToDate(event.getDateStart()), parseStringToDate(event.getDateEnd()), event.getPeriodicity(),
+                parseStringToDate(event.getDateStart()), parseStringToDate(event.getEndRepeat()), event.getPeriodicity(),
                 EVENT_NOTIFICATION_JOB_NAME_PREFIX, EVENT_NOTIFICATION_JOB_GROUP_NAME,
                 EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX, EVENT_NOTIFICATION_TRIGGER_GROUP_NAME);
     }
