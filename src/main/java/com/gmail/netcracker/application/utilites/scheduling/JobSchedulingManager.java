@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 import org.springframework.stereotype.Component;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -54,12 +55,18 @@ public class JobSchedulingManager {
 
     private CronTrigger createCronTrigger(Long entityId, Date startDate, Date endDate, String cron, JobDetail jobDetail,
                                           final String TRIGGER_NAME_PREFIX, final String TRIGGER_GROUP_NAME) {
+        CronExpression cronExpression=null;
+        try {
+            cronExpression = new CronExpression(cron);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         CronTrigger cronTrigger = newTrigger()
 //                .withSchedule(cronSchedule(cron)) //for using
                 .withSchedule(cronSchedule("0/10 * * ? * * *")) //for demonstration
                 .withIdentity(TRIGGER_NAME_PREFIX + entityId, TRIGGER_GROUP_NAME)
                 .forJob(jobDetail)
-                .startAt(startDate)
+                .startAt(cronExpression.getNextValidTimeAfter(startDate))
                 .endAt(endDate)
                 .build();
         return cronTrigger;
