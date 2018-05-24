@@ -98,7 +98,7 @@ public class PhotoServiceImp implements PhotoService, Serializable {
         DbxRequestConfig config = new DbxRequestConfig(appName, Locale.getDefault().toString());
         DbxClientV2 client = new DbxClientV2(config, sessionStoreKey);
         try {
-            Metadata metadata = client.files().delete("/"+ path.substring(52, 92));
+            Metadata metadata = client.files().delete("/"+ path.substring(52, path.length()-1));
         } catch (DbxException dbxe) {
             dbxe.printStackTrace();
         }
