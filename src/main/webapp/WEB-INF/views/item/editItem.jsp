@@ -40,7 +40,7 @@
                 <label>Description: </label>
                 <form:input path="description" id="description" style="width: 30%" type="text"
                             class="form-control decodingHtml"
-                            placeholder="Enter description" pattern="[A-Za-z0-9_]{4,200}"/>
+                            placeholder="Enter description" />
                 <form:errors path="description" cssClass="error"/>
             </div>
 
