@@ -9,10 +9,13 @@ import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.Utilities;
 import com.gmail.netcracker.application.utilites.scheduling.JobSchedulingManager;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.EventNotificationJob;
+import org.bouncycastle.asn1.cms.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -314,5 +317,10 @@ public class EventServiceImpl implements EventService {
     @Override
     public String getEndDateFromDuration(String start, Long duration){
         return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(Utilities.parseStringToTimestamp(start).getTime()/1000 + duration));
+    }
+
+    @Override
+    public String getEndDateFromDuration(Timestamp start, Long duration) {
+        return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(start.getTime()/1000+duration));
     }
 }

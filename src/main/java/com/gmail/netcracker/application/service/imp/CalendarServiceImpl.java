@@ -38,10 +38,10 @@ public class CalendarServiceImpl implements CalendarService {
     public List<Event> getEventsFromRange(Long userId, Long start, Long end) {
         List<Event> eventList = new ArrayList<>();
 
-        for(Event event: eventDao.searchByUserFromRange(userId,
+        for (Event event : eventDao.searchByUserFromRange(userId,
                 Utilities.parseLongToTimestamp(start),
-                Utilities.parseLongToTimestamp(end))){
-            if ((event.getPeriodicity()==null))
+                Utilities.parseLongToTimestamp(end))) {
+            if ((event.getPeriodicity() == null))
                 eventList.add(event);
             else eventList.addAll(getAllDateFromPeriodical(event,
                     Utilities.parseLongToDate(start),
@@ -52,16 +52,15 @@ public class CalendarServiceImpl implements CalendarService {
     }
 
     private List<Event> getAllDateFromPeriodical(Event event,
-                                                 Date start, Date end){
-        try{
+                                                 Date start, Date end) {
+        try {
             CronExpression cronExpression = new CronExpression(event.getPeriodicity());
             return getAllDateFromPeriodical(new ArrayList<>(), event,
-                                                Utilities.parseStringToTimestamp(event.getDateStart()),
-                                                Utilities.parseStringToTimestamp(event.getDateEnd()),
-                                                        cronExpression, start, end);
+                    Utilities.parseStringToTimestamp(event.getDateStart()),
+                    cronExpression, start, end);
 
 
-        } catch (ParseException e){
+        } catch (ParseException e) {
             log.info("Periodicity not cron!!!");
             return new ArrayList<>();
         }
@@ -69,25 +68,24 @@ public class CalendarServiceImpl implements CalendarService {
 
     private List<Event> getAllDateFromPeriodical(List<Event> result,
                                                  Event event,
-                                                 Date startEvent, Date endEvent,
+                                                 Date startEvent,
                                                  CronExpression cron,
-                                                 Date start, Date end)
-    {
-        if(endEvent.before(start))
-            return getAllDateFromPeriodical(result, event,
-                                        cron.getNextValidTimeAfter(startEvent),
-                                        cron.getNextValidTimeAfter(endEvent),
-                                        cron, start, end);
-        else if(startEvent.before(end)){
-            Event eventCopy = eventService.copyEvent(event);
-            eventCopy.setDateStart(Utilities.parseDateToStringWithSeconds(startEvent));
-            eventCopy.setDateEnd(Utilities.parseDateToStringWithSeconds(endEvent));
-            result.add(eventCopy);
-            return getAllDateFromPeriodical(result, event,
-                                        cron.getNextValidTimeAfter(startEvent),
-                                        cron.getNextValidTimeAfter(endEvent),
-                                        cron, start, end);
-        }
-        else return result;
+                                                 Date start, Date end) {
+        Date endEvent = Utilities.parseLongToDate(startEvent.getTime() / 1000 + event.getDuration());
+        Date nextValidTime = cron.getNextValidTimeAfter(startEvent);
+        Date endRepeat = Utilities.parseStringToTimestamp(event.getEndRepeat());
+        if (nextValidTime != null || startEvent.before(endRepeat)) {
+            if (endEvent.before(start)) {
+                return getAllDateFromPeriodical(result, event, nextValidTime,
+                                                cron, start, end);
+            } else if (startEvent.before(end)) {
+                Event eventCopy = eventService.copyEvent(event);
+                eventCopy.setDateStart(Utilities.parseDateToStringWithSeconds(startEvent));
+                eventCopy.setDateEnd(Utilities.parseDateToStringWithSeconds(endEvent));
+                result.add(eventCopy);
+                return getAllDateFromPeriodical(result, event, nextValidTime,
+                                                cron, start, end);
+            } else return result;
+        } else return result;
     }
 }

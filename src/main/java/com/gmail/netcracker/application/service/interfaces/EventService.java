@@ -2,6 +2,8 @@ package com.gmail.netcracker.application.service.interfaces;
 
 import com.gmail.netcracker.application.dto.model.*;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -77,4 +79,6 @@ public interface EventService {
     Long getDurationFromStartAndEnd(String start, String end);
 
     String getEndDateFromDuration(String start, Long duration);
+
+    String getEndDateFromDuration(Timestamp start, Long duration);
 }
