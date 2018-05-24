@@ -186,7 +186,7 @@ function getFormattedAddress(latitude, longitude) {
 
         var method = 'GET';
         // запит щоб довготу і ширину зробити String адресою
-        var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM';
+        var url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng=' + latitude + ',' + longitude + '&key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&language=en';
         var async = true;
 
         request.open(method, url, async);
