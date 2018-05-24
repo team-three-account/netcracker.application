@@ -102,6 +102,13 @@
                                     <div class="modal-content">
                                         <div class="modal-body">
                                             <div id="crontabs">
+                                                <div class="form-group">
+                                                    <label>End Repeat: </label>
+                                                    <form:input path="endRepeat" id="endRepeat" type="text"
+                                                                class="form-control dateValid"
+                                                                placeholder="Enter event end date"/>
+                                                    <form:errors path="endRepeat" cssClass="error"/>
+                                                </div>
                                                 <div class="cron-option" style="padding-bottom:10px">
                                                     <input type="radio" id="cronEveryDay" name="cronOptions"
                                                            checked="checked">

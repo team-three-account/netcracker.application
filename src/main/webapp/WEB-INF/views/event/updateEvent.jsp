@@ -115,6 +115,13 @@
                             <div class="modal-content">
                                 <div class="modal-body">
                                     <div id="crontabs">
+                                        <div class="form-group">
+                                            <label>End Repeat: </label>
+                                            <form:input path="endRepeat" id="endRepeat" type="text"
+                                                        class="form-control dateValid"
+                                                        placeholder="Enter event end date"/>
+                                            <form:errors path="endRepeat" cssClass="error"/>
+                                        </div>
                                         <div class="cron-option" style="padding-bottom:10px">
                                             <input type="radio" id="cronEveryDay" name="cronOptions"
                                                    checked="checked">
@@ -215,7 +222,7 @@
 <script src='${contextPath}/resources/bootstrap3/js/bootstrap.min.js'></script>
 <script>
     var input = document.getElementById('name');
-    input.oninvalid = function(event) {
+    input.oninvalid = function (event) {
         event.target.setCustomValidity('Event name should only contain english letters.');
     }
 </script>
