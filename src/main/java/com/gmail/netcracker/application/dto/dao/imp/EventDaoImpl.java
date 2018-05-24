@@ -125,7 +125,6 @@ public class EventDaoImpl extends ModelDao implements EventDao {
                 event.getDuration(),
                 Utilities.parseStringToTimestamp(event.getEndRepeat()),
                 event.getType(),
-                event.getType(),
                 event.isDraft(),
                 event.getWidth(),
                 event.getLongitude(),
