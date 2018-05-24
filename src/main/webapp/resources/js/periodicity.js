@@ -67,8 +67,22 @@ function getHours() {
 };
 
 function getDay() {
+
     var dow = '';
     var dom = '';
+    if ($('#cronEveryMonth:checked').length) {
+        console.log(dow);
+        dom = $('#dateStart').val().substr(5, 2);
+        dow = '?';
+        console.log(dom);
+
+    }
+    if ($('#cronEveryYear:checked').length) {
+        console.log(dow);
+        dom = $('#dateStart').val().substr(8, 2)
+        dow = '?';
+
+    }
     if ($('#cronEveryDay:checked').length) {
         dow = '*';
         dom = '?';
@@ -179,16 +193,24 @@ function insertDaysOfMonth() {
 function getMonth() {
     var month = '';
     if ($('#cronEveryYear:checked').length) {
+        console.log(month);
         month = $('#dateStart').val().substr(5, 2);
-    } else {
+        console.log(month);
+    } else if ($('#cronEveryMonth:checked').length) {
+        console.log(month);
+        month = "*";
+        console.log(month);
+    }
+    else {
         month = "*";
     }
     return month;
-};
+}
 
 function getYear() {
+
     return "*";
-};
+}
 
 
 function changeDayOfMonth() {

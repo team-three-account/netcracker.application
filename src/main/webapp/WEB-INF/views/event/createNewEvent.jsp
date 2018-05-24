@@ -45,14 +45,14 @@
                         <div class="form-group">
                             <label>Event Name: </label>
                             <form:input path="name" id="name" type="text" class="form-control"
-                                        placeholder="Enter event name" pattern="[A-Za-z\s]{4,50}"/>
+                                        placeholder="Enter event name" pattern="[A-Za-z\s]{3,50}"/>
                             <form:errors path="name" cssClass="error"/>
                         </div>
                         <div class="form-group">
                             <label>Description: </label>
                             <form:textarea path="description" name="description" id="description" type="text"
                                            class="form-control"
-                                           placeholder="Enter event description" pattern="[A-Za-z0-9_]{4,200}"/>
+                                           placeholder="Enter event description"/>
                             <form:errors path="description" cssClass="error"/>
                         </div>
                         <div class="form-group">
@@ -210,6 +210,7 @@
 <%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
 <%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>
 <script src='${contextPath}/resources/js/pamCode.js'></script>
+<script src='${contextPath}/resources/bootstrap3/js/bootstrap.min.js'></script>
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places&region=en"></script>
 
@@ -222,5 +223,12 @@
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
-<script src='${contextPath}/resources/bootstrap3/js/bootstrap.min.js'></script>
+
+<script>
+    var input = document.getElementById('name');
+    input.oninvalid = function (event) {
+        event.target.setCustomValidity('Event name should only contain english letters.');
+        input = '';
+    }
+</script>
 </html>

@@ -18,21 +18,22 @@
         <div class="card-header">Edit Item</div>
         <div class="card-body">
             <form:form method="POST" modelAttribute="updateItem" class="forms_form" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label>Photo: </label>
+            <div class="form-group">
+                <label>Photo: </label>
 
-                    <img class="img-circle" style="width: 200px;height: 200px" id="blah"
-                         src="<c:url value="${updateItem.image}.jpg"/>">
-                    <input type="hidden" name="photoInput" value="${updateItem.image}">
-                    <br><span class="btn btn-default btn-file">
-                            Browse <input type="file" onchange="readURL(this)" id = "file" name="photoFile" accept="image/*">
+                <img class="img-circle" style="width: 200px;height: 200px" id="blah"
+                     src="<c:url value="${updateItem.image}.jpg"/>">
+                <input type="hidden" name="photoInput" value="${updateItem.image}">
+                <br><span class="btn btn-default btn-file">
+                            Browse <input type="file" onchange="readURL(this)" id="file" name="photoFile"
+                                          accept="image/*">
                             </span>
-                    <span>${message}</span>
-                </div>
+                <span>${message}</span>
+            </div>
             <div class="form-group">
                 <label>Item Name: </label>
                 <form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
-                            placeholder="Enter item name" pattern="[A-Za-z0-9\s]{4,50}"/>
+                            placeholder="Enter item name" pattern="[A-Za-z0-9\s]{4,50}" title="Item name should only contain english letters."/>
                 <form:errors path="name" cssClass="error"/>
             </div>
 
@@ -40,7 +41,7 @@
                 <label>Description: </label>
                 <form:input path="description" id="description" style="width: 30%" type="text"
                             class="form-control decodingHtml"
-                            placeholder="Enter description" />
+                            placeholder="Enter description"/>
                 <form:errors path="description" cssClass="error"/>
             </div>
 
@@ -75,12 +76,7 @@
 </div>
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
 <script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
-<script>
-    var input = document.getElementById('name');
-    input.oninvalid = function(event) {
-        event.target.setCustomValidity('Item name should only contain english letters.');
-    }
-</script>
+<script src='${contextPath}/resources/js/js/jquery.validationEngine.js'></script>
 <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
 </html>
