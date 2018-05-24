@@ -74,7 +74,7 @@ public class CalendarServiceImpl implements CalendarService {
         Date endEvent = Utilities.parseLongToDate(startEvent.getTime() / 1000 + event.getDuration());
         Date nextValidTime = cron.getNextValidTimeAfter(startEvent);
         Date endRepeat = Utilities.parseStringToTimestamp(event.getEndRepeat());
-        if (nextValidTime != null || !startEvent.before(endRepeat)) {
+        if (nextValidTime != null && startEvent.before(endRepeat)) {
             if (endEvent.before(start)) {
                 return getAllDateFromPeriodical(result, event, nextValidTime,
                                                 cron, start, end);
