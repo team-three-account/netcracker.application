@@ -16,7 +16,7 @@
     <div class="col-md-3 col-md-2 col-xl-2"
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
-<div class="col-md-10 col-xs-3 content">
+<div class="col-md-10 col-xs-3 content" style="margin-top: -5%;">
     <h3>Search for items</h3>
     <form method="POST"
           class="forms_form" action="/account/search/items">
