@@ -9,12 +9,12 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-@PropertySource(value = "classpath:message_en.properties")
-@Component
-public class NoteValidator implements Validator {
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-    @Autowired
-    MessageSource messageSource;
+
+@Component
+public class NoteValidator extends ModelValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -23,7 +23,9 @@ public class NoteValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
+        Note note = (Note) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "description", "required.field");
+        validateEntity(note, errors);
     }
 }

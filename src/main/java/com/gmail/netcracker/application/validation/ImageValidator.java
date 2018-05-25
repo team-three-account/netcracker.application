@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Component
-public class ImageValidator {
+public class ImageValidator extends ModelValidator {
 
     @Autowired
     private PhotoServiceImp photoService;
@@ -18,7 +18,7 @@ public class ImageValidator {
                 && !imageFile.getContentType().equals(photoService.getImageTypeJpg())
                 && !imageFile.getContentType().equals(photoService.getImageTypePng())
                 && !imageFile.isEmpty()) {
-            modelAndView.addObject("message", "Image type don't supported");
+            modelAndView.addObject("message", "image.error");
             return false;
         }
         return true;

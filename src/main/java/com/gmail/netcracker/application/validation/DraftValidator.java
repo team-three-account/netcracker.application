@@ -8,9 +8,12 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
-@PropertySource(value = "classpath:message_en.properties")
-public class DraftValidator implements Validator {
+public class DraftValidator extends ModelValidator implements Validator {
+
     @Override
     public boolean supports(Class<?> aClass) {
         return Item.class.equals(aClass);
@@ -18,7 +21,8 @@ public class DraftValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
+        Event event = (Event) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required.field");
-//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "eventPlaceName", "required.field");
+        validateEntity(event, errors);
     }
 }

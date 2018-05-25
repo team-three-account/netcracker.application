@@ -7,9 +7,13 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
-@PropertySource(value = "classpath:message_en.properties")
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 @Component
-public class FolderValidator implements Validator {
+public class FolderValidator extends ModelValidator implements Validator {
+
     @Override
     public boolean supports(Class<?> aClass) {
         return Folder.class.equals(aClass);
@@ -17,6 +21,8 @@ public class FolderValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
+        Folder folder = (Folder) o;
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "required.field");
+        validateEntity(folder,errors);
     }
 }

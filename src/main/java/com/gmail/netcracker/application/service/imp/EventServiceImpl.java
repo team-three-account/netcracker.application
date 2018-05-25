@@ -82,7 +82,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<Event> eventList() {
-       return setDateEnd(eventDao.eventList());
+        return setDateEnd(eventDao.eventList());
     }
 
     @Override
@@ -277,6 +277,7 @@ public class EventServiceImpl implements EventService {
         return event;
     }
 
+    //TODO string values into properties
     private void scheduleEventNotificationJob(Event event) {
         final String EVENT_NOTIFICATION_TRIGGER_GROUP_NAME = "eventNotificationTriggers";
         final String EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX = "eventNotificationTrigger_";
@@ -294,33 +295,43 @@ public class EventServiceImpl implements EventService {
     }
 
 
+    //TODO string values into properties
     private void deleteEventNotificationJob(Long eventId) {
         final String EVENT_NOTIFICATION_JOB_GROUP_NAME = "eventNotificationJobs";
         final String EVENT_NOTIFICATION_JOB_NAME_PREFIX = "eventNotificationJob_";
         jobSchedulingManager.deleteJob(eventId, EVENT_NOTIFICATION_JOB_NAME_PREFIX, EVENT_NOTIFICATION_JOB_GROUP_NAME);
     }
+
     @Override
-    public Long getDurationFromStartAndEnd(String start, String end){
-        return (Utilities.parseStringToTimestamp(end).getTime() - Utilities.parseStringToTimestamp(start).getTime())/1000;
+    public Long getDurationFromStartAndEnd(String start, String end) {
+        if (start.equals("____-__-__ __:__") || end.equals("____-__-__ __:__")) {
+            return null;
+        } else
+            return (Utilities.parseStringToTimestamp(end).getTime() - Utilities.parseStringToTimestamp(start).getTime()) / 1000;
     }
 
-    private Event setDateEnd(Event event){
-        event.setDateEnd(getEndDateFromDuration(event.getDateStart(),event.getDuration()));
+    private Event setDateEnd(Event event) {
+        if (event.getDateStart() == null) {
+            return event;
+        }
+        event.setDateEnd(getEndDateFromDuration(event.getDateStart(), event.getDuration()));
         return event;
     }
-    private List<Event> setDateEnd(List<Event> events){
-        for(Event event: events){
+
+    private List<Event> setDateEnd(List<Event> events) {
+        for (Event event : events) {
             setDateEnd(event);
         }
         return events;
     }
+
     @Override
-    public String getEndDateFromDuration(String start, Long duration){
-        return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(Utilities.parseStringToTimestamp(start).getTime()/1000 + duration));
+    public String getEndDateFromDuration(String start, Long duration) {
+        return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(Utilities.parseStringToTimestamp(start).getTime() / 1000 + duration));
     }
 
     @Override
     public String getEndDateFromDuration(Timestamp start, Long duration) {
-        return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(start.getTime()/1000+duration));
+        return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(start.getTime() / 1000 + duration));
     }
 }

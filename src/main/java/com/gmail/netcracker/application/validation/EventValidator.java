@@ -5,19 +5,18 @@ import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import java.sql.Timestamp;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Component
-@PropertySource(value = "classpath:message_en.properties")
-public class RegisterAndUpdateEventValidator implements Validator {
-
-    @Autowired
-    MessageSource messageSource;
+public class EventValidator extends ModelValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> aClass) {
@@ -33,11 +32,14 @@ public class RegisterAndUpdateEventValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "dateEnd", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "type", "required.field");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "eventPlaceName", "required.field");
-        if (compareDate(event)) {
-            errors.rejectValue("dateEnd", "required.date");
+        if (!errors.hasErrors()) {
+            if (compareDate(event)) {
+                errors.rejectValue("dateEnd", "required.date");
+            }
+            validateEntity(event, errors);
         }
-
     }
+
     private boolean compareDate(Event event) {
         boolean status = false;
         Timestamp startTime = Utilities.parseStringToTimestamp(event.getDateStart());

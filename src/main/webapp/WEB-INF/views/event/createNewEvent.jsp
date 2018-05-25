@@ -43,33 +43,33 @@
                             <span>${message}</span>
                         </div>
                         <div class="form-group">
-                            <label>Event Name: </label>
+                            <label>Event Name*: </label>
                             <form:input path="name" id="name" type="text" class="form-control"
-                                        placeholder="Enter event name" pattern="[A-Za-z\s]{3,50}"/>
+                                        placeholder="Enter event name"/>
                             <form:errors path="name" cssClass="error"/>
                         </div>
                         <div class="form-group">
-                            <label>Description: </label>
+                            <label>Description*: </label>
                             <form:textarea path="description" name="description" id="description" type="text"
                                            class="form-control"
                                            placeholder="Enter event description"/>
                             <form:errors path="description" cssClass="error"/>
                         </div>
                         <div class="form-group">
-                            <label>Start Date: </label>
+                            <label>Start Date*: </label>
                             <form:input path="dateStart" id="dateStart" type="text" class="form-control dateValid "
                                         onchange="changeDayOfMonth()" placeholder="Enter event start date"/>
                             <form:errors path="dateStart" cssClass="error"/>
                         </div>
                         <div class="form-group">
-                            <label>End Date: </label>
+                            <label>End Date*: </label>
                             <form:input path="dateEnd" id="dateEnd " type="text" class="form-control dateValid"
                                         placeholder="Enter event end date"/>
                             <form:errors path="dateEnd" cssClass="error"/>
                         </div>
 
                         <div class="form-group">
-                            <label>Event type: </label>
+                            <label>Event type*: </label>
                             <form:select path="type" class="form-control">
                                 <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
                             </form:select>
@@ -80,7 +80,7 @@
                         <form:input path="width" type="hidden" id="latitude"></form:input>
                         <form:input path="longitude" type="hidden" id="longitude"></form:input>
                         <div class="form-group">
-                            <label>Event place</label>
+                            <label>Event place*</label>
                             <form:input path="eventPlaceName" id="eventPlaceName" type="text" class="form-control"/>
                             <form:errors path="eventPlaceName" cssClass="error"/>
                             <div id="map"></div>
@@ -223,12 +223,4 @@
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
-
-<script>
-    var input = document.getElementById('name');
-    input.oninvalid = function (event) {
-        event.target.setCustomValidity('Event name should only contain english letters.');
-        input = '';
-    }
-</script>
 </html>

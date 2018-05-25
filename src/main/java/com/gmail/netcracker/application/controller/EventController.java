@@ -6,7 +6,7 @@ import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.validation.DraftValidator;
 import com.gmail.netcracker.application.validation.ImageValidator;
-import com.gmail.netcracker.application.validation.RegisterAndUpdateEventValidator;
+import com.gmail.netcracker.application.validation.EventValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +33,7 @@ public class EventController {
     private final DraftValidator draftValidator;
     private ChatService chatService;
     private User authUser;
-    private RegisterAndUpdateEventValidator eventValidator;
+    private EventValidator eventValidator;
     private final ImageValidator imageValidator;
 
     private Logger logger = Logger.getLogger(EventController.class.getName());
@@ -41,7 +41,7 @@ public class EventController {
     @Autowired
     public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService,
                            UserService userService, FriendService friendService,
-                           ChatService chatService, RegisterAndUpdateEventValidator eventValidator,
+                           ChatService chatService, EventValidator eventValidator,
                            DraftValidator draftValidator, ImageValidator imageValidator) {
         this.eventService = eventService;
         this.noteService = noteService;
@@ -65,13 +65,13 @@ public class EventController {
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.POST)
     public ModelAndView saveNewEvent(@ModelAttribute("createNewEvent") Event event,
                                      BindingResult result,
-                                     @RequestParam(value = "hidden") String hidden,
+                                     @RequestParam(value = "hidden") Boolean hidden,
                                      @RequestParam(value = "photoInput") String photo,
                                      @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                      ModelAndView modelAndView) throws IOException, DbxException {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("event/createNewEvent");
-        event.setDraft(Boolean.valueOf(hidden));
+        event.setDraft(hidden);
         event.setPhoto(photo);
         if ("".equals(event.getPeriodicity())) {
             event.setPeriodicity(null);
@@ -79,7 +79,8 @@ public class EventController {
         if (event.getDraft().equals(true)) {
             draftValidator.validate(event, result);
             event.setType((long) 0);
-        } else {
+        }
+        if(event.getDraft().equals(false)){
             eventValidator.validate(event, result);
         }
         Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
@@ -124,7 +125,7 @@ public class EventController {
             modelAndView.addObject("user_creator", userService.findUserById(eventService.getEvent(eventId).getCreator()));
             Long participants = eventService.countParticipants(eventId);
             modelAndView.addObject("participants", participants);
-            boolean isParticipated = eventService.isParticipated(authUser.getId(), eventId);
+            Boolean isParticipated = eventService.isParticipated(authUser.getId(), eventId);
             modelAndView.addObject("participation", eventService.getParticipation(eventId));
             modelAndView.addObject("isParticipated", isParticipated);
             modelAndView.addObject("priorities", eventService.getAllPriorities());
@@ -167,6 +168,8 @@ public class EventController {
         }
         if (event.getDraft().equals(true)) {
             draftValidator.validate(event, result);
+            event.setType((long) 0);
+            event.setPeriodicity(null);
         } else {
             eventValidator.validate(event, result);
         }
@@ -182,6 +185,7 @@ public class EventController {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
         modelAndView.setViewName("event/updateEvent");
+        logger.info(event.toString());
         eventService.update(event);
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
@@ -334,6 +338,7 @@ public class EventController {
         Event event = eventService.getEvent(eventId);
         event.setPhoto(photoService.getDefaultImageForEvents());
         modelAndView.addObject("editEvent", event);
+        event.setDraft(false);
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("event/updateEvent");
         return modelAndView;

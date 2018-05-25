@@ -12,15 +12,15 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Component
-@PropertySource(value = "classpath:message_en.properties")
-public class RegisterValidator implements Validator {
+public class RegisterValidator extends ModelValidator implements Validator {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
-    @Autowired
-    MessageSource messageSource;
 
     @Override
     public void validate(Object obj, Errors errors) {
@@ -37,6 +37,9 @@ public class RegisterValidator implements Validator {
         if (registeredUser != null && user.getEmail().equals(registeredUser.getEmail())) {
             errors.rejectValue("email", "email.already.exist");
         }
+        validateEntity(user,errors,false);
+
+
     }
 
     @Override

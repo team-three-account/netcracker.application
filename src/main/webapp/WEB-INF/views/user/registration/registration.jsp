@@ -44,28 +44,28 @@
         </div>
         <div style="clear: both; border: 1px solid darkgrey; margin-bottom: 5%;"></div>
         <div class="form-group" style="clear: both">
-          <label>Name</label>
+          <label>Name*</label>
           <form:input path="name" name="name" class="form-control"
                       type="name" readonly="readonly" id="name"
-                      placeholder="Enter name" pattern="[A-Za-z0-9_]{2,20}"/>
+                      placeholder="Enter name"/>
           <form:errors path="name" cssClass="error"/>
         </div>
         <div class="form-group">
-          <label>Surname</label>
+          <label>Surname*</label>
           <form:input path="surname" name="surname" class="form-control" id="surname"
                       type="surname"
-                      placeholder="Enter surname" pattern="[A-Za-z0-9_]{3,20}"/>
+                      placeholder="Enter surname"/>
           <form:errors path="surname" cssClass="error"/>
         </div>
         <div class="form-group">
-          <label>Gender</label>
+          <label>Gender*</label>
           <form:select path="gender" class="form-control">
             <form:option value="Male">Male</form:option>
             <form:option value="Female">Female</form:option>
           </form:select>
         </div>
         <div class="form-group">
-          <label>Email address</label>
+          <label>Email address*</label>
           <form:input path="email" name="email" class="form-control"
                       type="email"
                       aria-describedby="emailHelp"
@@ -73,14 +73,14 @@
           <form:errors path="email" cssClass="error"/>
         </div>
         <div class="form-group">
-          <label>Password</label>
+          <label>Password*</label>
           <form:input path="password" name="password" class="form-control"
                       type="password"
                       placeholder="Password"/>
           <form:errors path="password" cssClass="error"/>
         </div>
         <div class="form-group">
-          <label>Confirm password</label>
+          <label>Confirm password*</label>
           <form:input path="confirmPassword" name="confirmPassword" class="form-control"
                       type="password"
                       placeholder="Confirm Password"/>

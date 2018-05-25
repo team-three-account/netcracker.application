@@ -46,21 +46,21 @@
                     </td>
                 </tr>
                 <tr>
-                    <th>Name:</th>
+                    <th>Name*:</th>
                     <td>
                         <form:input type="hidden" path="id"/>
                         <form:input path="name" id="name" type="text" class="form-control"
-                                    placeholder="Enter event name" pattern="[A-Za-z0-9]{2,20}" title="Name should only contain english letters."/>
+                                    placeholder="Enter event name"/>
 
                     </td>
                     <td><form:errors path="name" cssClass="error"/></td>
 
                 </tr>
                 <tr>
-                    <th>Surname:</th>
+                    <th>Surname*:</th>
                     <td>
                         <form:input path="surname" id="surname" type="text" class="form-control"
-                                    placeholder="Enter event name" pattern="[A-Za-z0-9_]{2,20}"/>
+                                    placeholder="Enter event name"/>
 
                     </td>
                     <td><form:errors path="surname" cssClass="error"/></td>

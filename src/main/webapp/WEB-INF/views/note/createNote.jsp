@@ -25,15 +25,15 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Note Name: </label>
+                        <label>Note Name*: </label>
                         <form:input path="name" id="name" type="text" class="form-control"
-                                    placeholder="Enter note name" pattern="[A-Za-z0-9\s]{4,50}"/>
+                                    placeholder="Enter note name"/>
                         <form:errors path="name" cssClass="error"/>
                     </div>
                     <div class="form-group">
-                        <label>Description: </label>
+                        <label>Description*: </label>
                         <form:textarea path="description" id="description" type="text" class="form-control"
-                                       placeholder="Enter event description" pattern="[A-Za-z0-9_]{4,200}"/>
+                                       placeholder="Enter event description"/>
                         <form:errors path="description" cssClass="error"/>
                     </div>
 
@@ -44,12 +44,7 @@
         </div>
     </div>
 </div>
-<script>
-    var input = document.getElementById('name');
-    input.oninvalid = function(event) {
-        event.target.setCustomValidity('Note name should only contain english letters.');
-    }
-</script>
+
 </body>
 <%--<script type="text/javascript" src="${contextPath}/resources/js/nicEdit.js"></script>--%>
 <%--<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>--%>

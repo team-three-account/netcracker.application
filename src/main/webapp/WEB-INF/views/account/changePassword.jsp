@@ -17,14 +17,14 @@
             <form:form method="POST"
                        class="forms_form" action="/account/changePassword/${veriftoken.id}" modelAttribute="user">
                 <div class="form-group">
-                    <label>New Password</label>
+                    <label>New Password*</label>
                     <form:input id="password" name="password" class="form-control"
                                 type="password"
                                 placeholder="Enter new password" path="password"/>
                     <form:errors path="password"></form:errors>
                 </div>
                 <div class="form-group">
-                    <label>Confirm Password</label>
+                    <label>Confirm Password*</label>
                     <form:input name="confirmPassword" class="form-control"
                                 type="password"
                                 placeholder="Confirm Password" path="confirmPassword"/>

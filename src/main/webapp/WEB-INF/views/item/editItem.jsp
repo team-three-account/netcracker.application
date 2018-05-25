@@ -31,14 +31,14 @@
                 <span>${message}</span>
             </div>
             <div class="form-group">
-                <label>Item Name: </label>
+                <label>Item Name*: </label>
                 <form:input path="name" id="name" style="width: 30%" type="text" class="form-control decodingHtml"
-                            placeholder="Enter item name" pattern="[A-Za-z0-9\s]{4,50}" title="Item name should only contain english letters."/>
+                            placeholder="Enter item name"/>
                 <form:errors path="name" cssClass="error"/>
             </div>
 
             <div class="form-group">
-                <label>Description: </label>
+                <label>Description*: </label>
                 <form:input path="description" id="description" style="width: 30%" type="text"
                             class="form-control decodingHtml"
                             placeholder="Enter description"/>
