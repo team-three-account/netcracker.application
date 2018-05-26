@@ -65,7 +65,7 @@ public abstract class ModelValidator {
     }
 
     protected void validateEntity(Item item, Errors errors) {
-        validateEntityNameAndDescription(item.getName(), item.getDescription().substring(substringCutValue, item.getDescription().length() - substringCutValue), errors);
+        validateEntityNameAndDescription(item.getName(), item.getDescription(), errors);
 
     }
 
