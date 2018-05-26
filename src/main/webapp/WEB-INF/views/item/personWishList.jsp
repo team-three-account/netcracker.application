@@ -20,7 +20,6 @@
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 <div class="col-md-10 col-xs-3 content" style="margin-top: -5%;">
-    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <h3>Search for items</h3>
     <form method="POST"
           class="forms_form" action="/account/search/items">
@@ -31,6 +30,7 @@
                    style="margin-top: 15px; margin-bottom: 15px">
         </div>
     </form>
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <c:choose>
         <c:when test="${auth_user.id.equals(ownerId)}">
             <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>

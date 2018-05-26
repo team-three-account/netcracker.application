@@ -6,20 +6,23 @@
     <title>Update item</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+
     <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
     <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 </head>
+<body onload="loadChats();">
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
     <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
     <div class="col-md-10 content">
-        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <div class="card card-register">
             <div class="card-header">Edit Item</div>
+            <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
             <div class="card-body">
                 <form:form method="POST" modelAttribute="updateItem" class="forms_form" enctype="multipart/form-data">
                 <div class="form-group">
@@ -79,7 +82,8 @@
     </div>
     </form:form>
 </div>
-<script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
+
 <script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
+</body>
 </html>

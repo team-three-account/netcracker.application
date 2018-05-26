@@ -92,10 +92,9 @@
     <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
-
     <div class="col-md-10 content">
         <div class="row">
-
+            <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
             <div class="col-md-8">
                 <div id='calendar'></div>
             </div>

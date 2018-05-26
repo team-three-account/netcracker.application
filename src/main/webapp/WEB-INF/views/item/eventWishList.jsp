@@ -18,13 +18,12 @@
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
     <div class="col-md-10 content">
-        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <c:choose>
             <c:when test="${auth_user.id.equals(ownerId)}">
                 <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>
             </c:when>
         </c:choose>
-
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <div class="row form-inline">
             <div class="col-lg-8 col-md-6 col-xl-10">
                 <h3 class="caption"> Wish List</h3>
