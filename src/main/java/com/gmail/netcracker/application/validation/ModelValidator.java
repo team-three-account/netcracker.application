@@ -17,13 +17,18 @@ public abstract class ModelValidator {
     @Value("${pattern.english.letters}")
     private String patternOnlyEnglishLetters;
 
-    private Integer substringCutValue = 4;
+    @Value("${pattern.english.symbols}")
+    private String patternWithSymbols;
+
+    private Logger logger = Logger.getLogger(ModelValidator.class.getName());
 
     protected void validateEntity(Event event, Errors errors) {
         if (event.getDraft().equals(true)) {
             validateEntityName(event.getName(), errors);
+
         } else {
-            validateEntityNameAndDescription(event.getName(), event.getDescription().substring(substringCutValue, event.getDescription().length() - substringCutValue), errors);
+            logger.info(event.getDescription());
+            validateEntityNameAndDescription(event.getName(), event.getDescription(), errors);
         }
     }
 
@@ -56,8 +61,7 @@ public abstract class ModelValidator {
     }
 
     protected void validateEntity(Note note, Errors errors) {
-        validateEntityNameAndDescription(note.getName(), note.getDescription().substring(substringCutValue, note.getDescription().length() - substringCutValue), errors);
-        Logger.getLogger(ModelValidator.class.getName()).info(note.getDescription().substring(substringCutValue, note.getDescription().length() - substringCutValue));
+        validateEntityNameAndDescription(note.getName(), note.getDescription(), errors);
     }
 
     protected void validateEntity(Folder folder, Errors errors) {
@@ -70,9 +74,10 @@ public abstract class ModelValidator {
     }
 
     private void validateEntityNameAndDescription(String name, String description, Errors errors) {
-        Pattern pattern = Pattern.compile(patternEnglishLettersAndNumbers);
-        Matcher matcherName = pattern.matcher(name);
-        Matcher matcherDescription = pattern.matcher(description);
+        Pattern patternName = Pattern.compile(patternEnglishLettersAndNumbers);
+        Pattern patternDescription = Pattern.compile(patternWithSymbols);
+        Matcher matcherName = patternName.matcher(name);
+        Matcher matcherDescription = patternDescription.matcher(description);
         Boolean validName = matcherName.matches();
         Boolean validDescription = matcherDescription.matches();
         if (validName.equals(false)) {
