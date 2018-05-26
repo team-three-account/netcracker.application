@@ -13,6 +13,7 @@
 <head>
     <meta charset='utf-8'/>
     <title>Calendar</title>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <link href='../resources/calendar/css/fullcalendar.min.css' rel='stylesheet'/>
     <link href='../resources/calendar/css/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
     <script src='../resources/calendar/js/moment.min.js'></script>
