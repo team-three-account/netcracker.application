@@ -6,6 +6,9 @@
     <title>View Folder</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 <div class="row">
@@ -14,6 +17,7 @@
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
     <div class="col-md-10 main-content">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <div class="d-flex">
             <h3>Folder - ${folder.name}</h3>
                 <c:if test="${auth_user.id.equals(folder.creator)}">

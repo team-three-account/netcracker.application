@@ -24,6 +24,7 @@
 
 
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
 
     <h1>${message}</h1>
 

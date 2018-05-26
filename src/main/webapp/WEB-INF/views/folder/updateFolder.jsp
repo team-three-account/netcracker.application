@@ -7,6 +7,9 @@
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <div class="row">
@@ -17,6 +20,7 @@
 
 
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <div class="card card-register">
         <div class="card-header"></div>
         <div class="card-body">
@@ -37,11 +41,6 @@
         </div>
     </div>
 </div>
-<script>
-    var input = document.getElementById('name');
-    input.oninvalid = function(event) {
-        event.target.setCustomValidity('Folder name should only contain English letters.');
-    }
-</script>
+
 </html>
 

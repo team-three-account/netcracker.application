@@ -12,6 +12,7 @@
     <title>Drafts</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 <div class="row">
@@ -21,6 +22,7 @@
 </div>
 
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <p>
         <a class="btn btn-primary" href="/account/available" role="button">All events</a>
         <a class="btn btn-primary"  href="/account/subscriptions" role="button">Subscriptions</a>
@@ -58,5 +60,6 @@
         </table>
     </div>
 </div>
+
 </body>
 </html>

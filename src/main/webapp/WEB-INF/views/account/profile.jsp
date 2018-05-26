@@ -15,6 +15,7 @@
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <!-- Custom styles for this template-->
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 <div class="row">
@@ -23,11 +24,13 @@
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
     <div class="col-md-10 content">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <table class="table">
             <tbody>
             <tr>
                 <td>Avatar:</td>
-                <td><img class="img-circle" style="width: 200px;height: 200px" src="<c:url value="${auth_user.photo}"/>"></td>
+                <td><img class="img-circle" style="width: 200px;height: 200px"
+                         src="<c:url value="${auth_user.photo}"/>"></td>
             </tr>
             <tr>
                 <td>Name:</td>
@@ -61,5 +64,6 @@
             </a>
         </table>
     </div>
+</div>
 </body>
 </html>

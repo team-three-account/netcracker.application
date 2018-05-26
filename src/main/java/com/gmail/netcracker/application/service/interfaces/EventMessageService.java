@@ -7,5 +7,5 @@ import com.gmail.netcracker.application.dto.model.User;
 
 public interface EventMessageService {
 
-    void addNewMessage(Event event, EventMessage message, User user, Chat chat);
+    void addNewMessage(EventMessage message);
 }

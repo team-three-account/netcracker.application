@@ -16,7 +16,8 @@
     <script src="${contextPath}/resources/vendor/bootstrap/js/moment.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/prettycron.js"></script>
     <script src="${contextPath}/resources/js/periodicity.js"></script>
-
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>tinymce.init({selector: 'textarea'});</script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 
@@ -27,6 +28,7 @@
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 <div class="col-md-10" style="margin-top: 5%">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <div class="card card-register">
         <div class="card-header">Edit Event</div>
         <div class="card-body">
@@ -218,9 +220,6 @@
 <script src='${contextPath}/resources/js/pamCode.js'></script>
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places"></script>
-<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-<script>tinymce.init({selector: 'textarea'});</script>
-
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
 <script src='${contextPath}/resources/bootstrap3/js/bootstrap.min.js'></script>

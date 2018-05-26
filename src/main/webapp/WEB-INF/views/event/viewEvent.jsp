@@ -22,6 +22,7 @@
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <div class="container-fluid">
         <div class="col-md-4">
             <table class="table">

@@ -95,9 +95,11 @@
 
     <div class="col-md-10 content">
         <div class="row">
-            <div class="col-md-7">
+
+            <div class="col-md-8">
                 <div id='calendar'></div>
             </div>
+
             <div class="col-md-3">
                 <form:form method="POST" modelAttribute="filter">
 

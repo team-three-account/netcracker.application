@@ -12,6 +12,9 @@
     <title>Shared folders to me</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 <div class="row">
@@ -21,6 +24,7 @@
 </div>
 
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <div>
         <a class="btn btn-primary" href="<c:url value='/account/allNotes'/>"> < Back </a>
     </div>

@@ -13,15 +13,19 @@
     <title>Search</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <%--<link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">--%>
 </head>
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-lg-2 col-md-2 col-xl-2"
+    <div class="col-lg-2 col-md-2 col-xl-2">
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 <div class="col-lg-10 col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <div class="row form-inline">
         <h3 class="caption"> Result search in my items</h3>
         <div class="parent">

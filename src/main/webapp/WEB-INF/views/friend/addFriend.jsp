@@ -12,6 +12,9 @@
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <!-- Custom styles for this template-->
 </head>
 <body>
@@ -22,6 +25,7 @@
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
     <div class="col-md-10">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <div class="card card-register">
             <h1>Search for friends</h1>
             <form method="POST"
@@ -60,9 +64,5 @@
         </div>
     </div>
 </div>
-
-
-<script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
-<script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
 </body>
 </html>

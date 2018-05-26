@@ -18,6 +18,7 @@
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <!-- Custom styles for this template-->
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <meta name="google-signin-client_id"
@@ -32,6 +33,7 @@
     </div>
 
     <div class="col-md-10 content">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <form:form method="POST" modelAttribute="user" action="/account/settings-user" enctype="multipart/form-data">
             <table class="table">
                 <tr>
@@ -101,20 +103,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
 <script src="${contextPath}/resources/js/google.js"></script>
 <script src='${contextPath}/resources/js/pamCode.js'></script>
-<script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-<script>
-    var input = document.getElementById('name');
-    var inputSurname = document.getElementById('surname');
-    input.oninvalid = function(event) {
-        event.target.setCustomValidity('Name should only contain english letters.');
-    }
-    inputSurname.oninvalid = function(event) {
-        event.target.setCustomValidity('Surname should only contain english letters.');
-    }
-</script>
+
 </body>
 
 </html>

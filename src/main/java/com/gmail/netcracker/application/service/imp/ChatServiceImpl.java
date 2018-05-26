@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.ChatDao;
 import com.gmail.netcracker.application.dto.model.Chat;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.EventMessage;
+import com.gmail.netcracker.application.dto.model.Notification;
 import com.gmail.netcracker.application.service.interfaces.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,5 +48,10 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public void deleteEventChat(Event event) {
         chatDao.deleteChat(event);
+    }
+
+    @Override
+    public List<Notification> allUserChats(Long userId) {
+        return chatDao.allUserChats(userId);
     }
 }

@@ -17,7 +17,7 @@ public class EventMessageServiceImpl implements EventMessageService {
     private EventMessageDao eventMessageDao;
 
     @Override
-    public void addNewMessage(Event event, EventMessage message, User user, Chat chat) {
-        eventMessageDao.insertMessage(event, message, user, chat);
+    public void addNewMessage( EventMessage message) {
+        eventMessageDao.insertMessage( message);
     }
 }

@@ -44,8 +44,6 @@
         <div class="form-group">
           <label id="l1">Email address</label>
           <input name="username" id="username" class="form-control"
-                 type="email"
-                 aria-describedby="emailHelp"
                  placeholder="Enter email"/>
         </div>
         <div id="status">

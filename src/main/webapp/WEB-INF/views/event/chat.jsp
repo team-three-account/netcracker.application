@@ -34,8 +34,8 @@
                     Disconnect
                 </button>
 
-                <input type="number" id="chat" value="${chat.chatId}">
-                <input type="number" id="event" value="${event.eventId}">
+                <input type="number" hidden id="chat" value="${chat.chatId}">
+                <input type="number" hidden id="event" value="${event.eventId}">
                 <input type="hidden" id="chatWithCreator" value="${chat.state}">
                 <input type="hidden" id="photo" value="${auth_user.photo}">
                 <input type="hidden" id="authUserId" value="${auth_user.id}">
@@ -57,7 +57,8 @@
                                 <form:if test="${auth_user.id!=message.senderId}">
                                     <div class="text-left" id="showMessageOutputFromData">
                                         <input type="hidden" id="sender" value="${message.senderId}">
-                                        <p><a href="/account/${message.senderId}"><img class="img-circle" style="width: 40px;height: 40px"
+                                        <p><a href="/account/${message.senderId}"><img class="img-circle"
+                                                                                       style="width: 40px;height: 40px"
                                                                                        src="${message.senderPhoto}"></a> ${message.text} ${message.time}
                                         </p>
                                     </div>
@@ -68,11 +69,15 @@
                         <input type="text" onkeyup="checkParams()" class="form-control col-md-3" id="text"
                                placeholder="Write a message..."/>
                         <input type="hidden" id="userId" value="${auth_user.id}">
-                        <input class="btn btn-primary" type="submit" id="sendMessage" onclick="sendMessage()" disabled value="Send">
+                        <input class="btn btn-primary" type="submit" id="sendMessage" onclick="sendMessage();" disabled
+                               value="Send">
                     </div>
                 </div>
+
                 <div class="col-md-4 col-lg-4">
                     <div class="text-right">
+                        <input class="btn btn-primary" type="submit"  onclick="loadNotification();"
+                               value="Senddasdsad">
                         <h3>Participants</h3>
                         <c:forEach var="participant" items="${participants}">
                             <table class="table">
@@ -80,16 +85,20 @@
                                 <form:if test="${chat.state==false}">
                                     <form:if test="${participant.id!=event.creator}">
                                         <tr>
-                                            <td><a href="/account/${participant.id}"><img class="img-circle" style="width: 40px;height: 40px"
-                                                                                          src="${participant.photo}"></a></td>
-                                        <td class="text-right">${participant.name} ${participant.surname}</td>
+                                            <td><a href="/account/${participant.id}"><img class="img-circle"
+                                                                                          style="width: 40px;height: 40px"
+                                                                                          src="${participant.photo}"></a>
+                                            </td>
+                                            <td class="text-right">${participant.name} ${participant.surname}</td>
                                         </tr>
                                     </form:if>
                                 </form:if>
                                 <form:if test="${chat.state==true}">
                                     <tr>
-                                        <td><a href="/account/${participant.id}"><img class="img-circle" style="width: 40px;height: 40px"
-                                                                                      src="${participant.photo}"></a></td>
+                                        <td><a href="/account/${participant.id}"><img class="img-circle"
+                                                                                      style="width: 40px;height: 40px"
+                                                                                      src="${participant.photo}"></a>
+                                        </td>
 
                                         <td class="text-right">${participant.name} ${participant.surname}</td>
                                     </tr>
@@ -98,13 +107,14 @@
                             </table>
                         </c:forEach>
                     </div>
+                    <div id="notification"></div>
                 </div>
+
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 <script src="${contextPath}/resources/js/stomp.js"></script>
 <script src="${contextPath}/resources/js/sockjs-0.3.4.js"></script>
 <script src="${contextPath}/resources/js/chat.js"></script>

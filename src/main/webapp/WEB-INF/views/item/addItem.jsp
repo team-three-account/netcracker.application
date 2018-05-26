@@ -6,16 +6,20 @@
     <title>Add new item</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2"
+    <div class="col-md-2">
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <div class="card card-register">
         <div class="card-header">Create Item</div>
         <div class="card-body">
@@ -76,12 +80,5 @@
 </div>
 </form:form>
 </div>
-<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
-<script src='${contextPath}/resources/js/imageUpload.js'></script>
-<script>
-    var input = document.getElementById('name');
-    input.oninvalid = function(event) {
-        event.target.setCustomValidity('Item name should only contain english letters.');
-    }
-</script>
+
 </html>

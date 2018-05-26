@@ -22,7 +22,6 @@
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <div class="nav nav-justified navbar-nav">
-
                     <form class="navbar-form navbar-search" role="search" method="post" action="/account/search">
                         <div class="input-group">
 
@@ -60,6 +59,7 @@
                 <li><a href="<c:url value="/account/profile/${auth_user.id}"/> ">Profile</a></li>
                 <li><a href="/logout">Logout</a></li>
             </ul>
+
         </div>
     </div>
 </div>

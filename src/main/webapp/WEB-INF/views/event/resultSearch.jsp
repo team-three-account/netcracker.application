@@ -25,6 +25,7 @@
 
 
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <p>
         <a class="btn btn-primary"  href="/account/available" role="button">All events</a>
         <a class="btn btn-primary"  href="/account/subscriptions" role="button">Subscriptions</a>

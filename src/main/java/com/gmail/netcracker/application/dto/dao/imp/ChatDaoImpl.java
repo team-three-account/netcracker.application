@@ -7,6 +7,7 @@ import com.gmail.netcracker.application.dto.model.Event;
 
 
 import com.gmail.netcracker.application.dto.model.EventMessage;
+import com.gmail.netcracker.application.dto.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,6 +15,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -38,6 +40,9 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     @Value("${sql.chat.getMessages}")
     private String SQL_GET_LIST;
 
+    @Value("${sql.select.all.chats.for.user}")
+    private String SQL_GET_CHATS_FOR_USER;
+
     @Autowired
     private EventDao eventDao;
 
@@ -45,14 +50,18 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
 
     private RowMapper<Chat> chatRowMapper;
 
+    private RowMapper<Notification> userChatRowMapper;
+
     private Logger logger = Logger.getLogger(ChatDaoImpl.class.getName());
 
     protected ChatDaoImpl(DataSource dataSource,
+                          @Qualifier("chatUserRowMapper") RowMapper<Notification> userChatRowMapper,
                           @Qualifier("eventMessageRowMapper") RowMapper<EventMessage> rowMapper,
                           @Qualifier("chatRowMapper") RowMapper<Chat> chatRowMapper) {
         super(dataSource);
         this.rowMapper = rowMapper;
         this.chatRowMapper = chatRowMapper;
+        this.userChatRowMapper = userChatRowMapper;
     }
 
     @Override
@@ -84,5 +93,10 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     @Override
     public void deleteChat(Event event) {
         deleteEntity(SQL_DELETE, event.getEventId());
+    }
+
+    @Override
+    public List<Notification> allUserChats(Long userId) {
+        return findEntityList(SQL_GET_CHATS_FOR_USER,userChatRowMapper,userId);
     }
 }

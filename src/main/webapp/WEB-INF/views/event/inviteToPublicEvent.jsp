@@ -23,6 +23,7 @@
 </div>
 
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <p>
     <a href="/account/eventList/event-${eventId}">
         <input type="submit" class="btn btn-primary text-center" value="< Back to event"></a>

@@ -30,6 +30,7 @@
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 <div class="col-md-10" style="padding-top: 3%">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <div class="card-header"><h2>Notification settings</h2></div>
     <div class="card-body">
         <div class="card card-register">
@@ -166,5 +167,6 @@
 </script>
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
+<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </body>
 </html>

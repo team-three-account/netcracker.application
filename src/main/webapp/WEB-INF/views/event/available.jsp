@@ -12,12 +12,12 @@
 <head>
     <title>Events</title>
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
-    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <!-- Custom styles for this template-->
 </head>
-<body>
+<body onload="loadChats();">
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
     <div class="col-md-2"
@@ -26,14 +26,16 @@
 
 
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <p>
-        <a class="btn btn-primary"  href="/account/available" role="button">All events</a>
-        <a class="btn btn-primary"  href="/account/subscriptions" role="button">Subscriptions</a>
-        <a class="btn btn-primary"  href="/account/managed" role="button">Managed events</a>
-        <a class="btn btn-primary"  href="/account/draft" role="button">Drafts</a>
+        <a class="btn btn-primary" href="/account/available" role="button">All events</a>
+        <a class="btn btn-primary" href="/account/subscriptions" role="button">Subscriptions</a>
+        <a class="btn btn-primary" href="/account/managed" role="button">Managed events</a>
+        <a class="btn btn-primary" href="/account/draft" role="button">Drafts</a>
         <a class="btn btn-success" href="<c:url value='/account/eventList/createNewEvent' />">Add new event</a>
     </p>
     <h3>Search for events</h3>
+    <input hidden id="authUserId" value="${auth_user.id}"/>
     <form method="POST"
           class="forms_form" action="/account/eventList/search">
         <div class="form-group">
@@ -45,7 +47,7 @@
     </form>
     <h3>Events feed</h3>
     <div class="row">
-        <div class="col-md-10">
+        <div class="col-md-8">
             <table class="table">
                 <c:forEach var="event" items="${publicEventList}">
                     <tbody>
@@ -60,6 +62,9 @@
                     </tbody>
                 </c:forEach>
             </table>
+        </div>
+        <div class="col-md-4">
+
         </div>
     </div>
 
@@ -82,9 +87,12 @@
         </div>
     </div>
 </div>
+<script src="${contextPath}/resources/js/stomp.js"></script>
+<script src="${contextPath}/resources/js/sockjs-0.3.4.js"></script>
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
-<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>
+
+
 </body>
 </html>

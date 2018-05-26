@@ -29,14 +29,13 @@ public class EventMessageDaoImp extends ModelDao implements EventMessageDao {
 
     @Override
     @Transactional
-    public void insertMessage(Event event, EventMessage message, User user, Chat chat) {
-        event.setEventId(
-                (insertEntity(
+    public void insertMessage(EventMessage message) {
+                insertEntity(
                         SQL_INSERT,
                         PK_COLUMN_NAME,
                         message.getText(),
                         Utilities.parseStringToTimestampWithSeconds(message.getTime()),
-                        user.getId(),
-                        chat.getChatId())));
+                        message.getSenderId(),
+                        message.getChatId());
     }
 }

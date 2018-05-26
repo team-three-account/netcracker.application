@@ -27,6 +27,8 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 import javax.sql.DataSource;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Locale;
 
 import static com.gmail.netcracker.application.utilites.ResultSetColumnValueExtractor.*;
@@ -50,8 +52,6 @@ public class RootConfig {
     public RootConfig(Environment env) {
         this.env = env;
     }
-
-
 
 
     @Bean
@@ -129,6 +129,15 @@ public class RootConfig {
             chat.setEventId(getLong(resultSet, "event_id"));
             chat.setState(getBoolean(resultSet, "creator_event"));
             return chat;
+        };
+    }
+
+    @Bean
+    public RowMapper<Notification> chatUserRowMapper() {
+        return (resultSet, i) -> {
+            Notification notification = new Notification();
+            notification.setChatId(getLong(resultSet, "chat_id"));
+            return notification;
         };
     }
 
@@ -286,8 +295,8 @@ public class RootConfig {
             item.setPriority(getLong(resultSet, "priority_id"));
             item.setRoot(getLong(resultSet, "root_id"));
             item.setEvent(getLong(resultSet, "event_id"));
-            item.setImage(getString(resultSet,"image"));
-            item.setIsLiked(getInt(resultSet,"is_liked"));
+            item.setImage(getString(resultSet, "image"));
+            item.setIsLiked(getInt(resultSet, "is_liked"));
             return item;
         };
     }
@@ -305,8 +314,9 @@ public class RootConfig {
     @Bean
     public Gson gsonTimeline() {
         return new GsonBuilder()
-            .registerTypeAdapter(Event.class, new TimelineSerializer())
-            .create(); }
+                .registerTypeAdapter(Event.class, new TimelineSerializer())
+                .create();
+    }
 
     @Bean
     public RowMapper<Like> likeRowMapper() {
@@ -323,5 +333,6 @@ public class RootConfig {
     public Gson gsonEvents() {
         return new GsonBuilder()
                 .registerTypeAdapter(Event.class, new EventSerializer())
-                .create(); }
+                .create();
+    }
 }

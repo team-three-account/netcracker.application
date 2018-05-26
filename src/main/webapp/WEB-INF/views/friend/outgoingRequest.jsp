@@ -15,17 +15,21 @@
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <!-- Custom styles for this template-->
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
 </head>
 <body>
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2"
+    <div class="col-md-2">
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
 
 <div class="col-md-10 content">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <p>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/friends" role="button">All Friends</a>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/friends/incoming" role="button">Incoming
@@ -54,8 +58,6 @@
 </div>
 
 
-<script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
-<script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
-<script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
+
 </body>
 </html>

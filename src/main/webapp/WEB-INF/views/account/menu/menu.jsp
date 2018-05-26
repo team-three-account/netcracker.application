@@ -8,10 +8,6 @@
                 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<head>
-    <title>Title</title>
-</head>
-<body>
 <div class="container-fluid">
     <div class="row">
         <div class="sidebar menu nav-style">
@@ -19,6 +15,7 @@
                 <li><img class="img-circle text-center" style="margin-left:10%;width: 40px;height: 40px" src="<c:url value="${auth_user.photo}"/>"></li>
                 <li><a href="/account/profile/${auth_user.id}">${auth_user.name} ${auth_user.surname}</a>
                 </li>
+                <input hidden id="authUserId" value="${auth_user.id}"/>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="/account/available">Events</a></li>
@@ -27,8 +24,10 @@
                 <li><a href="/account/user-${auth_user.id}/wishList">Wish List</a></li>
                 <li><a href="/account/calendar">Calendar</a></li>
             </ul>
+
         </div>
+
     </div>
 </div>
-</body>
+
 </html>

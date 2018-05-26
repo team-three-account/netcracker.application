@@ -14,6 +14,8 @@
     <script src="${contextPath}/resources/vendor/bootstrap/js/moment.min.js"></script>
     <script src="${contextPath}/resources/vendor/bootstrap/js/prettycron.js"></script>
     <script src="${contextPath}/resources/js/periodicity.js"></script>
+    <script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+    <script>tinymce.init({selector: 'textarea'});</script>
 </head>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
@@ -25,6 +27,7 @@
     <div class="card card-register">
         <div class="card-header">Create New Event</div>
         <div class="card-body">
+            <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
             <%--action="/account/eventList/createNewEvent"--%>
             <form:form id="valid_maps" method="POST" modelAttribute="createNewEvent" class="forms_form"
                        enctype="multipart/form-data">
@@ -214,12 +217,6 @@
 <script type="text/javascript"
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAw5DcnwHgQpslV50vf6yTeqBE7jgBTYpo&callback=initMap&language=en&libraries=places&region=en"></script>
 
-<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
-<script
-        src="https://code.jquery.com/jquery-3.3.1.min.js"
-        integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-        crossorigin="anonymous"></script>
-<script>tinymce.init({selector: 'textarea'});</script>
 <script src='${contextPath}/resources/js/imageUpload.js'></script>
 <script src='${contextPath}/resources/js/jquery.datetimepicker.full.min.js'></script>
 <script src='${contextPath}/resources/js/datetime.js'></script>

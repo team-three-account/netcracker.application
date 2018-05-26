@@ -20,7 +20,6 @@
     <script src='../resources/calendar/js/jquery.min.js'></script>
     <script src='../resources/calendar/js/fullcalendar.min.js'></script>
     <script src='../resourses/calendar/js/gcal.js'></script>
-
     <script>
 
         $(document).ready(function () {
@@ -90,6 +89,7 @@
     </div>
 
     <div class="col-md-10 content">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <div class="row">
             <div class="col-md-6">
                 <div id='calendar'></div>

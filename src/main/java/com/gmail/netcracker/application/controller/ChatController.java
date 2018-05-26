@@ -1,27 +1,31 @@
 package com.gmail.netcracker.application.controller;
 
 
-import com.gmail.netcracker.application.dto.model.EventMessage;
-import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.interfaces.ChatService;
 import com.gmail.netcracker.application.service.interfaces.EventMessageService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(value = "/account/eventList")
 public class ChatController {
+
     @Autowired
     private UserService userService;
     @Autowired
@@ -30,7 +34,12 @@ public class ChatController {
     private EventService eventService;
     @Autowired
     private ChatService chatService;
+
+    @Autowired
     private User user;
+
+    @Autowired
+    private Event event;
 
     private Logger logger = Logger.getLogger(ChatService.class.getName());
 
@@ -41,13 +50,19 @@ public class ChatController {
         user = userService.getAuthenticatedUser();
         List<EventMessage> list = chatService.getMessagesForEvent(eventId, chatId, true);
         modelAndView.addObject("event", eventService.getEvent(eventId));
-        modelAndView.addObject("participants",eventService.getParticipants(eventId));
+        modelAndView.addObject("participants", eventService.getParticipants(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-//        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent((long) eventId, chatId, true));
         modelAndView.addObject("chat", chatService.getChatByEventId(eventService.getEvent(eventId), true));
         logger.info(list.toString());
         modelAndView.setViewName("event/chat");
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/eventChat/main/notification", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public List<Notification> getNotificationForMessages(@RequestParam Long authUserId) {
+        logger.info(chatService.allUserChats(authUserId).toString());
+        return chatService.allUserChats(authUserId);
     }
 
     @RequestMapping(value = "/eventChat/main/getChatMessages", method = RequestMethod.GET, produces = "application/json")
@@ -67,11 +82,9 @@ public class ChatController {
         user = userService.getAuthenticatedUser();
         List<EventMessage> list = chatService.getMessagesForEvent(eventId, chatId, false);
         modelAndView.addObject("event", eventService.getEvent(eventId));
-        modelAndView.addObject("participants",eventService.getParticipants(eventId));
+        modelAndView.addObject("participants", eventService.getParticipants(eventId));
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-//        modelAndView.addObject("chatMessage", chatService.getMessagesForEvent((long) eventId, chatId, false));
         modelAndView.addObject("chat", chatService.getChatByEventId(eventService.getEvent(eventId), false));
-        logger.info(list.toString());
         modelAndView.setViewName("event/chat");
         return modelAndView;
     }
@@ -83,26 +96,20 @@ public class ChatController {
                              @DestinationVariable(value = "userId") String userId,
                              @DestinationVariable(value = "chatId") String chatId,
                              EventMessage message) throws Exception {
-        User user = userService.findUserById(Long.valueOf(userId));
-
-
-        String time = Utilities.getCurrentDateInString();
-        message.setTime(time);
-        message.setChatId(Long.valueOf(eventId));
+        user = userService.findUserById(Long.valueOf(userId));
+        event = eventService.getEvent(Long.valueOf(eventId));
+        message.setTime(Utilities.getCurrentDateInString());
+        message.setChatId(Long.valueOf(chatId));
         message.setEventId(Long.valueOf(eventId));
+        message.setSenderId(user.getId());
         logger.info(message.toString());
-
-
         try {
-            eventMessageService.addNewMessage(eventService.getEvent(message.getEventId()),
-                    message,
-                    user,
-                    chatService.getChatByChatId(Long.valueOf(chatId)));
+            eventMessageService.addNewMessage(message);
         } catch (Throwable t) {
             logger.info(t.getMessage());
         }
         return message;
-
-
     }
+
+
 }
