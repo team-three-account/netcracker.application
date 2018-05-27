@@ -34,27 +34,28 @@
                 },
                 editable: false,
                 eventLimit: true, // allow "more" link when too many events
-                events: function (start, end, timezone, callback) {
-                    $.ajax({
-                        url: '/account/getEvents',
-                        dataType: 'json',
-                        data: {
-                            // our hypothetical feed requires UNIX timestamps
-                            start: start.unix(),
-                            end: end.unix()
-                        },
-                        success: function (doc) {
-                            callback(doc);
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            console.log(xhr);
-                            console.log(ajaxOptions);
-                            console.log(thrownError);
-                            alert(xhr.status);
-                            alert(thrownError);
+                eventSources: [
+                    {
+                        events: function (start, end, timezone, callback) {
+                            $.ajax({
+                                url: '/account/getEvents',
+                                dataType: 'json',
+                                data: {
+                                    start: start.unix(),
+                                    end: end.unix()
+                                },
+                                success: function (doc) {
+                                    console.log(doc);
+                                    callback(doc);
+                                }
+                            });
                         }
-                    });
-                },
+                    },
+                    {
+                        googleCalendarApiKey: "AIzaSyAf7xOdlhpg8XRYBVsfYEK-Ra5_ltjd6Jg",
+                        googleCalendarId: "en.ukrainian#holiday@group.v.calendar.google.com"
+                    }
+                ],
                 eventClick: function (event) {
                     if (event.url) {
                         window.open(event.url);

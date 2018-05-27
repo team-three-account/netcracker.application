@@ -19,7 +19,7 @@
     <script src='../resources/calendar/js/moment.min.js'></script>
     <script src='../resources/calendar/js/jquery.min.js'></script>
     <script src='../resources/calendar/js/fullcalendar.min.js'></script>
-    <script type="javascript" src='../resources/calendar/js/gcal.js'></script>
+    <script src='../resources/calendar/js/gcal.js'></script>
 
     <script>
 
@@ -52,6 +52,10 @@
                                 }
                             });
                         }
+                    },
+                    {
+                        googleCalendarApiKey: "AIzaSyAf7xOdlhpg8XRYBVsfYEK-Ra5_ltjd6Jg",
+                        googleCalendarId: "en.ukrainian#holiday@group.v.calendar.google.com"
                     }
                 ],
                 eventClick: function (event) {
