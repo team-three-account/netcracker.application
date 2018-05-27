@@ -9,8 +9,8 @@ import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 
 import com.gmail.netcracker.application.validation.FolderValidator;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
-import java.util.logging.Logger;
 
+/**
+ * This class is a folder controller which connects business logic and web view through url patterns.
+ */
 @Controller
 @RequestMapping("/account")
 public class FolderController {
@@ -31,6 +33,8 @@ public class FolderController {
 
     private final FriendService friendService;
 
+    final static Logger logger = Logger.getLogger(FolderController.class);
+
     @Autowired
     public FolderController(FolderService folderService, UserService userService, FolderValidator folderValidator, FriendService friendService) {
         this.folderService = folderService;
@@ -39,13 +43,31 @@ public class FolderController {
         this.friendService = friendService;
     }
 
+    /**
+     * Method returns to the web page with fields to be filled in order field to create a new folder.
+     *
+     * @param folder
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = "/createFolder", method = RequestMethod.GET)
     public ModelAndView createFolder(@ModelAttribute(value = "createFolder") Folder folder, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("folder/createFolder");
+        logger.debug("get create folder web page");
         return modelAndView;
     }
 
+    /**
+     * This method calls validation for coming to server folder fields.
+     * Method creates a folder if validation go through  successfully
+     * otherwise method returns creation folder web page.
+     *
+     * @param folder
+     * @param result
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = "/createFolder", method = RequestMethod.POST)
     public ModelAndView saveFolder(@ModelAttribute("createFolder") Folder folder, BindingResult result,
                                    ModelAndView modelAndView) {
@@ -53,13 +75,22 @@ public class FolderController {
         modelAndView.setViewName("folder/createFolder");
         folderValidator.validate(folder, result);
         if (result.hasErrors()) {
+            logger.error("create folder error");
             return modelAndView;
         }
         folderService.createFolder(folder);
+        logger.debug("save folder: " + folder.getName());
         modelAndView.setViewName("redirect:/account/allNotes");
         return modelAndView;
     }
 
+    /**
+     * This method transfers to the folder content web page.
+     *
+     * @param folderId
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = "/folder-{folderId}", method = RequestMethod.GET)
     public ModelAndView viewFolder(@PathVariable("folderId") Long folderId, ModelAndView modelAndView) {
         List<Note> noteList = folderService.getNoteListIntoFolder(folderId);
@@ -72,12 +103,25 @@ public class FolderController {
         return modelAndView;
     }
 
+    /**
+     * This method removes the folder and redirect to the certain page.
+     *
+     * @param folderId
+     * @return
+     */
     @RequestMapping(value = {"/deleteFolder-{folderId}"}, method = RequestMethod.GET)
     public String deleteFolder(@PathVariable Long folderId) {
         folderService.delete(folderId);
         return "redirect:/account/allNotes";
     }
 
+    /**
+     * This method returns folder fields update web page.
+     *
+     * @param folderId
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = {"/editFolder-{folderId}"}, method = RequestMethod.GET)
     public ModelAndView editFolder(@PathVariable Long folderId, ModelAndView modelAndView) {
         modelAndView.addObject("editFolder", folderService.getFolder(folderId));
@@ -86,6 +130,16 @@ public class FolderController {
         return modelAndView;
     }
 
+    /**
+     * This method calls validation for coming to server folder fields.
+     * Method updates a folder if validation go through  successfully
+     * otherwise method returns updating folder web page.
+     *
+     * @param folder
+     * @param result
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = {"/editFolder-{folderId}"}, method = RequestMethod.POST)
     public ModelAndView updateFolder(@ModelAttribute("editFolder") Folder folder, BindingResult result,
                                      ModelAndView modelAndView) {
@@ -100,6 +154,13 @@ public class FolderController {
         return modelAndView;
     }
 
+    /**
+     * This method allows folder sharing with the list of friends.
+     *
+     * @param folderId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = {"/share-{folderId}"}, method = RequestMethod.GET)
     public String viewFriendsToShareFolder(@PathVariable Long folderId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -115,24 +176,50 @@ public class FolderController {
         return "folder/shareToFriends";
     }
 
+    /**
+     * This method allows access to folder.
+     *
+     * @param folderId
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = {"/share-{folderId}/share"}, method = RequestMethod.POST)
     public String allowAccessToFolder(@PathVariable Long folderId, @RequestParam(value = "userId") Long userId) {
         folderService.allowAccessToFolder(folderId, userId);
         return "redirect:/account/share-" + folderId;
     }
 
+    /**
+     * This method disable access to folder.
+     *
+     * @param folderId
+     * @param friendId
+     * @return
+     */
     @RequestMapping(value = {"/share-{folderId}/disable"}, method = RequestMethod.POST)
     public String disableAccessToFolder(@PathVariable Long folderId, @RequestParam(value = "friendId") Long friendId) {
         folderService.disableAccessToFolder(folderId, friendId);
         return "redirect:/account/share-" + folderId;
     }
 
+    /**
+     * This method checks folder content and replies correspondingly.
+     *
+     * @param sizeNoteList
+     * @return
+     */
     private static String folderMessage(Long sizeNoteList) {
         String clearFolder = "Notes into this folder: ";
         String folderHaveNotes = "Folder don't have any notes";
         return sizeNoteList > 0 ? clearFolder : folderHaveNotes;
     }
 
+    /**
+     * This method returns a web page where customers can see shared folder.
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = {"/sharedFoldersToMe"}, method = RequestMethod.GET)
     public String sharedFoldersToMe(Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());

@@ -21,6 +21,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+/**
+ * This class is a event controller which connects business logic and web view through url patterns.
+ */
 @Controller
 @RequestMapping("/account")
 public class EventController {
@@ -54,6 +57,13 @@ public class EventController {
         this.imageValidator = imageValidator;
     }
 
+    /**
+     * This method returns to the web page with fields to be filled in order field to create a new event.
+     *
+     * @param event
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
     public ModelAndView createNewEvent(@ModelAttribute(value = "createNewEvent") Event event, ModelAndView modelAndView) {
         event.setPhoto(photoService.getDefaultImageForEvents());
@@ -62,6 +72,21 @@ public class EventController {
         return modelAndView;
     }
 
+    /**
+     * This method calls validation for coming to server event fields.
+     * Method creates an event  if validation go through  successfully
+     * otherwise method returns creation event web page.
+     *
+     * @param event
+     * @param result
+     * @param hidden
+     * @param photo
+     * @param multipartFile
+     * @param modelAndView
+     * @return
+     * @throws IOException
+     * @throws DbxException
+     */
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.POST)
     public ModelAndView saveNewEvent(@ModelAttribute("createNewEvent") Event event,
                                      BindingResult result,
@@ -80,7 +105,7 @@ public class EventController {
             draftValidator.validate(event, result);
             event.setType((long) 0);
         }
-        if(event.getDraft().equals(false)){
+        if (event.getDraft().equals(false)) {
             eventValidator.validate(event, result);
         }
         Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
@@ -102,7 +127,12 @@ public class EventController {
         return modelAndView;
     }
 
-
+    /**
+     * This method removes the event and redirect to the certain page.
+     *
+     * @param eventId
+     * @return
+     */
     @RequestMapping(value = {"/eventList/deleteEvent-{eventId}"}, method = RequestMethod.GET)
     public String deleteEvent(@PathVariable Long eventId) {
         if (!eventService.getEvent(eventId).getPhoto().equals(photoService.getDefaultImageForEvents())) {
@@ -112,6 +142,13 @@ public class EventController {
         return "redirect:/account/managed";
     }
 
+    /**
+     * This method transfers to the event web page.
+     *
+     * @param eventId
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.GET)
     public ModelAndView viewEvent(@PathVariable("eventId") Long eventId, ModelAndView modelAndView) {
         User authUser = userService.getAuthenticatedUser();
@@ -136,6 +173,14 @@ public class EventController {
         return modelAndView;
     }
 
+    /**
+     * This method allows to edit event priority.
+     *
+     * @param eventId
+     * @param participation
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.POST)
     public String editPriority(@PathVariable("eventId") Long eventId,
                                @ModelAttribute(value = "participation") Participant participation,
@@ -146,6 +191,13 @@ public class EventController {
         return "redirect:/account/eventList/event-" + eventId;
     }
 
+    /**
+     * This method returns event fields update web page.
+     *
+     * @param eventId
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView editEvent(@PathVariable Long eventId,
                                   ModelAndView modelAndView) {
@@ -155,6 +207,20 @@ public class EventController {
         return modelAndView;
     }
 
+    /**
+     * This method calls validation for coming to server events fields.
+     * Method updates an event if validation go through  successfully
+     * otherwise method returns updating event web page.
+     *
+     * @param event
+     * @param multipartFile
+     * @param photo
+     * @param result
+     * @param modelAndView
+     * @return
+     * @throws IOException
+     * @throws DbxException
+     */
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.POST)
     public ModelAndView updateEvent(@ModelAttribute("editEvent") Event event,
                                     @RequestParam(value = "photoFile") MultipartFile multipartFile,
@@ -191,6 +257,13 @@ public class EventController {
         return modelAndView;
     }
 
+    /**
+     * This method allows to subscribe the event.
+     *
+     * @param eventId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
     public String participate(@RequestParam(value = "event_id") Long eventId, Model model) {
         model.addAttribute("auth_user", authUser);
@@ -198,11 +271,23 @@ public class EventController {
         return "redirect:/account/eventList/event-" + eventId;
     }
 
+    /**
+     * This method returns event types to the web page.
+     *
+     * @return
+     */
     @ModelAttribute("eventTypes")
     public List<EventType> getAllEventTypes() {
         return eventService.getAllEventTypes();
     }
 
+    /**
+     * This method returns a web page with the list of event subscribes.
+     *
+     * @param eventId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/event-{eventId}/participants", method = RequestMethod.GET)
     public String getParticipants(@PathVariable(value = "eventId") Long eventId, Model model) {
         List<User> participantList = eventService.getParticipants(eventId);
@@ -212,6 +297,12 @@ public class EventController {
         return "event/participants";
     }
 
+    /**
+     * This method returns available web page.
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/available", method = RequestMethod.GET)
     public String available(Model model) {
         authUser = userService.getAuthenticatedUser();
@@ -221,6 +312,13 @@ public class EventController {
         return "event/available";
     }
 
+    /**
+     * This method allows to unsubscribe the event.
+     *
+     * @param eventId
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
     public String unsubscribe(@RequestParam(value = "event_id") Long eventId, Model model) {
         model.addAttribute("auth_user", authUser);
@@ -228,6 +326,12 @@ public class EventController {
         return "redirect:/account/eventList/event-" + eventId;
     }
 
+    /**
+     * This method returns a web page where customer can see own subscribes.
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
     public String getSubscriptions(Model model) {
         List<Event> eventList = eventService.getAllMyEvents();
@@ -238,6 +342,12 @@ public class EventController {
         return "event/subscriptions";
     }
 
+    /**
+     * This method returns a web page with the list of customer drafts.
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/draft", method = RequestMethod.GET)
     public String draft(Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -248,9 +358,14 @@ public class EventController {
         return "event/draft";
     }
 
+    /**
+     * This method returns a web page where customer can see own events.
+     *
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/managed", method = RequestMethod.GET)
     public String managed(Model model) {
-
         List<Event> publicEventList = eventService.findCreatedPublicEvents(userService.getAuthenticatedUser().getId());
         List<Event> privateEventList = eventService.findPrivateEvents(userService.getAuthenticatedUser().getId());
         List<Event> friendsEventList = eventService.findCreatedFriendsEvents(userService.getAuthenticatedUser().getId());
@@ -265,6 +380,13 @@ public class EventController {
         return "event/managed";
     }
 
+    /**
+     * This method allows customer invite friends into public event.
+     *
+     * @param model
+     * @param eventId
+     * @return
+     */
     @RequestMapping(value = "/public/event-{eventId}/invite", method = RequestMethod.GET)
     public String inviteListToPublic(Model model, @PathVariable(value = "eventId") Long eventId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -276,6 +398,13 @@ public class EventController {
         return "/event/inviteToPublicEvent";
     }
 
+    /**
+     * This method save customer friend to event as participants.
+     *
+     * @param eventId
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "{eventId}/invite-to-public", method = RequestMethod.POST)
     public String inviteToPublic(@PathVariable(value = "eventId") Long eventId,
                                  @RequestParam(value = "userId") Long userId) {
@@ -283,6 +412,13 @@ public class EventController {
         return "redirect:/account/public/event-" + eventId + "/invite";
     }
 
+    /**
+     * This method allows customer invite friends into for_friend  event.
+     *
+     * @param model
+     * @param eventId
+     * @return
+     */
     @RequestMapping(value = "/for-friends/event-{eventId}/invite", method = RequestMethod.GET)
     public String inviteToForFriends(Model model, @PathVariable(value = "eventId") Long eventId) {
         model.addAttribute("auth_user", authUser);
@@ -294,6 +430,14 @@ public class EventController {
         return "/event/inviteToEventForFriends";
     }
 
+    /**
+     * This method returns a web page where customer can transform note into event.
+     *
+     * @param event
+     * @param modelAndView
+     * @param noteId
+     * @return
+     */
     @RequestMapping(value = {"/translateToEvent-{noteId}"}, method = RequestMethod.GET)
     public ModelAndView translateToEvent(@ModelAttribute(value = "createNewEvent") Event event,
                                          ModelAndView modelAndView,
@@ -308,6 +452,21 @@ public class EventController {
         return modelAndView;
     }
 
+    /**
+     * This method calls validation for coming to server events fields.
+     * Method saves an event and delete note if validation go through  successfully
+     * otherwise method returns transformer note to event web page.
+     *
+     * @param event
+     * @param result
+     * @param photo
+     * @param multipartFile
+     * @param modelAndView
+     * @param noteId
+     * @return
+     * @throws IOException
+     * @throws DbxException
+     */
     @RequestMapping(value = {"/translateToEvent-{noteId}"}, method = RequestMethod.POST)
     public ModelAndView saveNoteToEvent(@ModelAttribute("createNewEvent") Event event,
                                         BindingResult result,
@@ -332,6 +491,13 @@ public class EventController {
         return modelAndView;
     }
 
+    /**
+     * This method returns a web page where customer can convert draft to event.
+     *
+     * @param eventId
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = {"/eventList/convertToEvent-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView getPageConvertDraftToEvent(@PathVariable Long eventId,
                                                    ModelAndView modelAndView) {
@@ -344,6 +510,21 @@ public class EventController {
         return modelAndView;
     }
 
+    /**
+     * This method calls validation for coming to server events fields.
+     * Method saves an event and delete draft if validation go through  successfully
+     * otherwise method returns transformer draft to event web page.
+     *
+     * @param eventId
+     * @param event
+     * @param photo
+     * @param multipartFile
+     * @param result
+     * @param modelAndView
+     * @return
+     * @throws IOException
+     * @throws DbxException
+     */
     @RequestMapping(value = {"/eventList/convertToEvent-{eventId}"}, method = RequestMethod.POST)
     public ModelAndView convertDraftToEvent(@PathVariable Long eventId,
                                             @ModelAttribute("editEvent") Event event,
@@ -376,6 +557,13 @@ public class EventController {
         return modelAndView;
     }
 
+    /**
+     * This method returns a timeline web page.
+     *
+     * @param model
+     * @param userId
+     * @return
+     */
     @RequestMapping(value = "/{userId}/timeline", method = RequestMethod.GET)
     public String timeLine(Model model, @PathVariable Long userId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());

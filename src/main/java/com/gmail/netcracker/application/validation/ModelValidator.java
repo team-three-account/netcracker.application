@@ -96,5 +96,4 @@ public abstract class ModelValidator {
             errors.rejectValue("name", "pattern.error");
         }
     }
-
 }
