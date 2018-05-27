@@ -42,6 +42,9 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     @Value("${sql.chat.findAllUserChats}")
     private String SQL_GET_CHATS_FOR_USER;
 
+    @Value("${sql.select.all.chats.information}")
+    private String SQL_ALL_CHAT_INFORMATION;
+
     @Autowired
     private EventDao eventDao;
 
@@ -49,11 +52,14 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
 
     private RowMapper<Chat> chatRowMapper;
 
+    private RowMapper<Notification> notificationRowMapper;
+
     private RowMapper<Notification> userChatRowMapper;
 
     private Logger logger = Logger.getLogger(ChatDaoImpl.class.getName());
 
     protected ChatDaoImpl(DataSource dataSource,
+                          @Qualifier("notificationRowMapper") RowMapper<Notification> notificationRowMapper,
                           @Qualifier("chatUserRowMapper") RowMapper<Notification> userChatRowMapper,
                           @Qualifier("eventMessageRowMapper") RowMapper<EventMessage> rowMapper,
                           @Qualifier("chatRowMapper") RowMapper<Chat> chatRowMapper) {
@@ -61,6 +67,7 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
         this.rowMapper = rowMapper;
         this.chatRowMapper = chatRowMapper;
         this.userChatRowMapper = userChatRowMapper;
+        this.notificationRowMapper = notificationRowMapper;
     }
 
     @Override
@@ -95,7 +102,12 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     }
 
     @Override
+    public List<Notification> allUserChatId(Long userId) {
+        return findEntityList(SQL_GET_CHATS_FOR_USER, notificationRowMapper, userId);
+    }
+
+    @Override
     public List<Notification> allUserChats(Long userId) {
-        return findEntityList(SQL_GET_CHATS_FOR_USER,userChatRowMapper,userId);
+        return findEntityList(SQL_ALL_CHAT_INFORMATION, userChatRowMapper, userId);
     }
 }

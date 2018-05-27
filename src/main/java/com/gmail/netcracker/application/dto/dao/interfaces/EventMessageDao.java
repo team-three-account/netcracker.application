@@ -9,4 +9,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface EventMessageDao {
 
     void insertMessage(EventMessage message);
+
+    EventMessage getLastMessage(Long chatId);
 }

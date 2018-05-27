@@ -338,8 +338,8 @@ public class EventController {
         Event event = eventService.getEvent(eventId);
         event.setPhoto(photoService.getDefaultImageForEvents());
         modelAndView.addObject("editEvent", event);
-        event.setDraft(false);
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+
+                modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("event/updateEvent");
         return modelAndView;
     }

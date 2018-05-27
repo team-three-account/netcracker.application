@@ -8,5 +8,9 @@ import java.util.List;
 @Data
 @Component
 public class Notification {
+    private User user;
+    private Event event;
+    private EventMessage lastMessage;
     private Long chatId;
+
 }

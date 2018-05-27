@@ -17,7 +17,12 @@ public class EventMessageServiceImpl implements EventMessageService {
     private EventMessageDao eventMessageDao;
 
     @Override
-    public void addNewMessage( EventMessage message) {
-        eventMessageDao.insertMessage( message);
+    public void addNewMessage(EventMessage message) {
+        eventMessageDao.insertMessage(message);
+    }
+
+    @Override
+    public EventMessage getLastMessage(Long chatId) {
+        return eventMessageDao.getLastMessage(chatId);
     }
 }

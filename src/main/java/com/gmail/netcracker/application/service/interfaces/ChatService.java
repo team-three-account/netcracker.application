@@ -23,5 +23,7 @@ public interface ChatService {
 
     void deleteEventChat(Event event);
 
+    List<Notification> allUserChatId(Long userId);
+
     List<Notification> allUserChats(Long userId);
 }

@@ -23,5 +23,6 @@ public interface ChatDao {
     void deleteChat(Event event);
 
 
+    List<Notification> allUserChatId(Long userId);
     List<Notification> allUserChats(Long userId);
 }

@@ -131,12 +131,36 @@ public class RootConfig {
             return chat;
         };
     }
-
+    @Bean
+    public RowMapper<Notification> notificationRowMapper() {
+        return (resultSet, i) -> {
+            Notification notification = new Notification();
+            notification.setChatId(getLong(resultSet, "chat_id"));
+            return notification;
+        };
+    }
     @Bean
     public RowMapper<Notification> chatUserRowMapper() {
         return (resultSet, i) -> {
             Notification notification = new Notification();
+            EventMessage eventMessage = new EventMessage();
+            Event event = new Event();
+            User user = new User();
+            user.setId(getLong(resultSet, "user_id"));
+            event.setEventId(getLong(resultSet, "event_id"));
+            event.setName(getString(resultSet, "name"));
+            event.setCreator(getLong(resultSet, "creator_id"));
+            event.setPhoto(getString(resultSet, "photo"));
+            eventMessage.setText(getString(resultSet, "text"));
+            eventMessage.setTime(Utilities.parseDateToStringWithSeconds(getTimestamp(resultSet, "date")));
+            eventMessage.setChatId(getLong(resultSet, "chat_id"));
+            eventMessage.setSenderId(getLong(resultSet, "sender_id"));
+            eventMessage.setFrom(getString(resultSet,"sender_name"));
+            eventMessage.setSenderPhoto(getString(resultSet,"sender_photo"));
             notification.setChatId(getLong(resultSet, "chat_id"));
+            notification.setEvent(event);
+            notification.setUser(user);
+            notification.setLastMessage(eventMessage);
             return notification;
         };
     }

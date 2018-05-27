@@ -8,4 +8,6 @@ import com.gmail.netcracker.application.dto.model.User;
 public interface EventMessageService {
 
     void addNewMessage(EventMessage message);
+
+    EventMessage getLastMessage(Long chatId);
 }

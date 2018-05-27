@@ -51,6 +51,11 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    public List<Notification> allUserChatId(Long userId) {
+        return chatDao.allUserChatId(userId);
+    }
+
+    @Override
     public List<Notification> allUserChats(Long userId) {
         return chatDao.allUserChats(userId);
     }

@@ -13,6 +13,7 @@ public class Chat {
     private Long eventId;
     private List<EventMessage> eventMessageList;
     private Boolean state;
+    private EventMessage lastMessage;
 
     public Chat() {
     }

@@ -43,6 +43,18 @@ public class ChatController {
 
     private Logger logger = Logger.getLogger(ChatService.class.getName());
 
+    @RequestMapping(value = {"/chats/{userId}"}, method = RequestMethod.GET)
+    public ModelAndView mainChatPage(@PathVariable(value = "userId") Long userId,
+                                     ModelAndView modelAndView) {
+        user = userService.getAuthenticatedUser();
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.addObject("allChats", chatService.allUserChats(userId));
+        modelAndView.addObject("events",eventService.getAllMyEvents());
+        modelAndView.setViewName("account/chatlist");
+        return modelAndView;
+    }
+
+
     @RequestMapping(value = {"/eventChat/main/{chatId}-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView mainChatPage(@PathVariable(value = "eventId") Long eventId,
                                      @PathVariable(value = "chatId") Long chatId,
