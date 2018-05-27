@@ -15,7 +15,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -40,7 +39,7 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     @Value("${sql.chat.getMessages}")
     private String SQL_GET_LIST;
 
-    @Value("${sql.select.all.chats.for.user}")
+    @Value("${sql.chat.findAllUserChats}")
     private String SQL_GET_CHATS_FOR_USER;
 
     @Autowired
