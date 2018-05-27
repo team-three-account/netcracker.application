@@ -49,7 +49,6 @@ public class ChatController {
         user = userService.getAuthenticatedUser();
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("allChats", chatService.allUserChats(userId));
-        modelAndView.addObject("events",eventService.getAllMyEvents());
         modelAndView.setViewName("account/chatlist");
         return modelAndView;
     }
@@ -73,8 +72,8 @@ public class ChatController {
     @RequestMapping(value = "/eventChat/main/notification", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List<Notification> getNotificationForMessages(@RequestParam Long authUserId) {
-        logger.info(chatService.allUserChats(authUserId).toString());
-        return chatService.allUserChats(authUserId);
+        logger.info(chatService.allUserChatId(authUserId).toString());
+        return chatService.allUserChatId(authUserId);
     }
 
     @RequestMapping(value = "/eventChat/main/getChatMessages", method = RequestMethod.GET, produces = "application/json")

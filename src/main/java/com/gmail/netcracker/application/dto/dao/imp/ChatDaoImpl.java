@@ -39,10 +39,10 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     @Value("${sql.chat.getMessages}")
     private String SQL_GET_LIST;
 
-    @Value("${sql.chat.findAllUserChats}")
+    @Value("${sql.chats.getAllChatsForCurrentUser}")
     private String SQL_GET_CHATS_FOR_USER;
 
-    @Value("${sql.select.all.chats.information}")
+    @Value("${sql.chat.getAllInformationAboutCurrentUserChat}")
     private String SQL_ALL_CHAT_INFORMATION;
 
     @Autowired

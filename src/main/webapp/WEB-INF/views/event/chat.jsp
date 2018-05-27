@@ -76,8 +76,6 @@
 
                 <div class="col-md-4 col-lg-4">
                     <div class="text-right">
-                        <input class="btn btn-primary" type="submit"  onclick="loadNotification();"
-                               value="Senddasdsad">
                         <h3>Participants</h3>
                         <c:forEach var="participant" items="${participants}">
                             <table class="table">

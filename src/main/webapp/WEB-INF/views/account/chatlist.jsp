@@ -27,9 +27,18 @@
         <div class="col-md-offset-1 col-md-5">
         <c:forEach items="${allChats}" var="chat">
             <ul class="list-group">
-                <a href="/account/eventList/eventChat/main/${chat.chatId}-${chat.eventId}"><li class="list-group-item">
-                    <img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="${chat.image}"/>">${chat.eventName}</li></a>
+                <c:if test="${chat.creatorEvent==true}">
+                <a href="/account/eventList/eventChat/main/${chat.chatId}-${chat.event.eventId}"><li class="list-group-item">
+                    <img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="${chat.event.photo}"/>">${chat.event.name}
+                <p>${chat.lastMessage.text} </p></li></a>
+                </c:if>
+                <c:if test="${chat.creatorEvent==false}">
+                    <a href="/account/eventList/eventChat/subscriptions/${chat.chatId}-${chat.event.eventId}"><li class="list-group-item">
+                        <img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="${chat.event.photo}"/>">${chat.event.name}
+                        <p>${chat.lastMessage.text} </p></li></a>
+                </c:if>
             </ul>
+
         </c:forEach>
         </div>
     </div>
