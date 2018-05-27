@@ -7,22 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-//TODO don't forget about conversation in jobs after Utilities fixing !!!
 public class Utilities {
-    //deleted
-//    public static Timestamp parseStringIntoDate(String str_date) {
-//        try {
-//            DateFormat formatter;
-//            formatter = new SimpleDateFormat("yyyy-MM-dd");
-//            java.util.Date date = formatter.parse(str_date);
-//            Timestamp timestamp = new Timestamp(date.getTime());
-//            return timestamp;
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-
     public static String getPattern(String input) {
         return input + "%";
     }
@@ -46,14 +31,6 @@ public class Utilities {
         Format df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return df.format(date);
     }
-
-//    public static String parseDateIntoString(Long date) {
-//        if (date == null) {
-//            return "";
-//        }
-//        Format df = new SimpleDateFormat("yyyy-MM-dd");
-//        return df.format(new Date(date));
-//    }
 
     public static Timestamp parseStringToTimestampWithSeconds(String stringDate) {
         if (stringDate != null) {
@@ -141,4 +118,24 @@ public class Utilities {
         return new Timestamp(today.getTime());
     }
 
+    /**
+     * @param startDate
+     * @param endDate
+     * @return true if endDate is before startDate, otherwise false
+     */
+    public static boolean compareDates(String startDate, String endDate) {
+        boolean status = false;
+        Timestamp startTime = Utilities.parseStringToTimestamp(startDate);
+        Timestamp endTime = Utilities.parseStringToTimestamp(endDate);
+        if (startTime != null && endTime != null) {
+            if (endTime.before(startTime)) {
+                status = true;
+            }
+        }
+        return status;
+    }
+
+    public static boolean isBeforeCurrentDate(String date) {
+        return compareDates(parseDateToStringWithSeconds(new Date()), date);
+    }
 }

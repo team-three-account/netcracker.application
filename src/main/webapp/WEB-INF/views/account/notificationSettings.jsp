@@ -61,7 +61,7 @@
                                     value="${userNotificationOptions.notificationStartDate}"
                                     onchange="changeDayOfMonth()"
                                     placeholder="Enter notification start date"/>
-                        <form:errors path="notificationEndDate" cssClass="error"/>
+                        <form:errors path="notificationStartDate" cssClass="error"/>
                     </div>
                     <div class="form-group">
                         <label>End Date: </label>

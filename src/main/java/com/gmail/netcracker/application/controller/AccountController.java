@@ -1,6 +1,5 @@
 package com.gmail.netcracker.application.controller;
 
-
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.imp.PhotoServiceImp;
@@ -12,13 +11,11 @@ import com.gmail.netcracker.application.utilites.EventSerializer;
 import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.EditUserAccountValidator;
 import com.gmail.netcracker.application.validation.ImageValidator;
+import com.gmail.netcracker.application.validation.NotificationValidator;
 import com.gmail.netcracker.application.validation.ResetConfirmPasswordValidator;
-
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,15 +24,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-
 import java.util.UUID;
-import java.util.logging.Logger;
-
 
 @Controller
 @RequestMapping(value = "/account")
 public class AccountController {
-
     private User user;
 
     private EmailConstructor emailConstructor;
@@ -56,6 +49,8 @@ public class AccountController {
 
     private ImageValidator imageValidator;
 
+    private NotificationValidator notificationValidator;
+
     private Gson gson = new GsonBuilder()
             .registerTypeAdapter(Event.class, new EventSerializer())
             .create();
@@ -69,7 +64,8 @@ public class AccountController {
                              EditUserAccountValidator editUserAccountValidator,
                              EventService eventService,
                              ItemService itemService,
-                             ImageValidator imageValidator) {
+                             ImageValidator imageValidator,
+                             NotificationValidator notificationValidator) {
         this.emailConstructor = emailConstructor;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
@@ -79,8 +75,8 @@ public class AccountController {
         this.eventService = eventService;
         this.itemService = itemService;
         this.imageValidator = imageValidator;
+        this.notificationValidator = notificationValidator;
     }
-
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView homeAccount(ModelAndView modelAndView) {
@@ -158,10 +154,16 @@ public class AccountController {
     @RequestMapping(value = "/notificationSettings/save", method = RequestMethod.POST)
     public ModelAndView saveNotificationSettings(@ModelAttribute("userNotificationOptions") User userNotificationOptions,
                                                  @RequestParam(value = "isNotificationsEnabled", required = false) Boolean isNotificationEnabled,
-                                                 ModelAndView modelAndView) {
+                                                 BindingResult result, ModelAndView modelAndView) {
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("account/notificationSettings");
         if (isNotificationEnabled == null) {
             userService.disableNotifications(userNotificationOptions.getId());
         } else if (isNotificationEnabled.equals(true)) {
+            notificationValidator.validate(userNotificationOptions, result);
+            if (result.hasErrors()) {
+                return modelAndView;
+            }
             userService.updateNotificationSchedule(userNotificationOptions);
         }
         modelAndView.setViewName("redirect:/account/profile/" + userNotificationOptions.getId());
