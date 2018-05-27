@@ -44,7 +44,7 @@ public class RootConfig {
     private final Environment env;
 
     @Bean
-    public EmailConstructor emailConcructor() {
+    public EmailConstructor emailConstructor() {
         return new EmailConstructor();
     }
 

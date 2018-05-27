@@ -103,6 +103,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.getEventsByUserFromRange}")
     private String SQL_FROM_RANGE_BY_USER;
 
+    @Value("${sql.event.getEventsFromRange}")
+    private String SQL_GET_EVENTS_FROM_RANGE;
+
     private final RowMapper<Event> eventRowMapper;
     private final RowMapper<User> friendRowMapper;
     private final RowMapper<Participant> participantRowMapper;
@@ -274,8 +277,12 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end) {
-
         return findEntityList(SQL_FROM_RANGE_BY_USER, eventRowMapper, userId, end, start, end);
+    }
+
+    @Override
+    public List<Event> getEventsFromRange(Timestamp fromDate, Timestamp tillDate, Long id) {
+        return findEntityList(SQL_GET_EVENTS_FROM_RANGE, eventRowMapper, id, fromDate, tillDate);
     }
 }
 

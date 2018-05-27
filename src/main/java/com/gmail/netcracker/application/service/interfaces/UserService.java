@@ -12,8 +12,6 @@ public interface UserService {
 
     VerificationToken getVerificationToken(String token);
 
-
-
     void saveRegisteredUser(User user);
 
     void deleteVerificationToken(VerificationToken verificationToken);
@@ -29,8 +27,4 @@ public interface UserService {
     User findUserById(Long id);
 
     List<User> getAllUsers(Long currentId);
-
-    void updateNotificationSchedule(User user);
-
-    void disableNotifications(Long userId);
 }

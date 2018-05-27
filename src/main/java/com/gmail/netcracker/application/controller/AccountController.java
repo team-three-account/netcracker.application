@@ -26,10 +26,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
 
+
 @Controller
 @RequestMapping(value = "/account")
 public class AccountController {
-    private User user;
 
     private EmailConstructor emailConstructor;
 
@@ -158,13 +158,13 @@ public class AccountController {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("account/notificationSettings");
         if (isNotificationEnabled == null) {
-            userService.disableNotifications(userNotificationOptions.getId());
+            eventService.disableNotifications(userNotificationOptions.getId());
         } else if (isNotificationEnabled.equals(true)) {
             notificationValidator.validate(userNotificationOptions, result);
             if (result.hasErrors()) {
                 return modelAndView;
             }
-            userService.updateNotificationSchedule(userNotificationOptions);
+            eventService.updateNotificationSchedule(userNotificationOptions);
         }
         modelAndView.setViewName("redirect:/account/profile/" + userNotificationOptions.getId());
         return modelAndView;
@@ -201,6 +201,5 @@ public class AccountController {
         modelAndView.setViewName("redirect:/account/profile/" + user.getId());
         return modelAndView;
     }
-
 
 }

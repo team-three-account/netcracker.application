@@ -81,4 +81,10 @@ public interface EventService {
     String getEndDateFromDuration(String start, Long duration);
 
     String getEndDateFromDuration(Timestamp start, Long duration);
+
+    List<Event> getEventsFromRange(Timestamp fromDate, Timestamp tillDate, Long id);
+
+    void updateNotificationSchedule(User user);
+
+    void disableNotifications(Long userId);
 }

@@ -1,17 +1,29 @@
 package com.gmail.netcracker.application.utilites.scheduling.jobs;
 
-import lombok.Setter;
+import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.utilites.EmailConstructor;
+import com.lowagie.text.DocumentException;
+import lombok.Data;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import java.util.logging.Logger;
+import javax.mail.MessagingException;
+import java.io.FileNotFoundException;
+import java.sql.Timestamp;
 
-@Setter
+import static com.gmail.netcracker.application.utilites.Utilities.getTimestamp;
+
+@Data
 public class PersonalPlanNotificationJob extends QuartzJobBean{
+    private EmailConstructor emailConstructor;
+    private User user;
+
     @Override
-    protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        //TODO send pdf-file with plan
-        Logger.getLogger(PersonalPlanNotificationJob.class.getName()).info("It works!!!");
+    protected void executeInternal(JobExecutionContext jobExecutionContext) {
+        Timestamp fromDate = getTimestamp(jobExecutionContext.getFireTime());
+        Timestamp tillDate = getTimestamp(jobExecutionContext.getNextFireTime()); // for using
+        Timestamp month = Timestamp.valueOf("2018-06-30 17:00:00.000000"); // for demonstration
+        emailConstructor.notifyAboutPersonPlan(fromDate, month, user);
     }
 }

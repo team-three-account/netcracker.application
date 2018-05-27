@@ -9,6 +9,7 @@ import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.Utilities;
 import com.gmail.netcracker.application.utilites.scheduling.JobSchedulingManager;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.EventNotificationJob;
+import com.gmail.netcracker.application.utilites.scheduling.jobs.PersonalPlanNotificationJob;
 import org.bouncycastle.asn1.cms.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ public class EventServiceImpl implements EventService {
     private PriorityDao priorityDao;
     private NoteDao noteDao;
     private ItemDao itemDao;
+    private UserDao userDao;
 
     private JobSchedulingManager jobSchedulingManager;
     private EmailConstructor emailConstructor;
@@ -38,7 +40,7 @@ public class EventServiceImpl implements EventService {
     @Autowired
     public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService,
                             FriendService friendService, PriorityDao priorityDao, NoteDao noteDao, ItemDao itemDao,
-                            JobSchedulingManager jobSchedulingManager, EmailConstructor emailConstructor) {
+                            JobSchedulingManager jobSchedulingManager, EmailConstructor emailConstructor, UserDao userDao) {
         this.eventDao = eventDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
@@ -48,6 +50,7 @@ public class EventServiceImpl implements EventService {
         this.itemDao = itemDao;
         this.jobSchedulingManager = jobSchedulingManager;
         this.emailConstructor = emailConstructor;
+        this.userDao = userDao;
     }
 
     @Override
@@ -333,5 +336,46 @@ public class EventServiceImpl implements EventService {
     @Override
     public String getEndDateFromDuration(Timestamp start, Long duration) {
         return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(start.getTime() / 1000 + duration));
+    }
+
+    @Override
+    public List<Event> getEventsFromRange(Timestamp fromDate, Timestamp tillDate, Long id) {
+        return eventDao.getEventsFromRange(fromDate, tillDate, id);
+    }
+
+    @Override
+    public void updateNotificationSchedule(User user) {
+        userDao.updateNotificationsSchedule(user);
+        deletePersonalPlanNotificationJob(user.getId());
+        schedulePersonalPlanNotificationsJob(user);
+    }
+
+    @Override
+    public void disableNotifications(Long userId) {
+        userDao.disableNotifications(userId);
+        deletePersonalPlanNotificationJob(userId);
+    }
+
+    private void schedulePersonalPlanNotificationsJob(User user) {
+        final String PERSONAL_PLAN_NOTIFICATION_JOB_NAME_PREFIX = "personalPlanNotificationJob_";
+        final String PERSONAL_PLAN_NOTIFICATION_JOB_GROUP_NAME = "personalPlanNotificationJobs";
+        final String PERSONAL_PLAN_NOTIFICATION_TRIGGER_NAME_PREFIX = "personalPlanNotificationTrigger_";
+        final String PERSONAL_PLAN_NOTIFICATION_TRIGGER_GROUP_NAME = "personalPlanNotificationTriggers";
+        final String EMAIL_CONSTRUCTOR_FIELD_NAME = "emailConstructor";
+        final String USER_FIELD_NAME = "user";
+        Map<String, Object> params = new HashMap<>();
+        params.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
+        params.put(USER_FIELD_NAME, userService.getAuthenticatedUser());
+        jobSchedulingManager.scheduleJob(user.getId(), params, PersonalPlanNotificationJob.class,
+                parseStringToDate(user.getNotificationStartDate()), parseStringToDate(user.getNotificationEndDate()),
+                user.getNotificationPeriodicity(),
+                PERSONAL_PLAN_NOTIFICATION_JOB_NAME_PREFIX, PERSONAL_PLAN_NOTIFICATION_JOB_GROUP_NAME,
+                PERSONAL_PLAN_NOTIFICATION_TRIGGER_NAME_PREFIX, PERSONAL_PLAN_NOTIFICATION_TRIGGER_GROUP_NAME);
+    }
+
+    private void deletePersonalPlanNotificationJob(Long userId) {
+        final String PERSONAL_PLAN_NOTIFICATION_JOB_NAME_PREFIX = "personalPlanNotificationJob_";
+        final String PERSONAL_PLAN_NOTIFICATION_JOB_GROUP_NAME = "personalPlanNotificationJobs";
+        jobSchedulingManager.deleteJob(userId, PERSONAL_PLAN_NOTIFICATION_JOB_NAME_PREFIX, PERSONAL_PLAN_NOTIFICATION_JOB_GROUP_NAME);
     }
 }

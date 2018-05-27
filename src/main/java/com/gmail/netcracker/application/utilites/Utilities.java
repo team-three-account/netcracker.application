@@ -32,10 +32,18 @@ public class Utilities {
         return df.format(date);
     }
 
+//    public static String parseDateIntoString(Long date) {
+//        if (date == null) {
+//            return "";
+//        }
+//        Format df = new SimpleDateFormat("yyyy-MM-dd");
+//        return df.format(new Date(date));
+//    }
+
     public static Timestamp parseStringToTimestampWithSeconds(String stringDate) {
         if (stringDate != null) {
             try {
-                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date date = formatter.parse(stringDate);
                 Timestamp timestamp = new Timestamp(date.getTime());
                 return timestamp;
@@ -106,14 +114,26 @@ public class Utilities {
     }
 
     public static String getCurrentDateInString() throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timeStamp = getCurrentTimeStamp().toString();
-        return timeStamp;
+        Date dateTime = format.parse(timeStamp);
+        String t = format.format(dateTime);
+        return t;
     }
 
     public static Timestamp getCurrentTimeStamp() {
         Date today = new Date();
         return new Timestamp(today.getTime());
     }
+
+    /**
+     * Utility method to convert Date to Timestamp in Java
+     * @param date
+     * @return Timestamp
+     */
+     public static Timestamp getTimestamp(Date date)
+     { return date == null ? null : new java.sql.Timestamp(date.getTime()); }
+
 
     /**
      * @param startDate
