@@ -277,7 +277,9 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end) {
-        return findEntityList(SQL_FROM_RANGE_BY_USER, eventRowMapper, userId, end, start, end);
+        if(start.before(end)|| start.equals(end))
+            return findEntityList(SQL_FROM_RANGE_BY_USER, eventRowMapper, userId, end, start, end);
+        else return searchByUserFromRange(userId, end, start);
     }
 
     @Override

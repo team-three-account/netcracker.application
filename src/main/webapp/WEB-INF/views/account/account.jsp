@@ -20,7 +20,7 @@
     <script src='../resources/calendar/js/moment.min.js'></script>
     <script src='../resources/calendar/js/jquery.min.js'></script>
     <script src='../resources/calendar/js/fullcalendar.min.js'></script>
-    <script src='../resourses/calendar/js/gcal.js'></script>
+    <script src='../resources/calendar/js/gcal.js'></script>
     <script>
 
         $(document).ready(function () {
@@ -47,6 +47,9 @@
                             callback(doc);
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(xhr);
+                            console.log(ajaxOptions);
+                            console.log(thrownError);
                             alert(xhr.status);
                             alert(thrownError);
                         }

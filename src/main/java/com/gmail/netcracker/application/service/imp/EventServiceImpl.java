@@ -71,6 +71,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public void insertEvent(Event event) {
         setPersonId(event);
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
@@ -336,6 +337,18 @@ public class EventServiceImpl implements EventService {
     @Override
     public String getEndDateFromDuration(Timestamp start, Long duration) {
         return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(start.getTime() / 1000 + duration));
+    }
+
+    @Override
+    public List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end){
+        return setDateEnd(eventDao.searchByUserFromRange(userId,start, end));
+    }
+
+    @Override
+    public List<Event> searchByUserFromRange(Long userId, Long start, Long end){
+        return searchByUserFromRange(userId,
+                Utilities.parseLongToTimestamp(start),
+                Utilities.parseLongToTimestamp(end));
     }
 
     @Override

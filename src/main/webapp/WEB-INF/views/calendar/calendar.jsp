@@ -19,7 +19,7 @@
     <script src='../resources/calendar/js/moment.min.js'></script>
     <script src='../resources/calendar/js/jquery.min.js'></script>
     <script src='../resources/calendar/js/fullcalendar.min.js'></script>
-    <script src='../resourses/calendar/js/gcal.js'></script>
+    <script type="javascript" src='../resources/calendar/js/gcal.js'></script>
 
     <script>
 
@@ -34,28 +34,26 @@
                 },
                 editable: false,
                 eventLimit: true, // allow "more" link when too many events
-                events: function (start, end, timezone, callback) {
-                    $.ajax({
-                        url: '/account/getEventsWithFilter',
-                        dataType: 'json',
-                        data: {
-                            // our hypothetical feed requires UNIX timestamps
-                            filterPriority: JSON.stringify(${filter.priorities}),
-                            filterTypes: JSON.stringify(${filter.eventTypes}),
-                            start: start.unix(),
-                            end: end.unix()
-                        },
-                        success: function (doc) {
-                            console.log(doc);
-                            callback(doc);
-                        },
-                        error: function (xhr, ajaxOptions, thrownError) {
-                            alert(xhr.status);
-                            alert(thrownError);
+                eventSources: [
+                    {
+                        events: function (start, end, timezone, callback) {
+                            $.ajax({
+                                url: '/account/getEventsWithFilter',
+                                dataType: 'json',
+                                data: {
+                                    filterPriority: JSON.stringify(${filter.priorities}),
+                                    filterTypes: JSON.stringify(${filter.eventTypes}),
+                                    start: start.unix(),
+                                    end: end.unix()
+                                },
+                                success: function (doc) {
+                                    console.log(doc);
+                                    callback(doc);
+                                }
+                            });
                         }
-                    });
-                },
-                <%--events: ${eventList},--%>
+                    }
+                ],
                 eventClick: function (event) {
                     if (event.url) {
                         window.open(event.url);
