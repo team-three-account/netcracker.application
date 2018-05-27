@@ -29,12 +29,20 @@ public abstract class ModelDao {
         jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    protected Long insertEntity(String sql, String pkColumnName, Object... params) {
+    /**
+     * Inserts entity and returns generated key of entity (if key is instance of Number).
+     * If key has another type, null will be returned
+     * @param sql an SQL statement that may contain one or more '?' in parameter placeholders
+     * @param pkColumnName primary key column name, which holds generated key value
+     * @param args arguments for sql-statement
+     * @return generated number key of inserted entity. If key has another type, null will be returned
+     */
+    protected Long insertEntity(String sql, String pkColumnName, Object... args) {
         PreparedStatementCreator psc = connection -> {
             PreparedStatement ps = connection.prepareStatement(sql,
                     Statement.RETURN_GENERATED_KEYS);
-            if (params != null && params.length > 0) {
-                new ArgumentPreparedStatementSetter(params).setValues(ps);
+            if (args != null && args.length > 0) {
+                new ArgumentPreparedStatementSetter(args).setValues(ps);
             }
             return ps;
         };
@@ -45,8 +53,8 @@ public abstract class ModelDao {
         return null;
     }
 
-    protected int updateEntity(String sql, Object... params) {
-        return jdbcTemplate.update(sql, params);
+    protected int updateEntity(String sql, Object... args) {
+        return jdbcTemplate.update(sql, args);
     }
 
     protected int deleteEntity(String sql, String id) {
@@ -57,12 +65,12 @@ public abstract class ModelDao {
         return jdbcTemplate.update(sql, id);
     }
 
-    protected int deleteEntity(String sql, Object... params) {
-        return jdbcTemplate.update(sql, params);
+    protected int deleteEntity(String sql, Object... args) {
+        return jdbcTemplate.update(sql, args);
     }
 
-    protected <E> E findEntity(String sql, RowMapper<E> rowMapper, Object... params) {
-        List<E> query = jdbcTemplate.query(sql, rowMapper, params);
+    protected <E> E findEntity(String sql, RowMapper<E> rowMapper, Object... args) {
+        List<E> query = jdbcTemplate.query(sql, rowMapper, args);
         switch (query.size()) {
             case 0:
                 return null;
@@ -73,28 +81,25 @@ public abstract class ModelDao {
         }
     }
 
-    //It's findAll!!! Try to not use it
     protected <E> List<E> findEntityList(String sql, RowMapper<E> rowMapper) {
         return jdbcTemplate.query(sql, rowMapper);
     }
 
-    //It's findAll!!! Try to not use it
-    protected <E> List<E> findEntityList(String sql, RowMapper<E> rowMapper, Object... params) {
-        return jdbcTemplate.query(sql, rowMapper, params);
+    protected <E> List<E> findEntityList(String sql, RowMapper<E> rowMapper, Object... args) {
+        return jdbcTemplate.query(sql, rowMapper, args);
     }
 
     protected <E> List<E> findEntityList(String sql, RowMapper<E> rowMapper, Integer limit, Integer offset) {
         return jdbcTemplate.query(sql + " " + SQL_LIMIT_OFFSET, rowMapper, limit, offset);
     }
 
-    protected <E> List<E> findEntityList(String sql, RowMapper<E> rowMapper, Integer limit, Integer offset, Object... params) {
-        Object[] newParams = Arrays.copyOf(params, params.length + 2);
-        newParams[params.length] = limit;
-        newParams[params.length + 1] = offset;
-        return jdbcTemplate.query(sql + " " + SQL_LIMIT_OFFSET, rowMapper, newParams);
+    protected <E> List<E> findEntityList(String sql, RowMapper<E> rowMapper, Integer limit, Integer offset, Object... args) {
+        Object[] newArgs = Arrays.copyOf(args, args.length + 2);
+        newArgs[args.length] = limit;
+        newArgs[args.length + 1] = offset;
+        return jdbcTemplate.query(sql + " " + SQL_LIMIT_OFFSET, rowMapper, newArgs);
     }
 
-    //It's findAll!!! Try to not use it
     protected <E> Set<E> findEntitySet(String sql, RowMapper<E> rowMapper) {
         return new HashSet<>(findEntityList(sql, rowMapper));
     }
@@ -103,16 +108,11 @@ public abstract class ModelDao {
         return new HashSet<>(findEntityList(sql, rowMapper, limit, offset));
     }
 
-    protected <E> Set<E> findEntitySet(String sql, RowMapper<E> rowMapper, Integer limit, Integer offset, Object... params) {
-        return new HashSet<>(findEntityList(sql, rowMapper, limit, offset, params));
+    protected <E> Set<E> findEntitySet(String sql, RowMapper<E> rowMapper, Integer limit, Integer offset, Object... args) {
+        return new HashSet<>(findEntityList(sql, rowMapper, limit, offset, args));
     }
 
-    protected Long countRows(String sql, Long id) {
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, Long.class);
+    protected Long countRows(String sql, Object... args) {
+        return jdbcTemplate.queryForObject(sql, args, Long.class);
     }
-
-    protected Long maxIdValue(String sql) {
-        return jdbcTemplate.queryForObject(sql, new Object[]{}, Long.class);
-    }
-
 }
