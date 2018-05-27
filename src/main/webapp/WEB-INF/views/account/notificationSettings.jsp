@@ -97,34 +97,47 @@
                                     (choose one or
                                     many)</label>
                                 <div style="margin-left:50px;">
-                                    <label for="cronDowSun" class="nofloat">Sunday</label>
-                                    <input type="checkbox" id="cronDowSun"
-                                           name="cronDowSpecificSpecific"
-                                           value="SUN"/>
-                                    <label for="cronDowMon" class="nofloat">Monday</label>
-                                    <input type="checkbox" id="cronDowMon"
-                                           name="cronDowSpecificSpecific"
-                                           value="MON"/>
-                                    <label for="cronDowTue" class="nofloat">Tuesday</label>
-                                    <input type="checkbox" id="cronDowTue"
-                                           name="cronDowSpecificSpecific"
-                                           value="TUE"/>
-                                    <label for="cronDowWed" class="nofloat">Wednesday</label>
-                                    <input type="checkbox" id="cronDowWed"
-                                           name="cronDowSpecificSpecific"
-                                           value="WED"/>
-                                    <label for="cronDowThu" class="nofloat">Thursday</label>
-                                    <input type="checkbox" id="cronDowThu"
-                                           name="cronDowSpecificSpecific"
-                                           value="THU"/>
-                                    <label for="cronDowFri" class="nofloat">Friday</label>
-                                    <input type="checkbox" id="cronDowFri"
-                                           name="cronDowSpecificSpecific"
-                                           value="FRI"/>
-                                    <label for="cronDowSat" class="nofloat">Saturday</label>
-                                    <input type="checkbox" id="cronDowSat"
-                                           name="cronDowSpecificSpecific"
-                                           value="SAT"/>
+                                    <div style="display: inline-block">
+                                        <input type="checkbox" id="cronDowSun"
+                                               name="cronDowSpecificSpecific"
+                                               value="SUN"/>
+                                        <label for="cronDowSun" class="nofloat">Sunday</label>
+                                    </div>
+                                    <div style="display: inline-block">
+                                        <input type="checkbox" id="cronDowMon"
+                                               name="cronDowSpecificSpecific"
+                                               value="MON"/>
+                                        <label for="cronDowMon" class="nofloat">Monday</label>
+                                    </div>
+                                    <div style="display: inline-block">
+                                        <input type="checkbox" id="cronDowTue"
+                                               name="cronDowSpecificSpecific"
+                                               value="TUE"/>
+                                        <label for="cronDowTue" class="nofloat">Tuesday</label>
+                                    </div>
+                                    <div style="display: inline-block">
+                                        <input type="checkbox" id="cronDowWed"
+                                               name="cronDowSpecificSpecific"
+                                               value="WED"/>
+                                        <label for="cronDowWed" class="nofloat">Wednesday</label>
+                                    </div>
+                                    <div style="display: inline-block">
+                                        <input type="checkbox" id="cronDowThu"
+                                               name="cronDowSpecificSpecific"
+                                               value="THU"/>
+                                        <label for="cronDowThu" class="nofloat">Thursday</label>
+                                    </div>
+                                    <div style="display: inline-block">
+                                        <input type="checkbox" id="cronDowFri"
+                                               name="cronDowSpecificSpecific"
+                                               value="FRI"/>
+                                        <label for="cronDowFri" class="nofloat">Friday</label></div>
+                                    <div style="display: inline-block">
+                                        <input type="checkbox" id="cronDowSat"
+                                               name="cronDowSpecificSpecific"
+                                               value="SAT"/>
+                                        <label for="cronDowSat" class="nofloat">Saturday</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="cron-option" style="padding-bottom:10px">
@@ -149,6 +162,8 @@
         cron2text();
         isNotificationOptionsHidden = $("#isNotificationsEnabled").prop("checked");
         changeOptionsVisibility();
+        $('#dayOfMonth').text($('#dateStart').val().substr(8, 2));
+        insertDaysOfMonth();
     });
 
     function changeOptionsVisibility() {

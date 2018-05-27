@@ -1,5 +1,3 @@
-var currentStartDateMonth;
-
 function cron2text() {
     var cronExp = String($('#cron').val());
     console.log(cronExp);
@@ -36,17 +34,15 @@ function changePeriodicity() {
 
 function cron() {
     $(this).parents('.cron-option').children('input[type="radio"]').attr("checked", "checked");
-    insertDaysOfMonth();
     var seconds = getSeconds();
     var minutes = getMinutes();
+    var hours = getHours();
     var day = getDay();
     var dom = day[0];
     var dow = day[1];
-    var hours = getHours();
     var month = getMonth();
     var year = getYear();
     var cronExp = seconds + ' ' + minutes + ' ' + hours + ' ' + dom + ' ' + month + ' ' + dow + ' ' + year;
-    // $('.cronResult').text(cronExp);
     $('#cron').val(cronExp);
     cron2text();
     console.log(cronExp);
@@ -67,31 +63,21 @@ function getHours() {
 };
 
 function getDay() {
-
     var dow = '';
     var dom = '';
     if ($('#cronEveryMonth:checked').length) {
-        console.log(dow);
-        dom = $('#dateStart').val().substr(5, 2);
+        dom = $('#dateStart').val().substr(8, 2);
         dow = '?';
-        console.log(dom);
-
     }
     if ($('#cronEveryYear:checked').length) {
-        console.log(dow);
         dom = $('#dateStart').val().substr(8, 2)
         dow = '?';
-
     }
     if ($('#cronEveryDay:checked').length) {
         dow = '*';
         dom = '?';
-    } else if ($('#cronDowIncrement:checked').length) {
-        dow = $('#cronDowIncrementStart').val();
-        dow += '/';
-        dow += $('#cronDowIncrementIncrement').val();
-        dom = '?';
-    } else if ($('#cronDomIncrement:checked').length) {
+    }
+    else if ($('#cronDomIncrement:checked').length) {
         dom = $('#cronDomIncrementStart').val();
         dom = $('#dateStart').val().substr(8, 2);
         dom += '/';
@@ -104,27 +90,13 @@ function getDay() {
             dow += ',';
         });
         if (dow === '') {
+            $('#cronDowSun').prop("checked", true);
             dow = 'SUN';
         } else {
             dow = dow.slice(0, -1);
         }
-    } else if ($('#cronDomSpecific:checked').length) {
-        dow = '?';
-        $('[name="cronDomSpecificSpecific"]:checked').each(function (i, chck) {
-            dom += $(chck).val();
-            dom += ',';
-        });
-        if (dom === '') {
-            dom = '1';
-        } else {
-            dom = dom.slice(0, -1);
-        }
     }
     return [dom, dow];
-    $('#cronResultDom').text(dom);
-    $('#cronResultDow').text(dow);
-    dayOfMonth = dom;
-    dayOfWeek = dow;
 };
 
 function insertDaysOfMonth() {
@@ -183,7 +155,6 @@ function insertDaysOfMonth() {
             break;
     }
     $(".domOption").remove();
-    console.log("iterations begining");
     var cronDomIncrement = $("#cronDomIncrementIncrement");
     for (i = 1; i < countOfDays - currentDay + 2; i++) {
         cronDomIncrement.append("<option class=\"domOption\" value=\"" + i + "\">" + i + "</option>");
@@ -193,22 +164,14 @@ function insertDaysOfMonth() {
 function getMonth() {
     var month = '';
     if ($('#cronEveryYear:checked').length) {
-        console.log(month);
         month = $('#dateStart').val().substr(5, 2);
-        console.log(month);
-    } else if ($('#cronEveryMonth:checked').length) {
-        console.log(month);
-        month = "*";
-        console.log(month);
-    }
-    else {
+    } else {
         month = "*";
     }
     return month;
 }
 
 function getYear() {
-
     return "*";
 }
 
