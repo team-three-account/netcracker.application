@@ -30,7 +30,7 @@
 <div class="col-md-10 content">
     <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <p>
-        <a class="btn btn-primary"  href="<c:url value='/account/eventList/folder-${folderId}'/>" > < Back</a>
+        <a class="btn btn-primary"  href="<c:url value='/account/folder-${folderId}'/>" > < Back</a>
     </p>
 
 

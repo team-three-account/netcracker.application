@@ -10,6 +10,7 @@ import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -44,8 +45,10 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    @Transactional
     public void delete(Long folderId) {
         noteDao.setFoldersNull(folderId);
+        folderDao.disableAccessForShared(folderId);
         folderDao.delete(folderId);
     }
 
