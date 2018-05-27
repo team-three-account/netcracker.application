@@ -38,9 +38,7 @@ public class CalendarServiceImpl implements CalendarService {
     public List<Event> getEventsFromRange(Long userId, Long start, Long end) {
         List<Event> eventList = new ArrayList<>();
 
-        for (Event event : eventDao.searchByUserFromRange(userId,
-                Utilities.parseLongToTimestamp(start),
-                Utilities.parseLongToTimestamp(end))) {
+        for (Event event : eventService.searchByUserFromRange(userId, start, end)) {
             if ((event.getPeriodicity() == null))
                 eventList.add(event);
             else eventList.addAll(getAllDateFromPeriodical(event,

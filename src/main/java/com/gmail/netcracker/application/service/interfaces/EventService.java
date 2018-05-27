@@ -81,4 +81,8 @@ public interface EventService {
     String getEndDateFromDuration(String start, Long duration);
 
     String getEndDateFromDuration(Timestamp start, Long duration);
+
+    List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end);
+
+    List<Event> searchByUserFromRange(Long userId, Long start, Long end);
 }
