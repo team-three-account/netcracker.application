@@ -20,6 +20,14 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import java.io.IOException;
 
+/**
+ * Security Configuration class.
+ * The class extends the WebSecurityConfigurerAdapter class.
+ * Abstract @EnableWebSecurity in conjunction with
+ * WebSecurityConfigurerAdapter class works
+ * over collateral
+ * Authentication.
+ */
 @Configuration
 @EnableWebSecurity
 @ComponentScan(basePackages = "com.gmail.netcracker.application.service.imp*")
@@ -58,6 +66,7 @@ public class SecurityConfig
                 .csrf().disable();
 
     }
+
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();

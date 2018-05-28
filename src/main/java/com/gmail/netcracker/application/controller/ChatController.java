@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Class controller for chat pages.
+ */
+
 @Controller
 @RequestMapping(value = "/account/eventList")
 public class ChatController {
@@ -43,6 +47,14 @@ public class ChatController {
 
     private Logger logger = Logger.getLogger(ChatService.class.getName());
 
+
+    /**
+     * This method returns  page for all chats for current user.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
+
     @RequestMapping(value = {"/chats/{userId}"}, method = RequestMethod.GET)
     public ModelAndView mainChatPage(@PathVariable(value = "userId") Long userId,
                                      ModelAndView modelAndView) {
@@ -53,6 +65,12 @@ public class ChatController {
         return modelAndView;
     }
 
+    /**
+     * This method returns  page for chat with creator in such event.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
 
     @RequestMapping(value = {"/eventChat/main/{chatId}-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView mainChatPage(@PathVariable(value = "eventId") Long eventId,
@@ -69,12 +87,26 @@ public class ChatController {
         return modelAndView;
     }
 
+    /**
+     * This REST method returns JSON for all chat id for user .
+     *
+     * @param Long modelAndView Object class {@link Long}
+     * @return List
+     */
+
     @RequestMapping(value = "/eventChat/main/notification", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public List<Notification> getNotificationForMessages(@RequestParam Long authUserId) {
         logger.info(chatService.allUserChatId(authUserId).toString());
         return chatService.allUserChatId(authUserId);
     }
+
+    /**
+     * This REST method returns next 15 messages in chat .
+     *
+     * @param Long modelAndView Object class {@link Long}
+     * @return List
+     */
 
     @RequestMapping(value = "/eventChat/main/getChatMessages", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
@@ -85,6 +117,13 @@ public class ChatController {
                                                   @RequestParam Integer offset) {
         return chatService.getMessagesForEvent(eventId, chatId, state, limit, offset);
     }
+
+    /**
+     * This method returns  page for chat without creator in such event.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
 
     @RequestMapping(value = {"/eventChat/subscriptions/{chatId}-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView subscriptionsChatPage(@PathVariable(value = "eventId") Long eventId,
@@ -100,6 +139,15 @@ public class ChatController {
         return modelAndView;
     }
 
+    /**
+     * This method sed new message in chat.
+     *
+     * @param eventMessage modelAndView Object class {@link EventMessage}
+     * @param Long  Object class {@link Long}
+     * @param Long Object class {@link Long}
+     * @param Long modelAndView Object class {@link Long}
+     * @return EventMessage
+     */
 
     @MessageMapping("/chat/{eventId}/{userId}/{chatId}")
     @SendTo("/topic/messages/{chatId}")

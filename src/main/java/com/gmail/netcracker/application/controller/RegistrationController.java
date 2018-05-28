@@ -11,9 +11,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
+/**
+ * Class controller for register pages.
+ */
 
 @Controller
 public class RegistrationController {
@@ -44,47 +50,83 @@ public class RegistrationController {
         this.photoService = photoService;
     }
 
+    /**
+     * This method returns login page .
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Model model, String error, String logout) {
+    public ModelAndView login(ModelAndView modelAndView, String error, String logout) {
 
         if (error != null) {
-            model.addAttribute("error", "Username or password is incorrect.");
+            modelAndView.addObject("error", "Username or password is incorrect.");
         }
         if (logout != null) {
-            model.addAttribute("message", "Logged out successfully.");
+            modelAndView.addObject("message", "Logged out successfully.");
         }
-
-        return "user/registration/login";
+        modelAndView.setViewName("user/registration/login");
+        return modelAndView;
     }
 
+    /**
+     * This method returns registration page .
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
 
     @RequestMapping(value = "/user/registration", method = RequestMethod.GET)
-    public String newAccount(Model model) {
-        model.addAttribute("registrationForm", new User());
-        return "user/registration/registration";
+    public ModelAndView newAccount(ModelAndView modelAndView) {
+        modelAndView.addObject("registrationForm", new User());
+        modelAndView.setViewName("user/registration/registration");
+        return modelAndView;
     }
 
+    /**
+     * This method send registration information for new user on server .
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
     @RequestMapping(value = "/user/registration", method = RequestMethod.POST)
-    public String registerUserAccount(
-            @ModelAttribute("registrationForm") User user, BindingResult bindingResult) {
+    public ModelAndView registerUserAccount(
+            @ModelAttribute("registrationForm") User user,
+            BindingResult bindingResult,
+            ModelAndView modelAndView) {
         registerValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "user/registration/registration";
+            modelAndView.setViewName("user/registration/registration");
+            return modelAndView;
         }
         emailConstructor.registerEmailSender(user);
-        return "user/registration/approve";
+        modelAndView.setViewName("user/registration/approve");
+        return modelAndView;
     }
 
+    /**
+     * This method return after successful send user information
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
     @RequestMapping(value = "/user/registration/approve", method = RequestMethod.GET)
-    public String approve(Model model) {
-        return "user/registration/approve";
+    public ModelAndView approve(ModelAndView modelAndView) {
+        modelAndView.setViewName("user/registration/approve");
+        return modelAndView;
     }
 
-
+    /**
+     * This method return after successful activate account
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
     @RequestMapping(value = "/registrationConfirm/{token}", method = RequestMethod.GET)
-    public String confirmRegistration
-            (@PathVariable(value = "token") String token) {
+    public ModelAndView confirmRegistration
+            (@PathVariable(value = "token") String token,
+             ModelAndView modelAndView) {
         verificationToken = userService.getVerificationToken(token);
         user = verificationToken.getUser();
         if (user.getGender().equals(MALE)) {
@@ -95,6 +137,7 @@ public class RegistrationController {
         }
         userService.saveRegisteredUser(user);
         userService.deleteVerificationToken(verificationToken);
-        return "user/registration/successfulRegistration";
+        modelAndView.setViewName("user/registration/successfulRegistration");
+        return modelAndView;
     }
 }

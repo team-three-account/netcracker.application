@@ -23,6 +23,7 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
@@ -35,10 +36,26 @@ import static com.gmail.netcracker.application.utilites.ResultSetColumnValueExtr
 import static com.gmail.netcracker.application.utilites.Utilities.parseDateToString;
 import static com.gmail.netcracker.application.utilites.Utilities.parseDateToStringWithSeconds;
 
+/**
+ * The main configuration class for Spring
+ * Tagged with @Configuration annotation -
+ * the class is the source of the definition
+ * Beans;
+ * annotation @EnableTransactionManagement -
+ * activates Spring transaction capabilities
+ * through @Transactional;
+ * annotation @EnableAspectJAutoProxy -
+ * activates Spring AOP capabilities.
+ *
+ */
+
+
+
 @Configuration
 @ComponentScan("com.gmail.netcracker.application.*")
 @PropertySource("classpath:application.properties")
 @EnableAspectJAutoProxy
+@EnableTransactionManagement
 public class RootConfig {
 
     private final Environment env;
@@ -131,6 +148,7 @@ public class RootConfig {
             return chat;
         };
     }
+
     @Bean
     public RowMapper<Notification> notificationRowMapper() {
         return (resultSet, i) -> {
@@ -139,6 +157,7 @@ public class RootConfig {
             return notification;
         };
     }
+
     @Bean
     public RowMapper<Notification> chatUserRowMapper() {
         return (resultSet, i) -> {
@@ -155,9 +174,9 @@ public class RootConfig {
             eventMessage.setTime(Utilities.parseDateToStringWithSeconds(getTimestamp(resultSet, "date")));
             eventMessage.setChatId(getLong(resultSet, "chat_id"));
             eventMessage.setSenderId(getLong(resultSet, "sender_id"));
-            eventMessage.setFrom(getString(resultSet,"sender_name"));
-            eventMessage.setSenderPhoto(getString(resultSet,"sender_photo"));
-            notification.setCreatorEvent(getBoolean(resultSet,"creator_event"));
+            eventMessage.setFrom(getString(resultSet, "sender_name"));
+            eventMessage.setSenderPhoto(getString(resultSet, "sender_photo"));
+            notification.setCreatorEvent(getBoolean(resultSet, "creator_event"));
             notification.setChatId(getLong(resultSet, "chat_id"));
             notification.setEvent(event);
             notification.setUser(user);

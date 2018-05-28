@@ -13,7 +13,17 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
-
+/**
+ * Spring configuration class for components
+ * submission, MVC configuration.
+ * Specifies Spring where the components are located
+ * views, and how to display them.
+ * Tagged with @Configuration annotation -
+ * the class is the source of the definition
+ * Bins; annotation @EnableWebMvc -
+ * Allows the project to use MVC;
+ * an annotation
+ */
 @Configuration
 @EnableWebMvc
 @ComponentScan(
@@ -25,35 +35,36 @@ import org.springframework.web.servlet.view.JstlView;
 public class WebConfig extends WebMvcConfigurerAdapter {
 
     /**
-     * Тип кодировки вьюшек.
+     * View encoding type.
      */
     private static final String CONTENT_TYPE = "text/html;charset=UTF-8";
 
     /**
-     * Путь к вьюшкам.
+     *
+     * Path to views.
      */
     private static final String PREFIX = "/WEB-INF/views/";
 
     /**
-     * Разрешение вьюшек.
+     * View resolution.
      */
     private static final String SUFFIX = ".jsp";
 
     /**
-     * Путь к ресурсам.
+     *
+     * Path to resources.
      */
 
     private static final String RESOURCES_URL = "/resources/";
 
     /**
-     * Указывает Spring'у где находятся
-     * компоненты
-     * представления, и как их отображать.
-     * Вьюшкибудут лежать в директории
-     * /WEB-INF/views/ и иметь разширение *.jsp.
+     * Indicates where Spring is located
+     * * Components
+     * * views, and how to display them.
+     * * Views will be in the directory
+     * * / WEB-INF / views / and have the expansion * .jsp.
      *
-     * @return Реализация интерфейса ViewResolver
-     * с настройками для вьюшек.
+     * @return ViewResolver.
      */
     @Bean
     public ViewResolver viewResolver() {
@@ -73,7 +84,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     /**
-     * Указывает где будут хранится ресурсы.
+     * Indicates where resources will be stored.
      */
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry resource) {

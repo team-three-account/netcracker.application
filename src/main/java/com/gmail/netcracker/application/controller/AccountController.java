@@ -26,6 +26,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
 
+/**
+ * Class controller for logged user.
+ */
 
 @Controller
 @RequestMapping(value = "/account")
@@ -78,6 +81,14 @@ public class AccountController {
         this.notificationValidator = notificationValidator;
     }
 
+    /**
+     * This method returns start page after successful login.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
+
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView homeAccount(ModelAndView modelAndView) {
         String eventList = gson.toJson(eventService.myEventsWithPriority());
@@ -88,51 +99,80 @@ public class AccountController {
         return modelAndView;
     }
 
+    /**
+     * This method returns page for request for change password.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
     @RequestMapping(value = "/resetpassword", method = RequestMethod.GET)
-    public String passwordResetSuccessful() {
-
+    public ModelAndView passwordResetSuccessful(ModelAndView modelAndView) {
         emailConstructor.resetPasswordEmailSender(userService.getAuthenticatedUser());
-        return "account/passwordResetSuccessful";
+        modelAndView.setViewName("account/passwordResetSuccessful");
+        return modelAndView;
     }
 
+    /**
+     * This method returns  page after successful change password.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
     @RequestMapping(value = {"/changePassword/{token}"}, method = RequestMethod.GET)
-    public String newPassword(Model model, @PathVariable(value = "token") String token) {
-        model.addAttribute("veriftoken", userService.getVerificationToken(token));
-        model.addAttribute("user", new User());
-
-        return "account/changePassword";
+    public ModelAndView newPassword(ModelAndView modelAndView, @PathVariable(value = "token") String token) {
+        modelAndView.addObject("veriftoken", userService.getVerificationToken(token));
+        modelAndView.addObject("user", new User());
+        modelAndView.setViewName("account/changePassword");
+        return modelAndView;
     }
-
+    /**
+     * This POST method for change password.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
 
     @RequestMapping(value = "/changePassword/{token}", method = RequestMethod.POST)
-    public String changePassword(@RequestParam(value = "password") String password,
+    public ModelAndView changePassword(@RequestParam(value = "password") String password,
                                  @RequestParam(value = "confirmPassword") String confirmPassword,
                                  @ModelAttribute(value = "veriftoken") VerificationToken verificationToken,
                                  @ModelAttribute("user") User user,
                                  @PathVariable("token") String token,
-                                 BindingResult bindingResult, Model model) {
+                                 BindingResult bindingResult, ModelAndView modelAndView) {
 
         user.setConfirmPassword(confirmPassword);
         verificationToken = userService.getVerificationToken(token);
         user.setEmail(verificationToken.getUser().getEmail());
         resetConfirmPasswordValidator.validate(user, bindingResult);
         if (bindingResult.hasErrors()) {
-            model.addAttribute("veriftoken", verificationToken);
-            return "account/changePassword";
+            modelAndView.addObject("veriftoken", verificationToken);
+            modelAndView.setViewName("account/changePassword");
+            return modelAndView;
         }
         verificationToken.getUser().setPassword(passwordEncoder.encode(password));
         userService.changeUserPassword(verificationToken.getUser().getPassword(), verificationToken.getUser().getEmail());
         userService.deleteVerificationToken(verificationToken);
-        return "account/successfulChange";
+        modelAndView.setViewName("account/successfulChange");
+        return modelAndView;
     }
-
+    /**
+     * This method returns  page user information.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
     @RequestMapping(value = "/profile/{id}", method = RequestMethod.GET)
-    public ModelAndView profile(@PathVariable(value = "id") Long id, ModelAndView model) {
-        model.addObject("auth_user", userService.findUserById(id));
-        model.setViewName("account/profile");
-        return model;
+    public ModelAndView profile(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
+        modelAndView.addObject("auth_user", userService.findUserById(id));
+        modelAndView.setViewName("account/profile");
+        return modelAndView;
     }
-
+    /**
+     * This method returns  page for change user parameters.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
     @RequestMapping(value = "/settings-user/{id}", method = RequestMethod.GET)
     public ModelAndView settings(@PathVariable(value = "id") Long id, ModelAndView modelAndView) {
         User user = userService.findUserById(id);
@@ -141,7 +181,12 @@ public class AccountController {
         modelAndView.setViewName("account/edit");
         return modelAndView;
     }
-
+    /**
+     * This method returns  page for configure notification for current user .
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
     @RequestMapping(value = "/notificationSettings/{id}", method = RequestMethod.GET)
     public ModelAndView notificationSettings(@PathVariable(value = "id") Long userId,
                                              ModelAndView modelAndView) {
@@ -150,6 +195,13 @@ public class AccountController {
         modelAndView.setViewName("account/notificationSettings");
         return modelAndView;
     }
+
+    /**
+     * This method save notification parameters for current user.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
 
     @RequestMapping(value = "/notificationSettings/save", method = RequestMethod.POST)
     public ModelAndView saveNotificationSettings(@ModelAttribute("userNotificationOptions") User userNotificationOptions,
@@ -169,6 +221,12 @@ public class AccountController {
         modelAndView.setViewName("redirect:/account/profile/" + userNotificationOptions.getId());
         return modelAndView;
     }
+    /**
+     * This method save user parameters for current user.
+     *
+     * @param modelAndView modelAndView Object class {@link ModelAndView}
+     * @return modelAndView
+     */
 
     @RequestMapping(value = "/settings-user", method = RequestMethod.POST)
     public ModelAndView saveSettings(@ModelAttribute(value = "user") User user,

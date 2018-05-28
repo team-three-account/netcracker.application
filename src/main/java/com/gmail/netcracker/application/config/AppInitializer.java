@@ -9,14 +9,24 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 import javax.servlet.*;
 import java.io.File;
 
+/**
+ * The Servlet dispatcher that responds
+ * Spring MVC initialization and URL mapping.
+ * The class extends class
+ * AbstractAnnotationConfigDispatcherServletInitializer.
+ * @see WebConfig
+ * @see RootConfig
+ * @see SecurityConfig
+ * @see SecurityInitializer
+ */
 public class AppInitializer
         extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     private int maxUploadSizeInMb = 10 * 1024 * 1024; // 5 MB
 
     /**
-     * Возвращает конфигурацию, в которой
-     * инициализируем ViewResolver.
+     * Returns the configuration which
+     * initialize ViewResolver.
      */
     @Override
     protected Class<?>[] getServletConfigClasses() {
@@ -24,8 +34,8 @@ public class AppInitializer
     }
 
     /**
-     * Возвращает конфигурации,
-     * которые инициализируют Beans.
+     * Returns the configuration,
+     * which initialize Beans.
      */
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -35,9 +45,9 @@ public class AppInitializer
     }
 
     /**
-     * Настроили мэпинг сервлета на "/"
-     * и поэтому все запросы будут перехвачены
-     * Диспетчером Сервлета Spring.
+     * Set up the mapping servlet for "/"
+     * and so all requests will be intercepted
+     * Servlet Supervisor Spring
      *
      * @return Массив типа String.
      */
@@ -47,7 +57,7 @@ public class AppInitializer
     }
 
     /**
-     * Настройка ссесии.
+     * Session configuration.
      * <p>
      * AbstractAnnotationConfigDispatcherServletInitializer.
      */
@@ -65,6 +75,9 @@ public class AppInitializer
         servletContext.addListener(new SessionListener());
     }
 
+    /**
+     * Servlet configuration for MultipartFile.
+     */
     @Override
     protected void customizeRegistration(ServletRegistration.Dynamic registration) {
 
@@ -80,7 +93,7 @@ public class AppInitializer
     }
 
     /**
-     * Включение исключений NoHandlerFound.
+     * On exception NoHandlerFound.
      */
     @Override
     protected DispatcherServlet createDispatcherServlet(
