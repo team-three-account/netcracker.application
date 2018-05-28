@@ -39,7 +39,7 @@ public class CalendarServiceImpl implements CalendarService {
         List<Event> eventList = new ArrayList<>();
 
         for (Event event : eventService.searchByUserFromRange(userId, start, end)) {
-            if ((event.getPeriodicity() == null))
+            if (event.getPeriodicity() == null)
                 eventList.add(event);
             else eventList.addAll(getAllDateFromPeriodical(event,
                     Utilities.parseLongToDate(start),
@@ -72,7 +72,7 @@ public class CalendarServiceImpl implements CalendarService {
         Date endEvent = Utilities.parseLongToDate(startEvent.getTime() / 1000 + event.getDuration());
         Date nextValidTime = cron.getNextValidTimeAfter(startEvent);
         Date endRepeat = Utilities.parseStringToTimestamp(event.getEndRepeat());
-        if (nextValidTime != null && startEvent.before(endRepeat)) {
+        if (nextValidTime != null && (endRepeat==null||startEvent.before(endRepeat))) {
             if (endEvent.before(start)) {
                 return getAllDateFromPeriodical(result, event, nextValidTime,
                                                 cron, start, end);
