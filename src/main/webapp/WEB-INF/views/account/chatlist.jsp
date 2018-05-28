@@ -22,27 +22,77 @@
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
 
-    <div class="col-md-10 content" style="">
+    <div class="col-md-10 content">
         <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
-        <div class="col-md-offset-1 col-md-5">
-        <c:forEach items="${allChats}" var="chat">
+        <div class="col-md-offset-1 col-md-5" style="">
+            <c:forEach items="${allChats}" var="chat">
             <ul class="list-group">
                 <c:if test="${chat.creatorEvent==true}">
-                <a href="/account/eventList/eventChat/main/${chat.chatId}-${chat.event.eventId}"><li class="list-group-item">
-                    <img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="${chat.event.photo}"/>">${chat.event.name}
-                <p>${chat.lastMessage.text} </p></li></a>
+                <ul>
+                    <li class="list-group-item"><a style="display: inline">
+                        <a href="/account/eventList/event-${chat.event.eventId}"
+                           style="!important;text-decoration: none; color: black">
+                            <img class="img-circle" style="width: 50px;height: 50px"
+                                 src="<c:url value="${chat.event.photo}"/>"> Event: ${chat.event.name}</a>
+
+                    </li>
+
+
+                    <li class="list-group-item">
+                        <div class="text-left">
+                            <a style="!important;text-decoration: none;"
+                               href="/account/eventList/eventChat/main/${chat.chatId}-${chat.event.eventId}">
+                                <div style="border-radius: 10px;    margin: 15px;background: powderblue;padding-top: 3%;padding-bottom: 3%;padding-left: 3%;">
+                                    <img class="img-circle" style="width: 50px;height: 50px"
+                                         src="<c:url value="${chat.lastMessage.senderPhoto}"/>">
+
+                                    <p style="display: inline;border-radius: 10px;margin: 15px;background: powderblue; color: black">${chat.lastMessage.text}</p>
+                                </div>
+                            </a>
+
+                            <div class="text-right">
+                                    ${chat.lastMessage.time}
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
                 </c:if>
                 <c:if test="${chat.creatorEvent==false}">
-                    <a href="/account/eventList/eventChat/subscriptions/${chat.chatId}-${chat.event.eventId}"><li class="list-group-item">
-                        <img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="${chat.event.photo}"/>">${chat.event.name}
-                        <p>${chat.lastMessage.text} </p></li></a>
-                </c:if>
-            </ul>
+                <ul class="list-group">
+                    <ul>
+                        <li class="list-group-item"><p style="display: inline">
+                            <a href="/account/eventList/event-${chat.event.eventId}"
+                               style="!important;text-decoration: none; color: black">
+                                <img class="img-circle" style="width: 50px;height: 50px"
+                                     src="<c:url value="${chat.event.photo}"/>"> Event: ${chat.event.name}</p>
+                            </a>
+                        </li>
 
-        </c:forEach>
+                        <li class="list-group-item">
+                            <div class="text-left">
+                                <a style="!important;text-decoration: none;"
+                                   href="/account/eventList/eventChat/main/${chat.chatId}-${chat.event.eventId}">
+                                    <div style="border-radius: 10px;    margin: 15px;background: powderblue;padding-top: 3%;padding-bottom: 3%;padding-left: 3%;">
+                                        <img class="img-circle" style="width: 50px;height: 50px"
+                                             src="<c:url value="${chat.lastMessage.senderPhoto}"/>">
+
+                                        <p style="display: inline;border-radius: 10px;margin: 15px;background: powderblue; color: black">${chat.lastMessage.text}</p>
+                                    </div>
+                                </a>
+
+                                <div class="text-right">
+                                        ${chat.lastMessage.time}
+                                </div>
+                            </div>
+
+                        </li>
+                    </ul>
+                    </c:if>
+                </ul>
+                </c:forEach>
         </div>
     </div>
-
 </div>
 </body>
 </html>

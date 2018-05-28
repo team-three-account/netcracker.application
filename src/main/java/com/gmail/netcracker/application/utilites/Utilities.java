@@ -43,7 +43,7 @@ public class Utilities {
     public static Timestamp parseStringToTimestampWithSeconds(String stringDate) {
         if (stringDate != null) {
             try {
-                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = formatter.parse(stringDate);
                 Timestamp timestamp = new Timestamp(date.getTime());
                 return timestamp;
