@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 
+import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestamp;
 
 @Repository
@@ -52,7 +53,7 @@ public class VerificationTokenDaoImp extends ModelDao implements VerificationTok
                 verificationToken.getUser().getEmail(),
                 passwordEncoder.encode(verificationToken.getUser().getPassword()),
                 "ROLE_USER",
-                parseStringToTimestamp(verificationToken.getUser().getBirthdayDate()),
+                parseStringToDate(verificationToken.getUser().getBirthdayDate()),
                 verificationToken.getUser().getPhone(),
                 verificationToken.getUser().getGender()
         );

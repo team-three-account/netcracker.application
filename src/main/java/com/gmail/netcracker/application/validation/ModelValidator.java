@@ -33,10 +33,10 @@ public abstract class ModelValidator {
     }
 
     protected void validateEntity(User user, Errors errors, Boolean resetPass) {
-        if (resetPass.equals(true)) {
+        if (true == resetPass) {
             Pattern pattern = Pattern.compile(patternEnglishLettersAndNumbers);
-            Matcher matcherPassword = pattern.matcher(user.getName());
-            Matcher matcherConfirmPassword = pattern.matcher(user.getSurname());
+            Matcher matcherPassword = pattern.matcher(user.getPassword());
+            Matcher matcherConfirmPassword = pattern.matcher(user.getConfirmPassword());
             Boolean validPassword = matcherPassword.matches();
             Boolean validConfirmPassword = matcherConfirmPassword.matches();
             if (validPassword.equals(false)) {

@@ -1,14 +1,8 @@
 package com.gmail.netcracker.application.config;
 
-import com.gmail.netcracker.application.aspects.TokenLifeAspect;
 import com.gmail.netcracker.application.dto.model.*;
-import com.gmail.netcracker.application.service.imp.*;
-import com.gmail.netcracker.application.service.interfaces.ChatService;
-import com.gmail.netcracker.application.service.interfaces.FriendService;
-import com.gmail.netcracker.application.service.interfaces.NoteService;
-import com.gmail.netcracker.application.service.interfaces.PhotoService;
+
 import com.gmail.netcracker.application.utilites.*;
-import com.gmail.netcracker.application.validation.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.flywaydb.core.Flyway;
@@ -28,8 +22,6 @@ import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
 import javax.sql.DataSource;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Locale;
 
 import static com.gmail.netcracker.application.utilites.ResultSetColumnValueExtractor.*;

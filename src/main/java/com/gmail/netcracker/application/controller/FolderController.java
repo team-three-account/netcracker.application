@@ -9,7 +9,6 @@ import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 
 import com.gmail.netcracker.application.validation.FolderValidator;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +32,6 @@ public class FolderController {
 
     private final FriendService friendService;
 
-    private final static Logger logger = Logger.getLogger(FolderController.class);
 
     @Autowired
     public FolderController(FolderService folderService, UserService userService, FolderValidator folderValidator, FriendService friendService) {
