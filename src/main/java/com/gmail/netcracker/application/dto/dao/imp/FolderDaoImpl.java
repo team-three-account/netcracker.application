@@ -49,6 +49,9 @@ public class FolderDaoImpl extends ModelDao implements FolderDao {
     @Value("${sql.folder.disableAccessForShared}")
     private String SQL_DISABLE_ACCESS_FOR_SHARED;
 
+    @Value("${sql.folder.getFriendsToShare}")
+    private String SQL_GET_FRIENDS_TO_SHARE;
+
     private final RowMapper<Folder> folderRowMapper;
     private final RowMapper<Note> notesIntoFolderRowMapper;
     private final RowMapper<User> userRowMapper;
@@ -118,5 +121,10 @@ public class FolderDaoImpl extends ModelDao implements FolderDao {
     @Override
     public void disableAccessForShared(Long folderId) {
         deleteEntity(SQL_DISABLE_ACCESS_FOR_SHARED, folderId);
+    }
+
+    @Override
+    public List<User> getFriendsToShare(Long folderId, Long id) {
+        return findEntityList(SQL_GET_FRIENDS_TO_SHARE, userRowMapper, id, id, id, folderId);
     }
 }

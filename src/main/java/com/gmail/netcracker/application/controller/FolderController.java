@@ -166,7 +166,7 @@ public class FolderController {
         if (!friendsThatHaveAccessList.isEmpty())
             model.addAttribute("messageForAlreadyShared", "Friends that have access to folder :");
         model.addAttribute("friendsThatHaveAccessList", friendsThatHaveAccessList);
-        List<User> friendsToShareList = folderService.getFriendsToShare(friendsThatHaveAccessList);
+        List<User> friendsToShareList = folderService.getFriendsToShare(folderId);
         if (!friendsToShareList.isEmpty())
             model.addAttribute("messageToShare", "You can allow access for following users :");
         model.addAttribute("friendsToShareList", friendsToShareList);
