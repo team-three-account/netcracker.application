@@ -3,8 +3,6 @@ package com.gmail.netcracker.application.dto.model;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.util.List;
 import java.util.Set;
 
 @Data

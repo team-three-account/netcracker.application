@@ -71,9 +71,7 @@
                                     </tr>
                                     <li class="list-group-item" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.description}</li>
                                     <li class="list-group-item">Actual to : ${item.dueDate}</li>
-                                        <%--<li class="list-group-item">Priority: --%>
-                                        <%--<div style="width: 25px; height: 25px;background: ${color}; border-radius: 15px; display: inline-block; position: absolute;"></div>--%>
-                                        <%--</li>--%>
+
                                     <li class="list-group-item" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">Tags :
                                         <c:forEach var="tag" items="${item.tags}">
                                             <a href="/account/search-tag/${tag.tagId}">#${tag.name}</a>

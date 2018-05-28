@@ -21,6 +21,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+/**
+ * Class {@code ItemController} connects business logic and web view through url patterns.
+ *
+ * @author Vladimir Shuliak
+ */
+
 @Controller
 @RequestMapping("/account")
 public class ItemController {
@@ -40,6 +46,13 @@ public class ItemController {
         this.imageValidator = imageValidator;
     }
 
+  /**
+   * Method returns web page for update item.
+   *
+   * @param itemId
+   * @param modelAndView
+   * @return modelAndView
+   */
     @RequestMapping(value = "/update-{itemId}", method = RequestMethod.GET)
     public ModelAndView updateItem(@PathVariable("itemId") Long itemId, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -48,6 +61,18 @@ public class ItemController {
         return modelAndView;
     }
 
+  /**
+   * Method checks the fields for correctness.
+   * If the validation was successful, the method changes the data.
+   * Otherwise, the method return error message.
+   *
+   * @param item
+   * @param image
+   * @param multipartFile
+   * @param bindingResult
+   * @param modelAndView
+   * @return modelAndView
+   */
     @RequestMapping(value = {"/update-{itemId}"}, method = RequestMethod.POST)
     public ModelAndView updateItem(@ModelAttribute("updateItem") Item item,
                                    @RequestParam(value = "photoInput") String image,
@@ -73,6 +98,12 @@ public class ItemController {
         return modelAndView;
     }
 
+  /**
+   * Method removes the item from Database.
+   *
+   * @param itemId
+   * @return String
+   */
     @RequestMapping(value = "/wishList/deleteItem-{itemId}", method = RequestMethod.GET)
     public String deleteItem(@PathVariable("itemId") Long itemId) {
         if (!itemService.getItem(itemId).getImage().equals(photoService.getDefaultImageForItems())) {
@@ -82,6 +113,13 @@ public class ItemController {
         return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
     }
 
+  /**
+   * Method returns web page for create a new item.
+   *
+   * @param item
+   * @param modelAndView
+   * @return modelAndView
+   */
     @RequestMapping(value = "/addItem", method = RequestMethod.GET)
     public ModelAndView createItem(@ModelAttribute(value = "createItem") Item item, ModelAndView modelAndView) {
         item.setImage(photoService.getDefaultImageForItems());
@@ -90,6 +128,18 @@ public class ItemController {
         return modelAndView;
     }
 
+  /**
+   * Method method checks the fields for correctness.
+   * If the validation was successful, the method changes the data.
+   * Otherwise, the method returns a missed message.
+   *
+   * @param item
+   * @param image
+   * @param multipartFile
+   * @param bindingResult
+   * @param modelAndView
+   * @return modelAndView
+   */
     @RequestMapping(value = "/addItem", method = RequestMethod.POST)
     public ModelAndView addItem(@ModelAttribute("createItem") Item item,
                                 @RequestParam(value = "photoInput") String image,
@@ -112,24 +162,23 @@ public class ItemController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/getItem-{itemId}", method = RequestMethod.GET)
-    public ModelAndView getItem(@PathVariable("itemId") Long itemId, ModelAndView modelAndView) {
-        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
-        modelAndView.addObject("getItem", itemService.getItem(itemId));
-        Long likes = itemService.countLikes(itemId);
-        modelAndView.addObject("likes", likes);
-        Boolean isLiked = itemService.isLiked(itemId, userService.getAuthenticatedUser().getId());
-        modelAndView.addObject("isLiked", isLiked);
-        modelAndView.setViewName("item/getItem");
-        return modelAndView;
-    }
-
+  /**
+   * Method copies the item of other users to own Wish List.
+   *
+   * @param itemId
+   * @return modelAndView
+   */
     @RequestMapping(value = "/copy-{itemId}", method = RequestMethod.GET)
     public String copyItem(@PathVariable("itemId") Long itemId) {
         itemService.copyItem(itemId);
         return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
     }
 
+  /**
+   * Method return list priorities for item radiobutton.
+   *
+   * @return List
+   */
     @ModelAttribute("priorities")
     public List<Priority> getAllPriorities() {
         return itemService.getAllPriorities();
@@ -147,6 +196,13 @@ public class ItemController {
         return "redirect:/account/user-" + owner + "/wishList";
     }
 
+  /**
+   * Method returns the Wish List of the user who created the event.
+   *
+   * @param userId
+   * @param model
+   * @return String
+   */
     @RequestMapping(value = "/user-{id}/wishList", method = RequestMethod.GET)
     public String userWishList(@PathVariable("id") Long userId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -158,6 +214,13 @@ public class ItemController {
         return "item/personWishList";
     }
 
+  /**
+   * Method returns the Wish List of the user who created the event.
+   *
+   * @param creator
+   * @param model
+   * @return modelAndView
+   */
     @RequestMapping(value = "/event-{eventId}-{creator}/wishList", method = RequestMethod.GET)
     public String eventWishList(@PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -176,6 +239,13 @@ public class ItemController {
         return "redirect:/account/event-" + eventId + "-" + creator + "/wishList";
     }
 
+  /**
+   * Method return item web page.
+   *
+   * @param itemId
+   * @param model
+   * @return String
+   */
     @RequestMapping(value = "/item-{itemId}", method = RequestMethod.GET)
     public String item(@PathVariable("itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -187,6 +257,13 @@ public class ItemController {
         return "item/viewItem";
     }
 
+  /**
+   * Method returns a web page with items that have a common tag.
+   *
+   * @param tagId
+   * @param model
+   * @return String
+   */
     @RequestMapping(value = "/search-tag/{tag}", method = RequestMethod.GET)
     public String searchByTag(@PathVariable("tag") Long tagId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -194,6 +271,14 @@ public class ItemController {
         return "item/searchByTag";
     }
 
+  /**
+   * If the user push Like button on the item web page,
+   * the method {@code likeFromItem} updates the page and the item is added one like.
+   *
+   * @param itemId
+   * @param model
+   * @return String
+   */
     @RequestMapping(value = "/viewItem/like", method = RequestMethod.POST)
     public String likeFromItem(@RequestParam(value = "itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -201,6 +286,14 @@ public class ItemController {
         return "redirect:/account/item-" + itemId;
     }
 
+  /**
+   * If the user push Dislike button on the item web page,
+   * the method {@code dislikeFromItem} updates the page and the item is deleted like.
+   *
+   * @param itemId
+   * @param model
+   * @return String
+   */
     @RequestMapping(value = "/viewItem/dislike", method = RequestMethod.POST)
     public String dislikeFromItem(@RequestParam(value = "itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -208,6 +301,14 @@ public class ItemController {
         return "redirect:/account/item-" + itemId;
     }
 
+  /**
+   * If the user push Like button on the 'personWishList' web page,
+   * the method {@code likeFromPersonWishList} updates the page and the item is added one like.
+   *
+   * @param itemId
+   * @param model
+   * @return String
+   */
     @RequestMapping(value = "/personWishList/like", method = RequestMethod.POST)
     public String likeFromPersonWishList(@RequestParam(value = "itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -215,6 +316,14 @@ public class ItemController {
         return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
     }
 
+  /**
+   * If the user push Like button on the 'personWishList' web page,
+   * the method {@code dislikeFromPersonWishList} updates the page and the item is deleted like.
+   *
+   * @param itemId
+   * @param model
+   * @return String
+   */
     @RequestMapping(value = "/personWishList/dislike", method = RequestMethod.POST)
     public String dislikeFromPersonWishList(@RequestParam(value = "itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -222,6 +331,14 @@ public class ItemController {
         return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
     }
 
+  /**
+   * If the user push Like button on the 'personWishList' web page,
+   * the method {@code likeFromEventWishList} updates the page and the item is added one like.
+   *
+   * @param itemId
+   * @param model
+   * @return String
+   */
     @RequestMapping(value = "/eventWishList/like", method = RequestMethod.POST)
     public String likeFromEventWishList(@RequestParam(value = "itemId") Long itemId,
                                         @RequestParam(value = "eventId") Long eventId,
@@ -232,6 +349,14 @@ public class ItemController {
         return "redirect:/account/event-" + eventId + "-" + userId + "/wishList";
     }
 
+  /**
+   * If the user push Like button on the 'eventWishList' web page,
+   * the method {@code dislikeFromEventWishList} updates the page and the item is deleted like.
+   *
+   * @param itemId
+   * @param model
+   * @return String
+   */
     @RequestMapping(value = "/eventWishList/dislike", method = RequestMethod.POST)
     public String dislikeFromEventWishList(@RequestParam(value = "itemId") Long itemId,
                                            @RequestParam(value = "eventId") Long eventId,
