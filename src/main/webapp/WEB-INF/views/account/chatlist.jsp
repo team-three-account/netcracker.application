@@ -29,14 +29,13 @@
             <ul class="list-group">
                 <c:if test="${chat.creatorEvent==true}">
                 <ul>
-                    <li class="list-group-item"><a style="display: inline">
+                    <li class="list-group-item">
                         <a href="/account/eventList/event-${chat.event.eventId}"
-                           style="!important;text-decoration: none; color: black">
+                           style="!important;text-decoration: none; color: black;display: inline;">
                             <img class="img-circle" style="width: 50px;height: 50px"
                                  src="<c:url value="${chat.event.photo}"/>"> Event: ${chat.event.name}</a>
 
                     </li>
-
 
                     <li class="list-group-item">
                         <div class="text-left">
@@ -65,7 +64,7 @@
                             <a href="/account/eventList/event-${chat.event.eventId}"
                                style="!important;text-decoration: none; color: black">
                                 <img class="img-circle" style="width: 50px;height: 50px"
-                                     src="<c:url value="${chat.event.photo}"/>"> Event: ${chat.event.name}</p>
+                                     src="<c:url value="${chat.event.photo}"/>"> Event: ${chat.event.name}
                             </a>
                         </li>
 
