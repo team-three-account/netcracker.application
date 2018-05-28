@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
@@ -74,6 +75,7 @@ public class PhotoServiceImp implements PhotoService, Serializable {
     private java.util.logging.Logger logger = java.util.logging.Logger.getLogger(PhotoServiceImp.class.getName());
 
     @Override
+    @Transactional
     public String uploadFileOnDropBox(MultipartFile file, String name) throws IOException, DbxException {
         DbxRequestConfig config = new DbxRequestConfig(appName, Locale.getDefault().toString());
         DbxClientV2 client = new DbxClientV2(config, sessionStoreKey);
@@ -93,6 +95,7 @@ public class PhotoServiceImp implements PhotoService, Serializable {
     }
 
     @Override
+    @Transactional
     public void deleteFile(String path) {
 
         DbxRequestConfig config = new DbxRequestConfig(appName, Locale.getDefault().toString());

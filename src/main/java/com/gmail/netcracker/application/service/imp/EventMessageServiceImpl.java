@@ -9,6 +9,7 @@ import com.gmail.netcracker.application.service.interfaces.EventMessageService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class EventMessageServiceImpl implements EventMessageService {
@@ -17,6 +18,7 @@ public class EventMessageServiceImpl implements EventMessageService {
     private EventMessageDao eventMessageDao;
 
     @Override
+    @Transactional
     public void addNewMessage(EventMessage message) {
         eventMessageDao.insertMessage(message);
     }

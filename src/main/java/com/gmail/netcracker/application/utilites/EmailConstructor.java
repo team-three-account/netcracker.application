@@ -11,31 +11,31 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
-
+@Service
 @PropertySource("classpath:application.properties")
-@Component
 public class EmailConstructor {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    EventService eventService;
+    private EventService eventService;
 
     @Autowired
-    Environment env;
+    private Environment env;
 
     @Autowired
-    JavaMailSender javaMailSender;
+    private JavaMailSender javaMailSender;
 
     @Autowired
-    PdfConstructor pdfConstructor;
+    private PdfConstructor pdfConstructor;
 
     private SimpleMailMessage constructRegisterEmailMessage(final User user, final String token) {
         final String recipientAddress = user.getEmail();
@@ -120,8 +120,7 @@ public class EmailConstructor {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = constructPersonPlanEmailMessage(message, true, planedEvents, user);
             javaMailSender.send(message);
-        }
-        catch (MessagingException e){
+        } catch (MessagingException e) {
         }
     }
 
@@ -132,11 +131,10 @@ public class EmailConstructor {
         final String recipientAddress = user.getEmail();
         final String subject = "Notification about person plan";
         final String text;
-        if(planedEvents.size()>0){
+        if (planedEvents.size() > 0) {
             text = "We want to remind you of the upcoming events for which you have subscribed. \r\n See PDF for more details: ";
             helper.addAttachment("Person plan.pdf", pdfConstructor.construct(planedEvents));
-        }
-        else  text = "You have not any event for the near future. Fill free :) ";
+        } else text = "You have not any event for the near future. Fill free :) ";
 
         helper.setTo(recipientAddress);
         helper.setSubject(subject);

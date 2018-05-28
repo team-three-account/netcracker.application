@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.logging.Logger;
@@ -34,12 +35,14 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Logger.getLogger(UserServiceImp.class.getName());
         return userDao.findUserByEmail(email);
     }
 
     @Override
+    @Transactional
     public VerificationToken createVerificationToken(User user, String token) {
         verificationToken.setId(token);
         verificationToken.setUser(user);
@@ -52,11 +55,13 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public void saveRegisteredUser(User user) {
         userDao.saveUser(user);
     }
 
     @Override
+    @Transactional
     public void deleteVerificationToken(VerificationToken verificationToken) {
         verificationTokenDao.delete(verificationToken);
     }
@@ -82,11 +87,13 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional
     public void changeUserPassword(String password, String email) {
         userDao.changePassword(password, email);
     }
 
     @Override
+    @Transactional
     public void updateUser(User user) {
         userDao.updateUser(user);
     }

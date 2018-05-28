@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.service.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.*;
 import com.gmail.netcracker.application.dto.model.*;
+import com.gmail.netcracker.application.service.interfaces.ChatService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
@@ -33,6 +34,7 @@ public class EventServiceImpl implements EventService {
     private NoteDao noteDao;
     private ItemDao itemDao;
     private UserDao userDao;
+    private ChatService chatService;
 
     private JobSchedulingManager jobSchedulingManager;
     private EmailConstructor emailConstructor;
@@ -40,7 +42,7 @@ public class EventServiceImpl implements EventService {
     @Autowired
     public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService,
                             FriendService friendService, PriorityDao priorityDao, NoteDao noteDao, ItemDao itemDao,
-                            JobSchedulingManager jobSchedulingManager, EmailConstructor emailConstructor, UserDao userDao) {
+                            JobSchedulingManager jobSchedulingManager, EmailConstructor emailConstructor, UserDao userDao, ChatService chatService) {
         this.eventDao = eventDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
@@ -51,6 +53,7 @@ public class EventServiceImpl implements EventService {
         this.jobSchedulingManager = jobSchedulingManager;
         this.emailConstructor = emailConstructor;
         this.userDao = userDao;
+        this.chatService = chatService;
     }
 
     @Override
@@ -76,6 +79,13 @@ public class EventServiceImpl implements EventService {
         setPersonId(event);
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
         eventDao.insertEvent(event);
+        if (event.getType().equals((long) 2) || event.getType().equals((long) 3)
+                && event.getDraft().equals(false)) {
+            chatService.createChatForEvent(event, true);
+            chatService.createChatForEvent(event, false);
+
+        }
+        participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
     }
 
@@ -224,9 +234,15 @@ public class EventServiceImpl implements EventService {
         noteDao.delete(noteId);
         event.setCreator(userId);
         insertEvent(event);
-        if (event.getDraft().equals(false)) {
-            eventDao.participate(userId, event.getEventId());
+        if (event.getType().equals((long) 2) || event.getType().equals((long) 3)
+                && event.getDraft().equals(false)) {
+            chatService.createChatForEvent(event, true);
+            chatService.createChatForEvent(event, false);
+
         }
+        participate(userService.getAuthenticatedUser().getId(), event.getEventId());
+        if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
+
     }
 
     @Override
@@ -234,6 +250,12 @@ public class EventServiceImpl implements EventService {
         Event event = eventDao.getEvent(eventId);
         event.setDraft(false);
         eventDao.convertDraftToEvent(event);
+        if (event.getType().equals((long) 2) || event.getType().equals((long) 3) && event.getDraft().equals(false)) {
+            chatService.createChatForEvent(event, true);
+            chatService.createChatForEvent(event, false);
+        }
+        participate(userService.getAuthenticatedUser().getId(), event.getEventId());
+        if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
     }
 
     @Override

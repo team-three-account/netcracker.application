@@ -115,14 +115,7 @@ public class EventController {
         if (!multipartFile.isEmpty()) {
             event.setPhoto(photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString()));
         }
-
         eventService.insertEvent(event);
-        if (event.getType().equals((long) 1) || event.getType().equals((long) 2) || event.getType().equals((long) 3)
-                && event.getDraft().equals(false)) {
-            chatService.createChatForEvent(event, true);
-            chatService.createChatForEvent(event, false);
-            eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
-        }
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }
@@ -266,8 +259,8 @@ public class EventController {
      */
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
     public String participate(@RequestParam(value = "event_id") Long eventId, Model model) {
-        model.addAttribute("auth_user", authUser);
-        eventService.participate(authUser.getId(), eventId);
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        eventService.participate(userService.getAuthenticatedUser().getId(), eventId);
         return "redirect:/account/eventList/event-" + eventId;
     }
 
@@ -558,11 +551,6 @@ public class EventController {
         }
         eventService.update(event);
         eventService.convertDraftToEvent(eventId);
-        if (event.getType().equals((long) 2) || event.getType().equals((long) 3) && event.getDraft().equals(false)) {
-            chatService.createChatForEvent(event, true);
-            chatService.createChatForEvent(event, false);
-            eventService.participate(userService.getAuthenticatedUser().getId(), event.getEventId());
-        }
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }
