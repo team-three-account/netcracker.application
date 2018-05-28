@@ -65,61 +65,83 @@
                                                 <a href="/account/search-tag/${tag.tagId}">#${tag.name}</a>
                                             </c:forEach>
                                         </li>
-                                    </ul>
+                                        <li class="list-group-item">Likes: ${item.likes}
+                                            <c:if test="${item.isLiked == 1}">
+                                                <form action="/account/eventWishList/dislike" method="POST">
+                                                    <input type="hidden" name="eventId" value="${eventId}">
+                                                    <input type="hidden" name="userId" value="${auth_user.id}">
+                                                    <button type="submit" class="btn btn-danger text-center">
+                                                        <input type="hidden" name="itemId" value="${item.itemId}"/>
+                                                        Dislike
+                                                    </button>
+                                                </form>
+                                            </c:if>
+                                            <c:if test="${item.isLiked == 0}">
+                                                <form action="/account/eventWishList/like" method="POST">
+                                                    <input type="hidden" name="eventId" value="${eventId}">
+                                                    <input type="hidden" name="userId" value="${auth_user.id}">
+                                                    <button type="submit" class="btn btn-success">
+                                                        <input type="hidden" name="itemId" value="${item.itemId}"/>
+                                                        Like
+                                                    </button>
+                                                </form>
+                                            </c:if>
+                                        </li><li class="list-group-item">
+                                        <c:choose>
+                                            <c:when test="${auth_user.id.equals(item.personId)}">
+                                                <td>
+                                                    <a class="btn btn-success" type="submit" data-toggle="collapse"
+                                                       href="/account/update-${item.itemId}" role="button">Edit</a>
+                                                </td>
+                                                <td>
+                                                    <a href="/account/wishList/deleteItem-${item.itemId}">
+                                                        <input type="submit" class="btn btn-danger text-center"
+                                                               value="Delete"></a>
+                                                </td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td>
+                                                    <a href="/account/copy-${item.itemId}">
+                                                        <input type="submit" class="btn btn-success text-center"
+                                                               value="Copy to my wish list"></a>
+                                                </td>
+                                                <br>
+                                                <c:choose>
+                                                    <c:when test="${item.booker.equals(0)}">
+                                                        <td>
+                                                            <a href="/account/event-${eventId}-${item.personId}/item-${item.itemId}/book">
+                                                                <input type="submit" class="btn btn-success text-center"
+                                                                       value="Book"></a>
+                                                        </td>
+                                                    </c:when>
+                                                    <c:when test="${item.booker.equals(auth_user.id)}">
+                                                        <td><b>Booked by you. </b>
+                                                            <a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">
+                                                                <input type="submit" class="btn btn-success text-center"
+                                                                       value="Cancel booking"></a>
 
-                                    <c:choose>
-                                        <c:when test="${auth_user.id.equals(item.personId)}">
-                                            <td>
-                                                <a class="btn btn-success" type="submit" data-toggle="collapse"
-                                                   href="/account/update-${item.itemId}" role="button">Edit</a>
-                                            </td>
-                                            <td>
-                                                <a href="/account/wishList/deleteItem-${item.itemId}">
-                                                    <input type="submit" class="btn btn-danger text-center"
-                                                           value="Delete"></a>
-                                            </td>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <td>
-                                                <a href="/account/copy-${item.itemId}">
-                                                    <input type="submit" class="btn btn-success text-center"
-                                                           value="Copy to my wish list"></a>
-                                            </td>
-                                            <c:choose>
-                                                <c:when test="${item.booker.equals(0)}">
-                                                    <td>
-                                                        <a href="/account/event-${eventId}-${item.personId}/item-${item.itemId}/book">
-                                                            <input type="submit" class="btn btn-success text-center"
-                                                                   value="Book"></a>
-                                                    </td>
-                                                </c:when>
-                                                <c:when test="${item.booker.equals(auth_user.id)}">
-                                                    <td><b>Booked by you. </b>
-                                                        <a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">
-                                                            <input type="submit" class="btn btn-success text-center"
-                                                                   value="Cancel booking"></a>
-
-                                                    </td>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <c:choose>
-                                                        <c:when test="${item.event.equals(eventId)}">
-                                                            <td>
-                                                                <b>Booked by <a href="/account/${item.booker}">
-                                                                    participant </a>
-                                                                </b>
-                                                            <td>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <td>
-                                                                <b>Booked</b>
-                                                            </td>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:otherwise>
-                                    </c:choose>
+                                                        </td>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:choose>
+                                                            <c:when test="${item.event.equals(eventId)}">
+                                                                <td>
+                                                                    <b>Booked by <a href="/account/${item.booker}">
+                                                                        participant </a>
+                                                                    </b>
+                                                                <td>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <td>
+                                                                    <b>Booked</b>
+                                                                </td>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </li>
 
                                     </ul>
                                 </div>

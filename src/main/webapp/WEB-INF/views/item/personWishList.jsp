@@ -83,7 +83,7 @@
                                         <c:if test="${item.isLiked == 1}">
                                             <form action="/account/personWishList/dislike" method="POST">
                                                 <button type="submit" class="btn btn-danger text-center">
-                                                    <input type="hidden" name="item_id" value="${item.itemId}"/>
+                                                    <input type="hidden" name="itemId" value="${item.itemId}"/>
                                                     Dislike
                                                 </button>
                                             </form>
@@ -91,7 +91,7 @@
                                         <c:if test="${item.isLiked == 0}">
                                             <form action="/account/personWishList/like" method="POST">
                                                 <button type="submit" class="btn btn-success">
-                                                    <input type="hidden" name="item_id" value="${item.itemId}"/>
+                                                    <input type="hidden" name="itemId" value="${item.itemId}"/>
                                                     Like
                                                 </button>
                                             </form>
