@@ -18,11 +18,9 @@ public interface EventDao {
 
     List<Event> eventList();
 
-    List<Event> findPublicEvents();
-
     List<Event> findPrivateEvents(Long userId);
 
-    List<Event> findFriendsEvents(Long userId);
+    List<Event> findAvailableEvents(Long userId);
 
     List<Event> findDrafts(Long userId);
 
@@ -63,4 +61,8 @@ public interface EventDao {
     List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end);
 
     List<Event> getEventsFromRange(Timestamp fromDate, Timestamp tillDate, Long id);
+
+    List<User> getUsersToInvite(Long currentId, Long eventId);
+
+    List<User> getFriendsToInvite(Long id, Long eventId);
 }

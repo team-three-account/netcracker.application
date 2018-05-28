@@ -63,14 +63,8 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    public List<User> getFriendsToShare(List<User> friendsThatHaveAccessList) {
-        List<User> friendList = friendService.getAllFriends(userService.getAuthenticatedUser().getId());
-        for (User item : friendsThatHaveAccessList) {
-            if (friendList.contains(item)) {
-                friendList.remove(item);
-            }
-        }
-        return friendList;
+    public List<User> getFriendsToShare(Long folderId) {
+        return folderDao.getFriendsToShare(folderId, userService.getAuthenticatedUser().getId());
     }
 
     @Override

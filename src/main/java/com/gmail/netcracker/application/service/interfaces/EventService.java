@@ -19,11 +19,9 @@ public interface EventService {
 
     List<Event> eventList();
 
-    List<Event> findPublicEvents();
-
     List<Event> findPrivateEvents(Long userId);
 
-    List<Event> findFriendsEvents(Long userId);
+    List<Event> findAvailableEvents();
 
     List<Event> findDrafts(Long userId);
 
@@ -57,8 +55,6 @@ public interface EventService {
     Boolean isCreator(Long personId, Long eventId);
 
     List<User> getUsersToInvite(Long id, Long eventId);
-
-    List<User> subtraction(List<User> minuend, List<User> subtrahend);
 
     List<User> getFriendsToInvite(Long id, Long eventId);
 

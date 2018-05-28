@@ -31,14 +31,11 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.findListByCreator}")
     private String SQL_FIND_LIST_BY_CREATOR;
 
-    @Value("${sql.event.findPublicEvents}")
-    private String SQL_FIND_PUBLIC_EVENTS;
-
     @Value("${sql.event.findPrivateEvents}")
     private String SQL_FIND_PRIVATE_EVENTS;
 
-    @Value("${sql.event.findFriendsEvents}")
-    private String SQL_FIND_FRIENDS_EVENTS;
+    @Value("${sql.event.findAvailableEvents}")
+    private String SQL_FIND_AVAILABLE_EVENTS;
 
     @Value("${sql.event.findDrafts}")
     private String SQL_FIND_DRAFTS;
@@ -106,6 +103,12 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.getEventsFromRange}")
     private String SQL_GET_EVENTS_FROM_RANGE;
 
+    @Value("${sql.event.getUsersToInvite}")
+    private String SQL_GET_USERS_TO_INVITE;
+
+    @Value("${sql.event.getFriendsToInvite}")
+    private String SQL_GET_FRIENDS_TO_INVITE;
+
     private final RowMapper<Event> eventRowMapper;
     private final RowMapper<User> friendRowMapper;
     private final RowMapper<Participant> participantRowMapper;
@@ -171,18 +174,13 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public List<Event> findPublicEvents() {
-        return findEntityList(SQL_FIND_PUBLIC_EVENTS, eventRowMapper);
-    }
-
-    @Override
     public List<Event> findPrivateEvents(Long userId) {
         return findEntityList(SQL_FIND_PRIVATE_EVENTS, eventRowMapper, userId);
     }
 
     @Override
-    public List<Event> findFriendsEvents(Long userId) {
-        return findEntityList(SQL_FIND_FRIENDS_EVENTS, eventRowMapper, userId, userId);
+    public List<Event> findAvailableEvents(Long userId) {
+        return findEntityList(SQL_FIND_AVAILABLE_EVENTS, eventRowMapper, userId, userId);
     }
 
     @Override
@@ -285,6 +283,16 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public List<Event> getEventsFromRange(Timestamp fromDate, Timestamp tillDate, Long id) {
         return findEntityList(SQL_GET_EVENTS_FROM_RANGE, eventRowMapper, id, fromDate, tillDate);
+    }
+
+    @Override
+    public List<User> getUsersToInvite(Long id, Long eventId) {
+        return findEntityList(SQL_GET_USERS_TO_INVITE, friendRowMapper, id, eventId);
+    }
+
+    @Override
+    public List<User> getFriendsToInvite(Long id, Long eventId) {
+        return findEntityList(SQL_GET_FRIENDS_TO_INVITE, friendRowMapper, id, id, eventId);
     }
 }
 

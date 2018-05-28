@@ -44,12 +44,13 @@ public class NoteController {
      *
      * @param note
      * @param modelAndView
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = "/createNote", method = RequestMethod.GET)
     public ModelAndView createNote(@ModelAttribute(value = "createNote") Note note, ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("note/createNote");
+
         return modelAndView;
     }
 
@@ -61,7 +62,7 @@ public class NoteController {
      * @param note
      * @param result
      * @param modelAndView
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = "/createNote", method = RequestMethod.POST)
     public ModelAndView saveNote(@ModelAttribute("createNote") Note note, BindingResult result,
@@ -82,7 +83,7 @@ public class NoteController {
      *
      * @param noteId
      * @param modelAndView
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = "/note-{noteId}", method = RequestMethod.GET)
     public ModelAndView viewNote(@PathVariable("noteId") Long noteId, ModelAndView modelAndView) {
@@ -97,7 +98,7 @@ public class NoteController {
      * This method removes the note and redirect to the certain page.
      *
      * @param noteId
-     * @return
+     * @return String
      */
     @RequestMapping(value = {"/deleteNote-{noteId}"}, method = RequestMethod.GET)
     public String deleteNote(@PathVariable Long noteId) {
@@ -109,7 +110,7 @@ public class NoteController {
      * This method removes the note from folder and redirect to the certain page.
      *
      * @param noteId
-     * @return
+     * @return String
      */
     @RequestMapping(value = {"/deleteFF-{noteId}"}, method = RequestMethod.GET)
     public String deleteNoteFromFolder(@PathVariable Long noteId) {
@@ -122,7 +123,7 @@ public class NoteController {
      *
      * @param noteId
      * @param modelAndView
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = {"/editNote-{noteId}"}, method = RequestMethod.GET)
     public ModelAndView editNote(@PathVariable Long noteId, ModelAndView modelAndView) {
@@ -140,7 +141,7 @@ public class NoteController {
      * @param note
      * @param result
      * @param modelAndView
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = {"/editNote-{noteId}"}, method = RequestMethod.POST)
     public ModelAndView updateNote(@ModelAttribute("editNote") Note note, BindingResult result,
@@ -160,7 +161,7 @@ public class NoteController {
      * This method returns a web page where customer can see own notes.
      *
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/allNotes", method = RequestMethod.GET)
     public String allNotes(Model model) {
@@ -176,7 +177,7 @@ public class NoteController {
      *
      * @param folderId
      * @param noteId
-     * @return
+     * @return ResponseEntity
      */
     @RequestMapping(value = "/move", method = RequestMethod.POST)
     @ResponseBody
@@ -191,7 +192,7 @@ public class NoteController {
      *
      * @param modelAndView
      * @param noteId
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.GET)
     public ModelAndView addNoteToFolderBtn(ModelAndView modelAndView, @PathVariable Long noteId) {
@@ -208,7 +209,7 @@ public class NoteController {
      *
      * @param modelAndView
      * @param note
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = {"/add-note-{noteId}"}, method = RequestMethod.POST)
     public ModelAndView saveNoteToFolderBtn(ModelAndView modelAndView, @ModelAttribute("newNoteIntoFolder") Note note) {

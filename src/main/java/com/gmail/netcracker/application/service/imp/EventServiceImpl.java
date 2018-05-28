@@ -90,18 +90,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> findPublicEvents() {
-        return setDateEnd(eventDao.findPublicEvents());
-    }
-
-    @Override
     public List<Event> findPrivateEvents(Long userId) {
         return setDateEnd(eventDao.findPrivateEvents(userId));
     }
 
     @Override
-    public List<Event> findFriendsEvents(Long userId) {
-        return setDateEnd(eventDao.findFriendsEvents(userId));
+    public List<Event> findAvailableEvents() {
+        return setDateEnd(eventDao.findAvailableEvents(userService.getAuthenticatedUser().getId()));
     }
 
     @Override
@@ -214,27 +209,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<User> subtraction(List<User> minuend, List<User> subtrahend) {
-        for (User item : subtrahend) {
-            if (minuend.contains(item)) {
-                minuend.remove(item);
-            }
-        }
-        return minuend;
-    }
-
-    @Override
     public List<User> getFriendsToInvite(Long id, Long eventId) {
-        List<User> minuend = friendService.getAllFriends(id);
-        List<User> subtrahend = getParticipants(eventId);
-        return subtraction(minuend, subtrahend);
+        return eventDao.getFriendsToInvite(id, eventId);
     }
 
     @Override
     public List<User> getUsersToInvite(Long currentId, Long eventId) {
-        List<User> minuend = userService.getAllUsers(currentId);
-        List<User> subtrahend = getParticipants(eventId);
-        return subtraction(minuend, subtrahend);
+        return eventDao.getUsersToInvite(currentId, eventId);
     }
 
     @Override

@@ -28,4 +28,6 @@ public interface FolderDao {
     List<Folder> getSharedFoldersToMe(Long id);
 
     void disableAccessForShared(Long folderId);
+
+    List<User> getFriendsToShare(Long folderId, Long id);
 }

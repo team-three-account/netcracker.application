@@ -19,7 +19,7 @@ public interface FolderService {
 
     List<Note> getNoteListIntoFolder(Long folderId);
 
-    List<User> getFriendsToShare(List<User> friendsThatHaveAccessList);
+    List<User> getFriendsToShare(Long folderId);
 
     List<User> getFriendsThatHaveAccess(Long folderId);
 

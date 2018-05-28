@@ -20,9 +20,6 @@ public class FriendServiceImpl implements FriendService {
     @Autowired
     private Friend friendship;
 
-    @Autowired
-    private UserService userService;
-
     @Override
     public List<User> getAllFriends(Long id) {
         return friendDao.friendList(id);
@@ -33,7 +30,6 @@ public class FriendServiceImpl implements FriendService {
         String[] input = search.split(" ");
         return input.length > 1 ? friendDao.getFriendsByNameAndSurname(id, input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.getFriendsByNameOrSurname(id, input[0].toLowerCase());
     }
-
 
     @Override
     public void addFriend(Long personId, Long friendId) {
@@ -78,14 +74,4 @@ public class FriendServiceImpl implements FriendService {
         return input.length > 1 ? friendDao.searchUsersByNameAndSurname(id, input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.searchUsersByNameOrSurname(id, input[0].toLowerCase());
     }
 
-    @Override
-    public List<User> subtractionFromFriendList(List<User> foundUsers) {
-        List<User> friendList = getAllFriends(userService.getAuthenticatedUser().getId());
-        for (User item : friendList) {
-            if (foundUsers.contains(item)) {
-                foundUsers.remove(item);
-            }
-        }
-        return foundUsers;
-    }
 }

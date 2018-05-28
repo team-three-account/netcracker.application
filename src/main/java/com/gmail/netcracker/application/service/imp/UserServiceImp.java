@@ -96,9 +96,4 @@ public class UserServiceImp implements UserService, UserDetailsService {
         return userDao.findUserById(id);
     }
 
-    @Override
-    public List<User> getAllUsers(Long currentId) {
-        return userDao.getAllUsers(currentId);
-    }
-
 }
