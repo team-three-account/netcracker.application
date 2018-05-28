@@ -28,9 +28,11 @@ function showNotification(message) {
         " <div class=\"text-left \" id=\"showMessageOutputFromData\">\n" +
         "                                        <input type=\"hidden\" id=\"sender\" value=\"" + message.senderId + "\">\n" +
         "                                        " +
-        "<a href='/account/eventList/eventChat/main/\"+message.chatId+\"-\"+message.eventId+\"\"'><p style='display: inline-flex;'><a href='/account/" + message.senderId + "'><img class=\"img-circle\" style=\"width: 40px;height: 40px;margin: 5px;\"\n" +
-        "                                                src=\"" + message.senderPhoto + "\"></a>" + "  " + message.text + "\n" +
-        "                                        </p></a>\n" +
+        "<p style='display: inline-flex;right !important;' ><a href='/account/" + message.senderId + "'><img class=\"img-circle\" style=\"width: 40px;height: 40px;margin: 5px;\"\n" +
+        "                                                src=\"" + message
+            .senderPhoto + "\"></a>" + "<a href='/account/eventList/eventChat/main/"+message.chatId+"-"+message.eventId+"' style='color: white !important;\n" +
+        "  text-decoration: none'> " + message.text + "\n" +
+        "                                        </a>\n" +
         "<p>" + message.time + "</p>\n" +
         "                                    </div>";
     "</div>";

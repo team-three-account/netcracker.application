@@ -122,12 +122,12 @@
 
 
                     <ul class="list-group">
-                        <li class="list-group-item">Choose the type you like:</li>
-                        <li class="list-group-item"><form:checkboxes cssStyle="margin: 10px" path="eventTypes"
-                                                                     items="${eventTypes}"
-                                                                     itemValue="typeId"
-                                                                     itemLabel="name"/>
-                        </li>
+                        <li class="list-group-item">Choose Friend:</li>
+                        <form:checkboxes cssStyle="margin: 10px" path="eventTypes"
+                                         items="${eventTypes}"
+                                         itemValue="typeId"
+                                         itemLabel="name"/>
+                        <li class="list-group-item">${itemValue} ${itemLabel}</li>
                         <li class="list-group-item"><input type="submit" class="btn btn-success" name="submit"
                                                            value="Submit"></li>
                     </ul>
