@@ -90,18 +90,13 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> findPublicEvents() {
-        return setDateEnd(eventDao.findPublicEvents());
-    }
-
-    @Override
     public List<Event> findPrivateEvents(Long userId) {
         return setDateEnd(eventDao.findPrivateEvents(userId));
     }
 
     @Override
-    public List<Event> findFriendsEvents(Long userId) {
-        return setDateEnd(eventDao.findFriendsEvents(userId));
+    public List<Event> findAvailableEvents() {
+        return setDateEnd(eventDao.findAvailableEvents(userService.getAuthenticatedUser().getId()));
     }
 
     @Override

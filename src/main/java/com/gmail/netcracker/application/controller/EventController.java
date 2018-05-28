@@ -305,10 +305,8 @@ public class EventController {
      */
     @RequestMapping(value = "/available", method = RequestMethod.GET)
     public String available(Model model) {
-        authUser = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user", authUser);
-        model.addAttribute("publicEventList", eventService.findPublicEvents());
-        model.addAttribute("friendsEventList", eventService.findFriendsEvents(authUser.getId()));
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        model.addAttribute("friendsEventList", eventService.findAvailableEvents());
         return "event/available";
     }
 

@@ -31,14 +31,11 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.findListByCreator}")
     private String SQL_FIND_LIST_BY_CREATOR;
 
-    @Value("${sql.event.findPublicEvents}")
-    private String SQL_FIND_PUBLIC_EVENTS;
-
     @Value("${sql.event.findPrivateEvents}")
     private String SQL_FIND_PRIVATE_EVENTS;
 
-    @Value("${sql.event.findFriendsEvents}")
-    private String SQL_FIND_FRIENDS_EVENTS;
+    @Value("${sql.event.findAvailableEvents}")
+    private String SQL_FIND_AVAILABLE_EVENTS;
 
     @Value("${sql.event.findDrafts}")
     private String SQL_FIND_DRAFTS;
@@ -177,18 +174,13 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public List<Event> findPublicEvents() {
-        return findEntityList(SQL_FIND_PUBLIC_EVENTS, eventRowMapper);
-    }
-
-    @Override
     public List<Event> findPrivateEvents(Long userId) {
         return findEntityList(SQL_FIND_PRIVATE_EVENTS, eventRowMapper, userId);
     }
 
     @Override
-    public List<Event> findFriendsEvents(Long userId) {
-        return findEntityList(SQL_FIND_FRIENDS_EVENTS, eventRowMapper, userId, userId);
+    public List<Event> findAvailableEvents(Long userId) {
+        return findEntityList(SQL_FIND_AVAILABLE_EVENTS, eventRowMapper, userId, userId);
     }
 
     @Override
