@@ -2,10 +2,7 @@ package com.gmail.netcracker.application.service.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.*;
 import com.gmail.netcracker.application.dto.model.*;
-import com.gmail.netcracker.application.service.interfaces.ChatService;
-import com.gmail.netcracker.application.service.interfaces.EventService;
-import com.gmail.netcracker.application.service.interfaces.FriendService;
-import com.gmail.netcracker.application.service.interfaces.UserService;
+import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.utilites.EmailConstructor;
 import com.gmail.netcracker.application.utilites.Utilities;
 import com.gmail.netcracker.application.utilites.scheduling.JobSchedulingManager;
@@ -39,6 +36,7 @@ public class EventServiceImpl implements EventService {
     private ItemDao itemDao;
     private UserDao userDao;
     private ChatService chatService;
+    private PhotoServiceImp photoService;
 
     private JobSchedulingManager jobSchedulingManager;
     private EmailConstructor emailConstructor;
@@ -46,7 +44,7 @@ public class EventServiceImpl implements EventService {
     @Autowired
     public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService,
                             FriendService friendService, PriorityDao priorityDao, NoteDao noteDao, ItemDao itemDao,
-                            JobSchedulingManager jobSchedulingManager, EmailConstructor emailConstructor, UserDao userDao, ChatService chatService) {
+                            JobSchedulingManager jobSchedulingManager, EmailConstructor emailConstructor, UserDao userDao, ChatService chatService, PhotoServiceImp photoService) {
         this.eventDao = eventDao;
         this.eventTypeDao = eventTypeDao;
         this.userService = userService;
@@ -58,6 +56,7 @@ public class EventServiceImpl implements EventService {
         this.emailConstructor = emailConstructor;
         this.userDao = userDao;
         this.chatService = chatService;
+        this.photoService = photoService;
     }
 
     @Override
@@ -74,6 +73,9 @@ public class EventServiceImpl implements EventService {
     @Transactional
     public void delete(Long eventId) {
         itemDao.cancelItemsBookingFromEvent(eventId);
+        if (!getEvent(eventId).getPhoto().equals(photoService.getDefaultImageForEvents())) {
+            photoService.deleteFile(getEvent(eventId).getPhoto());
+        }
         eventDao.delete(eventId);
         deleteEventNotificationJob(eventId); //TODO check next case: will be this method executed if transaction is failed
     }
@@ -88,7 +90,6 @@ public class EventServiceImpl implements EventService {
                 && event.getDraft().equals(false)) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
-
         }
         participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);

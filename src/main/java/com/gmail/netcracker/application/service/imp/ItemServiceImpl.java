@@ -7,6 +7,7 @@ import com.gmail.netcracker.application.dto.model.Item;
 import com.gmail.netcracker.application.dto.model.Priority;
 import com.gmail.netcracker.application.dto.model.Tag;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
+import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,24 +20,26 @@ import java.util.regex.Pattern;
 @Service
 public class ItemServiceImpl implements ItemService {
 
-   private ItemDao itemDao;
-   private PriorityDao priorityDao;
-   private UserService userService;
-   @Autowired
-   private TagDao tagDao;
+    private ItemDao itemDao;
+    private PriorityDao priorityDao;
+    private UserService userService;
+    private PhotoServiceImp photoService;
+    private TagDao tagDao;
 
     @Autowired
-    public ItemServiceImpl(ItemDao itemDao, PriorityDao priorityDao, UserService userService){
+    public ItemServiceImpl(ItemDao itemDao, PriorityDao priorityDao, UserService userService, PhotoServiceImp photoService, TagDao tagDao) {
         this.itemDao = itemDao;
         this.priorityDao = priorityDao;
         this.userService = userService;
+        this.photoService = photoService;
+        this.tagDao = tagDao;
     }
 
     @Override
     @Transactional
     public void update(Item item) {
         setPersonId(item);
-        addTagsToItem(parseTags(item.getDescription()),item.getItemId());
+        addTagsToItem(parseTags(item.getDescription()), item.getItemId());
         itemDao.update(item);
     }
 
@@ -46,6 +49,9 @@ public class ItemServiceImpl implements ItemService {
         itemDao.deleteLikesOfItem(itemId);
         tagDao.deleteTagsOfItem(itemId);
         itemDao.changeRootToEarliest(itemId);
+        if (!getItem(itemId).getImage().equals(photoService.getDefaultImageForItems())) {
+            photoService.deleteFile(getItem(itemId).getImage());
+        }
         itemDao.delete(itemId);
     }
 
@@ -54,7 +60,7 @@ public class ItemServiceImpl implements ItemService {
     public void add(Item item) {
         setPersonId(item);
         item.setItemId(itemDao.add(item));
-        addTagsToNewItem(parseTags(item.getDescription()),item.getItemId());
+        addTagsToNewItem(parseTags(item.getDescription()), item.getItemId());
         itemDao.setRoot(item.getItemId());
     }
 
@@ -69,8 +75,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     @Transactional
     public List<Item> getWishList(Long personId) {
-        List<Item> wishList= itemDao.findItemsByUserId(personId);
-        for (Item item: wishList){
+        List<Item> wishList = itemDao.findItemsByUserId(personId);
+        for (Item item : wishList) {
             item.setTags(tagDao.getTagsOfItem(item.getItemId()));
             item.setLikes(itemDao.getLikesCount(item.getItemId()));
         }
@@ -96,7 +102,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void bookItem(Long itemId) {
-        if(itemDao.getBookerId(itemId) == 0) itemDao.setBooker(itemId, userService.getAuthenticatedUser().getId());
+        if (itemDao.getBookerId(itemId) == 0) itemDao.setBooker(itemId, userService.getAuthenticatedUser().getId());
     }
 
     @Override
@@ -106,14 +112,15 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void bookItemFromEvent(Long itemId, Long eventId) {
-        if(itemDao.getBookerId(itemId) == 0) itemDao.setBookerFromEvent(itemId, userService.getAuthenticatedUser().getId(), eventId);
+        if (itemDao.getBookerId(itemId) == 0)
+            itemDao.setBookerFromEvent(itemId, userService.getAuthenticatedUser().getId(), eventId);
     }
 
     @Override
     public Set<String> parseTags(String tags) {
         Matcher m = Pattern.compile("#(\\w+)").matcher(tags);
         Set<String> formattedTags = new HashSet<>();
-        while (m.find()) formattedTags.add( m.group(1).toLowerCase());
+        while (m.find()) formattedTags.add(m.group(1).toLowerCase());
         return formattedTags;
     }
 
@@ -122,40 +129,39 @@ public class ItemServiceImpl implements ItemService {
     public void addTagsToItem(Set<String> tags, Long itemId) {
         Set<Tag> currentTags = tagDao.getTagsOfItem(itemId);
         Set<Tag> addTags = new HashSet<>();
-        for(String tagString: tags){
+        for (String tagString : tags) {
             Tag tag = tagDao.findTagByName(tagString);
-            if(tag == null){
+            if (tag == null) {
                 tag = new Tag();
                 tag.setTagId(tagDao.addTag(tagString));
                 tag.setName(tagString);
                 tagDao.addTagToItem(tag.getTagId(), itemId);
-            }
-            else addTags.add(tag);
+            } else addTags.add(tag);
         }
-        for(Tag tag: addTags){
-            if(!currentTags.contains(tag))
+        for (Tag tag : addTags) {
+            if (!currentTags.contains(tag))
                 tagDao.addTagToItem(tag.getTagId(), itemId);
         }
-        for (Tag tag: currentTags){
-            if(!addTags.contains(tag))
+        for (Tag tag : currentTags) {
+            if (!addTags.contains(tag))
                 tagDao.deleteTagOfItem(tag.getTagId(), itemId);
         }
     }
 
     @Override
 
-    public void addTagsToCopiedItem(Set<Tag> tags, Long itemId){
-        for(Tag tag: tags){
+    public void addTagsToCopiedItem(Set<Tag> tags, Long itemId) {
+        for (Tag tag : tags) {
             tagDao.addTagToItem(tag.getTagId(), itemId);
         }
     }
 
     @Override
     @Transactional
-    public void addTagsToNewItem(Set<String> tags, Long itemId){
-        for(String tagString: tags){
+    public void addTagsToNewItem(Set<String> tags, Long itemId) {
+        for (String tagString : tags) {
             Tag tag = tagDao.findTagByName(tagString);
-            if(tag == null){
+            if (tag == null) {
                 tag = new Tag();
                 tag.setTagId(tagDao.addTag(tagString));
                 tag.setName(tagString);
@@ -178,7 +184,7 @@ public class ItemServiceImpl implements ItemService {
     @Transactional
     public List<Item> getItemsByTag(Long tag) {
         List<Item> items = itemDao.getItemsByTag(tag);
-        for (Item item: items){
+        for (Item item : items) {
             item.setTags(tagDao.getTagsOfItem(item.getItemId()));
         }
         return items;
@@ -191,7 +197,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Tag getTagByName(String tagName){
+    public Tag getTagByName(String tagName) {
         return tagDao.findTagByName(tagName);
     }
 

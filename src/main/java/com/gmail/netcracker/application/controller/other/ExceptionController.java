@@ -46,7 +46,7 @@ public class ExceptionController {
      *
      * @return {@link ModelAndView}.
      */
-/*
+
     @ExceptionHandler(NoHandlerFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ModelAndView noHandlerFoundException(
@@ -60,12 +60,12 @@ public class ExceptionController {
         );
     }
 
-    *//**
+    /**
      * Handling NoHandlerFoundException
      * exception (http status 400).
      *
      * @return {@link ModelAndView}.
-     *//*
+     */
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     public ModelAndView badRequestException(
@@ -79,12 +79,12 @@ public class ExceptionController {
         );
     }
 
-    *//**
+    /**
      * Handling NoHandlerFoundException
      * exception (http status 403).
      *
      * @return {@link ModelAndView}.
-     *//*
+     */
     @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     public ModelAndView forbiddenException(
@@ -98,12 +98,12 @@ public class ExceptionController {
         );
     }
 
-    *//**
+    /**
      * Handling NoHandlerFoundException
      * exception (http status 500 and ect).
      *
      * @return {@link ModelAndView}.
-     *//*
+     */
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ModelAndView otherException(
@@ -116,12 +116,12 @@ public class ExceptionController {
         );
     }
 
-    *//**
+    /**
      * Handling NoHandlerFoundException
      * exception constructor.
      *
      * @return {@link ModelAndView}.
-     *//*
+     */
     private ModelAndView handleException(
             final Exception ex,
             final HttpServletRequest request,
@@ -139,5 +139,5 @@ public class ExceptionController {
         );
         modelAndView.setViewName("error");
         return modelAndView;
-    }*/
+    }
 }
