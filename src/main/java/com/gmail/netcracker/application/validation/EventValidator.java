@@ -21,8 +21,13 @@ public class EventValidator extends ModelValidator implements Validator {
         Event event = (Event) o;
         rejectIfEmptyOrWhitespace(errors, "name", "required.field");
         rejectIfEmptyOrWhitespace(errors, "description", "required.field");
-        rejectIfEmptyOrWhitespace(errors, "dateStart", "required.field");
-        rejectIfEmptyOrWhitespace(errors, "dateEnd", "required.field");
+
+        if(event.getDateStart().equals("____-__-__ __:__")){
+            errors.rejectValue("dateStart","required.field");
+        }
+        if(event.getDateEnd().equals("____-__-__ __:__")){
+            errors.rejectValue("dateEnd","required.field");
+        }
         rejectIfEmptyOrWhitespace(errors, "type", "required.field");
         rejectIfEmptyOrWhitespace(errors, "eventPlaceName", "required.field");
         if (!errors.hasErrors()) {

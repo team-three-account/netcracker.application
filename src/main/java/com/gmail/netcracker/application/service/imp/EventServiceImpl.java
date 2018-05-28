@@ -243,7 +243,9 @@ public class EventServiceImpl implements EventService {
         noteDao.delete(noteId);
         event.setCreator(userId);
         insertEvent(event);
-        eventDao.participate(userId, event.getEventId());
+        if (event.getDraft().equals(false)) {
+            eventDao.participate(userId, event.getEventId());
+        }
     }
 
     @Override
@@ -340,12 +342,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end){
-        return setDateEnd(eventDao.searchByUserFromRange(userId,start, end));
+    public List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end) {
+        return setDateEnd(eventDao.searchByUserFromRange(userId, start, end));
     }
 
     @Override
-    public List<Event> searchByUserFromRange(Long userId, Long start, Long end){
+    public List<Event> searchByUserFromRange(Long userId, Long start, Long end) {
         return searchByUserFromRange(userId,
                 Utilities.parseLongToTimestamp(start),
                 Utilities.parseLongToTimestamp(end));

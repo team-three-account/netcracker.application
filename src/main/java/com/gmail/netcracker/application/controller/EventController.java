@@ -442,13 +442,13 @@ public class EventController {
     public ModelAndView translateToEvent(@ModelAttribute(value = "createNewEvent") Event event,
                                          ModelAndView modelAndView,
                                          @PathVariable(value = "noteId") Long noteId) {
-        modelAndView.setViewName("event/createNewEvent");
         event.setPhoto(photoService.getDefaultImageForEvents());
         logger.info(event.getPhoto());
         Note note = noteService.getNote(noteId);
         event.setName(note.getName());
         event.setDescription(note.getDescription());
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.setViewName("event/createNewEvent");
         return modelAndView;
     }
 
@@ -473,11 +473,23 @@ public class EventController {
                                         @RequestParam(value = "photoInput") String photo,
                                         @RequestParam(value = "photoFile") MultipartFile multipartFile,
                                         ModelAndView modelAndView,
-                                        @PathVariable Long noteId) throws IOException, DbxException {
+                                        @PathVariable Long noteId,
+                                        @RequestParam(value = "hidden") Boolean hidden) throws IOException, DbxException {
         modelAndView.setViewName("event/createNewEvent");
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        event.setDraft(hidden);
         event.setPhoto(photo);
-        eventValidator.validate(event, result);
+        if (event.getPeriodicity().equals("")) {
+            event.setPeriodicity(null);
+        }
+        if (event.getDraft().equals(true)) {
+            draftValidator.validate(event, result);
+            event.setType((long) 0);
+        }
+        if (event.getDraft().equals(false)) {
+            eventValidator.validate(event, result);
+
+        }
         Boolean imageFormat = imageValidator.validateImageFormat(modelAndView, multipartFile);
         if (result.hasErrors() || imageFormat.equals(false)) {
             return modelAndView;
