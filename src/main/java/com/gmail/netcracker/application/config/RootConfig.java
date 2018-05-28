@@ -144,7 +144,7 @@ public class RootConfig {
             chat.setChatId(getLong(resultSet, "chat_id"));
             chat.setName(getString(resultSet, "name"));
             chat.setEventId(getLong(resultSet, "event_id"));
-            chat.setState(getBoolean(resultSet, "creator_event"));
+            chat.setState(getBoolean(resultSet, "is_with_creator"));
             return chat;
         };
     }
@@ -174,9 +174,9 @@ public class RootConfig {
             eventMessage.setTime(Utilities.parseDateToStringWithSeconds(getTimestamp(resultSet, "date")));
             eventMessage.setChatId(getLong(resultSet, "chat_id"));
             eventMessage.setSenderId(getLong(resultSet, "sender_id"));
-            eventMessage.setFrom(getString(resultSet, "sender_name"));
-            eventMessage.setSenderPhoto(getString(resultSet, "sender_photo"));
-            notification.setCreatorEvent(getBoolean(resultSet, "creator_event"));
+            eventMessage.setFrom(getString(resultSet,"sender_name"));
+            eventMessage.setSenderPhoto(getString(resultSet,"sender_photo"));
+            notification.setCreatorEvent(getBoolean(resultSet,"is_with_creator"));
             notification.setChatId(getLong(resultSet, "chat_id"));
             notification.setEvent(event);
             notification.setUser(user);
