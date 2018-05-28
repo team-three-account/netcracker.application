@@ -106,9 +106,11 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.getEventsFromRange}")
     private String SQL_GET_EVENTS_FROM_RANGE;
 
-
     @Value("${sql.event.getUsersToInvite}")
     private String SQL_GET_USERS_TO_INVITE;
+
+    @Value("${sql.event.getFriendsToInvite}")
+    private String SQL_GET_FRIENDS_TO_INVITE;
 
     private final RowMapper<Event> eventRowMapper;
     private final RowMapper<User> friendRowMapper;
@@ -294,6 +296,11 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Override
     public List<User> getUsersToInvite(Long id, Long eventId) {
         return findEntityList(SQL_GET_USERS_TO_INVITE, friendRowMapper, id, eventId);
+    }
+
+    @Override
+    public List<User> getFriendsToInvite(Long id, Long eventId) {
+        return findEntityList(SQL_GET_FRIENDS_TO_INVITE, friendRowMapper, id, id, eventId);
     }
 }
 

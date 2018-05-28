@@ -214,20 +214,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<User> subtraction(List<User> minuend, List<User> subtrahend) {
-        for (User item : subtrahend) {
-            if (minuend.contains(item)) {
-                minuend.remove(item);
-            }
-        }
-        return minuend;
-    }
-
-    @Override
     public List<User> getFriendsToInvite(Long id, Long eventId) {
-        List<User> minuend = friendService.getAllFriends(id);
-        List<User> subtrahend = getParticipants(eventId);
-        return subtraction(minuend, subtrahend);
+        return eventDao.getFriendsToInvite(id, eventId);
     }
 
     @Override

@@ -65,4 +65,6 @@ public interface EventDao {
     List<Event> getEventsFromRange(Timestamp fromDate, Timestamp tillDate, Long id);
 
     List<User> getUsersToInvite(Long currentId, Long eventId);
+
+    List<User> getFriendsToInvite(Long id, Long eventId);
 }

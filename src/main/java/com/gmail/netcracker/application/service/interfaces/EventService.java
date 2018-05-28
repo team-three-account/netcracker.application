@@ -58,8 +58,6 @@ public interface EventService {
 
     List<User> getUsersToInvite(Long id, Long eventId);
 
-    List<User> subtraction(List<User> minuend, List<User> subtrahend);
-
     List<User> getFriendsToInvite(Long id, Long eventId);
 
     void transferNoteToEvent(Long noteId,Long userId, Event event);
