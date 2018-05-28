@@ -24,6 +24,10 @@ import java.util.Map;
 
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
 
+/**
+ * This class is a event service which connects DAO layer and controller.
+ */
+
 @Service
 public class EventServiceImpl implements EventService {
     private EventDao eventDao;
@@ -57,6 +61,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public void update(Event event) {
         setPersonId(event);
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
@@ -154,6 +159,13 @@ public class EventServiceImpl implements EventService {
         eventDao.unsubscribe(id, eventId);
     }
 
+    /**
+     * This method checks event access.
+     *
+     * @param personId
+     * @param eventId
+     * @return Boolean
+     */
     @Override
     public Boolean allowAccess(Long personId, Long eventId) {
         boolean access = false;
@@ -246,6 +258,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public void convertDraftToEvent(Long eventId) {
         Event event = eventDao.getEvent(eventId);
         event.setDraft(false);
@@ -263,6 +276,12 @@ public class EventServiceImpl implements EventService {
         return setDateEnd(eventDao.getAllPersonEvents(id));
     }
 
+    /**
+     * This method copies the event.
+     *
+     * @param toCopy
+     * @return Event
+     */
     @Override
     public Event copyEvent(Event toCopy) {
         Event event = new Event();
@@ -362,6 +381,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public void updateNotificationSchedule(User user) {
         userDao.updateNotificationsSchedule(user);
         deletePersonalPlanNotificationJob(user.getId());
@@ -369,6 +389,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional
     public void disableNotifications(Long userId) {
         userDao.disableNotifications(userId);
         deletePersonalPlanNotificationJob(userId);

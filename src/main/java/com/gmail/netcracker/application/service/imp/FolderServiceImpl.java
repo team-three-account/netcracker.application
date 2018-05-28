@@ -14,6 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+/**
+ * This class is a folder service which connects DAO layer and controller.
+ */
 @Service
 public class FolderServiceImpl implements FolderService {
     @Autowired
@@ -28,12 +31,23 @@ public class FolderServiceImpl implements FolderService {
     @Autowired
     private NoteDao noteDao;
 
+    /**
+     * The method set creator when customer create folder.
+     *
+     * @param folder
+     */
     @Override
+    @Transactional
     public void createFolder(Folder folder) {
         folder.setCreator(userService.getAuthenticatedUser().getId());
         folderDao.createFolder(folder);
     }
 
+    /**
+     * The method returns customer folder list.
+     *
+     * @return
+     */
     @Override
     public List<Folder> folderList() {
         return folderDao.folderList(userService.getAuthenticatedUser().getId());
@@ -44,6 +58,7 @@ public class FolderServiceImpl implements FolderService {
         return folderDao.getFolder(folderId);
     }
 
+
     @Override
     @Transactional
     public void delete(Long folderId) {
@@ -53,6 +68,7 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    @Transactional
     public void update(Folder folder) {
         folderDao.update(folder);
     }

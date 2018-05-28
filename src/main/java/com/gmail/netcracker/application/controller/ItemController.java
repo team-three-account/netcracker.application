@@ -102,7 +102,7 @@ public class ItemController {
    * Method removes the item from Database.
    *
    * @param itemId
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/wishList/deleteItem-{itemId}", method = RequestMethod.GET)
     public String deleteItem(@PathVariable("itemId") Long itemId) {
@@ -166,7 +166,7 @@ public class ItemController {
    * Method copies the item of other users to own Wish List.
    *
    * @param itemId
-   * @return modelAndView
+   * @return view
    */
     @RequestMapping(value = "/copy-{itemId}", method = RequestMethod.GET)
     public String copyItem(@PathVariable("itemId") Long itemId) {
@@ -177,7 +177,7 @@ public class ItemController {
   /**
    * Method return list priorities for item radiobutton.
    *
-   * @return List
+   * @return priorityList
    */
     @ModelAttribute("priorities")
     public List<Priority> getAllPriorities() {
@@ -201,7 +201,7 @@ public class ItemController {
    *
    * @param userId
    * @param model
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/user-{id}/wishList", method = RequestMethod.GET)
     public String userWishList(@PathVariable("id") Long userId, Model model) {
@@ -219,7 +219,7 @@ public class ItemController {
    *
    * @param creator
    * @param model
-   * @return modelAndView
+   * @return view
    */
     @RequestMapping(value = "/event-{eventId}-{creator}/wishList", method = RequestMethod.GET)
     public String eventWishList(@PathVariable("eventId") Long eventId, @PathVariable("creator") Long creator, Model model) {
@@ -244,10 +244,10 @@ public class ItemController {
    *
    * @param itemId
    * @param model
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/item-{itemId}", method = RequestMethod.GET)
-    public String item(@PathVariable("itemId") Long itemId, Model model) {
+    public String getItem(@PathVariable("itemId") Long itemId, Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("item", itemService.getItem(itemId));
         Long likes = itemService.countLikes(itemId);
@@ -262,7 +262,7 @@ public class ItemController {
    *
    * @param tagId
    * @param model
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/search-tag/{tag}", method = RequestMethod.GET)
     public String searchByTag(@PathVariable("tag") Long tagId, Model model) {
@@ -277,7 +277,7 @@ public class ItemController {
    *
    * @param itemId
    * @param model
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/viewItem/like", method = RequestMethod.POST)
     public String likeFromItem(@RequestParam(value = "itemId") Long itemId, Model model) {
@@ -292,7 +292,7 @@ public class ItemController {
    *
    * @param itemId
    * @param model
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/viewItem/dislike", method = RequestMethod.POST)
     public String dislikeFromItem(@RequestParam(value = "itemId") Long itemId, Model model) {
@@ -307,7 +307,7 @@ public class ItemController {
    *
    * @param itemId
    * @param model
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/personWishList/like", method = RequestMethod.POST)
     public String likeFromPersonWishList(@RequestParam(value = "itemId") Long itemId, Model model) {
@@ -322,7 +322,7 @@ public class ItemController {
    *
    * @param itemId
    * @param model
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/personWishList/dislike", method = RequestMethod.POST)
     public String dislikeFromPersonWishList(@RequestParam(value = "itemId") Long itemId, Model model) {
@@ -337,7 +337,7 @@ public class ItemController {
    *
    * @param itemId
    * @param model
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/eventWishList/like", method = RequestMethod.POST)
     public String likeFromEventWishList(@RequestParam(value = "itemId") Long itemId,
@@ -355,7 +355,7 @@ public class ItemController {
    *
    * @param itemId
    * @param model
-   * @return String
+   * @return view
    */
     @RequestMapping(value = "/eventWishList/dislike", method = RequestMethod.POST)
     public String dislikeFromEventWishList(@RequestParam(value = "itemId") Long itemId,
