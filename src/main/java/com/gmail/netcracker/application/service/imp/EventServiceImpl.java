@@ -144,6 +144,13 @@ public class EventServiceImpl implements EventService {
         eventDao.unsubscribe(id, eventId);
     }
 
+    /**
+     * This method checks event access.
+     *
+     * @param personId
+     * @param eventId
+     * @return Boolean
+     */
     @Override
     public Boolean allowAccess(Long personId, Long eventId) {
         boolean access = false;
@@ -241,6 +248,12 @@ public class EventServiceImpl implements EventService {
         return setDateEnd(eventDao.getAllPersonEvents(id));
     }
 
+    /**
+     * This method copies the event.
+     *
+     * @param toCopy
+     * @return Event
+     */
     @Override
     public Event copyEvent(Event toCopy) {
         Event event = new Event();
