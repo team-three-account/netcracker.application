@@ -68,6 +68,13 @@ public class SearchController {
         return "event/resultSearch";
     }
 
+    /**
+     * Search in users by name or (and) surname.
+     * Represent a page with appropriate friends in upper block and appropriate users not in friends in bottom block.
+     * @param model Interface {@link Model}
+     * @param search a string entered by user to specify keywords of search
+     * @return Model
+     */
     @RequestMapping(value = "/search/users")
     public String getSearchUser(Model model, String search) {
         if (search == null || search.isEmpty()) {
