@@ -40,6 +40,9 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Value("${sql.user.getNotificationsSchedule}")
     private String SQL_GET_NOTIFICATIONS_SCHEDULE;
 
+    @Value("${sql.user.role}")
+    private String USER_ROLE;
+
     private final RowMapper<User> rowMapper;
 
     @Autowired
@@ -55,7 +58,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
                 user.getSurname(),
                 user.getEmail(),
                 user.getPassword(),
-                "ROLE_USER",
+                USER_ROLE,
                 user.getPhone(),
                 parseStringToDate(user.getBirthdayDate()),
                 user.getPhoto(),

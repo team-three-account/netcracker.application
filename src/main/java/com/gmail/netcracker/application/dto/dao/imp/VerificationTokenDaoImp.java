@@ -28,6 +28,10 @@ public class VerificationTokenDaoImp extends ModelDao implements VerificationTok
     private String SQL_DELETE;
 
     private PasswordEncoder passwordEncoder;
+
+    @Value("${sql.user.role}")
+    private String USER_ROLE;
+
     private RowMapper<VerificationToken> rowMapper;
 
     @Autowired
@@ -44,7 +48,6 @@ public class VerificationTokenDaoImp extends ModelDao implements VerificationTok
     }
 
     @Override
-    //TODO don't hardcode role!!!
     public VerificationToken create(VerificationToken verificationToken) {
         insertEntity(SQL_CREATE, PK_COLUMN_NAME,
                 verificationToken.getId(),
@@ -52,7 +55,7 @@ public class VerificationTokenDaoImp extends ModelDao implements VerificationTok
                 verificationToken.getUser().getSurname(),
                 verificationToken.getUser().getEmail(),
                 passwordEncoder.encode(verificationToken.getUser().getPassword()),
-                "ROLE_USER",
+                USER_ROLE,
                 parseStringToDate(verificationToken.getUser().getBirthdayDate()),
                 verificationToken.getUser().getPhone(),
                 verificationToken.getUser().getGender()
