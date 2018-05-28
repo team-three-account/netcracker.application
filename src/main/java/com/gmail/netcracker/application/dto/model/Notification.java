@@ -11,6 +11,7 @@ public class Notification {
     private User user;
     private Event event;
     private EventMessage lastMessage;
+    Boolean creatorEvent;
     private Long chatId;
 
 }

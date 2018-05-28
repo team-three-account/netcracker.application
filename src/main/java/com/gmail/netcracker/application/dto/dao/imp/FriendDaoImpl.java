@@ -114,18 +114,18 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
     public void acceptRequest(Long id, Long friendId) {
         updateEntity(SQL_ACCEPT_REQUEST, id, friendId, id, friendId);
     }
-    //TODO edit search(not supported search with 3+ words)
+
     @Override
     public List<User> searchUsersByNameAndSurname(Long id, String name, String surname) {
         String input = Utilities.getPattern(name,surname);
         return findEntityList(SQL_FIND_USER_BY_NAME_AND_SURNAME, userRowMapper,
-                input, input, id);
+                input, input, id, id, id, id);
     }
 
     @Override
     public List<User> searchUsersByNameOrSurname(Long id, String search) {
         search = Utilities.getPattern(search);
         return findEntityList(SQL_FIND_USER_BY_NAME_OR_SURNAME, userRowMapper,
-                search,search,id);
+                search,search,id, id, id, id);
     }
 }

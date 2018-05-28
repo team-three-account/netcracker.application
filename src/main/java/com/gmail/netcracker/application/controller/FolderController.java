@@ -33,7 +33,7 @@ public class FolderController {
 
     private final FriendService friendService;
 
-    final static Logger logger = Logger.getLogger(FolderController.class);
+    private final static Logger logger = Logger.getLogger(FolderController.class);
 
     @Autowired
     public FolderController(FolderService folderService, UserService userService, FolderValidator folderValidator, FriendService friendService) {
