@@ -34,9 +34,6 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Value("${sql.user.changePassword}")
     private String SQL_CHANGE_PASSWORD;
 
-    @Value("${sql.user.getAllUsers}")
-    private String SQL_GET_ALL_USERS;
-
     @Value("${sql.user.updateNotificationsSchedule}")
     private String SQL_UPDATE_NOTIFICATIONS_SCHEDULE;
 
@@ -51,7 +48,6 @@ public class UserDaoImp extends ModelDao implements UserDao {
         this.rowMapper = rowMapper;
     }
 
-    //TODO don't hardcode role!!!
     @Override
     public void saveUser(User user) {
         user.setId(insertEntity(SQL_ADD, PK_COLUMN_NAME,
@@ -90,11 +86,6 @@ public class UserDaoImp extends ModelDao implements UserDao {
     }
 
     @Override
-    public List<User> getAllUsers(Long currentId) {
-        return findEntityList(SQL_GET_ALL_USERS, rowMapper, currentId);
-    }
-
-    @Override
     public User findUserById(Long id) {
         return findEntity(SQL_FIND, rowMapper, id);
     }
@@ -118,4 +109,5 @@ public class UserDaoImp extends ModelDao implements UserDao {
     public void disableNotifications(Long userId) {
         updateEntity(SQL_UPDATE_NOTIFICATIONS_SCHEDULE, null, null, null, userId);
     }
+
 }

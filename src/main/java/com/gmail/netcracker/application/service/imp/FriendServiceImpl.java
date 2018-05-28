@@ -78,14 +78,4 @@ public class FriendServiceImpl implements FriendService {
         return input.length > 1 ? friendDao.searchUsersByNameAndSurname(id, input[0].toLowerCase(), input[1].toLowerCase()) : friendDao.searchUsersByNameOrSurname(id, input[0].toLowerCase());
     }
 
-    @Override
-    public List<User> subtractionFromFriendList(List<User> foundUsers) {
-        List<User> friendList = getAllFriends(userService.getAuthenticatedUser().getId());
-        for (User item : friendList) {
-            if (foundUsers.contains(item)) {
-                foundUsers.remove(item);
-            }
-        }
-        return foundUsers;
-    }
 }

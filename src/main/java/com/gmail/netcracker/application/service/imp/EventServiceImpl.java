@@ -232,9 +232,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<User> getUsersToInvite(Long currentId, Long eventId) {
-        List<User> minuend = userService.getAllUsers(currentId);
-        List<User> subtrahend = getParticipants(eventId);
-        return subtraction(minuend, subtrahend);
+        return eventDao.getUsersToInvite(currentId, eventId);
     }
 
     @Override

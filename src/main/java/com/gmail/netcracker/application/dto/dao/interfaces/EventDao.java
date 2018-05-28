@@ -63,4 +63,6 @@ public interface EventDao {
     List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end);
 
     List<Event> getEventsFromRange(Timestamp fromDate, Timestamp tillDate, Long id);
+
+    List<User> getUsersToInvite(Long currentId, Long eventId);
 }

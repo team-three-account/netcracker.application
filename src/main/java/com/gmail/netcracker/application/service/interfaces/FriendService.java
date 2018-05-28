@@ -24,7 +24,5 @@ public interface FriendService {
 
     List<User> searchUsers(Long id, String search);
 
-    List<User> subtractionFromFriendList(List<User> foundUsers);
-
     Friend getFriendshipById(Long personId, Long friendId);
 }
