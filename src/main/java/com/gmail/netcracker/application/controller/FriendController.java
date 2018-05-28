@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 
 @RequestMapping(value = "/account")
@@ -23,6 +24,7 @@ public class FriendController {
     private final UserService userService;
     private final EmailConstructor emailConstructor;
     private final FriendService friendService;
+    private Logger logger = Logger.getLogger(FriendController.class.getName());
 
     @Autowired
     public FriendController(UserService userService, FriendService friendService, EmailConstructor emailConstructor) {

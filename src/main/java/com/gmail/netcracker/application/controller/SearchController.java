@@ -73,11 +73,10 @@ public class SearchController {
         if (search == null || search.isEmpty()) {
             return "redirect:/account/friends";
         }
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        List<User> friendList = friendService.searchFriends(userService.getAuthenticatedUser().getId(), search);
-        model.addAttribute("friendList", friendList);
-        List<User> subtractionUsers = friendService.subtractionFromFriendList(friendService.searchUsers(userService.getAuthenticatedUser().getId(), search));
-        model.addAttribute("subtractionUsers", subtractionUsers);
+        User authUser = userService.getAuthenticatedUser();
+        model.addAttribute("auth_user",authUser);
+        model.addAttribute("friendList", friendService.searchFriends(authUser.getId(), search));
+        model.addAttribute("subtractionUsers", friendService.searchUsers(authUser.getId(), search));
         return "friend/friends";
     }
 }
