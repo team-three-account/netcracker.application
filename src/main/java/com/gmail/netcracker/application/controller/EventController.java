@@ -62,7 +62,7 @@ public class EventController {
      *
      * @param event
      * @param modelAndView
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = "/eventList/createNewEvent", method = RequestMethod.GET)
     public ModelAndView createNewEvent(@ModelAttribute(value = "createNewEvent") Event event, ModelAndView modelAndView) {
@@ -83,7 +83,7 @@ public class EventController {
      * @param photo
      * @param multipartFile
      * @param modelAndView
-     * @return
+     * @return modelAndView
      * @throws IOException
      * @throws DbxException
      */
@@ -131,7 +131,7 @@ public class EventController {
      * This method removes the event and redirect to the certain page.
      *
      * @param eventId
-     * @return
+     * @return String
      */
     @RequestMapping(value = {"/eventList/deleteEvent-{eventId}"}, method = RequestMethod.GET)
     public String deleteEvent(@PathVariable Long eventId) {
@@ -147,7 +147,7 @@ public class EventController {
      *
      * @param eventId
      * @param modelAndView
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.GET)
     public ModelAndView viewEvent(@PathVariable("eventId") Long eventId, ModelAndView modelAndView) {
@@ -179,7 +179,7 @@ public class EventController {
      * @param eventId
      * @param participation
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/eventList/event-{eventId}", method = RequestMethod.POST)
     public String editPriority(@PathVariable("eventId") Long eventId,
@@ -196,7 +196,7 @@ public class EventController {
      *
      * @param eventId
      * @param modelAndView
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = {"/eventList/editevent-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView editEvent(@PathVariable Long eventId,
@@ -217,7 +217,7 @@ public class EventController {
      * @param photo
      * @param result
      * @param modelAndView
-     * @return
+     * @return modelAndView
      * @throws IOException
      * @throws DbxException
      */
@@ -262,7 +262,7 @@ public class EventController {
      *
      * @param eventId
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/participate", method = RequestMethod.POST)
     public String participate(@RequestParam(value = "event_id") Long eventId, Model model) {
@@ -274,7 +274,7 @@ public class EventController {
     /**
      * This method returns event types to the web page.
      *
-     * @return
+     * @return List<EventType>
      */
     @ModelAttribute("eventTypes")
     public List<EventType> getAllEventTypes() {
@@ -286,7 +286,7 @@ public class EventController {
      *
      * @param eventId
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/event-{eventId}/participants", method = RequestMethod.GET)
     public String getParticipants(@PathVariable(value = "eventId") Long eventId, Model model) {
@@ -301,7 +301,7 @@ public class EventController {
      * This method returns available web page.
      *
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/available", method = RequestMethod.GET)
     public String available(Model model) {
@@ -317,7 +317,7 @@ public class EventController {
      *
      * @param eventId
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
     public String unsubscribe(@RequestParam(value = "event_id") Long eventId, Model model) {
@@ -330,7 +330,7 @@ public class EventController {
      * This method returns a web page where customer can see own subscribes.
      *
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
     public String getSubscriptions(Model model) {
@@ -346,7 +346,7 @@ public class EventController {
      * This method returns a web page with the list of customer drafts.
      *
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/draft", method = RequestMethod.GET)
     public String draft(Model model) {
@@ -362,7 +362,7 @@ public class EventController {
      * This method returns a web page where customer can see own events.
      *
      * @param model
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/managed", method = RequestMethod.GET)
     public String managed(Model model) {
@@ -385,7 +385,7 @@ public class EventController {
      *
      * @param model
      * @param eventId
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/public/event-{eventId}/invite", method = RequestMethod.GET)
     public String inviteListToPublic(Model model, @PathVariable(value = "eventId") Long eventId) {
@@ -403,7 +403,7 @@ public class EventController {
      *
      * @param eventId
      * @param userId
-     * @return
+     * @return String
      */
     @RequestMapping(value = "{eventId}/invite-to-public", method = RequestMethod.POST)
     public String inviteToPublic(@PathVariable(value = "eventId") Long eventId,
@@ -417,7 +417,7 @@ public class EventController {
      *
      * @param model
      * @param eventId
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/for-friends/event-{eventId}/invite", method = RequestMethod.GET)
     public String inviteToForFriends(Model model, @PathVariable(value = "eventId") Long eventId) {
@@ -436,7 +436,7 @@ public class EventController {
      * @param event
      * @param modelAndView
      * @param noteId
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = {"/translateToEvent-{noteId}"}, method = RequestMethod.GET)
     public ModelAndView translateToEvent(@ModelAttribute(value = "createNewEvent") Event event,
@@ -463,7 +463,7 @@ public class EventController {
      * @param multipartFile
      * @param modelAndView
      * @param noteId
-     * @return
+     * @return modelAndView
      * @throws IOException
      * @throws DbxException
      */
@@ -496,7 +496,7 @@ public class EventController {
      *
      * @param eventId
      * @param modelAndView
-     * @return
+     * @return modelAndView
      */
     @RequestMapping(value = {"/eventList/convertToEvent-{eventId}"}, method = RequestMethod.GET)
     public ModelAndView getPageConvertDraftToEvent(@PathVariable Long eventId,
@@ -521,7 +521,7 @@ public class EventController {
      * @param multipartFile
      * @param result
      * @param modelAndView
-     * @return
+     * @return modelAndView
      * @throws IOException
      * @throws DbxException
      */
@@ -562,7 +562,7 @@ public class EventController {
      *
      * @param model
      * @param userId
-     * @return
+     * @return String
      */
     @RequestMapping(value = "/{userId}/timeline", method = RequestMethod.GET)
     public String timeLine(Model model, @PathVariable Long userId) {

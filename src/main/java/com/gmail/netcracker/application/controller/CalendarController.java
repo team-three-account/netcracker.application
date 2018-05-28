@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping(value = "/account")
@@ -64,7 +65,6 @@ public class CalendarController {
     public String timeline(@RequestParam("start") Long start,
                            @RequestParam("end") Long end,
                             @RequestParam("userId") Long userId){
-
         return gsonTimeline.toJson(calendarService.getEventsFromRange(userId, start, end));
     }
 
