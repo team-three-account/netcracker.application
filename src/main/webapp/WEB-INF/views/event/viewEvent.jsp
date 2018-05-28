@@ -57,7 +57,7 @@
                                     <form method="get"
                                           action="/account/eventList/eventChat/subscriptions/${chatWithOutCreator.chatId}-${event.eventId}">
                                         <button type="submit" class="btn btn-primary">
-                                            Subscriptions Chat
+                                            Subscribers Chat
                                         </button>
                                     </form>
                                 </c:if>

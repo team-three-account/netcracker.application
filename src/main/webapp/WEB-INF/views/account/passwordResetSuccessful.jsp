@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Password reset successful</title>
+    <title>Password reset</title>
     <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -19,7 +19,7 @@
     <div class="card card-register mx-auto mt-5 col-md-6">
         <div class="card-header">Error page</div>
         <div class="card-body">
-            <h2>Check your email add edit password</h2>
+            <h2>We have sent reset link to your email</h2>
             <a href="/account/">Account Home</a>
         </div>
     </div>

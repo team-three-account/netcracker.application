@@ -61,7 +61,7 @@
                 </a>
             </div>
             </c:forEach>
-            <h1>Notes Without Folder</h1>
+            <h1>Notes without folder</h1>
             <c:forEach var="note" items="${noteList}">
             <div class="draggable">
                 <input type="hidden" class="noteId" value="${note.noteId}">

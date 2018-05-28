@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Note Name*: </label>
+                        <label>Note name*: </label>
                         <form:input path="name" id="name" type="text" class="form-control"
                                     placeholder="Enter note name"/>
                         <form:errors path="name" cssClass="error"/>

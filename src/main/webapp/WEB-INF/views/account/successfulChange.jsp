@@ -20,7 +20,7 @@
     <div class="card card-register mx-auto mt-5 col-md-6">
         <div class="card-header">Error page</div>
         <div class="card-body">
-            <h2>You successful change password</h2>
+            <h2>You have changed password successfully</h2>
             <a href="/account/">Account Home</a>
         </div>
     </div>

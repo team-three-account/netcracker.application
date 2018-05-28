@@ -24,12 +24,12 @@
 <div class="col-md-10 content">
     <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <div class="card card-register">
-        <div class="card-header">Update Note</div>
+        <div class="card-header">Update note</div>
         <div class="card-body">
             <form:form method="POST" modelAttribute="editNote" class="forms_form">
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label>Note Name*: </label>
+                        <label>Note name*: </label>
                         <form:input path="name" id="nameNote" type="text" class="form-control"
                                     placeholder="Enter Note name"/>
                         <form:errors path="name" cssClass="error"/>

@@ -19,7 +19,7 @@
     <div class="card card-register mx-auto mt-5 col-md-6">
         <div class="card-header">Register an Account</div>
         <div class="card-body">
-            <h2>You successful register</h2>
+            <h2>You have registered successfully</h2>
             <a href="/">Home</a>
         </div>
     </div>

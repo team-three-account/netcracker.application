@@ -33,9 +33,9 @@
     <p>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/friends" role="button">All Friends</a>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/friends/incoming" role="button">Incoming
-            request</a>
+            requests</a>
         <a class="btn btn-primary" data-toggle="collapse" href="/account/friends/outgoing" role="button">Outgoing
-            request</a>
+            requests</a>
     </p>
     <h1>${message}</h1>
     <table class="table">

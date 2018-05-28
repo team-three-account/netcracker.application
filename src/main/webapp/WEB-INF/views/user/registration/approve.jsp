@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Register</title>
+    <title>Registration</title>
     <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom fonts for this template-->
     <link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -17,9 +17,9 @@
 <body>
 <div class="container">
     <div class="card card-register mx-auto mt-5 col-md-6">
-        <div class="card-header">Register an Account</div>
+        <div class="card-header">Register an account</div>
         <div class="card-body">
-            <h2>We send you message on your email, please approve it</h2>
+            <h2>We have sent you message on your email, please approve it</h2>
             <a href="/">Home</a>
         </div>
     </div>
