@@ -32,9 +32,10 @@ public abstract class ModelDao {
     /**
      * Inserts entity and returns generated key of entity (if key is instance of Number).
      * If key has another type, null will be returned
-     * @param sql an SQL statement that may contain one or more '?' in parameter placeholders
+     *
+     * @param sql          an SQL statement that may contain one or more '?' in parameter placeholders
      * @param pkColumnName primary key column name, which holds generated key value
-     * @param args arguments for sql-statement
+     * @param args         arguments for sql-statement
      * @return generated number key of inserted entity. If key has another type, null will be returned
      */
     protected Long insertEntity(String sql, String pkColumnName, Object... args) {
@@ -69,6 +70,9 @@ public abstract class ModelDao {
         return jdbcTemplate.update(sql, args);
     }
 
+    /**
+     * @throws IncorrectResultSizeDataAccessException if result size > 1
+     */
     protected <E> E findEntity(String sql, RowMapper<E> rowMapper, Object... args) {
         List<E> query = jdbcTemplate.query(sql, rowMapper, args);
         switch (query.size()) {
