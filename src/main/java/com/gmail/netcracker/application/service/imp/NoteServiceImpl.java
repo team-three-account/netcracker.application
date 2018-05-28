@@ -7,6 +7,7 @@ import com.gmail.netcracker.application.service.interfaces.NoteService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,7 @@ public class NoteServiceImpl implements NoteService {
      * @param note
      */
     @Override
+    @Transactional
     public void insertNote(Note note) {
         note.setCreator(userService.getAuthenticatedUser().getId());
         noteDao.insertNote(note);
@@ -62,7 +64,9 @@ public class NoteServiceImpl implements NoteService {
      *
      * @param note
      */
+
     @Override
+    @Transactional
     public void update(Note note) {
         note.setCreator(userService.getAuthenticatedUser().getId());
         noteDao.update(note);

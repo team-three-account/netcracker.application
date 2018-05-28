@@ -37,6 +37,7 @@ public class FolderServiceImpl implements FolderService {
      * @param folder
      */
     @Override
+    @Transactional
     public void createFolder(Folder folder) {
         folder.setCreator(userService.getAuthenticatedUser().getId());
         folderDao.createFolder(folder);
