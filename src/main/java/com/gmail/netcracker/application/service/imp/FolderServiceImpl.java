@@ -68,6 +68,7 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    @Transactional
     public void update(Folder folder) {
         folderDao.update(folder);
     }
