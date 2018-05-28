@@ -16,6 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 import java.util.logging.Logger;
 
+/**
+ * Class controller for pages that manage friends
+ */
 
 @RequestMapping(value = "/account")
 @Controller
@@ -33,7 +36,11 @@ public class FriendController {
         this.emailConstructor = emailConstructor;
     }
 
-
+    /**
+     * This method returns  page with friends for authenticated user.
+     * @param model Interface {@link Model}
+     * @return Model
+     */
     @RequestMapping(value = "/friends", method = RequestMethod.GET)
     public String viewFriends(Model model) {
         List<User> friendList = friendService.getAllFriends(userService.getAuthenticatedUser().getId());
@@ -43,6 +50,12 @@ public class FriendController {
         return "friend/friends";
     }
 
+    /**
+     * This method returns page of determined user.
+     * @param friendId Object class {@link Long}
+     * @param model Interface {@link Model}
+     * @return Model
+     */
     @RequestMapping(value = "/{friendId}", method = RequestMethod.GET)
     public ModelAndView friendAccount(@PathVariable(value = "friendId") Long friendId, ModelAndView model) {
         model.addObject("auth_user", userService.getAuthenticatedUser());
@@ -51,12 +64,22 @@ public class FriendController {
         return model;
     }
 
+    /**
+     * This is POST method for deleting determined user from friends.
+     * @param friendId Object class {@link Long}
+     * @return Model
+     */
     @RequestMapping(value = "/delete-friend", method = RequestMethod.POST)
     public String deleteFriend(@RequestParam(value = "friendId") String friendId) {
         friendService.deleteFriend(userService.getAuthenticatedUser().getId(), Long.parseLong(friendId));
         return "redirect:/account/friends";
     }
 
+    /**
+     * This is POST method for adding determined user to friends.
+     * @param friendId Object class {@link Long}
+     * @return Model
+     */
     @RequestMapping(value = "/friends/add-friend", method = RequestMethod.POST)
     public String addFriend(@RequestParam(value = "friendId") Long friendId) {
         friendService.addFriend(userService.getAuthenticatedUser().getId(), friendId);
@@ -64,6 +87,11 @@ public class FriendController {
         return "redirect:/account/friends/outgoing";
     }
 
+    /**
+     * This method returns page to view outgoing request to friends for authenticated user.
+     * @param model Interface {@link Model}
+     * @return Model
+     */
     @RequestMapping(value = "/friends/outgoing", method = RequestMethod.GET)
     public String outgoingRequests(Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -74,6 +102,12 @@ public class FriendController {
         return "friend/outgoingRequest";
     }
 
+    /**
+     * This is POST method that cancel request to friends
+     * @param model Interface {@link Model}
+     * @param friendId Object class {@link Long}
+     * @return Model
+     */
     @RequestMapping(value = "/friends/cancel-request", method = RequestMethod.POST)
     public String cancelRequest(Model model, @RequestParam(value = "friendId") Long friendId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -81,6 +115,11 @@ public class FriendController {
         return "redirect:/account/friends/outgoing";
     }
 
+    /**
+     * This method returns page to view incoming request to friends for authenticated user.
+     * @param model Interface {@link Model}
+     * @return Model
+     */
     @RequestMapping(value = "/friends/incoming", method = RequestMethod.GET)
     public String incomingRequests(Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -90,6 +129,12 @@ public class FriendController {
         return "friend/incomingRequest";
     }
 
+    /**
+     * This is POST method that accept request to friends
+     * @param model Interface {@link Model}
+     * @param friendId Object class {@link Long}
+     * @return Model
+     */
     @RequestMapping(value = "/friends/accept-request", method = RequestMethod.POST)
     public String acceptRequest(Model model, @RequestParam(value = "friendId") Long friendId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -97,6 +142,11 @@ public class FriendController {
         return "redirect:/account/friends/incoming";
     }
 
+    /**
+     * This method returns message to display depending on amount of friends
+     * @param amount Object class {@link Long}
+     * @return String to display on .jsp page
+     */
     private static String amountOfFriendsMessage(Long amount) {
         String noFriend = "You have not any friend yet";
         String oneFriend = "You have 1 friend";
