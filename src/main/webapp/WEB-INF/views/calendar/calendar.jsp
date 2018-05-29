@@ -11,15 +11,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset='utf-8'/>
-    <title>Calendar</title>
+    <title>${auth_user.name} ${auth_user.surname}</title>
+    <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
     <link href='../resources/calendar/css/fullcalendar.min.css' rel='stylesheet'/>
     <link href='../resources/calendar/css/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
     <script src='../resources/calendar/js/moment.min.js'></script>
     <script src='../resources/calendar/js/jquery.min.js'></script>
     <script src='../resources/calendar/js/fullcalendar.min.js'></script>
     <script src='../resources/calendar/js/gcal.js'></script>
-
     <script>
 
         $(document).ready(function () {
@@ -37,11 +38,9 @@
                     {
                         events: function (start, end, timezone, callback) {
                             $.ajax({
-                                url: '/account/getEventsWithFilter',
+                                url: '/account/getEvents',
                                 dataType: 'json',
                                 data: {
-                                    filterPriority: JSON.stringify(${filter.priorities}),
-                                    filterTypes: JSON.stringify(${filter.eventTypes}),
                                     start: start.unix(),
                                     end: end.unix()
                                 },
@@ -84,23 +83,22 @@
         }
 
     </style>
-    <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
-    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+
 </head>
 <body>
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2">
+    <div class="col-md-2" style="height:100vh;">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
+
     <div class="col-md-10 content">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <div class="row">
-            <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
             <div class="col-md-8">
                 <div id='calendar'></div>
             </div>
-
             <div class="col-md-3">
                 <form:form method="POST" modelAttribute="filter">
 

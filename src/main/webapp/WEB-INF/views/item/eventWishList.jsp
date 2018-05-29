@@ -14,7 +14,7 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2 col-xl-2">
+    <div class="col-md-2 col-xl-2" style="height:100vh;">>
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
     <div class="col-md-10 content">

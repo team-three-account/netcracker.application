@@ -13,21 +13,21 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2">
+    <div class="col-md-2" style="height:100vh;">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
     <div class="col-md-10 main-content">
         <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
         <div class="d-flex">
             <h3>Folder - ${folder.name}</h3>
-                <c:if test="${auth_user.id.equals(folder.creator)}">
-                    <a href="/account/share-${folder.folderId}">
-                        <input type="submit" class="btn btn-success text-center" value="Share"></a>
-                    <a href="/account/editFolder-${folder.folderId}">
-                        <input type="submit" class="btn btn-success text-center" value="Edit Folder"></a>
-                    <a href="/account/deleteFolder-${folder.folderId}">
-                        <input type="submit" class="btn btn-danger text-center" value="Delete Folder"></a>
-                </c:if>
+            <c:if test="${auth_user.id.equals(folder.creator)}">
+                <a href="/account/share-${folder.folderId}">
+                    <input type="submit" class="btn btn-success text-center" value="Share"></a>
+                <a href="/account/editFolder-${folder.folderId}">
+                    <input type="submit" class="btn btn-success text-center" value="Edit Folder"></a>
+                <a href="/account/deleteFolder-${folder.folderId}">
+                    <input type="submit" class="btn btn-danger text-center" value="Delete Folder"></a>
+            </c:if>
         </div>
         <h3>${message}</h3>
         <c:forEach var="note" items="${listNotesIntoFolder}">

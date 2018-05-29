@@ -21,7 +21,7 @@
 
 <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2" style="height:100vh;">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
     <div class="col-md-10">
