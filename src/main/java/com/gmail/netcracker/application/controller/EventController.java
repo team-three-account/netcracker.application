@@ -234,7 +234,11 @@ public class EventController {
         modelAndView.setViewName("event/updateEvent");
         logger.info(event.toString());
         eventService.update(event);
-        modelAndView.setViewName("redirect:/account/managed");
+        if (!event.getDraft()) {
+            modelAndView.setViewName("redirect:/account/managed");
+        } else {
+            modelAndView.setViewName("redirect:/account/draft");
+        }
         return modelAndView;
     }
 
@@ -494,8 +498,7 @@ public class EventController {
         Event event = eventService.getEvent(eventId);
         event.setPhoto(photoService.getDefaultImageForEvents());
         modelAndView.addObject("editEvent", event);
-
-                modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
+        modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.setViewName("event/updateEvent");
         return modelAndView;
     }
@@ -524,6 +527,8 @@ public class EventController {
                                             ModelAndView modelAndView) throws IOException, DbxException {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         event.setPhoto(photo);
+        event.setType(event.getTypeId());
+
         modelAndView.setViewName("event/updateEvent");
         if ("".equals(event.getPeriodicity())) {
             event.setPeriodicity(null);
@@ -536,8 +541,7 @@ public class EventController {
         if (!multipartFile.isEmpty()) {
             photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString());
         }
-        eventService.update(event);
-        eventService.convertDraftToEvent(eventId);
+        eventService.convertDraftToEvent(event);
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }

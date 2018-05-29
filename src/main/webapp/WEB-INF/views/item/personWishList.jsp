@@ -3,78 +3,74 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-  <title>My wish list</title>
-  <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
-  <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
-  <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
-  <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
-  <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
-  <%--<link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">--%>
+    <title>My wish list</title>
+    <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
+    <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>
+    <script src="${contextPath}/resources/bootstrap3/js/bootstrap.js"></script>
+    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
+    <%--<link href="${contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">--%>
 
 </head>
 <body>
 
 <div class="row">
-  <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-  <div class="col-md-3 col-md-2 col-xl-2">
+    <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
+    <div class="col-md-3 col-md-2 col-xl-2">
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
-  </div>
-  <div class="col-md-10 col-xs-3 content" style="margin-top: -5%;">
+</div>
+<div class="col-md-10 col-xs-3 content" style="margin-top: -5%;">
     <h3>Search for items</h3>
     <form method="POST"
           class="forms_form" action="/account/search/items">
-      <div class="form-group">
-        <input name="search" class="form-control" style="width: 33%" id="search"
-               placeholder="Enter query"/>
-        <input type="submit" value="Search" class="btn btn-dark" href="/"
-               style="margin-top: 15px; margin-bottom: 15px">
-      </div>
+        <div class="form-group">
+            <input name="search" class="form-control" style="width: 33%" id="search"
+                   placeholder="Enter query"/>
+            <input type="submit" value="Search" class="btn btn-dark" href="/"
+                   style="margin-top: 15px; margin-bottom: 15px">
+        </div>
     </form>
     <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
     <c:choose>
-      <c:when test="${auth_user.id.equals(ownerId)}">
-        <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>
-      </c:when>
+        <c:when test="${auth_user.id.equals(ownerId)}">
+            <a class="btn btn-primary" data-toggle="collapse" href="/account/addItem" role="button">Add new item</a>
+        </c:when>
     </c:choose>
 
     <div class="row form-inline">
-      <div class="col-lg-8 col-md-6 col-xl-10">
-        <h3 class="caption"> Wish List</h3>
-        <div class="parent">
-          <c:forEach var="item" items="${wishList}">
+        <div class="col-lg-8 col-md-6 col-xl-10">
+            <h3 class="caption"> Wish List</h3>
+            <div class="parent">
+                <c:forEach var="item" items="${wishList}">
 
-            <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" style="display: inline">
-              <div class="thumbnail child">
-                <img class="img-circle" style="width: 200px;height: 200px" src="${item.image}" alt="">
-                <div class="caption" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                  <c:choose>
-                    <c:when test="${item.priority=='1'}">
-                      <c:set var="color" value="red"/>
-                    </c:when>
-                    <c:when test="${item.priority=='2'}">
-                      <c:set var="color" value="yellow"/>
-                    </c:when>
-                    <c:when test="${item.priority=='3'}">
-                      <c:set var="color" value="green"/>
-                    </c:when>
-                    <c:otherwise>
-                      <c:set var="color" value="grey"/>
-                    </c:otherwise>
-                  </c:choose>
-                  <ul class="list-group">
-                    <tr>
-                      <td>
-                        <div
-                          style="width: 18px; height: 18px;background: ${color}; border-radius: 10px; display: inline-block; "></div>
-                      </td>
-                      <td><a style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"
-                             href="/account/item-${item.itemId}"><span
-                        style="font-size: 24px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"> ${item.name} </span></a>
-                      </td>
-                    </tr>
-                    <li class="list-group-item"
-                        style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.description}</li>
-                    <li class="list-group-item">Actual to : ${item.dueDate}</li>
+                    <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4" style="display: inline">
+                        <div class="thumbnail child">
+                            <img class="img-circle" style="width: 200px;height: 200px" src="${item.image}" alt="">
+                            <div class="caption" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
+                                <c:choose>
+                                    <c:when test="${item.priority=='1'}">
+                                        <c:set var="color" value="red"/>
+                                    </c:when>
+                                    <c:when test="${item.priority=='2'}">
+                                        <c:set var="color" value="yellow"/>
+                                    </c:when>
+                                    <c:when test="${item.priority=='3'}">
+                                        <c:set var="color" value="green"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="color" value="grey"/>
+                                    </c:otherwise>
+                                </c:choose>
+                                <ul class="list-group">
+                                    <tr >
+                                        <td>
+                                            <div style="width: 18px; height: 18px;background: ${color}; border-radius: 10px; display: inline-block; "></div>
+                                        </td>
+                                        <td><a style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;" href="/account/item-${item.itemId}"><span
+                                                style="font-size: 24px;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"> ${item.name} </span></a></td>
+                                    </tr>
+                                    <li class="list-group-item" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.description}</li>
+                                    <li class="list-group-item">Actual to : ${item.dueDate}</li>
 
                     <li class="list-group-item" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                       Tags :
@@ -172,7 +168,7 @@
         </div>
       </div>
     </div>
-  </div>
+</div>
 
 </body>
 </html>

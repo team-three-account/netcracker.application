@@ -81,7 +81,7 @@ public class JobSchedulingManager {
 
     private CronTrigger createCronTrigger(Long entityId, Date startDate, Date endDate, String cron, JobDetail jobDetail,
                                           final String TRIGGER_NAME_PREFIX, final String TRIGGER_GROUP_NAME) {
-        CronExpression cronExpression = null;
+        CronExpression cronExpression;
         try {
             cronExpression = new CronExpression(cron);
         } catch (ParseException e) {

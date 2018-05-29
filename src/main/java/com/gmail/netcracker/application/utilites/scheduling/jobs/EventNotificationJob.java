@@ -7,8 +7,6 @@ import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
-import java.util.logging.Logger;
-
 @Setter
 public class EventNotificationJob extends QuartzJobBean {
     private EmailConstructor emailConstructor;

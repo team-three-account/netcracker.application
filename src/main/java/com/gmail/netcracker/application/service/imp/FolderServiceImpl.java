@@ -6,7 +6,6 @@ import com.gmail.netcracker.application.dto.model.Folder;
 import com.gmail.netcracker.application.dto.model.Note;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FolderService;
-import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

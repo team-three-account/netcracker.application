@@ -3,13 +3,11 @@ package com.gmail.netcracker.application.dto.dao.imp;
 import com.gmail.netcracker.application.dto.dao.interfaces.NoteDao;
 import com.gmail.netcracker.application.dto.model.Note;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.validation.Valid;
 import java.util.List;
 
 @Repository

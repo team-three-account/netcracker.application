@@ -1,7 +1,6 @@
 package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.PriorityDao;
-import com.gmail.netcracker.application.dto.model.EventType;
 import com.gmail.netcracker.application.dto.model.Participant;
 import com.gmail.netcracker.application.dto.model.Priority;
 import org.springframework.beans.factory.annotation.Autowired;

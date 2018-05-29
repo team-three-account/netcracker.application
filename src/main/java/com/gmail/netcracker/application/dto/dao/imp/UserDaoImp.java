@@ -8,11 +8,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.List;
 
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestamp;
-import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestampWithSeconds;
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
@@ -103,10 +101,6 @@ public class UserDaoImp extends ModelDao implements UserDao {
         );
     }
 
-    @Override
-    public User getNotificationsSchedule(Long userId) {
-        return findEntity(SQL_GET_NOTIFICATIONS_SCHEDULE, userRowMapper, userId);
-    }
 
     @Override
     public void disableNotifications(Long userId) {

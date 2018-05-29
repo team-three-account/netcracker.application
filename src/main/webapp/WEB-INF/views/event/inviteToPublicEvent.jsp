@@ -35,7 +35,8 @@
 
             <c:forEach var="user" items="${usersToInvite}">
                 <tr>
-                    <td><img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="/account/image/${user.photo}.jpg"/>"></td>
+                    <td><img class="img-circle" style="width: 200px;height: 200px"
+                             src="<c:url value="${user.photo}"/>"></td>
                     <td><a href="/account/${user.id}">${user.name} ${user.surname}</a></td>
                     <td>
                         <form action="/account/${eventId}/invite-to-public" method="POST">

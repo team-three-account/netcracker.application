@@ -198,6 +198,12 @@ public class ItemController {
     return "redirect:/account/user-" + owner + "/wishList";
   }
 
+    @RequestMapping(value = "/event-{eventId}-{id}/item-{itemId}/cancel-booking", method = RequestMethod.GET)
+    public String cancelBookingItemFromEvent(@PathVariable("eventId") Long eventId, @PathVariable("itemId") Long itemId, @PathVariable("id") Long owner) {
+        itemService.cancelBookingItem(itemId);
+        return "redirect:/account/event-" + eventId + "-" + owner + "/wishList";
+    }
+
   /**
    * Method returns the Wish List of the user who created the event.
    *

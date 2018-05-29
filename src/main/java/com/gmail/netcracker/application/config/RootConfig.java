@@ -11,14 +11,11 @@ import org.springframework.context.annotation.*;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
@@ -122,11 +119,11 @@ public class RootConfig  {
     }
 
     @Bean
-    public RowMapper<Notification> notificationRowMapper() {
+    public RowMapper<ChatId> notificationRowMapper() {
         return (resultSet, i) -> {
-            Notification notification = new Notification();
-            notification.setChatId(getLong(resultSet, "chat_id"));
-            return notification;
+            ChatId chatId = new ChatId();
+            chatId.setChatId(getLong(resultSet, "chat_id"));
+            return chatId;
         };
     }
 

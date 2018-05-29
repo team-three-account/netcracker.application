@@ -14,7 +14,6 @@
     <link href="${contextPath}/resources/bootstrap3/css/bootstrap.min.css" rel="stylesheet">
     <link href="${contextPath}/resources/css/style.css" rel="stylesheet">
     <!-- Custom styles for this template-->
-    <script src="${contextPath}/resources/vendor/bootstrap/js/jquery-1.11.1.min.js"></script>
     <link href='../resources/calendar/css/fullcalendar.min.css' rel='stylesheet'/>
     <link href='../resources/calendar/css/fullcalendar.print.min.css' rel='stylesheet' media='print'/>
     <script src='../resources/calendar/js/moment.min.js'></script>

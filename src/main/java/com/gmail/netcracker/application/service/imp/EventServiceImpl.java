@@ -8,16 +8,16 @@ import com.gmail.netcracker.application.utilites.Utilities;
 import com.gmail.netcracker.application.utilites.scheduling.JobSchedulingManager;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.EventNotificationJob;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.PersonalPlanNotificationJob;
-import org.bouncycastle.asn1.cms.Time;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
 
@@ -57,6 +57,7 @@ public class EventServiceImpl implements EventService {
     public void update(Event event) {
         setPersonId(event);
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
+        Logger.getLogger(EventServiceImpl.class.getName()).info(event.toString());
         eventDao.update(event);
         deleteEventNotificationJob(event.getEventId());
         if (event.getPeriodicity() != null && !event.getDraft()) scheduleEventNotificationJob(event);
@@ -193,7 +194,7 @@ public class EventServiceImpl implements EventService {
                 access = true;
                 break;
             case 3: // for friends
-                access = friendService.getFriendshipById(personId,event.getEventId()) != null || isCreator(personId, eventId);
+                access = friendService.getFriendshipById(personId,event.getCreator()) != null || isCreator(personId, eventId);
                 break;
         }
         return access;
@@ -268,11 +269,11 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public void convertDraftToEvent(Long eventId) {
-        Event event = eventDao.getEvent(eventId);
+    public void convertDraftToEvent(Event event) {
         event.setDraft(false);
-        eventDao.convertDraftToEvent(event);
-        if (event.getType().equals(2L) || event.getType().equals(3L) && !event.getDraft()) {
+        Logger.getLogger(EventServiceImpl.class.getName()).info(event.toString());
+        eventDao.update(event);
+        if (event.getType().equals(2L) || event.getType().equals(3L)) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
         }

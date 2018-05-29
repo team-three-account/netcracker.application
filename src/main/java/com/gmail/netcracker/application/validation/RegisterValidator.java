@@ -2,25 +2,17 @@ package com.gmail.netcracker.application.validation;
 
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.UserService;
-import com.gmail.netcracker.application.utilites.VerificationToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Component
 public class RegisterValidator extends ModelValidator implements Validator {
 
     @Autowired
     private UserService userService;
-
 
     @Override
     public void validate(Object obj, Errors errors) {

@@ -4,20 +4,21 @@ var authUserId;
 var chats;
 
 function showNotificationOutput(notification) {
+
     var socket = new SockJS('/chat');
+    var stompClient = new Object();
+    for (var i in notification) {
 
-    stompClient = Stomp.over(socket);
-    stompClient.connect({}, function (frame) {
-        for (var i in notification) {
-
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
-            var row = notification[i];
-        }
-        stompClient.subscribe('/topic/messages/' + row, function (message) {
-            console.log(row);
-            showNotification(JSON.parse(message.body));
+
+            stompClient.subscribe('/topic/messages/' + notification[i], function (message) {
+                showNotification(JSON.parse(message.body));
+            });
         });
-    });
+
+    }
 }
 
 function showNotification(message) {
@@ -30,7 +31,7 @@ function showNotification(message) {
         "                                        " +
         "<p style='display: inline-flex;right !important;' ><a href='/account/" + message.senderId + "'><img class=\"img-circle\" style=\"width: 40px;height: 40px;margin: 5px;\"\n" +
         "                                                src=\"" + message
-            .senderPhoto + "\"></a>" + "<a href='/account/eventList/eventChat/main/"+message.chatId+"-"+message.eventId+"' style='color: white !important;\n" +
+            .senderPhoto + "\"></a>" + "<a href='/account/eventList/eventChat/main/" + message.chatId + "-" + message.eventId + "' style='color: white !important;\n" +
         "  text-decoration: none'> " + message.text + "\n" +
         "                                        </a>\n" +
         "<p>" + message.time + "</p>\n" +

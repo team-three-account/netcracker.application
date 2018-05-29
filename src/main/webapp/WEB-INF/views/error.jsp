@@ -21,7 +21,7 @@
         <div class="card-header">Error page</div>
         <div class="card-body">
             <h2>${text_error}</h2>
-            <a href="/account/"></a>">Home</a>
+            <a href="/account/">Home</a>
         </div>
     </div>
 </div>

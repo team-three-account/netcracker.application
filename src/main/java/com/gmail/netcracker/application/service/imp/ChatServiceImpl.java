@@ -1,10 +1,7 @@
 package com.gmail.netcracker.application.service.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.ChatDao;
-import com.gmail.netcracker.application.dto.model.Chat;
-import com.gmail.netcracker.application.dto.model.Event;
-import com.gmail.netcracker.application.dto.model.EventMessage;
-import com.gmail.netcracker.application.dto.model.Notification;
+import com.gmail.netcracker.application.dto.model.*;
 import com.gmail.netcracker.application.service.interfaces.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +56,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Notification> allUserChatId(Long userId) {
+    public List<ChatId> allUserChatId(Long userId) {
         return chatDao.allUserChatId(userId);
     }
 
