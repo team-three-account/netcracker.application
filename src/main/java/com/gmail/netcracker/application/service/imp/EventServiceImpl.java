@@ -242,7 +242,7 @@ public class EventServiceImpl implements EventService {
                 access = true;
                 break;
             case 3: // for friends
-                access = friendService.getFriendshipById(userId, event.getEventId()) != null || isCreator(userId, eventId);
+                access = friendService.getFriendshipById(userId, event.getCreator()) != null || isCreator(userId, eventId);
                 break;
         }
         return access;
