@@ -24,6 +24,7 @@ public class EventMessageServiceImpl implements EventMessageService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public EventMessage getLastMessage(Long chatId) {
         return eventMessageDao.getLastMessage(chatId);
     }

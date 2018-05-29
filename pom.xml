@@ -10,9 +10,7 @@
 
     <properties>
         <spring.version>4.3.6.RELEASE</spring.version>
-        <spring-security.version>4.0.2.RELEASE</spring-security.version>
-        <spring-data-jpa.version>1.8.2.RELEASE</spring-data-jpa.version>
-        <mysql-connector.version>5.1.36</mysql-connector.version>
+
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>3.8.1</junit.version>
@@ -27,7 +25,6 @@
             <artifactId>spring-web</artifactId>
             <version>4.3.2.RELEASE</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
@@ -83,7 +80,7 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
-            <version>${spring.version}</version>
+            <version>4.2.3.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>

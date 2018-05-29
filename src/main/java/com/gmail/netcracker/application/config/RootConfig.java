@@ -1,12 +1,6 @@
 package com.gmail.netcracker.application.config;
 
-import com.gmail.netcracker.application.aspects.TokenLifeAspect;
 import com.gmail.netcracker.application.dto.model.*;
-import com.gmail.netcracker.application.service.imp.*;
-import com.gmail.netcracker.application.service.interfaces.ChatService;
-import com.gmail.netcracker.application.service.interfaces.FriendService;
-import com.gmail.netcracker.application.service.interfaces.NoteService;
-import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.utilites.*;
 
 import com.google.gson.Gson;
@@ -23,6 +17,8 @@ import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.TransactionManagementConfigurer;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 
@@ -36,8 +32,9 @@ import static com.gmail.netcracker.application.utilites.Utilities.parseDateToStr
 @Configuration
 @ComponentScan("com.gmail.netcracker.application.*")
 @PropertySource("classpath:application.properties")
-@EnableAspectJAutoProxy
-public class RootConfig {
+@EnableAspectJAutoProxy(proxyTargetClass = true)
+@EnableTransactionManagement
+public class RootConfig  {
 
     private final Environment env;
 
@@ -68,11 +65,6 @@ public class RootConfig {
         return resourceBundleMessageSource;
     }
 
-    @Bean
-    @Autowired
-    public PlatformTransactionManager platformTransactionManager(DataSource dataSource) {
-        return new DataSourceTransactionManager(dataSource);
-    }
 
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
@@ -129,6 +121,7 @@ public class RootConfig {
             return chat;
         };
     }
+
     @Bean
     public RowMapper<Notification> notificationRowMapper() {
         return (resultSet, i) -> {
@@ -137,6 +130,7 @@ public class RootConfig {
             return notification;
         };
     }
+
     @Bean
     public RowMapper<Notification> chatUserRowMapper() {
         return (resultSet, i) -> {
@@ -153,9 +147,9 @@ public class RootConfig {
             eventMessage.setTime(Utilities.parseDateToStringWithSeconds(getTimestamp(resultSet, "date")));
             eventMessage.setChatId(getLong(resultSet, "chat_id"));
             eventMessage.setSenderId(getLong(resultSet, "sender_id"));
-            eventMessage.setFrom(getString(resultSet,"sender_name"));
-            eventMessage.setSenderPhoto(getString(resultSet,"sender_photo"));
-            notification.setCreatorEvent(getBoolean(resultSet,"creator_event"));
+            eventMessage.setFrom(getString(resultSet, "sender_name"));
+            eventMessage.setSenderPhoto(getString(resultSet, "sender_photo"));
+            notification.setCreatorEvent(getBoolean(resultSet, "creator_event"));
             notification.setChatId(getLong(resultSet, "chat_id"));
             notification.setEvent(event);
             notification.setUser(user);
@@ -358,4 +352,6 @@ public class RootConfig {
                 .registerTypeAdapter(Event.class, new EventSerializer())
                 .create();
     }
+
+
 }

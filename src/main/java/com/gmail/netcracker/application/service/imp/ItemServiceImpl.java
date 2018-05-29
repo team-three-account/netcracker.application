@@ -73,7 +73,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Item> getWishList(Long personId) {
         List<Item> wishList = itemDao.findItemsByUserId(personId);
         for (Item item : wishList) {
@@ -84,11 +84,13 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public void setPersonId(Item item) {
         item.setPersonId(userService.getAuthenticatedUser().getId());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Priority> getAllPriorities() {
         return priorityDao.getAllPriority();
     }
@@ -101,16 +103,19 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public void bookItem(Long itemId) {
         if (itemDao.getBookerId(itemId) == 0) itemDao.setBooker(itemId, userService.getAuthenticatedUser().getId());
     }
 
     @Override
+    @Transactional
     public void cancelBookingItem(Long itemId) {
         itemDao.cancelBooking(itemId, userService.getAuthenticatedUser().getId());
     }
 
     @Override
+    @Transactional
     public void bookItemFromEvent(Long itemId, Long eventId) {
         if (itemDao.getBookerId(itemId) == 0)
             itemDao.setBookerFromEvent(itemId, userService.getAuthenticatedUser().getId(), eventId);
@@ -149,7 +154,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-
+    @Transactional
     public void addTagsToCopiedItem(Set<Tag> tags, Long itemId) {
         for (Tag tag : tags) {
             tagDao.addTagToItem(tag.getTagId(), itemId);
@@ -171,17 +176,19 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Item> popularItems() {
         return itemDao.getPopularItems((long) 5);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Tag> popularTags() {
         return tagDao.getPopularTags(5L);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Item> getItemsByTag(Long tag) {
         List<Item> items = itemDao.getItemsByTag(tag);
         for (Item item : items) {
@@ -192,31 +199,37 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Set<Tag> getTagsOfItem(Long itemId) {
         return tagDao.getTagsOfItem(itemId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Tag getTagByName(String tagName) {
         return tagDao.findTagByName(tagName);
     }
 
     @Override
+    @Transactional
     public void like(Long itemId, Long userId) {
         itemDao.like(itemId, userId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long countLikes(Long itemId) {
         return itemDao.getLikesCount(itemId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Boolean isLiked(Long itemId, Long userId) {
         return itemDao.isLiked(itemId, userId) != null;
     }
 
     @Override
+    @Transactional
     public void dislike(Long itemId, Long userId) {
         itemDao.dislike(itemId, userId);
     }

@@ -49,11 +49,13 @@ public class FolderServiceImpl implements FolderService {
      * @return
      */
     @Override
+    @Transactional(readOnly = true)
     public List<Folder> folderList() {
         return folderDao.folderList(userService.getAuthenticatedUser().getId());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Folder getFolder(Long folderId) {
         return folderDao.getFolder(folderId);
     }
@@ -74,31 +76,37 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Note> getNoteListIntoFolder(Long folderId) {
         return folderDao.getNoteListIntoFolder(folderId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getFriendsToShare(Long folderId) {
         return folderDao.getFriendsToShare(folderId, userService.getAuthenticatedUser().getId());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getFriendsThatHaveAccess(Long folderId) {
         return folderDao.getFriendsThatHaveAccess(folderId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void allowAccessToFolder(Long folderId, Long userId) {
         folderDao.allowAccessToFolder(folderId, userId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void disableAccessToFolder(Long folderId, Long friendId) {
         folderDao.disableAccessToFolder(folderId, friendId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Folder> sharedFoldersToMe() {
         return folderDao.getSharedFoldersToMe(userService.getAuthenticatedUser().getId());
     }
