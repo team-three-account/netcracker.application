@@ -129,7 +129,7 @@ public class ExceptionController {
      *
      * @return {@link ModelAndView}.
      */
-    
+
     private ModelAndView handleException(
             final Exception ex,
             final HttpServletRequest request,
