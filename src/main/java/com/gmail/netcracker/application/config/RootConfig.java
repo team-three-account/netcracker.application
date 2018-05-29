@@ -117,7 +117,7 @@ public class RootConfig  {
             chat.setChatId(getLong(resultSet, "chat_id"));
             chat.setName(getString(resultSet, "name"));
             chat.setEventId(getLong(resultSet, "event_id"));
-            chat.setState(getBoolean(resultSet, "creator_event"));
+            chat.setState(getBoolean(resultSet, "is_with_creator"));
             return chat;
         };
     }
