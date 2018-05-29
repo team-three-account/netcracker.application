@@ -50,6 +50,14 @@
                         </button>
                     </form>
                 </td>
+                <td>
+                    <form action="/account/friends/cancel-request" method="POST">
+                        <button type="submit"  class="btn btn-danger">
+                            <input type="hidden" name="friendId" value=${friend.id} />
+                            Cancel request </span>
+                        </button>
+                    </form>
+                </td>
             </tr>
         </c:forEach>
     </table>
