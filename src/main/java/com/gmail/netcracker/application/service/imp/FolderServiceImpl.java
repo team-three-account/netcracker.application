@@ -90,13 +90,13 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void allowAccessToFolder(Long folderId, Long userId) {
         folderDao.allowAccessToFolder(folderId, userId);
     }
 
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
     public void disableAccessToFolder(Long folderId, Long friendId) {
         folderDao.disableAccessToFolder(folderId, friendId);
     }
