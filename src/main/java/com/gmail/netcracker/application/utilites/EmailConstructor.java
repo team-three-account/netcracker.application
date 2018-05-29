@@ -3,6 +3,7 @@ package com.gmail.netcracker.application.utilites;
 import com.gmail.netcracker.application.controller.FriendController;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.service.interfaces.EventRangeService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class EmailConstructor {
     private UserService userService;
 
     @Autowired
-    private EventService eventService;
+    private EventRangeService eventRangeService;
 
     @Autowired
     private Environment env;
@@ -128,7 +129,7 @@ public class EmailConstructor {
      * @param user specify user that will send e-mail notification
      */
     public void notifyAboutPersonPlan(Timestamp fromDate, Timestamp tillDate, User user) {
-        final List<Event> planedEvents = eventService.getEventsFromRange(fromDate, tillDate, user.getId());
+        final List<Event> planedEvents = eventRangeService.getEventsFromRange(user.getId(), fromDate, tillDate);
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             constructPersonPlanEmailMessage(message, planedEvents, user);

@@ -333,7 +333,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public Long getDurationFromStartAndEnd(String start, String end) {
-        if (start.equals("____-__-__ __:__") || end.equals("____-__-__ __:__")) {
+        if ("____-__-__ __:__".equals(start) || "____-__-__ __:__".equals(end)||"".equals(start)||"".equals(end)) {
             return null;
         } else
             return (Utilities.parseStringToTimestamp(end).getTime() - Utilities.parseStringToTimestamp(start).getTime()) / 1000;
@@ -362,23 +362,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public String getEndDateFromDuration(Timestamp start, Long duration) {
         return Utilities.parseDateToStringWithSeconds(Utilities.parseLongToDate(start.getTime() / 1000 + duration));
-    }
-
-    @Override
-    public List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end) {
-        return setDateEnd(eventDao.searchByUserFromRange(userId, start, end));
-    }
-
-    @Override
-    public List<Event> searchByUserFromRange(Long userId, Long start, Long end) {
-        return searchByUserFromRange(userId,
-                Utilities.parseLongToTimestamp(start),
-                Utilities.parseLongToTimestamp(end));
-    }
-
-    @Override
-    public List<Event> getEventsFromRange(Timestamp fromDate, Timestamp tillDate, Long id) {
-        return eventDao.getEventsFromRange(fromDate, tillDate, id);
     }
 
     @Override
