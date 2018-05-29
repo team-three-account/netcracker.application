@@ -10,8 +10,8 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
  * * security included in the main
  * * Application context (they were seen and
  * * Retrieved Root Application Context).
- * * This class is needed for this. We need
- * * adjust everything so that a certain
+ * *
+ * * We need adjust everything so that a certain
  * * The URL passed through the security level.
  */
 public class SecurityInitializer

@@ -49,7 +49,7 @@ public class EmailConstructor {
         final String recipientAddress = user.getEmail();
         final String subject = "Registration Confirmation";
         final String confirmationUrl = env.getProperty("heroku.host") + "/registrationConfirm/" + token;
-        final String message = "Reg sucss";
+        final String message = "Registration successful!";
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
@@ -63,7 +63,7 @@ public class EmailConstructor {
         final String recipientAddress = user.getEmail();
         final String subject = "Reset Password";
         final String confirmationUrl = env.getProperty("heroku.host") + "/account/changePassword/" + token;
-        final String message = "Link for reset password for user " + user.getEmail();
+        final String message = "Link for reset password for you " + user.getEmail();
         final SimpleMailMessage email = new SimpleMailMessage();
         email.setTo(recipientAddress);
         email.setSubject(subject);
@@ -153,11 +153,11 @@ public class EmailConstructor {
         MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         final String recipientAddress = user.getEmail();
-        final String subject = "Notification about person plan";
+        final String subject = "Notification about personal plan";
         final String text;
         if(!planedEvents.isEmpty()){
             text = "We want to remind you of the upcoming events for which you have subscribed. \r\n See PDF for more details: ";
-            helper.addAttachment("Person plan.pdf", pdfConstructor.construct(planedEvents));
+            helper.addAttachment("Personal plan.pdf", pdfConstructor.construct(planedEvents));
             logger.info("Email with PDF is ready to be sent");
         }
         else  text = "You have not any event for the near future. Fill free :) ";
@@ -175,7 +175,7 @@ public class EmailConstructor {
      */
         private SimpleMailMessage constructApologizeMessage(String emailRecipient){
             final String recipientAddress = emailRecipient;
-            final String subject = "Notification about person plan";
+            final String subject = "Notification about personal plan";
             final String message = "We apologize for the temporary problem with person plan notification. Service will be reestablished soon.";
             final SimpleMailMessage email = new SimpleMailMessage();
             email.setTo(recipientAddress);

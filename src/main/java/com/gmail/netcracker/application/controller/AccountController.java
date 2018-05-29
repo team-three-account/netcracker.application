@@ -34,53 +34,38 @@ import java.util.UUID;
 @RequestMapping(value = "/account")
 public class AccountController {
 
+    @Autowired
     private EmailConstructor emailConstructor;
 
+    @Autowired
     private UserService userService;
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
     private ResetConfirmPasswordValidator resetConfirmPasswordValidator;
 
+    @Autowired
     private PhotoServiceImp photoService;
 
+    @Autowired
     private EditUserAccountValidator editUserAccountValidator;
 
+    @Autowired
     private EventService eventService;
 
+    @Autowired
     private ItemService itemService;
 
+    @Autowired
     private ImageValidator imageValidator;
 
+    @Autowired
     private NotificationValidator notificationValidator;
 
-    private Gson gson = new GsonBuilder()
-            .registerTypeAdapter(Event.class, new EventSerializer())
-            .create();
-
     @Autowired
-    public AccountController(EmailConstructor emailConstructor,
-                             UserService userService,
-                             PasswordEncoder passwordEncoder,
-                             ResetConfirmPasswordValidator resetConfirmPasswordValidator,
-                             PhotoServiceImp photoService,
-                             EditUserAccountValidator editUserAccountValidator,
-                             EventService eventService,
-                             ItemService itemService,
-                             ImageValidator imageValidator,
-                             NotificationValidator notificationValidator) {
-        this.emailConstructor = emailConstructor;
-        this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
-        this.resetConfirmPasswordValidator = resetConfirmPasswordValidator;
-        this.photoService = photoService;
-        this.editUserAccountValidator = editUserAccountValidator;
-        this.eventService = eventService;
-        this.itemService = itemService;
-        this.imageValidator = imageValidator;
-        this.notificationValidator = notificationValidator;
-    }
-
+    private Gson gsonEvents;
     /**
      * This method returns start page after successful login.
      *
@@ -91,7 +76,8 @@ public class AccountController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public ModelAndView homeAccount(ModelAndView modelAndView) {
-        String eventList = gson.toJson(eventService.myEventsWithPriority());
+
+        String eventList = gsonEvents.toJson(eventService.myEventsWithPriority());
         modelAndView.addObject("popularItems", itemService.popularItems());
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("eventList", eventList);

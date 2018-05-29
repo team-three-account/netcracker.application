@@ -32,21 +32,13 @@ public class Utilities {
         return df.format(date);
     }
 
-//    public static String parseDateIntoString(Long date) {
-//        if (date == null) {
-//            return "";
-//        }
-//        Format df = new SimpleDateFormat("yyyy-MM-dd");
-//        return df.format(new Date(date));
-//    }
 
     public static Timestamp parseStringToTimestampWithSeconds(String stringDate) {
         if (stringDate != null) {
             try {
                 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 Date date = formatter.parse(stringDate);
-                Timestamp timestamp = new Timestamp(date.getTime());
-                return timestamp;
+                return new Timestamp(date.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
                 return null;
@@ -60,8 +52,7 @@ public class Utilities {
             try {
                 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm");
                 Date date = formatter.parse(stringDate);
-                Timestamp timestamp = new Timestamp(date.getTime());
-                return timestamp;
+                return new Timestamp(date.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
                 return null;
@@ -75,8 +66,7 @@ public class Utilities {
             try {
                 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
                 Date date = formatter.parse(stringDate);
-                Timestamp timestamp = new Timestamp(date.getTime());
-                return timestamp;
+                return new Timestamp(date.getTime());
             } catch (ParseException e) {
                 e.printStackTrace();
                 return null;
@@ -117,8 +107,7 @@ public class Utilities {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String timeStamp = getCurrentTimeStamp().toString();
         Date dateTime = format.parse(timeStamp);
-        String t = format.format(dateTime);
-        return t;
+        return format.format(dateTime);
     }
 
     public static Timestamp getCurrentTimeStamp() {

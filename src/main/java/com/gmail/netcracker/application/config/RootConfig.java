@@ -68,8 +68,7 @@ public class RootConfig  {
 
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean() {
-        SchedulerFactoryBean factory = new SchedulerFactoryBean();
-        return factory;
+        return new SchedulerFactoryBean();
     }
 
     @Bean
@@ -265,24 +264,24 @@ public class RootConfig  {
 
     @Bean
     public RowMapper<Note> noteRowMapper() {
-        return (rs, i) -> {
+        return (resultSet, i) -> {
             Note note = new Note();
-            note.setNoteId(getLong(rs, "note_id"));
-            note.setName(getString(rs, "name"));
-            note.setDescription(getString(rs, "description"));
-            note.setCreator(getLong(rs, "creator_id"));
-            note.setFolder(getLong(rs, "folder_id"));
+            note.setNoteId(getLong(resultSet, "note_id"));
+            note.setName(getString(resultSet, "name"));
+            note.setDescription(getString(resultSet, "description"));
+            note.setCreator(getLong(resultSet, "creator_id"));
+            note.setFolder(getLong(resultSet, "folder_id"));
             return note;
         };
     }
 
     @Bean
     RowMapper<Note> notesIntoFolderRowMapper() {
-        return (rs, i) -> {
+        return (resultSet, i) -> {
             Note note = new Note();
-            note.setNoteId(rs.getLong("note_id"));
-            note.setName(rs.getString("name"));
-            note.setFolder(rs.getLong("folder_id"));
+            note.setNoteId(resultSet.getLong("note_id"));
+            note.setName(resultSet.getString("name"));
+            note.setFolder(resultSet.getLong("folder_id"));
             return note;
         };
     }
@@ -329,13 +328,6 @@ public class RootConfig  {
     }
 
     @Bean
-    public Gson gsonTimeline() {
-        return new GsonBuilder()
-                .registerTypeAdapter(Event.class, new TimelineSerializer())
-                .create();
-    }
-
-    @Bean
     public RowMapper<Like> likeRowMapper() {
         return (resultSet, i) -> {
             Like like = new Like();
@@ -347,11 +339,17 @@ public class RootConfig  {
     }
 
     @Bean
+    public Gson gsonTimeline() {
+        return new GsonBuilder()
+                .registerTypeAdapter(Event.class, new TimelineSerializer())
+                .create();
+    }
+
+    @Bean
     public Gson gsonEvents() {
         return new GsonBuilder()
                 .registerTypeAdapter(Event.class, new EventSerializer())
                 .create();
     }
-
 
 }

@@ -26,9 +26,6 @@ public class FolderServiceImpl implements FolderService {
     private UserService userService;
 
     @Autowired
-    private FriendService friendService;
-
-    @Autowired
     private NoteDao noteDao;
 
     /**

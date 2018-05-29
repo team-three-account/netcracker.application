@@ -22,17 +22,12 @@ import java.util.logging.Logger;
 
 @Service
 public class UserServiceImp implements UserService, UserDetailsService {
-    private VerificationToken verificationToken;
-    private UserDao userDao;
-    private VerificationTokenDao verificationTokenDao;
-
     @Autowired
-    public UserServiceImp(VerificationToken verificationToken, UserDao userDao,
-                          VerificationTokenDao verificationTokenDao) {
-        this.verificationToken = verificationToken;
-        this.userDao = userDao;
-        this.verificationTokenDao = verificationTokenDao;
-    }
+    private VerificationToken verificationToken;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private VerificationTokenDao verificationTokenDao;
 
     @Override
     @Transactional(readOnly = true)

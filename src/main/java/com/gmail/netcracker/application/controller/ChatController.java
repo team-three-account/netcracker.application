@@ -42,9 +42,6 @@ public class ChatController {
     @Autowired
     private User user;
 
-    @Autowired
-    private Event event;
-
     private Logger logger = Logger.getLogger(ChatService.class.getName());
 
 
@@ -155,7 +152,7 @@ public class ChatController {
                              @DestinationVariable(value = "chatId") String chatId,
                              EventMessage message) throws Exception {
         user = userService.findUserById(Long.valueOf(userId));
-        event = eventService.getEvent(Long.valueOf(eventId));
+        Event event = eventService.getEvent(Long.valueOf(eventId));
         message.setTime(Utilities.getCurrentDateInString());
         message.setChatId(Long.valueOf(chatId));
         message.setEventId(Long.valueOf(eventId));

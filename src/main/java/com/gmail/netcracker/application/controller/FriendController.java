@@ -24,17 +24,14 @@ import java.util.logging.Logger;
 @Controller
 public class FriendController {
 
-    private final UserService userService;
-    private final EmailConstructor emailConstructor;
-    private final FriendService friendService;
-    private Logger logger = Logger.getLogger(FriendController.class.getName());
-
     @Autowired
-    public FriendController(UserService userService, FriendService friendService, EmailConstructor emailConstructor) {
-        this.userService = userService;
-        this.friendService = friendService;
-        this.emailConstructor = emailConstructor;
-    }
+    private UserService userService;
+    @Autowired
+    private EmailConstructor emailConstructor;
+    @Autowired
+    private FriendService friendService;
+
+    private Logger logger = Logger.getLogger(FriendController.class.getName());
 
     /**
      * This method returns  page with friends for authenticated user.

@@ -38,18 +38,14 @@ public class SecurityConfig
         extends WebSecurityConfigurerAdapter {
 
 
-    private final DataSource dataSource;
+    @Autowired
+    private DataSource dataSource;
 
-    private final UserServiceImp userService;
+    @Autowired
+    private UserServiceImp userService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public SecurityConfig(DataSource dataSource, UserServiceImp userService) {
-        this.dataSource = dataSource;
-        this.userService = userService;
-    }
 
     @Override
     protected void configure(final AuthenticationManagerBuilder builder)
