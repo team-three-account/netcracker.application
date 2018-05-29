@@ -66,18 +66,19 @@ public class EventServiceImpl implements EventService {
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
         eventDao.update(event);
         deleteEventNotificationJob(event.getEventId());
-        if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
+        if (event.getPeriodicity() != null && !event.getDraft()) scheduleEventNotificationJob(event);
     }
 
     @Override
     @Transactional
     public void delete(Long eventId) {
+        Event event = getEvent(eventId);
         itemDao.cancelItemsBookingFromEvent(eventId);
-        if (!getEvent(eventId).getPhoto().equals(photoService.getDefaultImageForEvents())) {
-            photoService.deleteFile(getEvent(eventId).getPhoto());
+        if (!event.getPhoto().equals(photoService.getDefaultImageForEvents())) {
+            photoService.deleteFile(event.getPhoto());
         }
         eventDao.delete(eventId);
-        deleteEventNotificationJob(eventId); //TODO check next case: will be this method executed if transaction is failed
+        if(!event.getDraft()) deleteEventNotificationJob(eventId);
     }
 
     @Override
@@ -86,14 +87,17 @@ public class EventServiceImpl implements EventService {
         setPersonId(event);
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
         eventDao.insertEvent(event);
-        if (event.getType().equals((long) 2) || event.getType().equals((long) 3)
-                && event.getDraft().equals(false)) {
+        if (event.getType().equals(2L) || event.getType().equals(3L)
+                && !event.getDraft()) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
 
         }
-        participate(userService.getAuthenticatedUser().getId(), event.getEventId());
-        if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
+        if(!event.getDraft()){
+            participate(userService.getAuthenticatedUser().getId(), event.getEventId());
+            if (event.getPeriodicity() != null)
+                scheduleEventNotificationJob(event);
+        }
     }
 
     @Override
@@ -268,15 +272,6 @@ public class EventServiceImpl implements EventService {
         noteDao.delete(noteId);
         event.setCreator(userId);
         insertEvent(event);
-        if (event.getType().equals((long) 2) || event.getType().equals((long) 3)
-                && event.getDraft().equals(false)) {
-            chatService.createChatForEvent(event, true);
-            chatService.createChatForEvent(event, false);
-
-        }
-        participate(userService.getAuthenticatedUser().getId(), event.getEventId());
-        if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
-
     }
 
     @Override
@@ -285,10 +280,11 @@ public class EventServiceImpl implements EventService {
         Event event = eventDao.getEvent(eventId);
         event.setDraft(false);
         eventDao.convertDraftToEvent(event);
-        if (event.getType().equals((long) 2) || event.getType().equals((long) 3) && event.getDraft().equals(false)) {
+        if (event.getType().equals(2L) || event.getType().equals(3L) && !event.getDraft()) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
         }
+
         participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
     }

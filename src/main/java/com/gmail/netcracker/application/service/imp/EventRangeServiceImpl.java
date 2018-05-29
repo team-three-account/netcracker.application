@@ -79,6 +79,13 @@ public class EventRangeServiceImpl implements EventRangeService {
         return eventList;
     }
 
+    /**
+     *
+     * @param event Event what we duplicate
+     * @param start startRange
+     * @param end endRange
+     * @return
+     */
     private List<Event> getAllDateFromPeriodical(Event event,
                                                  Date start, Date end) {
         try {

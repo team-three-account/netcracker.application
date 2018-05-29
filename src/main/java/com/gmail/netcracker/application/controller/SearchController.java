@@ -27,6 +27,16 @@ public class SearchController {
     @Autowired
     private FriendService friendService;
 
+    /**
+     * This method get search query and type of search
+     * And redirect to necessary controller
+     *
+     * @param modelAndView
+     * @param search
+     * @param typeSearch
+     * @param redirectAttributes
+     * @return
+     */
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public ModelAndView mainSearch(ModelAndView modelAndView,
                                    @RequestParam("search") String search,
@@ -48,6 +58,14 @@ public class SearchController {
         return modelAndView;
     }
 
+    /**
+     * This method return result search of Item
+     * Represent a page with users items in upper block and system items in bottom block.
+     *
+     * @param model
+     * @param search
+     * @return
+     */
     @RequestMapping(value = "/search/items")
     public String getSearchItem(Model model, String search) {
         if (search == null || search.isEmpty())
@@ -58,8 +76,16 @@ public class SearchController {
         return "item/resultSearch";
     }
 
+    /**
+     * This method return result search of Events
+     * Represent a page with users events in upper block and public events in bottom block.
+     *
+     * @param model
+     * @param search
+     * @return
+     */
     @RequestMapping(value = "/search/events")
-    public String getSearchEventString(Model model, String search)
+    public String getSearchEvents(Model model, String search)
     {
         if (search == null || search.isEmpty()) return "redirect:/account/eventList";
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
@@ -81,7 +107,7 @@ public class SearchController {
             return "redirect:/account/friends";
         }
         User authUser = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user",authUser);
+        model.addAttribute("auth_user", authUser);
         model.addAttribute("friendList", friendService.searchFriends(authUser.getId(), search));
         model.addAttribute("subtractionUsers", friendService.searchUsers(authUser.getId(), search));
         return "friend/friends";

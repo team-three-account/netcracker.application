@@ -35,7 +35,6 @@ public class EventController {
     private final FriendService friendService;
     private final DraftValidator draftValidator;
     private ChatService chatService;
-    private User authUser;
     private EventValidator eventValidator;
     private final ImageValidator imageValidator;
 
@@ -283,7 +282,6 @@ public class EventController {
         List<User> participantList = eventService.getParticipants(eventId);
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("participantList", participantList);
-        model.addAttribute("auth_user", authUser);
         return "event/participants";
     }
 
@@ -309,8 +307,8 @@ public class EventController {
      */
     @RequestMapping(value = "/unsubscribe", method = RequestMethod.POST)
     public String unsubscribe(@RequestParam(value = "event_id") Long eventId, Model model) {
-        model.addAttribute("auth_user", authUser);
-        eventService.unsubscribe(authUser.getId(), eventId);
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        eventService.unsubscribe(userService.getAuthenticatedUser().getId(), eventId);
         return "redirect:/account/eventList/event-" + eventId;
     }
 
@@ -409,8 +407,8 @@ public class EventController {
      */
     @RequestMapping(value = "/for-friends/event-{eventId}/invite", method = RequestMethod.GET)
     public String inviteToForFriends(Model model, @PathVariable(value = "eventId") Long eventId) {
-        model.addAttribute("auth_user", authUser);
-        List<User> friendsToInvite = eventService.getFriendsToInvite(authUser.getId(), eventId);
+        model.addAttribute("auth_user", userService.getAuthenticatedUser());
+        List<User> friendsToInvite = eventService.getFriendsToInvite(userService.getAuthenticatedUser().getId(), eventId);
         model.addAttribute("friendsToInvite", friendsToInvite);
         String message = friendsToInvite.size() > 0 ? "Invite users" : "All your friends are subscribed on this event";
         model.addAttribute("message", message);
