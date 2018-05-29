@@ -80,5 +80,6 @@
 </div>
 </form:form>
 </div>
-
+<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
+<script src='${contextPath}/resources/js/imageUpload.js'></script>
 </html>
