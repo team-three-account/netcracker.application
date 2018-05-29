@@ -1,6 +1,7 @@
 package com.gmail.netcracker.application.service.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
+import com.gmail.netcracker.application.dto.dao.interfaces.UserDao;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.EventRangeService;
@@ -28,6 +29,9 @@ public class EventRangeServiceImpl implements EventRangeService {
 
     private Logger log = Logger.getLogger(EventRangeServiceImpl.class.getName());
 
+    @Autowired
+    private UserDao userDao;
+
     @Override
     public List<Event> getEventsFromRange(Long userId, Long start, Long end) {
         return getEventsFromRange(userId, Utilities.parseLongToTimestamp(start),
@@ -47,8 +51,28 @@ public class EventRangeServiceImpl implements EventRangeService {
     }
 
     @Override
-    public List<Event> getEventFromRangeSorting(Long userId, Timestamp start, Timestamp end) {
-        return null;
+    public List<Event> getEventsFromRange(List<Long> userList, Long start, Long end) {
+        List<Event> eventList = new ArrayList<>();
+
+        for (Long userId: userList){
+            List<Event> userEvents = getEventsFromRange(userId, start, end);
+            User user = userDao.findUserById(userId);
+            for (Event userEvent: userEvents) {
+                userEvent.setName(user.getName()+" "+user.getSurname());
+            }
+            eventList.addAll(userEvents);
+        }
+        return eventList;
+    }
+
+    @Override
+    public List<Event> getEventsFromRange(List<Long> userList, Timestamp start, Timestamp end) {
+        List<Event> eventList = new ArrayList<>();
+
+        for (Long userId: userList){
+            eventList.addAll(getEventsFromRange(userId, start, end));
+        }
+        return eventList;
     }
 
     private List<Event> getAllDateFromPeriodical(Event event,

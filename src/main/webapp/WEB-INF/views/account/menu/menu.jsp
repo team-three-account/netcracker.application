@@ -23,7 +23,8 @@
                 <li><a href="/account/allNotes">Notes</a></li>
                 <li><a href="/account/user-${auth_user.id}/wishList">Wish List</a></li>
                 <li><a href="/account/calendar">Calendar</a></li>
-            <li><a href="/account/eventList/chats/${auth_user.id}">Messages</a></li>
+                <li><a href="/account/timeline">Timelines</a></li>
+                <li><a href="/account/eventList/chats/${auth_user.id}">Messages</a></li>
             </ul>
 
         </div>

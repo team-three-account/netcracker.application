@@ -552,17 +552,4 @@ public class EventController {
         return modelAndView;
     }
 
-    /**
-     * This method returns a timeline web page.
-     *
-     * @param model
-     * @param userId
-     * @return String
-     */
-    @RequestMapping(value = "/{userId}/timeline", method = RequestMethod.GET)
-    public String timeLine(Model model, @PathVariable Long userId) {
-        model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        model.addAttribute("user_id", userId);
-        return "calendar/timeline";
-    }
 }
