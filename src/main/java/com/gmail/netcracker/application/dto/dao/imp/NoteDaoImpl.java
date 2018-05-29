@@ -44,13 +44,12 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     @Value("${sql.note.deleteNoteFromFolder}")
     private String SQL_DELETE_NOTE_FROM_FOLDER;
 
-    private final RowMapper<Note> noteRowMapper;
+    @Autowired
+    private RowMapper<Note> noteRowMapper;
 
     @Autowired
-    public NoteDaoImpl(DataSource dataSource,
-                       @Qualifier("noteRowMapper") RowMapper<Note> noteRowMapper) {
+    public NoteDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.noteRowMapper = noteRowMapper;
     }
 
     @Override

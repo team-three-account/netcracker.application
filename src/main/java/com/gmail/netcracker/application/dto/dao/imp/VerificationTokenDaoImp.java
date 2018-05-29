@@ -27,19 +27,18 @@ public class VerificationTokenDaoImp extends ModelDao implements VerificationTok
     @Value("${sql.token.delete}")
     private String SQL_DELETE;
 
-    private PasswordEncoder passwordEncoder;
-
     @Value("${sql.user.role}")
     private String USER_ROLE;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private RowMapper<VerificationToken> rowMapper;
 
     @Autowired
-    public VerificationTokenDaoImp(DataSource dataSource, RowMapper<VerificationToken> rowMapper,
-                                   PasswordEncoder passwordEncoder) {
+    public VerificationTokenDaoImp(DataSource dataSource) {
         super(dataSource);
-        this.passwordEncoder = passwordEncoder;
-        this.rowMapper = rowMapper;
     }
 
     @Override

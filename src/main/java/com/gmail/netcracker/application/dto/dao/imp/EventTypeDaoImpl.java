@@ -16,12 +16,12 @@ public class EventTypeDaoImpl extends ModelDao implements EventTypeDao{
     @Value("${sql.eventType.getAllEventTypes}")
     private String SQL_GET_ALL_EVENT_TYPES;
 
+    @Autowired
     private RowMapper<EventType> rowMapper;
 
     @Autowired
-    protected EventTypeDaoImpl(DataSource dataSource, RowMapper<EventType> rowMapper) {
+    public EventTypeDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.rowMapper=rowMapper;
     }
 
     @Override

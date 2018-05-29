@@ -42,12 +42,12 @@ public class TagDaoImpl extends ModelDao implements TagDao {
     @Value("${sql.tag.getPopular}")
     String SQL_POPULAR_TAGS;
 
-    RowMapper<Tag> tagRowMapper;
+    @Autowired
+    private RowMapper<Tag> tagRowMapper;
 
     @Autowired
-    protected TagDaoImpl(DataSource dataSource, RowMapper<Tag> tagRowMapper) {
+    protected TagDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.tagRowMapper = tagRowMapper;
     }
 
     @Override

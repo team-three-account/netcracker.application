@@ -23,13 +23,12 @@ public class EventMessageDaoImp extends ModelDao implements EventMessageDao {
     @Value("${sql.select.last.message.for.chat}")
     private String SQL_GET_LAST_MESSAGE;
 
-    private final RowMapper<EventMessage> eventMessageRowMapper;
+    @Autowired
+    private RowMapper<EventMessage> eventMessageRowMapper;
 
     @Autowired
-    protected EventMessageDaoImp(DataSource dataSource,
-                                 @Qualifier("eventMessageRowMapper") RowMapper<EventMessage> eventMessageRowMapper) {
+    public EventMessageDaoImp(DataSource dataSource) {
         super(dataSource);
-        this.eventMessageRowMapper = eventMessageRowMapper;
     }
 
 

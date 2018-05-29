@@ -26,17 +26,17 @@ public class PriorityDaoImpl extends ModelDao implements PriorityDao {
     @Autowired
     private RowMapper<Participant> participantRowMapper;
 
-    private RowMapper<Priority> rowMapper;
+    @Autowired
+    private RowMapper<Priority> priorityRowMapper;
 
     @Autowired
-    protected PriorityDaoImpl(DataSource dataSource, RowMapper<Priority> rowMapper) {
+    public PriorityDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.rowMapper=rowMapper;
     }
 
     @Override
     public List<Priority> getAllPriority() {
-        return findEntityList(SQL_GET_ALL_PRIORITY, rowMapper);
+        return findEntityList(SQL_GET_ALL_PRIORITY, priorityRowMapper);
     }
 
     @Override
