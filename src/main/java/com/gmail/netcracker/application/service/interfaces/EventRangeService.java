@@ -14,6 +14,4 @@ public interface EventRangeService {
     List<Event> getEventsFromRange(Long userId, Timestamp start, Timestamp end);
 
     List<Event> getEventsFromRange(List<Long> userList, Long start, Long end);
-
-    List<Event> getEventsFromRange(List<Long> userList, Timestamp start, Timestamp end);
 }
