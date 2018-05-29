@@ -195,7 +195,7 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
 
     @Override
     public void like(Long itemId, Long userId) {
-        updateEntity(SQL_LIKE, itemId, userId);
+        updateEntity(SQL_LIKE, itemId, userId, true);
     }
 
     @Override

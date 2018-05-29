@@ -21,5 +21,5 @@ public class Item {
     private String image;
     private Set<Tag> tags;
     private Long likes;
-    private Integer isLiked;
+    private Boolean isLiked;
 }

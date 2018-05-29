@@ -66,22 +66,31 @@
                                             </c:forEach>
                                         </li>
                                         <li class="list-group-item">Likes: ${item.likes}
+                                          Is Liked: ${item.isLiked}
                                             <c:if test="${item.isLiked == 1}">
                                                 <form action="/account/eventWishList/dislike" method="POST">
-                                                    <input type="hidden" name="eventId" value="${eventId}">
-                                                    <input type="hidden" name="userId" value="${auth_user.id}">
+                                                    <%--<input type="hidden" name="eventId" value="${eventId}">--%>
+                                                    <%--<input type="hidden" name="ownerId" value="${ownerId}">--%>
+
                                                     <button type="submit" class="btn btn-danger text-center">
-                                                        <input type="hidden" name="itemId" value="${item.itemId}"/>
+                                                      <input type="hidden" name="itemId" value="${item.itemId}"/>
+                                                      <input type="hidden" name="eventId" value="${eventId}">
+                                                      <input type="hidden" name="ownerId" value="${ownerId}">
+                                                      <input type="hidden" name="userId" value="${auth_user.id}">
                                                         Dislike
                                                     </button>
                                                 </form>
                                             </c:if>
                                             <c:if test="${item.isLiked == 0}">
                                                 <form action="/account/eventWishList/like" method="POST">
-                                                    <input type="hidden" name="eventId" value="${eventId}">
-                                                    <input type="hidden" name="userId" value="${auth_user.id}">
+                                                    <%--<input type="hidden" name="eventId" value="${eventId}">--%>
+                                                    <%--<input type="hidden" name="ownerId" value="${ownerId}">--%>
+                                                  <%--<input type="hidden" name="userId" value="${auth_user.id}">--%>
                                                     <button type="submit" class="btn btn-success">
                                                         <input type="hidden" name="itemId" value="${item.itemId}"/>
+                                                      <input type="hidden" name="eventId" value="${eventId}">
+                                                      <input type="hidden" name="ownerId" value="${ownerId}">
+                                                      <input type="hidden" name="userId" value="${auth_user.id}">
                                                         Like
                                                     </button>
                                                 </form>

@@ -312,7 +312,7 @@ public class RootConfig  {
             item.setRoot(getLong(resultSet, "root_id"));
             item.setEvent(getLong(resultSet, "event_id"));
             item.setImage(getString(resultSet, "image"));
-            item.setIsLiked(getInt(resultSet, "is_liked"));
+            item.setIsLiked(getBoolean(resultSet, "is_liked"));
             return item;
         };
     }
@@ -333,6 +333,7 @@ public class RootConfig  {
             Like like = new Like();
             like.setItemId(getLong(resultSet, "item_id"));
             like.setUserId(getLong(resultSet, "user_id"));
+            like.setIsLiked(getBoolean(resultSet,"is_liked"));
             return like;
         };
 
