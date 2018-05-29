@@ -42,6 +42,7 @@ public class NoteServiceImpl implements NoteService {
      * @return List<Note>
      */
     @Override
+    @Transactional(readOnly = true)
     public List<Note> noteList() {
         List<Note> listNoteWithoutFolder = noteDao.noteList(userService.getAuthenticatedUser().getId());
         listNoteWithoutFolder.removeIf(note -> note.getFolder() > 0);
@@ -50,11 +51,13 @@ public class NoteServiceImpl implements NoteService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Note getNote(Long noteId) {
         return noteDao.getNote(noteId);
     }
 
     @Override
+    @Transactional
     public void delete(Long noteId) {
         noteDao.delete(noteId);
     }
@@ -79,12 +82,14 @@ public class NoteServiceImpl implements NoteService {
      * @param folderId
      */
     @Override
+    @Transactional
     public void addNoteToFolder(Long noteId, Long folderId) {
         noteDao.addNoteToFolder(noteId, folderId);
     }
 
 
     @Override
+    @Transactional
     public void deleteFromFolder(Long noteId) {
         noteDao.deleteFromFolder(noteId);
     }
@@ -95,6 +100,7 @@ public class NoteServiceImpl implements NoteService {
      * @param note
      */
     @Override
+    @Transactional
     public void addNoteToFolderBtn(Note note) {
         noteDao.addNoteToFolderBtn(note);
     }

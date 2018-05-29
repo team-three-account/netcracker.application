@@ -10,6 +10,7 @@ import com.gmail.netcracker.application.utilites.Utilities;
 import org.quartz.CronExpression;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -33,12 +34,14 @@ public class EventRangeServiceImpl implements EventRangeService {
     private UserDao userDao;
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> getEventsFromRange(Long userId, Long start, Long end) {
         return getEventsFromRange(userId, Utilities.parseLongToTimestamp(start),
                 Utilities.parseLongToTimestamp(end));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> getEventsFromRange(Long userId, Timestamp start, Timestamp end) {
         List<Event> eventList = new ArrayList<>();
 
@@ -51,9 +54,9 @@ public class EventRangeServiceImpl implements EventRangeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> getEventsFromRange(List<Long> userList, Long start, Long end) {
         List<Event> eventList = new ArrayList<>();
-
         for (Long userId: userList){
             List<Event> userEvents = getEventsFromRange(userId, start, end);
             User user = userDao.findUserById(userId);
@@ -66,6 +69,7 @@ public class EventRangeServiceImpl implements EventRangeService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> getEventsFromRange(List<Long> userList, Timestamp start, Timestamp end) {
         List<Event> eventList = new ArrayList<>();
 

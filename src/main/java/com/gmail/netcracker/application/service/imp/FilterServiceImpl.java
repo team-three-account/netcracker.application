@@ -16,8 +16,6 @@ import java.util.Map;
 @Service
 public class FilterServiceImpl implements FilterService {
 
-    @Autowired
-    private EventService eventService;
 
     @Override
     public List<Event> filtering(Filter filter, List<Event> events) {

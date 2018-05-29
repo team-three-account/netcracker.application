@@ -97,66 +97,79 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Event getEvent(Long eventId) {
         return setDateEnd(eventDao.getEvent(eventId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> eventList() {
         return setDateEnd(eventDao.eventList());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> findPrivateEvents(Long userId) {
         return setDateEnd(eventDao.findPrivateEvents(userId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> findAvailableEvents() {
         return setDateEnd(eventDao.findAvailableEvents(userService.getAuthenticatedUser().getId()));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> findDrafts(Long userId) {
         return setDateEnd(eventDao.findDrafts(userId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<EventType> getAllEventTypes() {
         return eventTypeDao.getAllEventTypes();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public void setPersonId(Event event) {
         event.setCreator(userService.getAuthenticatedUser().getId());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> getAllMyEvents() {
         return setDateEnd(eventDao.getAllMyEvents(userService.getAuthenticatedUser().getId()));
     }
 
     @Override
+    @Transactional
     public void participate(Long userId, Long eventId) {
         eventDao.participate(userId, eventId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Long countParticipants(Long eventId) {
         return eventDao.getParticipantsCount(eventId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getParticipants(Long eventId) {
         return eventDao.getParticipants(eventId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Boolean isParticipated(Long id, Long eventId) {
         return eventDao.isParticipated(id, eventId) != null;
     }
 
     @Override
+    @Transactional
     public void unsubscribe(Long id, Long eventId) {
         eventDao.unsubscribe(id, eventId);
     }
@@ -169,9 +182,11 @@ public class EventServiceImpl implements EventService {
      * @return Boolean
      */
     @Override
+    @Transactional(readOnly = true)
     public Boolean allowAccess(Long personId, Long eventId) {
-        boolean access = false;
-        switch (Math.toIntExact(eventDao.getEventType(eventId))) {
+        Event event = eventDao.getEvent(eventId);
+        Boolean access = false;
+        switch (Math.toIntExact(event.getTypeId())) {
             case 0:
                 access = isCreator(personId, eventId);
                 break;//indefinite
@@ -182,62 +197,67 @@ public class EventServiceImpl implements EventService {
                 access = true;
                 break;
             case 3: // for friends
-                access = friendService.getFriendshipById(personId, getCreatorId(eventId)) != null || isCreator(personId, eventId);
+                access = friendService.getFriendshipById(personId,event.getEventId()) != null || isCreator(personId, eventId);
                 break;
         }
         return access;
     }
-
+    @Transactional(readOnly = true)
     public Boolean isCreator(Long personId, Long eventId) {
         return eventDao.checkCreatorById(personId, eventId) != null;
     }
 
-    private long getCreatorId(Long eventId) {
-        return eventDao.getCreator(eventId).getId();
-    }
-
     @Override
+    @Transactional
     public void setPriority(Long priority, Long eventId, Long userId) {
         priorityDao.setPriorityToEvent(priority, eventId, userId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> myEventsWithPriority() {
         return setDateEnd(eventDao.listEventsWithPriority(userService.getAuthenticatedUser().getId()));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Event getMyEventWithPriority(Long eventId) {
         return setDateEnd(eventDao.getEventWithPriority(userService.getAuthenticatedUser().getId(),
                 eventId));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Participant getParticipation(Long eventId) {
         return priorityDao.getParticipant(eventId, userService.getAuthenticatedUser().getId());
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Priority> getAllPriorities() {
         return priorityDao.getAllPriority();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> findCreatedFriendsEvents(Long id) {
         return setDateEnd(eventDao.findCreatedFriendsEvents(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> findCreatedPublicEvents(Long id) {
         return setDateEnd(eventDao.findCreatedPublicEvents(id));
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getFriendsToInvite(Long id, Long eventId) {
         return eventDao.getFriendsToInvite(id, eventId);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<User> getUsersToInvite(Long currentId, Long eventId) {
         return eventDao.getUsersToInvite(currentId, eventId);
     }
@@ -274,6 +294,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Event> getTimelines(Long id) {
         return setDateEnd(eventDao.getAllPersonEvents(id));
     }
