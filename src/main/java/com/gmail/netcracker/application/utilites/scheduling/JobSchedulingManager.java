@@ -89,8 +89,8 @@ public class JobSchedulingManager {
             return null;
         }
         CronTrigger cronTrigger = newTrigger()
-//                .withSchedule(cronSchedule(cron)) //for using
-                .withSchedule(cronSchedule("0/10 * * ? * * *")) //for demonstration
+                .withSchedule(cronSchedule(cron)) //for using
+//                .withSchedule(cronSchedule("0/10 * * ? * * *")) //for demonstration
                 .withIdentity(TRIGGER_NAME_PREFIX + entityId, TRIGGER_GROUP_NAME)
                 .forJob(jobDetail)
                 .startAt(cronExpression.getNextValidTimeAfter(startDate))
