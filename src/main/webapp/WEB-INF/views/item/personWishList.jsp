@@ -72,101 +72,99 @@
                                     <li class="list-group-item" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.description}</li>
                                     <li class="list-group-item">Actual to : ${item.dueDate}</li>
 
-                    <li class="list-group-item" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                      Tags :
-                      <c:forEach var="tag" items="${item.tags}">
-                        <a href="/account/search-tag/${tag.tagId}">#${tag.name}</a>
-                      </c:forEach>
-                    </li>
-                    <li class="list-group-item">Likes: ${item.likes}
-                      <h2>${item.isLiked}</h2>
-                      <c:if test="${item.isLiked == true}">
+                                    <li class="list-group-item" style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">Tags :
+                                        <c:forEach var="tag" items="${item.tags}">
+                                            <a href="/account/search-tag/${tag.tagId}">#${tag.name}</a>
+                                        </c:forEach>
+                                    </li>
+                                    <li class="list-group-item">Likes: ${item.likes}
 
-                        <form action="/account/personWishList/dislike" method="GET">
-                          <button type="submit" class="btn btn-danger text-center">
-                            <input type="hidden" name="ownerId" value="${ownerId}"/>
-                            <input type="hidden" name="itemId" value="${item.itemId}"/>
-                            Dislike
-                          </button>
-                        </form>
-                      </c:if>
-                      <c:if test="${item.isLiked == false}">
-                        <form action="/account/personWishList/like" method="GET">
-                          <button type="submit" class="btn btn-success">
-                            <input type="hidden" name="itemId" value="${item.itemId}"/>
-                            <input type="hidden" name="ownerId" value="${ownerId}"/>
-                            Like
-                          </button>
-                        </form>
-                      </c:if>
-                    </li>
-                  </ul>
-                  <p>
-                    <c:choose>
-                    <c:when test="${auth_user.id.equals(item.personId)}">
-                  <td>
-                    <a class="btn btn-success" type="submit" data-toggle="collapse"
-                       href="/account/update-${item.itemId}" role="button">Edit</a>
-                  </td>
-                  <td>
-                    <a href="/account/wishList/deleteItem-${item.itemId}">
-                      <input type="submit" class="btn btn-danger text-center"
-                             value="Delete"></a>
-                  </td>
-                  </c:when>
-                  <c:otherwise>
-                    <c:choose>
-                      <c:when test="${item.booker.equals(0)}">
-                        <td>
-                          <a href="/account/user-${ownerId}/item-${item.itemId}/book">
-                            <input type="submit" class="btn btn-success text-center"
-                                   value="Book"></a>
-                        </td>
-                      </c:when>
-                      <c:when test="${item.booker.equals(auth_user.id)}">
-                        <td><b>Booked by you. </b>
-                          <a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">
-                            <input type="submit" class="btn btn-success text-center"
-                                   value="Cancel booking"></a>
-
-                        </td>
-                      </c:when>
-                    </c:choose>
-                    <td>
-                      <a href="/account/copy-${item.itemId}">
-                        <input type="submit" class="btn btn-success text-center"
-                               value="Copy to my wish list"></a>
-                    </td>
-                  </c:otherwise>
-                  </c:choose>
-                </div>
-              </div>
+                                        <c:if test="${item.isLiked == true}">
+                                            <form action="/account/personWishList/dislike" method="POST">
+                                                <button type="submit" class="btn btn-danger text-center">
+                                                    <input type="hidden" name="itemId" value="${item.itemId}"/>
+                                                    <input type="hidden" name = "ownerId" value="${ownerId}"/>
+                                                    Dislike
+                                                </button>
+                                            </form>
+                                        </c:if>
+                                        <c:if test="${item.isLiked == false}">
+                                            <form action="/account/personWishList/like" method="POST">
+                                                <button type="submit" class="btn btn-success">
+                                                    <input type="hidden" name="itemId" value="${item.itemId}"/>
+                                                    <input type="hidden" name = "ownerId" value="${ownerId}"/>
+                                                    Like
+                                                </button>
+                                            </form>
+                                        </c:if>
+                                    </li>
+                                </ul>
+                                <p>
+                                    <c:choose>
+                                    <c:when test="${auth_user.id.equals(item.personId)}">
+                                <td>
+                                    <a class="btn btn-success" type="submit" data-toggle="collapse"
+                                       href="/account/update-${item.itemId}" role="button">Edit</a>
+                                </td>
+                                <td>
+                                    <a href="/account/wishList/deleteItem-${item.itemId}">
+                                        <input type="submit" class="btn btn-danger text-center"
+                                               value="Delete"></a>
+                                </td>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:choose>
+                                        <c:when test="${item.booker.equals(0)}">
+                                            <td>
+                                                <a href="/account/user-${ownerId}/item-${item.itemId}/book">
+                                                    <input type="submit" class="btn btn-success text-center"
+                                                           value="Book"></a>
+                                            </td>
+                                        </c:when>
+                                        <c:when test="${item.booker.equals(auth_user.id)}">
+                                            <td>
+                                                <a href="/account/user-${ownerId}/item-${item.itemId}/cancel-booking">
+                                                    <input type="submit" class="btn btn-success text-center"
+                                                           value="Cancel booking"></a>
+                                                <div><b>Booked by you. </b> </div>
+                                            </td>
+                                        </c:when>
+                                    </c:choose>
+                                    <td>
+                                        <a href="/account/copy-${item.itemId}">
+                                            <input type="submit" class="btn btn-success text-center"
+                                                   value="Copy to my wish list"></a>
+                                    </td>
+                                </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </div>
+                    </div>
+                </c:forEach>
             </div>
-          </c:forEach>
         </div>
-      </div>
-      <div class="col-lg-3 col-md-6 ">
-        <div>
-          <h3>Top 5: Popular items</h3>
-          <c:forEach var="popularItem" items="${popularItems}">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <a href="/account/item-${popularItem.itemId}"> ${popularItem.name} </a>
-              </li>
-            </ul>
-          </c:forEach>
+        <div class="col-lg-3 col-md-6 ">
+            <div>
+                <h3>Top 5: Popular items</h3>
+                <c:forEach var="popularItem" items="${popularItems}">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="/account/item-${popularItem.itemId}"> ${popularItem.name} </a>
+                        </li>
+                    </ul>
+                </c:forEach>
+            </div>
+            <div>
+                <h3>Top 5: Popular tags</h3>
+                <c:forEach var="popularTag" items="${popularTags}">
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="/account/search-tag/${popularTag.tagId}"> #${popularTag.name}</a>
+                        </li>
+                    </ul>
+                </c:forEach>
+            </div>
         </div>
-        <div>
-          <h3>Top 5: Popular tags</h3>
-          <c:forEach var="popularTag" items="${popularTags}">
-            <ul class="list-group">
-              <li class="list-group-item">
-                <a href="/account/search-tag/${popularTag.tagId}"> #${popularTag.name}</a>
-              </li>
-            </ul>
-          </c:forEach>
-        </div>
-      </div>
     </div>
 </div>
 

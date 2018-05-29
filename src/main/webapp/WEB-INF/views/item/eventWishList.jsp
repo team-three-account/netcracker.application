@@ -66,31 +66,22 @@
                                             </c:forEach>
                                         </li>
                                         <li class="list-group-item">Likes: ${item.likes}
-                                          Is Liked: ${item.isLiked}
-                                            <c:if test="${item.isLiked == 1}">
+                                            <c:if test="${item.isLiked == true}">
                                                 <form action="/account/eventWishList/dislike" method="POST">
-                                                    <%--<input type="hidden" name="eventId" value="${eventId}">--%>
-                                                    <%--<input type="hidden" name="ownerId" value="${ownerId}">--%>
-
+                                                    <input type="hidden" name="eventId" value="${eventId}">
+                                                    <input type="hidden" name="userId" value="${auth_user.id}">
                                                     <button type="submit" class="btn btn-danger text-center">
-                                                      <input type="hidden" name="itemId" value="${item.itemId}"/>
-                                                      <input type="hidden" name="eventId" value="${eventId}">
-                                                      <input type="hidden" name="ownerId" value="${ownerId}">
-                                                      <input type="hidden" name="userId" value="${auth_user.id}">
+                                                        <input type="hidden" name="itemId" value="${item.itemId}"/>
                                                         Dislike
                                                     </button>
                                                 </form>
                                             </c:if>
-                                            <c:if test="${item.isLiked == 0}">
+                                            <c:if test="${item.isLiked == false}">
                                                 <form action="/account/eventWishList/like" method="POST">
-                                                    <%--<input type="hidden" name="eventId" value="${eventId}">--%>
-                                                    <%--<input type="hidden" name="ownerId" value="${ownerId}">--%>
-                                                  <%--<input type="hidden" name="userId" value="${auth_user.id}">--%>
+                                                    <input type="hidden" name="eventId" value="${eventId}">
+                                                    <input type="hidden" name="userId" value="${auth_user.id}">
                                                     <button type="submit" class="btn btn-success">
                                                         <input type="hidden" name="itemId" value="${item.itemId}"/>
-                                                      <input type="hidden" name="eventId" value="${eventId}">
-                                                      <input type="hidden" name="ownerId" value="${ownerId}">
-                                                      <input type="hidden" name="userId" value="${auth_user.id}">
                                                         Like
                                                     </button>
                                                 </form>

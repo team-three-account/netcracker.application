@@ -330,7 +330,6 @@ public class RootConfig  {
             Like like = new Like();
             like.setItemId(getLong(resultSet, "item_id"));
             like.setUserId(getLong(resultSet, "user_id"));
-            like.setIsLiked(getBoolean(resultSet,"is_liked"));
             return like;
         };
 

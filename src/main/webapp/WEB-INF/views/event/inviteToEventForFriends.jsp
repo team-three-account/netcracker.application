@@ -35,7 +35,7 @@
 
             <c:forEach var="friend" items="${friendsToInvite}">
                 <tr>
-                    <td><img class="img-circle" style="width: 200px;height: 200px" src="<c:url value="${friend.photo}.jpg"/>"></td>
+                    <td><img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="${friend.photo}.jpg"/>"></td>
                     <td><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></td>
                     <td>
                         <form action="/account/${eventId}/invite-to-public" method="POST">
