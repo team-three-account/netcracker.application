@@ -29,7 +29,7 @@ public class PersonalPlanNotificationJob extends QuartzJobBean{
     protected void executeInternal(JobExecutionContext jobExecutionContext) {
         Timestamp fromDate = getTimestamp(jobExecutionContext.getFireTime());
         Timestamp tillDate = getTimestamp(jobExecutionContext.getNextFireTime()); // for using
-        Timestamp tillDateDemo = Timestamp.valueOf("2018-06-30 17:00:00.000000");
+        Timestamp tillDateDemo = Timestamp.valueOf("2018-06-06 17:00:00.000000");
         emailConstructor.notifyAboutPersonPlan(fromDate, tillDateDemo, user);
     }
 }
