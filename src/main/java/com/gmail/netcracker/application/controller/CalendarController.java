@@ -42,6 +42,15 @@ public class CalendarController {
     @Autowired
     private FriendService friendService;
 
+    /**
+     * This method returns a events to Calendar taking into filter.
+     *
+     * @param start
+     * @param end
+     * @param jsonPriority
+     * @param jsonTypes
+     * @return
+     */
     @RequestMapping(value = "/getEventsWithFilter", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String calendarRangeWithFilter(@RequestParam("start") Long start,
@@ -54,6 +63,13 @@ public class CalendarController {
         return gsonEvents.toJson(eventList);
     }
 
+    /**
+     * This method returns a events to Calendar.
+     *
+     * @param start
+     * @param end
+     * @return
+     */
     @RequestMapping(value = "/getEvents", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String calendarRange(@RequestParam("start") Long start,
@@ -61,6 +77,14 @@ public class CalendarController {
         return gsonEvents.toJson(eventRangeService.getEventsFromRange(userService.getAuthenticatedUser().getId(), start, end));
     }
 
+    /**
+     * This method returns a events to Timeline taking into checked friends.
+     *
+     * @param jsonCheckedFriends
+     * @param start
+     * @param end
+     * @return
+     */
     @RequestMapping(value = "/getTimeline", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public String getTimeline(@RequestParam("checkedFriends") String jsonCheckedFriends,
@@ -70,6 +94,12 @@ public class CalendarController {
         return gsonTimeline.toJson(eventRangeService.getEventsFromRange(checkedFriends, start, end));
     }
 
+    /**
+     * This method returns a calendar web page
+     *
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = "/calendar", method = RequestMethod.GET)
     public ModelAndView calendarHome(ModelAndView modelAndView) {
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
@@ -80,6 +110,14 @@ public class CalendarController {
         return modelAndView;
     }
 
+    /**
+     * This method returns a calendar web page after checked filter.
+     *
+     * @param filter
+     * @param result
+     * @param modelAndView
+     * @return
+     */
     @RequestMapping(value = "/calendar", method = RequestMethod.POST)
     public ModelAndView calendarWithFilter(@ModelAttribute("filter") Filter filter,
                                            BindingResult result,
@@ -100,7 +138,7 @@ public class CalendarController {
      * @return String
      */
     @RequestMapping(value = "/timeline", method = RequestMethod.GET)
-    public String timeLine(Model model) {
+    public String timeline(Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("list_friends", friendService.getAllFriends(userService.getAuthenticatedUser().getId()));
         model.addAttribute("checkedFriends", new ArrayList<Long>());
@@ -108,14 +146,14 @@ public class CalendarController {
     }
 
     /**
-     * This method returns a timeline after checked friends
+     * This method returns a timeline web page after checked friends.
      *
      * @param model
      * @param checkedFriends
      * @return String
      */
     @RequestMapping(value = "/timeline", method = RequestMethod.POST)
-    public String timeLinePost(Model model,
+    public String timelinePost(Model model,
                                @RequestParam("checkedFriends") List<Long> checkedFriends) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("list_friends", friendService.getAllFriends(userService.getAuthenticatedUser().getId()));
