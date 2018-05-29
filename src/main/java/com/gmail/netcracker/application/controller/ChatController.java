@@ -61,6 +61,7 @@ public class ChatController {
         user = userService.getAuthenticatedUser();
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("allChats", chatService.allUserChats(userId));
+        logger.info(chatService.allUserChats(userService.getAuthenticatedUser().getId()).toString());
         modelAndView.setViewName("account/chatlist");
         return modelAndView;
     }
@@ -68,7 +69,6 @@ public class ChatController {
     /**
      * This method returns  page for chat with creator in such event.
      *
-     * @param modelAndView modelAndView Object class {@link ModelAndView}
      * @return modelAndView
      */
 
@@ -90,7 +90,6 @@ public class ChatController {
     /**
      * This REST method returns JSON for all chat id for user .
      *
-     * @param Long modelAndView Object class {@link Long}
      * @return List
      */
 
@@ -104,7 +103,7 @@ public class ChatController {
     /**
      * This REST method returns next 15 messages in chat .
      *
-     * @param Long modelAndView Object class {@link Long}
+     * @param eventId modelAndView Object class {@link Long}
      * @return List
      */
 
@@ -142,10 +141,10 @@ public class ChatController {
     /**
      * This method sed new message in chat.
      *
-     * @param eventMessage modelAndView Object class {@link EventMessage}
-     * @param Long  Object class {@link Long}
-     * @param Long Object class {@link Long}
-     * @param Long modelAndView Object class {@link Long}
+     * @param message modelAndView Object class {@link EventMessage}
+     * @param eventId  Object class {@link Long}
+     * @param chatId Object class {@link Long}
+     * @param userId modelAndView Object class {@link Long}
      * @return EventMessage
      */
 

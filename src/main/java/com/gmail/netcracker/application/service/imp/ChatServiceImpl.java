@@ -66,6 +66,7 @@ public class ChatServiceImpl implements ChatService {
     @Override
     @Transactional(readOnly = true)
     public List<Notification> allUserChats(Long userId) {
+        logger.info(chatDao.allUserChats(userId).toString());
         return chatDao.allUserChats(userId);
     }
 }

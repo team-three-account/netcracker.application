@@ -21,19 +21,19 @@ public class MailConfig {
     @Value("${mail.host}")
     private String host;
     @Value("${mail.port}")
-    private int port;
+    private Integer port;
     @Value("${mail.smtp.socketFactory.port}")
-    private int socketPort;
+    private Integer socketPort;
     @Value("${mail.smtp.auth}")
-    private boolean auth;
+    private Boolean auth;
     @Value("${mail.smtp.starttls.enable}")
-    private boolean starttls;
+    private Boolean starttls;
     @Value("${mail.smtp.starttls.required}")
-    private boolean startlls_required;
+    private Boolean startlls_required;
     @Value("${mail.smtp.debug}")
-    private boolean debug;
+    private Boolean debug;
     @Value("${mail.smtp.socketFactory.fallback}")
-    private boolean fallback;
+    private Boolean fallback;
     @Value("${mail.from}")
     private String from;
     @Value("${mail.username}")
