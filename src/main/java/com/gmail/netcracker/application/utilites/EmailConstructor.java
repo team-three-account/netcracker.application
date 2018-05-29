@@ -164,7 +164,7 @@ public class EmailConstructor {
         helper.setTo(recipientAddress);
         helper.setSubject(subject);
         helper.setText(text);
-        helper.setFrom(env.getProperty("email.server"));
+        helper.setFrom(env.getProperty("server.email"));
     }
 
     /**
