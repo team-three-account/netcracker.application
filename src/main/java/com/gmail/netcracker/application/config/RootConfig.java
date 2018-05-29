@@ -119,11 +119,11 @@ public class RootConfig  {
     }
 
     @Bean
-    public RowMapper<Notification> notificationRowMapper() {
+    public RowMapper<ChatId> notificationRowMapper() {
         return (resultSet, i) -> {
-            Notification notification = new Notification();
-            notification.setChatId(getLong(resultSet, "chat_id"));
-            return notification;
+            ChatId chatId = new ChatId();
+            chatId.setChatId(getLong(resultSet, "chat_id"));
+            return chatId;
         };
     }
 

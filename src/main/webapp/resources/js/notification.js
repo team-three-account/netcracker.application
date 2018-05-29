@@ -4,15 +4,20 @@ var authUserId;
 var chats;
 
 function showNotificationOutput(notification) {
+
     var socket = new SockJS('/chat');
-    stompClient = Stomp.over(socket);
+    var stompClient = new Object();
     for (var i in notification) {
+
+        stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             console.log('Connected: ' + frame);
+
             stompClient.subscribe('/topic/messages/' + notification[i], function (message) {
                 showNotification(JSON.parse(message.body));
             });
         });
+
     }
 }
 
@@ -35,9 +40,9 @@ function showNotification(message) {
     $("#notification").prepend($(notification))
     document.getElementById("music").volume = 1;
     document.getElementById("music").play();
-    /*$("#success-alert").fadeTo(30000, 2000).slideUp(500, function () {
+    $("#success-alert").fadeTo(30000, 2000).slideUp(500, function () {
         $("#success-alert").slideUp(2000);
-    });*/
+    });
 
 }
 

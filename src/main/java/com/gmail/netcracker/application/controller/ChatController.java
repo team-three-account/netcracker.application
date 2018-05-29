@@ -89,7 +89,7 @@ public class ChatController {
 
     @RequestMapping(value = "/eventChat/main/notification", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public List<Notification> getNotificationForMessages(@RequestParam Long authUserId) {
+    public List<ChatId> getNotificationForMessages(@RequestParam Long authUserId) {
         logger.info(chatService.allUserChatId(authUserId).toString());
         return chatService.allUserChatId(authUserId);
     }
