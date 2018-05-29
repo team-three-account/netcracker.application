@@ -38,7 +38,7 @@
                     <td><img class="img-circle" style="width: 200px;height: 200px" src="<c:url value="${friend.photo}.jpg"/>"></td>
                     <td><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></td>
                     <td>
-                        <form action="/account/${eventId}/invite-to-public" method="POST">
+                        <form action="/account/${eventId}/invite-for-friends" method="POST">
                             <button type="submit"  class="btn btn-success">
                                 <input type="hidden" name="userId" value=${friend.id} />
                                 Invite </span>

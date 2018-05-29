@@ -372,7 +372,7 @@ public class EventController {
     @RequestMapping(value = "/public/event-{eventId}/invite", method = RequestMethod.GET)
     public String inviteListToPublic(Model model, @PathVariable(value = "eventId") Long eventId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        List<User> usersToInvite = eventService.findUserForInvite(userService.getAuthenticatedUser().getId(), eventId);
+        List<User> usersToInvite = eventService.findFriendsForInvite(userService.getAuthenticatedUser().getId(), eventId);
         model.addAttribute("usersToInvite", usersToInvite);
         String message = usersToInvite.size() > 0 ? "Invite users" : "All users are subscribed on this event";
         model.addAttribute("message", message);
@@ -392,6 +392,13 @@ public class EventController {
                                  @RequestParam(value = "userId") Long userId) {
         eventService.participate(userId, eventId);
         return "redirect:/account/public/event-" + eventId + "/invite";
+    }
+
+    @RequestMapping(value = "{eventId}/invite-for-friends", method = RequestMethod.POST)
+    public String inviteToForFriends(@PathVariable(value = "eventId") Long eventId,
+                                 @RequestParam(value = "userId") Long userId) {
+        eventService.participate(userId, eventId);
+        return "redirect:/account/for-friends/event-" + eventId + "/invite";
     }
 
     /**
