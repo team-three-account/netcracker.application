@@ -28,9 +28,6 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.find}")
     private String SQL_FIND;
 
-    @Value("${sql.event.findListByCreator}")
-    private String SQL_FIND_LIST_BY_CREATOR;
-
     @Value("${sql.event.findPrivateEvents}")
     private String SQL_FIND_PRIVATE_EVENTS;
 
@@ -55,8 +52,8 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.getParticipants}")
     private String SQL_GET_PARTICIPANTS;
 
-    @Value("${sql.event.isParticipated}")
-    private String SQL_IS_PARTICIPATED;
+    @Value("${sql.event.isParticipantOfEvent}")
+    private String SQL_IS_PARTICIPANT_OF_EVENT;
 
     @Value("${sql.event.unsubscribe}")
     private String SQL_UNSUBSCRIBE;
@@ -106,8 +103,8 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.getUsersToInvite}")
     private String SQL_GET_USERS_TO_INVITE;
 
-    @Value("${sql.event.getFriendsToInvite}")
-    private String SQL_GET_FRIENDS_TO_INVITE;
+    @Value("${sql.event.findFriendsForInvite}")
+    private String SQL_FIND_FRIENDS_FOR_INVITE;
 
     @Autowired
     private RowMapper<Event> eventRowMapper;
@@ -168,11 +165,6 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public List<Event> eventList() {
-        return findEntityList(SQL_FIND_LIST_BY_CREATOR, eventRowMapper);
-    }
-
-    @Override
     public List<Event> findPrivateEvents(Long userId) {
         return findEntityList(SQL_FIND_PRIVATE_EVENTS, eventRowMapper, userId);
     }
@@ -188,7 +180,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public List<Event> getAllMyEvents(Long personId) {
+    public List<Event> findEventSubscriptions(Long personId) {
         return findEntityList(SQL_FIND_PERSON_EVENTS, eventRowMapper, personId);
     }
 
@@ -208,13 +200,13 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public Participant isParticipated(Long id, Long eventId) {
-        return findEntity(SQL_IS_PARTICIPATED, participantRowMapper, id, eventId);
+    public Participant isParticipantOfEvent(Long id, Long eventId) {
+        return findEntity(SQL_IS_PARTICIPANT_OF_EVENT, participantRowMapper, id, eventId);
     }
 
     @Override
-    public void unsubscribe(Long id, Long eventId) {
-        deleteEntity(SQL_UNSUBSCRIBE, id, eventId);
+    public void unsubscribe(Long userId, Long eventId) {
+        deleteEntity(SQL_UNSUBSCRIBE, userId, eventId);
     }
 
     @Override
@@ -242,7 +234,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
         return findEntity(SQL_CHECK_CREATOR, eventRowMapper, personId, eventId);
     }
 
-    public Event getEventWithPriority(Long personId, Long eventId) {
+    public Event findEventSubscriptionsWithPriority(Long personId, Long eventId) {
         return findEntity(SQL_GET_EVENT_WITH_PRIORITY, eventRowMapper, personId, eventId);
     }
 
@@ -274,7 +266,7 @@ public class EventDaoImpl extends ModelDao implements EventDao {
 
     @Override
     public List<Event> searchByUserFromRange(Long userId, Timestamp start, Timestamp end) {
-        if(start.before(end)|| start.equals(end))
+        if (start.before(end) || start.equals(end))
             return findEntityList(SQL_FROM_RANGE_BY_USER, eventRowMapper, userId, end, start, end);
         else return searchByUserFromRange(userId, end, start);
     }
@@ -285,13 +277,13 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     }
 
     @Override
-    public List<User> getUsersToInvite(Long id, Long eventId) {
+    public List<User> findUsersForInvite(Long id, Long eventId) {
         return findEntityList(SQL_GET_USERS_TO_INVITE, friendRowMapper, id, eventId);
     }
 
     @Override
-    public List<User> getFriendsToInvite(Long id, Long eventId) {
-        return findEntityList(SQL_GET_FRIENDS_TO_INVITE, friendRowMapper, id, id, eventId);
+    public List<User> findFriendsForInvite(Long id, Long eventId) {
+        return findEntityList(SQL_FIND_FRIENDS_FOR_INVITE, friendRowMapper, id, id, eventId);
     }
 }
 

@@ -17,8 +17,6 @@ public interface EventService {
 
     Event getEvent(Long eventId);
 
-    List<Event> eventList();
-
     List<Event> findPrivateEvents(Long userId);
 
     List<Event> findAvailableEvents();
@@ -27,9 +25,9 @@ public interface EventService {
 
     List<EventType> getAllEventTypes();
 
-    void setPersonId(Event event);
+    void setEventCreator(Event event);
 
-    List<Event> getAllMyEvents();
+    List<Event> findEventSubscriptions();
 
     void participate(Long userId, Long eventId);
 
@@ -39,7 +37,7 @@ public interface EventService {
 
     List<Priority> getAllPriorities();
 
-    Boolean isParticipated(Long id, Long eventId);
+    Boolean isParticipantOfEvent(Long id, Long eventId);
 
     void unsubscribe(Long id, Long eventId);
 
@@ -54,15 +52,15 @@ public interface EventService {
 
     Boolean isCreator(Long personId, Long eventId);
 
-    List<User> getUsersToInvite(Long id, Long eventId);
+    List<User> findUserForInvite(Long id, Long eventId);
 
-    List<User> getFriendsToInvite(Long id, Long eventId);
+    List<User> findFriendsForInvite(Long id, Long eventId);
 
-    void transferNoteToEvent(Long noteId,Long userId, Event event);
+    void convertNoteToEvent(Long noteId, Long userId, Event event);
 
     List<Event> myEventsWithPriority();
 
-    Event getMyEventWithPriority(Long eventId);
+    Event findEventSubscriptionsWithPriority(Long eventId);
 
     Participant getParticipation(Long eventId);
 

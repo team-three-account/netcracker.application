@@ -8,8 +8,10 @@ import com.gmail.netcracker.application.utilites.Utilities;
 import com.gmail.netcracker.application.utilites.scheduling.JobSchedulingManager;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.EventNotificationJob;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.PersonalPlanNotificationJob;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +28,7 @@ import static com.gmail.netcracker.application.utilites.Utilities.parseStringToD
  */
 
 @Service
+@PropertySource(value = "classpath:quartz_constants.properties")
 public class EventServiceImpl implements EventService {
     @Autowired
     private EventDao eventDao;
@@ -51,18 +54,26 @@ public class EventServiceImpl implements EventService {
     private JobSchedulingManager jobSchedulingManager;
     @Autowired
     private EmailConstructor emailConstructor;
+    @Autowired
+    private Environment env;
 
     @Override
     @Transactional
     public void update(Event event) {
-        setPersonId(event);
+        setEventCreator(event);
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
         Logger.getLogger(EventServiceImpl.class.getName()).info(event.toString());
         eventDao.update(event);
         deleteEventNotificationJob(event.getEventId());
-        if (event.getPeriodicity() != null && !event.getDraft()) scheduleEventNotificationJob(event);
+        if (event.getPeriodicity() != null && !event.getDraft()) {
+            scheduleEventNotificationJob(event);
+        }
     }
 
+    /**
+     * Deletes event, disables event notifications, deletes event photo and cancels items booking,
+     * which was booked from this event
+     */
     @Override
     @Transactional
     public void delete(Long eventId) {
@@ -72,208 +83,284 @@ public class EventServiceImpl implements EventService {
             photoService.deleteFile(event.getPhoto());
         }
         eventDao.delete(eventId);
-        if(!event.getDraft()) deleteEventNotificationJob(eventId);
+        if (!event.getDraft()) {
+            deleteEventNotificationJob(eventId);
+        }
+        ;
     }
 
+    /**
+     * Inserts event, creates two chats for this event: with creator and without creator
+     * and adds creator as participant to event.
+     * If event is periodical, event notifications will be enabled
+     */
     @Override
     @Transactional
     public void insertEvent(Event event) {
-        setPersonId(event);
+        setEventCreator(event);
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
         eventDao.insertEvent(event);
         if (event.getType().equals(2L) || event.getType().equals(3L)
                 && !event.getDraft()) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
-
         }
-        if(!event.getDraft()){
+        if (!event.getDraft()) {
             participate(userService.getAuthenticatedUser().getId(), event.getEventId());
             if (event.getPeriodicity() != null)
                 scheduleEventNotificationJob(event);
         }
     }
 
+    /**
+     * Finds event by id
+     *
+     * @return Event with eventId or null if such event doesn't exist
+     */
     @Override
     @Transactional(readOnly = true)
     public Event getEvent(Long eventId) {
         return setDateEnd(eventDao.getEvent(eventId));
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Event> eventList() {
-        return setDateEnd(eventDao.eventList());
-    }
-
+    /**
+     * Finds private events of user with userId
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Event> findPrivateEvents(Long userId) {
         return setDateEnd(eventDao.findPrivateEvents(userId));
     }
 
+    /**
+     * Finds public and friend events for authenticated user
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Event> findAvailableEvents() {
         return setDateEnd(eventDao.findAvailableEvents(userService.getAuthenticatedUser().getId()));
     }
 
+    /**
+     * Finds user drafts
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Event> findDrafts(Long userId) {
         return setDateEnd(eventDao.findDrafts(userId));
     }
 
+    /**
+     * Get all event types
+     */
     @Override
     @Transactional(readOnly = true)
     public List<EventType> getAllEventTypes() {
         return eventTypeDao.getAllEventTypes();
     }
 
+    /**
+     * Sets authenticated user as event creator
+     */
     @Override
-    public void setPersonId(Event event) {
+    public void setEventCreator(Event event) {
         event.setCreator(userService.getAuthenticatedUser().getId());
     }
 
+    /**
+     * Finds events which user is subscribed
+     */
     @Override
     @Transactional(readOnly = true)
-    public List<Event> getAllMyEvents() {
-        return setDateEnd(eventDao.getAllMyEvents(userService.getAuthenticatedUser().getId()));
+    public List<Event> findEventSubscriptions() {
+        return setDateEnd(eventDao.findEventSubscriptions(userService.getAuthenticatedUser().getId()));
     }
 
+    /**
+     * Subscribes user for event
+     */
     @Override
     @Transactional
     public void participate(Long userId, Long eventId) {
         eventDao.participate(userId, eventId);
     }
 
+    /**
+     * Count participants in event
+     */
     @Override
     @Transactional(readOnly = true)
     public Long countParticipants(Long eventId) {
         return eventDao.getParticipantsCount(eventId);
     }
 
+    /**
+     * Gets participants of event
+     */
     @Override
     @Transactional(readOnly = true)
     public List<User> getParticipants(Long eventId) {
         return eventDao.getParticipants(eventId);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public Boolean isParticipated(Long id, Long eventId) {
-        return eventDao.isParticipated(id, eventId) != null;
-    }
-
-    @Override
-    @Transactional
-    public void unsubscribe(Long id, Long eventId) {
-        eventDao.unsubscribe(id, eventId);
-    }
-
     /**
-     * This method checks event access.
+     * Checks is user participant of event
      *
-     * @param personId
-     * @param eventId
-     * @return Boolean
+     * @return true if user is participant of this event, else false
      */
     @Override
     @Transactional(readOnly = true)
-    public Boolean allowAccess(Long personId, Long eventId) {
+    public Boolean isParticipantOfEvent(Long userId, Long eventId) {
+        return eventDao.isParticipantOfEvent(userId, eventId) != null;
+    }
+
+    /**
+     * Unsubscribes user from event
+     */
+    @Override
+    @Transactional
+    public void unsubscribe(Long userId, Long eventId) {
+        eventDao.unsubscribe(userId, eventId);
+    }
+
+    /**
+     * Checks if user has access to event
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public Boolean allowAccess(Long userId, Long eventId) {
         Event event = eventDao.getEvent(eventId);
         Boolean access = false;
         switch (Math.toIntExact(event.getTypeId())) {
             case 0:
-                access = isCreator(personId, eventId);
+                access = isCreator(userId, eventId);
                 break;//indefinite
             case 1: // private
-                access = isCreator(personId, eventId);
+                access = isCreator(userId, eventId);
                 break;
             case 2: // public
                 access = true;
                 break;
             case 3: // for friends
-                access = friendService.getFriendshipById(personId,event.getCreator()) != null || isCreator(personId, eventId);
+                access = friendService.getFriendshipById(userId, event.getEventId()) != null || isCreator(userId, eventId);
                 break;
         }
         return access;
     }
+
+    /**
+     * Checks if user is creator of event
+     */
     @Transactional(readOnly = true)
     public Boolean isCreator(Long personId, Long eventId) {
         return eventDao.checkCreatorById(personId, eventId) != null;
     }
 
+    /**
+     * Sets event priority for user
+     */
     @Override
     @Transactional
     public void setPriority(Long priority, Long eventId, Long userId) {
         priorityDao.setPriorityToEvent(priority, eventId, userId);
     }
 
+    /**
+     * Finds list of events, which authenticated user is subscribed for
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Event> myEventsWithPriority() {
         return setDateEnd(eventDao.listEventsWithPriority(userService.getAuthenticatedUser().getId()));
     }
 
+    /**
+     * Finds one event with priority
+     */
     @Override
     @Transactional(readOnly = true)
-    public Event getMyEventWithPriority(Long eventId) {
-        return setDateEnd(eventDao.getEventWithPriority(userService.getAuthenticatedUser().getId(),
+    public Event findEventSubscriptionsWithPriority(Long eventId) {
+        return setDateEnd(eventDao.findEventSubscriptionsWithPriority(userService.getAuthenticatedUser().getId(),
                 eventId));
     }
 
+    /**
+     * @return participation with eventId and priorityId
+     */
     @Override
     @Transactional(readOnly = true)
     public Participant getParticipation(Long eventId) {
         return priorityDao.getParticipant(eventId, userService.getAuthenticatedUser().getId());
     }
 
+    /**
+     * @return All priorities
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Priority> getAllPriorities() {
         return priorityDao.getAllPriority();
     }
 
+    /**
+     * @return Managed events with type "only for friends"
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Event> findCreatedFriendsEvents(Long id) {
         return setDateEnd(eventDao.findCreatedFriendsEvents(id));
     }
 
+    /**
+     * @return Managed events with type "public"
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Event> findCreatedPublicEvents(Long id) {
         return setDateEnd(eventDao.findCreatedPublicEvents(id));
     }
 
+    /**
+     * @return List of users friends which are not participants of this event
+     */
     @Override
     @Transactional(readOnly = true)
-    public List<User> getFriendsToInvite(Long id, Long eventId) {
-        return eventDao.getFriendsToInvite(id, eventId);
+    public List<User> findFriendsForInvite(Long authUserId, Long eventId) {
+        return eventDao.findFriendsForInvite(authUserId, eventId);
     }
 
+    /**
+     * @return List of all users, which are not participants of this event
+     */
     @Override
     @Transactional(readOnly = true)
-    public List<User> getUsersToInvite(Long currentId, Long eventId) {
-        return eventDao.getUsersToInvite(currentId, eventId);
+    public List<User> findUserForInvite(Long authUserId, Long eventId) {
+        return eventDao.findUsersForInvite(authUserId, eventId);
     }
 
+    /**
+     * Converts note to event
+     *
+     * @param event
+     */
     @Override
     @Transactional
-    public void transferNoteToEvent(Long noteId, Long userId, Event event) {
+    public void convertNoteToEvent(Long noteId, Long userId, Event event) {
         noteDao.delete(noteId);
         event.setCreator(userId);
         insertEvent(event);
     }
 
+    /**
+     * Converts draft to event
+     */
     @Override
     @Transactional
     public void convertDraftToEvent(Event event) {
         event.setDraft(false);
         Logger.getLogger(EventServiceImpl.class.getName()).info(event.toString());
         eventDao.update(event);
-        if (event.getType().equals(2L) || event.getType().equals(3L)) {
+        if (event.getType().equals(2L) || event.getType().equals(3L) && !event.getDraft()) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
         }
@@ -282,6 +369,9 @@ public class EventServiceImpl implements EventService {
         if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);
     }
 
+    /**
+     * @return Events in which user is participant.
+     */
     @Override
     @Transactional(readOnly = true)
     public List<Event> getTimelines(Long id) {
@@ -317,34 +407,23 @@ public class EventServiceImpl implements EventService {
         return event;
     }
 
-    //TODO string values into properties
     private void scheduleEventNotificationJob(Event event) {
-        final String EVENT_NOTIFICATION_TRIGGER_GROUP_NAME = "eventNotificationTriggers";
-        final String EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX = "eventNotificationTrigger_";
-        final String EVENT_NOTIFICATION_JOB_GROUP_NAME = "eventNotificationJobs";
-        final String EVENT_NOTIFICATION_JOB_NAME_PREFIX = "eventNotificationJob_";
-        final String EMAIL_CONSTRUCTOR_FIELD_NAME = "emailConstructor";
-        final String EVENT_FIELD_NAME = "event";
         Map<String, Object> params = new HashMap<>();
-        params.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
-        params.put(EVENT_FIELD_NAME, event);
+        params.put(env.getRequiredProperty("emailConstructor.fieldName"), emailConstructor);
+        params.put(env.getRequiredProperty("event.fieldName"), event);
         jobSchedulingManager.scheduleJob(event.getEventId(), params, EventNotificationJob.class,
                 parseStringToDate(event.getDateStart()), parseStringToDate(event.getEndRepeat()), event.getPeriodicity(),
-                EVENT_NOTIFICATION_JOB_NAME_PREFIX, EVENT_NOTIFICATION_JOB_GROUP_NAME,
-                EVENT_NOTIFICATION_TRIGGER_NAME_PREFIX, EVENT_NOTIFICATION_TRIGGER_GROUP_NAME);
+                env.getProperty("eventNotification.job.namePrefix"), env.getProperty("eventNotification.job.groupName"),
+                env.getProperty("eventNotification.trigger.namePrefix"), env.getProperty("eventNotification.trigger.groupName"));
     }
 
-
-    //TODO string values into properties
     private void deleteEventNotificationJob(Long eventId) {
-        final String EVENT_NOTIFICATION_JOB_GROUP_NAME = "eventNotificationJobs";
-        final String EVENT_NOTIFICATION_JOB_NAME_PREFIX = "eventNotificationJob_";
-        jobSchedulingManager.deleteJob(eventId, EVENT_NOTIFICATION_JOB_NAME_PREFIX, EVENT_NOTIFICATION_JOB_GROUP_NAME);
+        jobSchedulingManager.deleteJob(eventId, env.getProperty("eventNotification.job.namePrefix"), env.getProperty("eventNotification.job.groupName"));
     }
 
     @Override
     public Long getDurationFromStartAndEnd(String start, String end) {
-        if ("____-__-__ __:__".equals(start) || "____-__-__ __:__".equals(end)||"".equals(start)||"".equals(end)) {
+        if ("____-__-__ __:__".equals(start) || "____-__-__ __:__".equals(end) || "".equals(start) || "".equals(end)) {
             return null;
         } else
             return (Utilities.parseStringToTimestamp(end).getTime() - Utilities.parseStringToTimestamp(start).getTime()) / 1000;
@@ -391,25 +470,17 @@ public class EventServiceImpl implements EventService {
     }
 
     private void schedulePersonalPlanNotificationsJob(User user) {
-        final String PERSONAL_PLAN_NOTIFICATION_JOB_NAME_PREFIX = "personalPlanNotificationJob_";
-        final String PERSONAL_PLAN_NOTIFICATION_JOB_GROUP_NAME = "personalPlanNotificationJobs";
-        final String PERSONAL_PLAN_NOTIFICATION_TRIGGER_NAME_PREFIX = "personalPlanNotificationTrigger_";
-        final String PERSONAL_PLAN_NOTIFICATION_TRIGGER_GROUP_NAME = "personalPlanNotificationTriggers";
-        final String EMAIL_CONSTRUCTOR_FIELD_NAME = "emailConstructor";
-        final String USER_FIELD_NAME = "user";
         Map<String, Object> params = new HashMap<>();
-        params.put(EMAIL_CONSTRUCTOR_FIELD_NAME, emailConstructor);
-        params.put(USER_FIELD_NAME, userService.getAuthenticatedUser());
+        params.put(env.getRequiredProperty("emailConstructor.fieldName"), emailConstructor);
+        params.put(env.getRequiredProperty("user.fieldName"), userService.getAuthenticatedUser());
         jobSchedulingManager.scheduleJob(user.getId(), params, PersonalPlanNotificationJob.class,
                 parseStringToDate(user.getNotificationStartDate()), parseStringToDate(user.getNotificationEndDate()),
                 user.getNotificationPeriodicity(),
-                PERSONAL_PLAN_NOTIFICATION_JOB_NAME_PREFIX, PERSONAL_PLAN_NOTIFICATION_JOB_GROUP_NAME,
-                PERSONAL_PLAN_NOTIFICATION_TRIGGER_NAME_PREFIX, PERSONAL_PLAN_NOTIFICATION_TRIGGER_GROUP_NAME);
+                env.getProperty("personalPlanNotification.job.namePrefix"), env.getProperty("personalPlanNotification.job.groupName"),
+                env.getProperty("personalPlanNotification.trigger.namePrefix"), env.getProperty("personalPlanNotification.trigger.groupName"));
     }
 
     private void deletePersonalPlanNotificationJob(Long userId) {
-        final String PERSONAL_PLAN_NOTIFICATION_JOB_NAME_PREFIX = "personalPlanNotificationJob_";
-        final String PERSONAL_PLAN_NOTIFICATION_JOB_GROUP_NAME = "personalPlanNotificationJobs";
-        jobSchedulingManager.deleteJob(userId, PERSONAL_PLAN_NOTIFICATION_JOB_NAME_PREFIX, PERSONAL_PLAN_NOTIFICATION_JOB_GROUP_NAME);
+        jobSchedulingManager.deleteJob(userId, env.getProperty("personalPlanNotification.job.namePrefix"), env.getProperty("personalPlanNotification.job.groupName"));
     }
 }

@@ -143,7 +143,7 @@ public class EventController {
             modelAndView.addObject("user_creator", userService.findUserById(eventService.getEvent(eventId).getCreator()));
             Long participants = eventService.countParticipants(eventId);
             modelAndView.addObject("participants", participants);
-            Boolean isParticipated = eventService.isParticipated(authUser.getId(), eventId);
+            Boolean isParticipated = eventService.isParticipantOfEvent(authUser.getId(), eventId);
             modelAndView.addObject("participation", eventService.getParticipation(eventId));
             modelAndView.addObject("isParticipated", isParticipated);
             modelAndView.addObject("priorities", eventService.getAllPriorities());
@@ -316,7 +316,7 @@ public class EventController {
      */
     @RequestMapping(value = "/subscriptions", method = RequestMethod.GET)
     public String getSubscriptions(Model model) {
-        List<Event> eventList = eventService.getAllMyEvents();
+        List<Event> eventList = eventService.findEventSubscriptions();
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("eventList", eventList);
         if (eventList.isEmpty()) model.addAttribute("message", "You have not any subscription");
@@ -372,7 +372,7 @@ public class EventController {
     @RequestMapping(value = "/public/event-{eventId}/invite", method = RequestMethod.GET)
     public String inviteListToPublic(Model model, @PathVariable(value = "eventId") Long eventId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        List<User> usersToInvite = eventService.getUsersToInvite(userService.getAuthenticatedUser().getId(), eventId);
+        List<User> usersToInvite = eventService.findUserForInvite(userService.getAuthenticatedUser().getId(), eventId);
         model.addAttribute("usersToInvite", usersToInvite);
         String message = usersToInvite.size() > 0 ? "Invite users" : "All users are subscribed on this event";
         model.addAttribute("message", message);
@@ -404,7 +404,7 @@ public class EventController {
     @RequestMapping(value = "/for-friends/event-{eventId}/invite", method = RequestMethod.GET)
     public String inviteToForFriends(Model model, @PathVariable(value = "eventId") Long eventId) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        List<User> friendsToInvite = eventService.getFriendsToInvite(userService.getAuthenticatedUser().getId(), eventId);
+        List<User> friendsToInvite = eventService.findFriendsForInvite(userService.getAuthenticatedUser().getId(), eventId);
         model.addAttribute("friendsToInvite", friendsToInvite);
         String message = friendsToInvite.size() > 0 ? "Invite users" : "All your friends are subscribed on this event";
         model.addAttribute("message", message);
@@ -480,7 +480,7 @@ public class EventController {
             photoService.uploadFileOnDropBox(multipartFile, UUID.randomUUID().toString());
         }
         logger.info(event.getPhoto());
-        eventService.transferNoteToEvent(noteId, userService.getAuthenticatedUser().getId(), event);
+        eventService.convertNoteToEvent(noteId, userService.getAuthenticatedUser().getId(), event);
         modelAndView.setViewName("redirect:/account/managed");
         return modelAndView;
     }

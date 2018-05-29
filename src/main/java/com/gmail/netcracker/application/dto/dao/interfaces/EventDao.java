@@ -16,15 +16,13 @@ public interface EventDao {
 
     Event getEvent(Long eventId);
 
-    List<Event> eventList();
-
     List<Event> findPrivateEvents(Long userId);
 
     List<Event> findAvailableEvents(Long userId);
 
     List<Event> findDrafts(Long userId);
 
-    List<Event> getAllMyEvents(Long personId);
+    List<Event> findEventSubscriptions(Long personId);
 
     void participate(Long userId, Long eventId);
 
@@ -32,9 +30,9 @@ public interface EventDao {
 
     List<User> getParticipants(Long eventId);
 
-    Participant isParticipated(Long id, Long eventId);
+    Participant isParticipantOfEvent(Long id, Long eventId);
 
-    void unsubscribe(Long id, Long eventId);
+    void unsubscribe(Long userId, Long eventId);
 
     List<Event> findCreatedFriendsEvents(Long id);
 
@@ -46,7 +44,7 @@ public interface EventDao {
 
     Event checkCreatorById(Long personId, Long eventId);
 
-    Event getEventWithPriority(Long personId, Long eventId);
+    Event findEventSubscriptionsWithPriority(Long personId, Long eventId);
 
     List<Event> listEventsWithPriority(Long personId);
 
@@ -62,7 +60,7 @@ public interface EventDao {
 
     List<Event> getEventsFromRange(Timestamp fromDate, Timestamp tillDate, Long id);
 
-    List<User> getUsersToInvite(Long currentId, Long eventId);
+    List<User> findUsersForInvite(Long currentId, Long eventId);
 
-    List<User> getFriendsToInvite(Long id, Long eventId);
+    List<User> findFriendsForInvite(Long id, Long eventId);
 }
