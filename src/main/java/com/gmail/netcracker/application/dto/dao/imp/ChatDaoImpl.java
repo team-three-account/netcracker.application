@@ -4,12 +4,9 @@ import com.gmail.netcracker.application.dto.dao.interfaces.ChatDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Chat;
 import com.gmail.netcracker.application.dto.model.Event;
-
-
 import com.gmail.netcracker.application.dto.model.EventMessage;
 import com.gmail.netcracker.application.dto.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

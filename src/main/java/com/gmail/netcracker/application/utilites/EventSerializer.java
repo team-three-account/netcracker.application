@@ -4,7 +4,6 @@ import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.google.gson.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 

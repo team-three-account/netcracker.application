@@ -4,7 +4,6 @@ import com.gmail.netcracker.application.dto.dao.interfaces.EventMessageDao;
 import com.gmail.netcracker.application.dto.model.EventMessage;
 import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

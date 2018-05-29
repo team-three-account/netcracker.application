@@ -4,9 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.FriendDao;
 import com.gmail.netcracker.application.dto.model.Friend;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FriendService;
-import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

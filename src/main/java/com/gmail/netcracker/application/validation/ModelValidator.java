@@ -23,7 +23,7 @@ public abstract class ModelValidator {
     private Logger logger = Logger.getLogger(ModelValidator.class.getName());
 
     protected void validateEntity(Event event, Errors errors) {
-        if (event.getDraft().equals(true)) {
+        if (event.getDraft()) {
             validateEntityName(event.getName(), errors);
 
         } else {
@@ -33,16 +33,16 @@ public abstract class ModelValidator {
     }
 
     protected void validateEntity(User user, Errors errors, Boolean resetPass) {
-        if (true == resetPass) {
+        if (resetPass) {
             Pattern pattern = Pattern.compile(patternEnglishLettersAndNumbers);
             Matcher matcherPassword = pattern.matcher(user.getPassword());
             Matcher matcherConfirmPassword = pattern.matcher(user.getConfirmPassword());
             Boolean validPassword = matcherPassword.matches();
             Boolean validConfirmPassword = matcherConfirmPassword.matches();
-            if (validPassword.equals(false)) {
+            if (!validPassword) {
                 errors.rejectValue("password", "pattern.error");
             }
-            if (validConfirmPassword.equals(false)) {
+            if (!validConfirmPassword) {
                 errors.rejectValue("confirmPassword", "pattern.error");
             }
         } else {
@@ -51,10 +51,10 @@ public abstract class ModelValidator {
             Matcher matcherSurname = pattern.matcher(user.getSurname());
             Boolean validName = matcherName.matches();
             Boolean validSurname = matcherSurname.matches();
-            if (validName.equals(false)) {
+            if (!validName) {
                 errors.rejectValue("name", "pattern.error");
             }
-            if (validSurname.equals(false)) {
+            if (!validSurname) {
                 errors.rejectValue("surname", "pattern.error");
             }
         }
@@ -80,10 +80,10 @@ public abstract class ModelValidator {
         Matcher matcherDescription = patternDescription.matcher(description);
         Boolean validName = matcherName.matches();
         Boolean validDescription = matcherDescription.matches();
-        if (validName.equals(false)) {
+        if (!validName) {
             errors.rejectValue("name", "pattern.error");
         }
-        if (validDescription.equals(false)) {
+        if (!validDescription) {
             errors.rejectValue("description", "pattern.error");
         }
     }
@@ -92,7 +92,7 @@ public abstract class ModelValidator {
         Pattern pattern = Pattern.compile(patternEnglishLettersAndNumbers);
         Matcher matcherName = pattern.matcher(name);
         Boolean validName = matcherName.matches();
-        if (validName.equals(false)) {
+        if (!validName) {
             errors.rejectValue("name", "pattern.error");
         }
     }

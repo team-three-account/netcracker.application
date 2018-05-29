@@ -7,7 +7,6 @@ import com.gmail.netcracker.application.dto.model.Item;
 import com.gmail.netcracker.application.dto.model.Priority;
 import com.gmail.netcracker.application.dto.model.Tag;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
-import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

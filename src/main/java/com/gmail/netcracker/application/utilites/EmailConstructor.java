@@ -3,7 +3,6 @@ package com.gmail.netcracker.application.utilites;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.EventRangeService;
-import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;

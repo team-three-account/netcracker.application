@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
-import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestamp;
+
 
 @Repository
 public class VerificationTokenDaoImp extends ModelDao implements VerificationTokenDao {
