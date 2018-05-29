@@ -233,16 +233,17 @@ public class EventServiceImpl implements EventService {
         Boolean access = false;
         switch (Math.toIntExact(event.getTypeId())) {
             case 0:
-                access = isCreator(userId, eventId);
+                access = userId.equals(event.getCreator());
                 break;//indefinite
             case 1: // private
-                access = isCreator(userId, eventId);
+                access = userId.equals(event.getCreator());
                 break;
             case 2: // public
                 access = true;
                 break;
             case 3: // for friends
-                access = friendService.getFriendshipById(userId, event.getCreator()) != null || isCreator(userId, eventId);
+                access = userId.equals(event.getCreator()) ||
+                        (friendService.getFriendshipById(userId, event.getCreator()) != null);
                 break;
         }
         return access;
