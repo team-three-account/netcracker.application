@@ -37,7 +37,7 @@
     <h3>Search for events</h3>
     <input hidden id="authUserId" value="${auth_user.id}"/>
     <form method="POST"
-          class="forms_form" action="/account/search/events">
+          class="forms_form" action="/account/eventList/search">
         <div class="form-group">
             <input name="search" class="form-control" style="width: 33%" id="search"
                    placeholder="Enter query"/>
@@ -56,8 +56,8 @@
                                  src="<c:url value="${event.photo}"/>"></td>
                         <td class="text-right"><a href="/account/eventList/event-${event.eventId}"> ${event.name} </a>
                         </td>
-                        <td class="text-right"> Date : <span class="subSeconds">${event.dateStart}</span>
-                               <span class="subSeconds">${event.dateEnd}</span></td>
+                        <td class="text-right"> Date : <span class="subSeconds">${event.dateStart}</span> - <span
+                                class="subSeconds">${event.dateEnd}</span></td>
                     </tr>
                     </tbody>
                 </c:forEach>
@@ -78,8 +78,8 @@
                                  src="<c:url value="${friends.photo}"/>"></td>
                         <td class="text-right"><a
                                 href="/account/eventList/event-${friends.eventId}"> ${friends.name} </a></td>
-                        <td class="text-right"> Date : <span class="subSeconds">${friends.dateStart}</span>
-                            <span class="subSeconds">${friends.dateEnd}</span></td>
+                        <td class="text-right"> Date : <span class="subSeconds">${friends.dateStart}</span> - <span
+                                class="subSeconds">${friends.dateEnd}</span></td>
                     </tr>
                     </tbody>
                 </c:forEach>
