@@ -1,6 +1,5 @@
 package com.gmail.netcracker.application.utilites;
 
-import com.gmail.netcracker.application.controller.FriendController;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.EventRangeService;
@@ -20,7 +19,6 @@ import javax.mail.internet.MimeMessage;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Service
@@ -136,6 +134,8 @@ public class EmailConstructor {
             javaMailSender.send(message);
         }
         catch (MessagingException e){
+            logger.warning("Can not construct email with PDF");
+            javaMailSender.send(constructApologizeMessage(user.getEmail()));
         }
     }
 
@@ -156,6 +156,7 @@ public class EmailConstructor {
         if(!planedEvents.isEmpty()){
             text = "We want to remind you of the upcoming events for which you have subscribed. \r\n See PDF for more details: ";
             helper.addAttachment("Person plan.pdf", pdfConstructor.construct(planedEvents));
+            logger.info("Email with PDF is ready to be sent");
         }
         else  text = "You have not any event for the near future. Fill free :) ";
 
@@ -164,4 +165,21 @@ public class EmailConstructor {
         helper.setText(text);
         helper.setFrom(env.getProperty("server.email"));
     }
+
+    /**
+     * Create message of apologize which will be sent to user in case of error during constructing email with person plan.
+     * @param emailRecipient email address of user which will receive an email
+     * @return SimpleMailMessage
+     */
+        private SimpleMailMessage constructApologizeMessage(String emailRecipient){
+            final String recipientAddress = emailRecipient;
+            final String subject = "Notification about person plan";
+            final String message = "We apologize for the temporary problem with person plan notification. Service will be reestablished soon.";
+            final SimpleMailMessage email = new SimpleMailMessage();
+            email.setTo(recipientAddress);
+            email.setSubject(subject);
+            email.setText(message);
+            email.setFrom(env.getProperty("email.server"));
+            return email;
+        }
 }
