@@ -2,10 +2,7 @@ package com.gmail.netcracker.application.dto.dao.imp;
 
 import com.gmail.netcracker.application.dto.dao.interfaces.ChatDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
-import com.gmail.netcracker.application.dto.model.Chat;
-import com.gmail.netcracker.application.dto.model.Event;
-import com.gmail.netcracker.application.dto.model.EventMessage;
-import com.gmail.netcracker.application.dto.model.Notification;
+import com.gmail.netcracker.application.dto.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
@@ -49,7 +46,7 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     @Autowired
     private RowMapper<Chat> chatRowMapper;
     @Autowired
-    private RowMapper<Notification> notificationRowMapper;
+    private RowMapper<ChatId> notificationRowMapper;
     @Autowired
     private RowMapper<Notification> chatUserRowMapper;
 
@@ -92,7 +89,7 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
     }
 
     @Override
-    public List<Notification> allUserChatId(Long userId) {
+    public List<ChatId> allUserChatId(Long userId) {
         return findEntityList(SQL_GET_CHATS_FOR_USER, notificationRowMapper, userId);
     }
 

@@ -1,9 +1,6 @@
 package com.gmail.netcracker.application.service.interfaces;
 
-import com.gmail.netcracker.application.dto.model.Chat;
-import com.gmail.netcracker.application.dto.model.Event;
-import com.gmail.netcracker.application.dto.model.EventMessage;
-import com.gmail.netcracker.application.dto.model.Notification;
+import com.gmail.netcracker.application.dto.model.*;
 
 import java.util.List;
 
@@ -23,7 +20,7 @@ public interface ChatService {
 
     void deleteEventChat(Event event);
 
-    List<Notification> allUserChatId(Long userId);
+    List<ChatId> allUserChatId(Long userId);
 
     List<Notification> allUserChats(Long userId);
 }
