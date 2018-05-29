@@ -29,7 +29,7 @@
                     center: 'title',
                     right: 'agendaWeek,agendaDay,listMonth'
                 },
-                columnHeaderFormat : 'dddd D',
+                columnHeaderFormat: 'dddd D',
                 slotLabelFormat: 'HH:mm',
                 timeFormat: 'HH:mm',
                 editable: false,
@@ -75,22 +75,29 @@
     <div class="col-md-2">
         <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
     </div>
-        <div class="col-md-10 content">
-            <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
-            <div class="row">
-                <div class="col-md-8">
-                    <div id='calendar'></div>
-                </div>
+    <div class="col-md-10 content">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
+        <div class="row">
+            <div class="col-md-8">
+                <div id='calendar'></div>
             </div>
-                <div class="col-md-3">
-                        <form action="/account/timeline" method="post">
-                            <c:forEach items="${list_friends}" var="friend">
-                                <input type="checkbox" name="checkedFriends" value="${friend.id}"> ${friend.name} ${friend.surname}<BR>
-                            </c:forEach>
-                            <input type="submit" value="Submit">
-                        </form>
-                </div>
+            <div class="col-md-3">
+                <form action="/account/timeline" method="post">
+                    <input class="btn btn-success" type="submit" value="Submit">
+                    <ul class="list-group timelineList">
+                        <c:forEach items="${list_friends}" var="friend">
+                            <li class="list-group-item"><input type="checkbox" name="checkedFriends"
+                                                               value="${friend.id}"> ${friend.name} ${friend.surname}<BR>
+                            </li>
+                            <li class="list-group-item"><input type="checkbox" name="checkedFriends"
+                                                               value="${friend.id}"> ${friend.name} ${friend.surname}<BR>
+                        </c:forEach>
+                    </ul>
+                </form>
+
+            </div>
         </div>
+    </div>
 </div>
 
 <script src="${contextPath}/resources/bootstrap3/js/bootstrap.min.js"></script>

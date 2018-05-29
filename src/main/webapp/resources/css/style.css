@@ -444,3 +444,8 @@ li.button_block a input {
     -webkit-box-shadow: inset 0 0 6px grey;
 }
 
+.timelineList {
+    height: 600px;
+    overflow-x: hidden;
+
+}
