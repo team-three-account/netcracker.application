@@ -2,6 +2,7 @@ package com.gmail.netcracker.application.utilites;
 
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.service.interfaces.EventRangeService;
 import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +20,11 @@ import javax.mail.internet.MimeMessage;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
+
 @Service
 @PropertySource("classpath:application.properties")
+@Component
 @Transactional
 public class EmailConstructor {
 
@@ -28,7 +32,7 @@ public class EmailConstructor {
     private UserService userService;
 
     @Autowired
-    private EventService eventService;
+    private EventRangeService eventRangeService;
 
     @Autowired
     private Environment env;
@@ -38,6 +42,8 @@ public class EmailConstructor {
 
     @Autowired
     private PdfConstructor pdfConstructor;
+
+    private Logger logger = Logger.getLogger(EmailConstructor.class.getName());
 
     private SimpleMailMessage constructRegisterEmailMessage(final User user, final String token) {
         final String recipientAddress = user.getEmail();
@@ -116,33 +122,66 @@ public class EmailConstructor {
         javaMailSender.send(email);
     }
 
+    /**
+     * Send e-mail notification about future events from period specified by user
+     * @param fromDate specify start of period of selection
+     * @param tillDate specify end of period of selection
+     * @param user specify user that will send e-mail notification
+     */
     public void notifyAboutPersonPlan(Timestamp fromDate, Timestamp tillDate, User user) {
+        final List<Event> planedEvents = eventRangeService.getEventsFromRange(user.getId(), fromDate, tillDate);
         try {
-            final List<Event> planedEvents = eventService.getEventsFromRange(fromDate, tillDate, user.getId());
             MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = constructPersonPlanEmailMessage(message, true, planedEvents, user);
+            constructPersonPlanEmailMessage(message, planedEvents, user);
             javaMailSender.send(message);
-        } catch (MessagingException e) {
+        }
+        catch (MessagingException e){
+            logger.warning("Can not construct email with PDF");
+            javaMailSender.send(constructApologizeMessage(user.getEmail()));
         }
     }
 
-    private MimeMessageHelper constructPersonPlanEmailMessage(MimeMessage message, boolean multipart, List<Event> planedEvents, User user) throws MessagingException {
+    /**
+     * Construct message about person plan with attached PDF file
+     * @param message construct message with MimeMessageHelper
+     * @param planedEvents events to notify about
+     * @param user specify user that will send e-mail notification
+     * @throws MessagingException
+     */
+    private void constructPersonPlanEmailMessage(MimeMessage message, List<Event> planedEvents, User user) throws MessagingException {
 
-        MimeMessageHelper helper = new MimeMessageHelper(message, multipart);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
 
         final String recipientAddress = user.getEmail();
         final String subject = "Notification about person plan";
         final String text;
-        if (planedEvents.size() > 0) {
+        if(!planedEvents.isEmpty()){
             text = "We want to remind you of the upcoming events for which you have subscribed. \r\n See PDF for more details: ";
             helper.addAttachment("Person plan.pdf", pdfConstructor.construct(planedEvents));
-        } else text = "You have not any event for the near future. Fill free :) ";
+            logger.info("Email with PDF is ready to be sent");
+        }
+        else  text = "You have not any event for the near future. Fill free :) ";
 
         helper.setTo(recipientAddress);
         helper.setSubject(subject);
         helper.setText(text);
         helper.setFrom(env.getProperty("server.email"));
-
-        return helper;
     }
+
+    /**
+     * Create message of apologize which will be sent to user in case of error during constructing email with person plan.
+     * @param emailRecipient email address of user which will receive an email
+     * @return SimpleMailMessage
+     */
+        private SimpleMailMessage constructApologizeMessage(String emailRecipient){
+            final String recipientAddress = emailRecipient;
+            final String subject = "Notification about person plan";
+            final String message = "We apologize for the temporary problem with person plan notification. Service will be reestablished soon.";
+            final SimpleMailMessage email = new SimpleMailMessage();
+            email.setTo(recipientAddress);
+            email.setSubject(subject);
+            email.setText(message);
+            email.setFrom(env.getProperty("email.server"));
+            return email;
+        }
 }

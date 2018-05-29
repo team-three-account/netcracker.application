@@ -1,4 +1,5 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
 
 <%--
@@ -40,7 +41,7 @@
                         dataType: 'json',
                         data: {
                             // our hypothetical feed requires UNIX timestamps
-                            userId: ${user_id},
+                            checkedFriends: JSON.stringify(${checkedFriends}),
                             start: start.unix(),
                             end: end.unix()
                         },
@@ -48,6 +49,12 @@
                             callback(doc);
                         },
                         error: function (xhr, ajaxOptions, thrownError) {
+                            console.log(${checkedFriends})
+                            console.log(start);
+                            console.log(end);
+                            console.log(xhr);
+                            console.log(ajaxOptions);
+                            console.log(thrownError);
                             alert(xhr.status);
                             alert(thrownError);
                         }
@@ -75,9 +82,14 @@
                     <div id='calendar'></div>
                 </div>
             </div>
-            <div class="col-md-4">
-
-            </div>
+                <div class="col-md-3">
+                        <form action="/account/timeline" method="post">
+                            <c:forEach items="${list_friends}" var="friend">
+                                <input type="checkbox" name="checkedFriends" value="${friend.id}"> ${friend.name} ${friend.surname}<BR>
+                            </c:forEach>
+                            <input type="submit" value="Submit">
+                        </form>
+                </div>
         </div>
 </div>
 

@@ -22,7 +22,7 @@ public class TimelineSerializer implements JsonSerializer<Event> {
     public JsonElement serialize(Event src, Type typeOfSrc, JsonSerializationContext context)
     {
         JsonObject result = new JsonObject();
-        result.addProperty("title", "Busy");
+        result.addProperty("title", src.getName());
         result.addProperty("start", src.getDateStart());
         result.addProperty("end", src.getDateEnd());
         return result;
