@@ -2,15 +2,9 @@ package com.gmail.netcracker.application.utilites.scheduling.jobs;
 
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.utilites.EmailConstructor;
-import com.lowagie.text.DocumentException;
-import lombok.Data;
 import lombok.Setter;
 import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 import org.springframework.scheduling.quartz.QuartzJobBean;
-
-import javax.mail.MessagingException;
-import java.io.FileNotFoundException;
 import java.sql.Timestamp;
 
 import static com.gmail.netcracker.application.utilites.Utilities.getTimestamp;

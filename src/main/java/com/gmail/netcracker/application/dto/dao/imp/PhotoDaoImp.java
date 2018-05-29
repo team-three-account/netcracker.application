@@ -15,9 +15,8 @@ public class PhotoDaoImp extends ModelDao implements PhotoDao, Serializable {
     @Value("${sql.photo.update}")
     private String SQL_UPDATE;
 
-
-
-    protected PhotoDaoImp(DataSource dataSource) {
+    @Autowired
+    public PhotoDaoImp(DataSource dataSource) {
         super(dataSource);
     }
 

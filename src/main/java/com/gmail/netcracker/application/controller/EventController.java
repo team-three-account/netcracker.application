@@ -28,33 +28,25 @@ import java.util.logging.Logger;
 @RequestMapping("/account")
 public class EventController {
 
-    private final EventService eventService;
-    private final NoteService noteService;
-    private final PhotoServiceImp photoService;
-    private final UserService userService;
-    private final FriendService friendService;
-    private final DraftValidator draftValidator;
+    @Autowired
+    private EventService eventService;
+    @Autowired
+    private NoteService noteService;
+    @Autowired
+    private PhotoServiceImp photoService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private DraftValidator draftValidator;
+    @Autowired
     private ChatService chatService;
+    @Autowired
     private EventValidator eventValidator;
-    private final ImageValidator imageValidator;
+    @Autowired
+    private ImageValidator imageValidator;
 
     private Logger logger = Logger.getLogger(EventController.class.getName());
 
-    @Autowired
-    public EventController(EventService eventService, NoteService noteService, PhotoServiceImp photoService,
-                           UserService userService, FriendService friendService,
-                           ChatService chatService, EventValidator eventValidator,
-                           DraftValidator draftValidator, ImageValidator imageValidator) {
-        this.eventService = eventService;
-        this.noteService = noteService;
-        this.photoService = photoService;
-        this.userService = userService;
-        this.draftValidator = draftValidator;
-        this.chatService = chatService;
-        this.eventValidator = eventValidator;
-        this.friendService = friendService;
-        this.imageValidator = imageValidator;
-    }
 
     /**
      * This method returns to the web page with fields to be filled in order field to create a new event.

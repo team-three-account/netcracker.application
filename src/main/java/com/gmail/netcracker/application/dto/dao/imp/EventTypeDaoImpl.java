@@ -8,7 +8,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -16,12 +15,12 @@ public class EventTypeDaoImpl extends ModelDao implements EventTypeDao{
     @Value("${sql.eventType.getAllEventTypes}")
     private String SQL_GET_ALL_EVENT_TYPES;
 
+    @Autowired
     private RowMapper<EventType> rowMapper;
 
     @Autowired
-    protected EventTypeDaoImpl(DataSource dataSource, RowMapper<EventType> rowMapper) {
+    public EventTypeDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.rowMapper=rowMapper;
     }
 
     @Override

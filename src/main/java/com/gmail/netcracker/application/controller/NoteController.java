@@ -22,22 +22,17 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/account")
 public class NoteController {
 
-    private final NoteService noteService;
-
-    private final FolderService folderService;
-
-    private final UserService userService;
-
-    private final NoteValidator noteValidator;
+    @Autowired
+    private NoteService noteService;
 
     @Autowired
-    public NoteController(NoteService noteService, FolderService folderService, UserService userService,
-                          NoteValidator noteValidator) {
-        this.noteService = noteService;
-        this.folderService = folderService;
-        this.userService = userService;
-        this.noteValidator = noteValidator;
-    }
+    private FolderService folderService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private NoteValidator noteValidator;
 
     /**
      * This method returns to the web page with fields to be filled in order field to create a new note.

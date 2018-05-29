@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,37 +27,30 @@ import static com.gmail.netcracker.application.utilites.Utilities.parseStringToD
 
 @Service
 public class EventServiceImpl implements EventService {
-    private EventDao eventDao;
-    private EventTypeDao eventTypeDao;
-    private UserService userService;
-    private FriendService friendService;
-    private PriorityDao priorityDao;
-    private NoteDao noteDao;
-    private ItemDao itemDao;
-    private UserDao userDao;
-    private ChatService chatService;
-    private PhotoServiceImp photoService;
-
-    private JobSchedulingManager jobSchedulingManager;
-    private EmailConstructor emailConstructor;
-
     @Autowired
-    public EventServiceImpl(EventDao eventDao, EventTypeDao eventTypeDao, UserService userService,
-                            FriendService friendService, PriorityDao priorityDao, NoteDao noteDao, ItemDao itemDao,
-                            JobSchedulingManager jobSchedulingManager, EmailConstructor emailConstructor, UserDao userDao, ChatService chatService, PhotoServiceImp photoService) {
-        this.eventDao = eventDao;
-        this.eventTypeDao = eventTypeDao;
-        this.userService = userService;
-        this.friendService = friendService;
-        this.priorityDao = priorityDao;
-        this.noteDao = noteDao;
-        this.itemDao = itemDao;
-        this.jobSchedulingManager = jobSchedulingManager;
-        this.emailConstructor = emailConstructor;
-        this.userDao = userDao;
-        this.chatService = chatService;
-        this.photoService = photoService;
-    }
+    private EventDao eventDao;
+    @Autowired
+    private EventTypeDao eventTypeDao;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FriendService friendService;
+    @Autowired
+    private PriorityDao priorityDao;
+    @Autowired
+    private NoteDao noteDao;
+    @Autowired
+    private ItemDao itemDao;
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private ChatService chatService;
+    @Autowired
+    private PhotoServiceImp photoService;
+    @Autowired
+    private JobSchedulingManager jobSchedulingManager;
+    @Autowired
+    private EmailConstructor emailConstructor;
 
     @Override
     @Transactional
@@ -139,7 +131,6 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public void setPersonId(Event event) {
         event.setCreator(userService.getAuthenticatedUser().getId());
     }
@@ -203,7 +194,7 @@ public class EventServiceImpl implements EventService {
                 access = true;
                 break;
             case 3: // for friends
-                access = friendService.getFriendshipById(personId,event.getEventId()) != null || isCreator(personId, eventId);
+                access = friendService.getFriendshipById(personId,event.getCreator()) != null || isCreator(personId, eventId);
                 break;
         }
         return access;

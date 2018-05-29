@@ -5,9 +5,7 @@ import com.gmail.netcracker.application.dto.model.Folder;
 import com.gmail.netcracker.application.dto.model.Note;
 import com.gmail.netcracker.application.dto.model.User;
 import com.gmail.netcracker.application.service.interfaces.FolderService;
-import com.gmail.netcracker.application.service.interfaces.FriendService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
-
 import com.gmail.netcracker.application.validation.FolderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,22 +22,12 @@ import java.util.List;
 @Controller
 @RequestMapping("/account")
 public class FolderController {
-    private final FolderService folderService;
-
-    private final UserService userService;
-
-    private final FolderValidator folderValidator;
-
-    private final FriendService friendService;
-
-
     @Autowired
-    public FolderController(FolderService folderService, UserService userService, FolderValidator folderValidator, FriendService friendService) {
-        this.folderService = folderService;
-        this.userService = userService;
-        this.folderValidator = folderValidator;
-        this.friendService = friendService;
-    }
+    private FolderService folderService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FolderValidator folderValidator;
 
     /**
      * Method returns to the web page with fields to be filled in order field to create a new folder.

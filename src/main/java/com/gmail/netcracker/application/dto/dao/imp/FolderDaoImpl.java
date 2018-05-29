@@ -4,6 +4,7 @@ import com.gmail.netcracker.application.dto.dao.interfaces.FolderDao;
 import com.gmail.netcracker.application.dto.model.Folder;
 import com.gmail.netcracker.application.dto.model.Note;
 import com.gmail.netcracker.application.dto.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -52,16 +53,16 @@ public class FolderDaoImpl extends ModelDao implements FolderDao {
     @Value("${sql.folder.getFriendsToShare}")
     private String SQL_GET_FRIENDS_TO_SHARE;
 
-    private final RowMapper<Folder> folderRowMapper;
-    private final RowMapper<Note> notesIntoFolderRowMapper;
-    private final RowMapper<User> userRowMapper;
+    @Autowired
+    private RowMapper<Folder> folderRowMapper;
+    @Autowired
+    private RowMapper<Note> notesIntoFolderRowMapper;
+    @Autowired
+    private RowMapper<User> userRowMapper;
 
-    public FolderDaoImpl(DataSource dataSource, RowMapper<Folder> folderRowMapper, RowMapper<Note> notesIntoFolderRowMapper,
-                         RowMapper<User> userRowMapper) {
+    @Autowired
+    public FolderDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.folderRowMapper = folderRowMapper;
-        this.notesIntoFolderRowMapper = notesIntoFolderRowMapper;
-        this.userRowMapper = userRowMapper;
     }
 
     @Override

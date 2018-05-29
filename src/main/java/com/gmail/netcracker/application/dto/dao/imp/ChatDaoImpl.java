@@ -4,12 +4,9 @@ import com.gmail.netcracker.application.dto.dao.interfaces.ChatDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.model.Chat;
 import com.gmail.netcracker.application.dto.model.Event;
-
-
 import com.gmail.netcracker.application.dto.model.EventMessage;
 import com.gmail.netcracker.application.dto.model.Notification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -47,27 +44,20 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
 
     @Autowired
     private EventDao eventDao;
-
+    @Autowired
     private RowMapper<EventMessage> rowMapper;
-
+    @Autowired
     private RowMapper<Chat> chatRowMapper;
-
+    @Autowired
     private RowMapper<Notification> notificationRowMapper;
-
-    private RowMapper<Notification> userChatRowMapper;
+    @Autowired
+    private RowMapper<Notification> chatUserRowMapper;
 
     private Logger logger = Logger.getLogger(ChatDaoImpl.class.getName());
 
-    protected ChatDaoImpl(DataSource dataSource,
-                          @Qualifier("notificationRowMapper") RowMapper<Notification> notificationRowMapper,
-                          @Qualifier("chatUserRowMapper") RowMapper<Notification> userChatRowMapper,
-                          @Qualifier("eventMessageRowMapper") RowMapper<EventMessage> rowMapper,
-                          @Qualifier("chatRowMapper") RowMapper<Chat> chatRowMapper) {
+    @Autowired
+    public ChatDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.rowMapper = rowMapper;
-        this.chatRowMapper = chatRowMapper;
-        this.userChatRowMapper = userChatRowMapper;
-        this.notificationRowMapper = notificationRowMapper;
     }
 
     @Override
@@ -108,6 +98,6 @@ public class ChatDaoImpl extends ModelDao implements ChatDao {
 
     @Override
     public List<Notification> allUserChats(Long userId) {
-        return findEntityList(SQL_ALL_CHAT_INFORMATION, userChatRowMapper, userId);
+        return findEntityList(SQL_ALL_CHAT_INFORMATION, chatUserRowMapper, userId);
     }
 }

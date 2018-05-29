@@ -87,14 +87,14 @@ public class ItemDaoImpl extends ModelDao implements ItemDao {
     @Value("${sql.item.deleteLikesOfItem}")
     private String SQL_DELETE_LIKES_OF_ITEM;
 
-    private final RowMapper<Item> itemRowMapper;
-    private final RowMapper<Like> likeRowMapper;
+    @Autowired
+    private RowMapper<Item> itemRowMapper;
+    @Autowired
+    private RowMapper<Like> likeRowMapper;
 
     @Autowired
-    public ItemDaoImpl(DataSource dataSource, RowMapper<Item> itemRowMapper, RowMapper<Like> likeRowMapper) {
+    public ItemDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.itemRowMapper = itemRowMapper;
-        this.likeRowMapper = likeRowMapper;
     }
 
     @Override

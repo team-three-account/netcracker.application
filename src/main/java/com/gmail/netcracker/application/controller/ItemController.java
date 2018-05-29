@@ -31,11 +31,16 @@ import java.util.logging.Logger;
 @RequestMapping("/account")
 public class ItemController {
 
-    private final UserService userService;
-    private final ItemService itemService;
-    private final ItemValidator itemValidator;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private ItemService itemService;
+    @Autowired
+    private ItemValidator itemValidator;
+    @Autowired
     private PhotoServiceImp photoService;
-    private final ImageValidator imageValidator;
+    @Autowired
+    private ImageValidator imageValidator;
 
     @Autowired
     public ItemController(ItemService itemService, UserService userService, ItemValidator itemValidator, PhotoServiceImp photoService, ImageValidator imageValidator) {

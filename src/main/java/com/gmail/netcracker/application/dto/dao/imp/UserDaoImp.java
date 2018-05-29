@@ -8,11 +8,9 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.List;
 
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestamp;
-import static com.gmail.netcracker.application.utilites.Utilities.parseStringToTimestampWithSeconds;
 
 @Repository
 public class UserDaoImp extends ModelDao implements UserDao {
@@ -43,12 +41,12 @@ public class UserDaoImp extends ModelDao implements UserDao {
     @Value("${sql.user.role}")
     private String USER_ROLE;
 
-    private final RowMapper<User> rowMapper;
+    @Autowired
+    private RowMapper<User> userRowMapper;
 
     @Autowired
-    public UserDaoImp(DataSource dataSource, RowMapper<User> rowMapper) {
+    public UserDaoImp(DataSource dataSource) {
         super(dataSource);
-        this.rowMapper = rowMapper;
     }
 
     @Override
@@ -68,7 +66,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
 
     @Override
     public User findUserByEmail(String email) {
-        return findEntity(SQL_FIND_BY_EMAIL, rowMapper, email);
+        return findEntity(SQL_FIND_BY_EMAIL, userRowMapper, email);
     }
 
     @Override
@@ -90,7 +88,7 @@ public class UserDaoImp extends ModelDao implements UserDao {
 
     @Override
     public User findUserById(Long id) {
-        return findEntity(SQL_FIND, rowMapper, id);
+        return findEntity(SQL_FIND, userRowMapper, id);
     }
 
     @Override
@@ -103,10 +101,6 @@ public class UserDaoImp extends ModelDao implements UserDao {
         );
     }
 
-    @Override
-    public User getNotificationsSchedule(Long userId) {
-        return findEntity(SQL_GET_NOTIFICATIONS_SCHEDULE, rowMapper, userId);
-    }
 
     @Override
     public void disableNotifications(Long userId) {

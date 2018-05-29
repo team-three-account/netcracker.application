@@ -1,7 +1,6 @@
 package com.gmail.netcracker.application.controller;
 
 import com.gmail.netcracker.application.dto.model.Event;
-import com.gmail.netcracker.application.service.imp.FriendServiceImpl;
 import com.gmail.netcracker.application.service.interfaces.*;
 import com.gmail.netcracker.application.utilites.Filter;
 import com.google.gson.Gson;

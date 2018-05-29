@@ -3,13 +3,11 @@ package com.gmail.netcracker.application.dto.dao.imp;
 import com.gmail.netcracker.application.dto.dao.interfaces.NoteDao;
 import com.gmail.netcracker.application.dto.model.Note;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.validation.Valid;
 import java.util.List;
 
 @Repository
@@ -44,13 +42,12 @@ public class NoteDaoImpl extends ModelDao implements NoteDao {
     @Value("${sql.note.deleteNoteFromFolder}")
     private String SQL_DELETE_NOTE_FROM_FOLDER;
 
-    private final RowMapper<Note> noteRowMapper;
+    @Autowired
+    private RowMapper<Note> noteRowMapper;
 
     @Autowired
-    public NoteDaoImpl(DataSource dataSource,
-                       @Qualifier("noteRowMapper") RowMapper<Note> noteRowMapper) {
+    public NoteDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.noteRowMapper = noteRowMapper;
     }
 
     @Override

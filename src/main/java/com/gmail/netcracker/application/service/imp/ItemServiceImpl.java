@@ -7,7 +7,6 @@ import com.gmail.netcracker.application.dto.model.Item;
 import com.gmail.netcracker.application.dto.model.Priority;
 import com.gmail.netcracker.application.dto.model.Tag;
 import com.gmail.netcracker.application.service.interfaces.ItemService;
-import com.gmail.netcracker.application.service.interfaces.PhotoService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,20 +19,16 @@ import java.util.regex.Pattern;
 @Service
 public class ItemServiceImpl implements ItemService {
 
-    private ItemDao itemDao;
-    private PriorityDao priorityDao;
-    private UserService userService;
-    private PhotoServiceImp photoService;
-    private TagDao tagDao;
-
     @Autowired
-    public ItemServiceImpl(ItemDao itemDao, PriorityDao priorityDao, UserService userService, PhotoServiceImp photoService, TagDao tagDao) {
-        this.itemDao = itemDao;
-        this.priorityDao = priorityDao;
-        this.userService = userService;
-        this.photoService = photoService;
-        this.tagDao = tagDao;
-    }
+    private ItemDao itemDao;
+    @Autowired
+    private PriorityDao priorityDao;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private PhotoServiceImp photoService;
+    @Autowired
+    private TagDao tagDao;
 
     @Override
     @Transactional

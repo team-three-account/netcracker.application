@@ -8,13 +8,9 @@ import com.gmail.netcracker.application.utilites.VerificationToken;
 import com.gmail.netcracker.application.validation.RegisterValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -24,31 +20,27 @@ import java.util.List;
 @Controller
 public class RegistrationController {
 
+    @Autowired
     private VerificationToken verificationToken;
 
+    @Autowired
     private User user;
 
-    private final RegisterValidator registerValidator;
+    @Autowired
+    private RegisterValidator registerValidator;
 
-    private final EmailConstructor emailConstructor;
+    @Autowired
+    private EmailConstructor emailConstructor;
 
-    private final UserService userService;
+    @Autowired
+    private UserService userService;
 
+    @Autowired
     private PhotoServiceImp photoService;
 
     private final String MALE = "Male";
 
     private final String FEMALE = "Female";
-
-    @Autowired
-    public RegistrationController(VerificationToken verificationToken, User user, RegisterValidator registerValidator, EmailConstructor emailConstructor, UserService userService, PhotoServiceImp photoService) {
-        this.verificationToken = verificationToken;
-        this.user = user;
-        this.registerValidator = registerValidator;
-        this.emailConstructor = emailConstructor;
-        this.userService = userService;
-        this.photoService = photoService;
-    }
 
     /**
      * This method returns login page .

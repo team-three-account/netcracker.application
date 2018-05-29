@@ -50,14 +50,14 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
     @Value("${sql.friend.findFriendByNameAndSurname}")
     private String SQL_FIND_FRIEND_BY_NAME_AND_SURNAME;
 
-    private final RowMapper<User> userRowMapper;
-    private final RowMapper<Friend> friendshipRowMapper;
+    @Autowired
+    private RowMapper<User> userRowMapper;
+    @Autowired
+    private RowMapper<Friend> friendshipRowMapper;
 
     @Autowired
-    public FriendDaoImpl(DataSource dataSource, RowMapper<Friend> friendshipRowMapper, RowMapper<User> userRowMapper) {
+    public FriendDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.friendshipRowMapper = friendshipRowMapper;
-        this.userRowMapper = userRowMapper;
     }
 
     @Override

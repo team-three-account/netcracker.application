@@ -63,7 +63,7 @@
                     <td><c:if test="${isLiked == true}">
                             <form action="/account/viewItem/dislike" method="POST">
                                 <button type="submit" class="btn btn-danger text-center">
-                                    <input type="hidden" name="item_id" value="${item.itemId}"/>
+                                    <input type="hidden" name="itemId" value="${item.itemId}"/>
                                     Dislike
                                 </button>
                             </form>
@@ -71,7 +71,7 @@
                         <c:if test="${isLiked == false}">
                             <form action="/account/viewItem/like" method="POST">
                                 <button type="submit" class="btn btn-success">
-                                    <input type="hidden" name="item_id" value="${item.itemId}"/>
+                                    <input type="hidden" name="itemId" value="${item.itemId}"/>
                                     Like
                                 </button>
                             </form>

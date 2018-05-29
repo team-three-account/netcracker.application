@@ -109,17 +109,16 @@ public class EventDaoImpl extends ModelDao implements EventDao {
     @Value("${sql.event.getFriendsToInvite}")
     private String SQL_GET_FRIENDS_TO_INVITE;
 
-    private final RowMapper<Event> eventRowMapper;
-    private final RowMapper<User> friendRowMapper;
-    private final RowMapper<Participant> participantRowMapper;
+    @Autowired
+    private RowMapper<Event> eventRowMapper;
+    @Autowired
+    private RowMapper<User> friendRowMapper;
+    @Autowired
+    private RowMapper<Participant> participantRowMapper;
 
     @Autowired
-    public EventDaoImpl(DataSource dataSource, RowMapper<Event> eventRowMapper, RowMapper<User> userRowMapper,
-                        RowMapper<Participant> participantRowMapper) {
+    public EventDaoImpl(DataSource dataSource) {
         super(dataSource);
-        this.eventRowMapper = eventRowMapper;
-        this.friendRowMapper = userRowMapper;
-        this.participantRowMapper = participantRowMapper;
     }
 
     @Override

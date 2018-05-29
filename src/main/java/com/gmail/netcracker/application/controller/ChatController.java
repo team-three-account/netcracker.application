@@ -8,17 +8,13 @@ import com.gmail.netcracker.application.service.interfaces.EventService;
 import com.gmail.netcracker.application.service.interfaces.UserService;
 import com.gmail.netcracker.application.utilites.Utilities;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.core.MessageSendingOperations;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageSendingOperations;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -41,9 +37,6 @@ public class ChatController {
 
     @Autowired
     private User user;
-
-    @Autowired
-    private Event event;
 
     private Logger logger = Logger.getLogger(ChatService.class.getName());
 
@@ -156,7 +149,7 @@ public class ChatController {
                              @DestinationVariable(value = "chatId") String chatId,
                              EventMessage message) throws Exception {
         user = userService.findUserById(Long.valueOf(userId));
-        event = eventService.getEvent(Long.valueOf(eventId));
+        Event event = eventService.getEvent(Long.valueOf(eventId));
         message.setTime(Utilities.getCurrentDateInString());
         message.setChatId(Long.valueOf(chatId));
         message.setEventId(Long.valueOf(eventId));
