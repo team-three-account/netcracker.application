@@ -52,7 +52,7 @@
 
                 <c:forEach var="friend" items="${friendList}">
                     <tr>
-                        <td><img class="img-circle" style="width: 50px;height: 50px"
+                        <td><img class="img-circle" style="width: 200px;height: 200px"
                                  src="<c:url value="${friend.photo}"/>"></td>
                         <td><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></td>
                         <td>
