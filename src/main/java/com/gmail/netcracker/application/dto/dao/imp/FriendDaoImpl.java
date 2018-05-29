@@ -112,7 +112,7 @@ public class FriendDaoImpl extends ModelDao implements FriendDao {
 
     @Override
     public void acceptRequest(Long id, Long friendId) {
-        updateEntity(SQL_ACCEPT_REQUEST, id, friendId, id, friendId);
+        updateEntity(SQL_ACCEPT_REQUEST, friendId, id);
     }
 
     @Override

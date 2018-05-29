@@ -77,6 +77,7 @@ public class ChatController {
         List<EventMessage> list = chatService.getMessagesForEvent(eventId, chatId, true);
         modelAndView.addObject("event", eventService.getEvent(eventId));
         modelAndView.addObject("participants", eventService.getParticipants(eventId));
+        logger.info(eventService.getParticipants(eventId).toString());
         modelAndView.addObject("auth_user", userService.getAuthenticatedUser());
         modelAndView.addObject("chat", chatService.getChatByEventId(eventService.getEvent(eventId), true));
         logger.info(list.toString());

@@ -39,6 +39,8 @@ public class FriendServiceImpl implements FriendService {
         friendship = friendDao.getFriendshipById(personId, friendId);
         if (friendship == null) {
             friendDao.addFriend(personId, friendId);
+        } else if (friendship.getSender() == friendId && friendship.getRecipient() == personId && friendship.getIsAccepted() == false) {
+            friendDao.acceptRequest(personId, friendId);
         }
     }
 
