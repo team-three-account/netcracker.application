@@ -89,8 +89,6 @@
                             <li class="list-group-item"><input type="checkbox" name="checkedFriends"
                                                                value="${friend.id}"> ${friend.name} ${friend.surname}<BR>
                             </li>
-                            <li class="list-group-item"><input type="checkbox" name="checkedFriends"
-                                                               value="${friend.id}"> ${friend.name} ${friend.surname}<BR>
                         </c:forEach>
                     </ul>
                 </form>
