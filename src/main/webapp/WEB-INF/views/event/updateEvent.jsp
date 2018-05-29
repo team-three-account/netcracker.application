@@ -81,15 +81,14 @@
                 <c:if test="${editEvent.draft==true}">
                     <div class="form-group">
                         <label>Event type*: </label>
-                        <form:select path="type" class="form-control">
+                        <form:select path="typeId" class="form-control">
                             <form:options items="${eventTypes}" itemValue="typeId" itemLabel="name"/>
                         </form:select>
                         <form:errors path="type" cssClass="error"/>
                     </div>
                 </c:if>
-                <c:if test="${editEvent.draft==false}">
-                    <form:input type="hidden" path="typeId" class="form-controll"/>
-                </c:if>
+                <form:input type="hidden" path="typeId" class="form-controll"/>
+
                 <form:input path="draft" value="${editEvent.draft}" type="hidden"></form:input>
                 <input type="submit" value="Update" class="btn btn-success text-center"/>
             </div>

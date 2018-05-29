@@ -66,7 +66,7 @@ public interface EventService {
 
     Participant getParticipation(Long eventId);
 
-    void convertDraftToEvent(Long eventId);
+    void convertDraftToEvent(Event event);
 
     List<Event> getTimelines(Long id);
 

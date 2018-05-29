@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import static com.gmail.netcracker.application.utilites.Utilities.parseStringToDate;
 
@@ -64,6 +65,7 @@ public class EventServiceImpl implements EventService {
     public void update(Event event) {
         setPersonId(event);
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
+        Logger.getLogger(EventServiceImpl.class.getName()).info(event.toString());
         eventDao.update(event);
         deleteEventNotificationJob(event.getEventId());
         if (event.getPeriodicity() != null && !event.getDraft()) scheduleEventNotificationJob(event);
@@ -276,10 +278,10 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public void convertDraftToEvent(Long eventId) {
-        Event event = eventDao.getEvent(eventId);
+    public void convertDraftToEvent(Event event) {
         event.setDraft(false);
-        eventDao.convertDraftToEvent(event);
+        Logger.getLogger(EventServiceImpl.class.getName()).info(event.toString());
+        eventDao.update(event);
         if (event.getType().equals(2L) || event.getType().equals(3L) && !event.getDraft()) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);

@@ -20,15 +20,13 @@ public class EventValidator extends ModelValidator implements Validator {
     public void validate(Object o, Errors errors) {
         Event event = (Event) o;
         rejectIfEmptyOrWhitespace(errors, "name", "required.field");
-        rejectIfEmptyOrWhitespace(errors, "description", "required.field");
 
-        if(event.getDateStart().equals("____-__-__ __:__")){
-            errors.rejectValue("dateStart","required.field");
+        if (event.getDateStart().equals("") || event.getDateStart().equals("____-__-__ __:__")) {
+            errors.rejectValue("dateStart", "required.field");
         }
-        if(event.getDateEnd().equals("____-__-__ __:__")){
-            errors.rejectValue("dateEnd","required.field");
+        if (event.getDateEnd().equals("") || event.getDateEnd().equals("____-__-__ __:__")) {
+            errors.rejectValue("dateEnd", "required.field");
         }
-        rejectIfEmptyOrWhitespace(errors, "type", "required.field");
         rejectIfEmptyOrWhitespace(errors, "eventPlaceName", "required.field");
         if (!errors.hasErrors()) {
             if (compareDates(event.getDateStart(), event.getDateEnd())) {
