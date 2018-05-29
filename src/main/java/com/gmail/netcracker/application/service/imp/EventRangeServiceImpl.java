@@ -68,17 +68,6 @@ public class EventRangeServiceImpl implements EventRangeService {
         return eventList;
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Event> getEventsFromRange(List<Long> userList, Timestamp start, Timestamp end) {
-        List<Event> eventList = new ArrayList<>();
-
-        for (Long userId: userList){
-            eventList.addAll(getEventsFromRange(userId, start, end));
-        }
-        return eventList;
-    }
-
     /**
      *
      * @param event Event what we duplicate
