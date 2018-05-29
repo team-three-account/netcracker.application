@@ -81,7 +81,7 @@ public class JobSchedulingManager {
 
     private CronTrigger createCronTrigger(Long entityId, Date startDate, Date endDate, String cron, JobDetail jobDetail,
                                           final String TRIGGER_NAME_PREFIX, final String TRIGGER_GROUP_NAME) {
-        CronExpression cronExpression = null;
+        CronExpression cronExpression;
         try {
             cronExpression = new CronExpression(cron);
         } catch (ParseException e) {
@@ -89,8 +89,8 @@ public class JobSchedulingManager {
             return null;
         }
         CronTrigger cronTrigger = newTrigger()
-                .withSchedule(cronSchedule(cron)) //for using
-//                .withSchedule(cronSchedule("0/10 * * ? * * *")) //for demonstration
+//                .withSchedule(cronSchedule(cron)) //for using
+                .withSchedule(cronSchedule("0/10 * * ? * * *")) //for demonstration
                 .withIdentity(TRIGGER_NAME_PREFIX + entityId, TRIGGER_GROUP_NAME)
                 .forJob(jobDetail)
                 .startAt(cronExpression.getNextValidTimeAfter(startDate))
