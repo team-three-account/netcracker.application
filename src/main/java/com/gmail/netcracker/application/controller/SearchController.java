@@ -107,7 +107,7 @@ public class SearchController {
             return "redirect:/account/friends";
         }
         User authUser = userService.getAuthenticatedUser();
-        model.addAttribute("auth_user",authUser);
+        model.addAttribute("auth_user", authUser);
         model.addAttribute("friendList", friendService.searchFriends(authUser.getId(), search));
         model.addAttribute("subtractionUsers", friendService.searchUsers(authUser.getId(), search));
         return "friend/friends";

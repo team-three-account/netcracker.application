@@ -49,7 +49,7 @@ public class AppInitializer
      * and so all requests will be intercepted
      * Servlet Supervisor Spring
      *
-     * @return Массив типа String.
+     * @return ArrayString.
      */
     @Override
     protected String[] getServletMappings() {
