@@ -86,10 +86,13 @@ public class EventServiceImpl implements EventService {
         setPersonId(event);
         event.setDuration(getDurationFromStartAndEnd(event.getDateStart(), event.getDateEnd()));
         eventDao.insertEvent(event);
+        event.setCreator((long) 16);
+        eventDao.insertEvent(event);
         if (event.getType().equals((long) 2) || event.getType().equals((long) 3)
                 && event.getDraft().equals(false)) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
+
         }
         participate(userService.getAuthenticatedUser().getId(), event.getEventId());
         if (event.getPeriodicity() != null) scheduleEventNotificationJob(event);

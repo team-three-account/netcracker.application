@@ -35,7 +35,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Logger.getLogger(UserServiceImp.class.getName());
         return userDao.findUserByEmail(email);
@@ -50,6 +50,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public VerificationToken getVerificationToken(String token) {
         return verificationTokenDao.findByToken(token);
     }
@@ -67,11 +68,13 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findUserByEmail(String email) {
         return userDao.findUserByEmail(email);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User getAuthenticatedUser() {
         User user;
         try {
@@ -99,6 +102,7 @@ public class UserServiceImp implements UserService, UserDetailsService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public User findUserById(Long id) {
         return userDao.findUserById(id);
     }

@@ -4,6 +4,8 @@ import com.dropbox.core.*;
 import com.dropbox.core.v2.DbxClientV2;
 import com.dropbox.core.v2.files.FileMetadata;
 import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.UploadErrorException;
+import com.dropbox.core.v2.sharing.CreateSharedLinkWithSettingsErrorException;
 import com.dropbox.core.v2.sharing.SharedLinkMetadata;
 import com.dropbox.core.v2.sharing.SharedLinkSettings;
 import com.gmail.netcracker.application.dto.dao.interfaces.PhotoDao;
@@ -19,11 +21,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.Locale;
+import java.util.logging.Level;
 
 
 @Service
 @Data
 @PropertySource("classpath:image.properties")
+@Transactional
 public class PhotoServiceImp implements PhotoService, Serializable {
 
     @Autowired
@@ -80,30 +84,27 @@ public class PhotoServiceImp implements PhotoService, Serializable {
         DbxRequestConfig config = new DbxRequestConfig(appName, Locale.getDefault().toString());
         DbxClientV2 client = new DbxClientV2(config, sessionStoreKey);
         InputStream inputStream = file.getInputStream();
-        String link;
+        String link = "";
         try {
             FileMetadata fileMetadata = client.files().uploadBuilder("/" + name + ".jpg").uploadAndFinish(inputStream);
             String url = client.sharing().createSharedLinkWithSettings("/" + name + ".jpg", SharedLinkSettings.newBuilder().build()).getUrl();
-            link = "https://dl.dropboxusercontent.com/s/" + url.substring(26,url.length());
-        } catch (Exception e) {
-
-            throw e;
-        } finally {
-            inputStream.close();
+            link = "https://dl.dropboxusercontent.com/s/" + url.substring(26, url.length());
+        } catch (DbxException | IOException e) {
+            logger.log(Level.SEVERE, e.getMessage());
         }
+
         return link;
     }
 
     @Override
     @Transactional
     public void deleteFile(String path) {
-
         DbxRequestConfig config = new DbxRequestConfig(appName, Locale.getDefault().toString());
         DbxClientV2 client = new DbxClientV2(config, sessionStoreKey);
         try {
-            Metadata metadata = client.files().delete("/"+ path.substring(52, path.length()-1));
+            Metadata metadata = client.files().delete("/" + path.substring(52, path.length() - 1));
         } catch (DbxException dbxe) {
-            dbxe.printStackTrace();
+            logger.log(Level.SEVERE, dbxe.getMessage());
         }
     }
 

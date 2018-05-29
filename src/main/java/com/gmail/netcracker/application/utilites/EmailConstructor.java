@@ -12,6 +12,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.UUID;
 @Service
 @PropertySource("classpath:application.properties")
+@Transactional
 public class EmailConstructor {
 
     @Autowired
