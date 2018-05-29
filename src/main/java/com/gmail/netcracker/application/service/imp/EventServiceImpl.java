@@ -8,7 +8,7 @@ import com.gmail.netcracker.application.utilites.Utilities;
 import com.gmail.netcracker.application.utilites.scheduling.JobSchedulingManager;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.EventNotificationJob;
 import com.gmail.netcracker.application.utilites.scheduling.jobs.PersonalPlanNotificationJob;
-import org.bouncycastle.asn1.cms.Time;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -273,7 +273,7 @@ public class EventServiceImpl implements EventService {
         event.setDraft(false);
         Logger.getLogger(EventServiceImpl.class.getName()).info(event.toString());
         eventDao.update(event);
-        if (event.getType().equals(2L) || event.getType().equals(3L) && !event.getDraft()) {
+        if (event.getType().equals(2L) || event.getType().equals(3L)) {
             chatService.createChatForEvent(event, true);
             chatService.createChatForEvent(event, false);
         }
