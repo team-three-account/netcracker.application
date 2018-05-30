@@ -177,7 +177,12 @@
                     <h3>Top 5: Popular items</h3>
                     <c:forEach var="popularItem" items="${popularItems}">
                         <ul class="list-group">
-                            <a href="/account/item-${popularItem.itemId}"> ${popularItem.name} </a>
+                            <li class="list-group-item">
+                                <a href="/account/item-${popularItem.itemId}"><img class="img-circle text-center"
+                                                                                   style="width: 20px;height: 20px"
+                                                                                   src="<c:url value="${popularItem.image}"/>">
+                                        ${popularItem.name} </a>
+                            </li>
                         </ul>
                     </c:forEach>
                 </div>
