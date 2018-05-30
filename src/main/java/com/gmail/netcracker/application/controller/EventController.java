@@ -387,7 +387,7 @@ public class EventController {
      * @param userId
      * @return String
      */
-    @RequestMapping(value = "{eventId}/invite-to-public", method = RequestMethod.POST)
+    @RequestMapping(value = "/invite-to-public/{eventId}", method = RequestMethod.POST)
     public String inviteToPublic(@PathVariable(value = "eventId") Long eventId,
                                  @RequestParam(value = "userId") Long userId) {
         eventService.participate(userId, eventId);
