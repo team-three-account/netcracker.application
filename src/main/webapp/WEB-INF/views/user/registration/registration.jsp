@@ -24,7 +24,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <script src="https://apis.google.com/js/platform.js" async defer></script>
   <meta name="google-signin-client_id"
-        content="829562763201-p13uc8h30h5kavae3iqkls8dpjkutspv.apps.googleusercontent.com">
+        content="829562763201-2j2r2f27h6vjtmbn4n8ukd3h3gf2dh1k.apps.googleusercontent.com">
 </head>
 <body>
 <div class="container">
