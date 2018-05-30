@@ -38,9 +38,11 @@
                     {
                         events: function (start, end, timezone, callback) {
                             $.ajax({
-                                url: '/account/getEvents',
+                                url: '/account/getEventsWithFilter',
                                 dataType: 'json',
                                 data: {
+                                    filterPriority: JSON.stringify(${filter.priorities}),
+                                    filterTypes: JSON.stringify(${filter.eventTypes}),
                                     start: start.unix(),
                                     end: end.unix()
                                 },
