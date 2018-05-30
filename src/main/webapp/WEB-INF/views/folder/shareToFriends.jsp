@@ -47,7 +47,7 @@
                         <td>
                             <form action="/account/share-${folderId}/disable" method="POST">
                                 <button type="submit" class="btn btn-danger">
-                                    <input type="hidden" name="friendId" value=${friend.id}/>
+                                    <input type="hidden" name="friendId" value="${friend.id}"/>
                                     Disable access </span>
                                 </button>
                             </form>
@@ -69,7 +69,7 @@
                         <td>
                             <form action="/account/share-${folderId}/share" method="POST">
                                 <button type="submit" class="btn btn-success">
-                                    <input type="hidden" name="userId" value=${user.id}/>
+                                    <input type="hidden" name="userId" value="${user.id}"/>
                                     Allow access </span>
                                 </button>
                             </form>
