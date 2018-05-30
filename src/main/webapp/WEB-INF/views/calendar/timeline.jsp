@@ -41,7 +41,7 @@
                         dataType: 'json',
                         data: {
                             // our hypothetical feed requires UNIX timestamps
-                            checkedFriends: JSON.stringify(${checkedFriends}),
+                            checkedFriends: JSON.stringify(${filter.checkedFriends}),
                             start: start.unix(),
                             end: end.unix()
                         },
@@ -82,16 +82,18 @@
                 <div id='calendar'></div>
             </div>
             <div class="col-md-3">
-                <form action="/account/timeline" method="post">
+                <form:form method="POST" modelAttribute="filter">
                     <input class="btn btn-success" type="submit" value="Submit">
                     <ul class="list-group timelineList">
                         <c:forEach items="${list_friends}" var="friend">
-                            <li class="list-group-item"><input type="checkbox" name="checkedFriends"
-                                                               value="${friend.id}"> ${friend.name} ${friend.surname}<BR>
+                            <li class="list-group-item">
+                                <form:checkbox cssStyle="margin: 10px" path="checkedFriends"
+                                               value="${friend.id}"/>
+                                <c:out value="${friend.name} ${friend.surname}"></c:out><BR>
                             </li>
                         </c:forEach>
                     </ul>
-                </form>
+                </form:form>
 
             </div>
         </div>
