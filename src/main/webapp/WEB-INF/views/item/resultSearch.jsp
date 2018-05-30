@@ -67,8 +67,7 @@
                                             <li class="list-group-item">Actual to : ${item.dueDate}</li>
                                             <li class="list-group-item"
                                                 style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
-                                                Tags
-                                                :
+                                                Tags :
                                                 <c:forEach var="tag" items="${item.tags}">
                                                     <a href="/account/search-tag/${tag.tagId}">#${tag.name}</a>
                                                 </c:forEach>

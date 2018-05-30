@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.logging.Logger;
+
 
 @Controller
 @RequestMapping("/account")
@@ -70,6 +72,7 @@ public class SearchController {
             return "redirect:/account/user-" + userService.getAuthenticatedUser().getId() + "/wishList";
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("resultSearchMyItem", searchService.searchMyItems(search, userService.getAuthenticatedUser()));
+        Logger.getLogger(SearchController.class.getName()).info(searchService.searchMyItems(search, userService.getAuthenticatedUser()).toString());
         model.addAttribute("resultSearchItem", searchService.searchItems(search, userService.getAuthenticatedUser()));
         return "item/resultSearch";
     }
