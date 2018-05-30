@@ -79,6 +79,7 @@
                                                         <form action="/account/eventWishList/dislike" method="POST">
                                                             <input type="hidden" name="eventId" value="${eventId}">
                                                             <input type="hidden" name="userId" value="${auth_user.id}">
+                                                            <input type="hidden" name="ownerId" value="${ownerId}">
                                                             <button type="submit" class="btn btn-danger text-center">
                                                                 <input type="hidden" name="itemId"
                                                                        value="${item.itemId}"/>
@@ -90,6 +91,7 @@
                                                         <form action="/account/eventWishList/like" method="POST">
                                                             <input type="hidden" name="eventId" value="${eventId}">
                                                             <input type="hidden" name="userId" value="${auth_user.id}">
+                                                            <input type="hidden" name="ownerId" value="${ownerId}">
                                                             <button type="submit" class="btn btn-success">
                                                                 <input type="hidden" name="itemId"
                                                                        value="${item.itemId}"/>

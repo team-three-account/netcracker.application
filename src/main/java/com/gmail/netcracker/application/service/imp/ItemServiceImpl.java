@@ -74,6 +74,7 @@ public class ItemServiceImpl implements ItemService {
         for (Item item : wishList) {
             item.setTags(tagDao.getTagsOfItem(item.getItemId()));
             item.setLikes(itemDao.getLikesCount(item.getItemId()));
+            item.setIsLiked(isLiked(item.getItemId(),userService.getAuthenticatedUser().getId()));
         }
         return wishList;
     }

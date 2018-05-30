@@ -323,7 +323,7 @@ public class ItemController {
     public String likeFromPersonWishList(@RequestParam(value = "itemId") Long itemId,
                                          @RequestParam(value = "ownerId") Long ownerId,Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-         itemService.like(itemId,ownerId);
+         itemService.like(itemId,userService.getAuthenticatedUser().getId());
         return "redirect:/account/user-" + ownerId + "/wishList";
     }
 
@@ -340,7 +340,7 @@ public class ItemController {
                                             @RequestParam(value = "ownerId") Long ownerId,
                                             Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-         itemService.dislike(itemId,ownerId);
+         itemService.dislike(itemId,userService.getAuthenticatedUser().getId());
         return "redirect:/account/user-" + ownerId + "/wishList";
     }
 
@@ -356,10 +356,11 @@ public class ItemController {
     public String likeFromEventWishList(@RequestParam(value = "itemId") Long itemId,
                                         @RequestParam(value = "eventId") Long eventId,
                                         @RequestParam(value = "userId") Long userId,
+                                        @RequestParam(value = "ownerId") Long ownerId,
                                         Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        itemService.like(itemId, userService.getAuthenticatedUser().getId());
-        return "redirect:/account/event-" + eventId + "-" + userId + "/wishList";
+        itemService.like(itemId, userId);
+        return "redirect:/account/event-" + eventId + "-" + ownerId + "/wishList";
     }
 
     /**
@@ -374,9 +375,10 @@ public class ItemController {
     public String dislikeFromEventWishList(@RequestParam(value = "itemId") Long itemId,
                                            @RequestParam(value = "eventId") Long eventId,
                                            @RequestParam(value = "userId") Long userId,
+                                           @RequestParam(value = "ownerId") Long ownerId,
                                            Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
-        itemService.dislike(itemId, userService.getAuthenticatedUser().getId());
-        return "redirect:/account/event-" + eventId + "-" + userId + "/wishList";
+        itemService.dislike(itemId, userId);
+        return "redirect:/account/event-" + eventId + "-" + ownerId + "/wishList";
     }
 }
