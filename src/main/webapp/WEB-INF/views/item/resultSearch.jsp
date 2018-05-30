@@ -65,6 +65,7 @@
                                             <li class="list-group-item"
                                                 style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">${item.description}</li>
                                             <li class="list-group-item">Actual to : ${item.dueDate}</li>
+
                                             <li class="list-group-item"
                                                 style="  white-space: nowrap;overflow: hidden;text-overflow: ellipsis;">
                                                 Tags :
@@ -105,7 +106,7 @@
             </c:otherwise>
         </c:choose>
         <c:choose>
-            <c:when test="${resultSearchMyItem.isEmpty()}">
+            <c:when test="${resultSearchItem.isEmpty()}">
                 <div class="row">
                     <h3 class="caption"> System does not have no such items</h3>
                 </div>
