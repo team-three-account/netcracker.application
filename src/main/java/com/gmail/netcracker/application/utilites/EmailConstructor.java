@@ -136,7 +136,8 @@ public class EmailConstructor {
         }
         catch (MessagingException e){
             logger.warning("Can not construct email with PDF");
-            javaMailSender.send(constructApologizeMessage(user.getEmail()));
+            final SimpleMailMessage email = constructApologizeMessage(user.getEmail());
+            javaMailSender.send(email);
         }
     }
 
@@ -159,7 +160,9 @@ public class EmailConstructor {
             helper.addAttachment("Personal plan.pdf", pdfConstructor.construct(planedEvents));
             logger.info("Email with PDF is ready to be sent");
         }
-        else  text = "You have not any event for the near future. Fill free :) ";
+        else  {
+            text = "You have not any event for the near future. Fill free :) ";
+        }
 
         helper.setTo(recipientAddress);
         helper.setSubject(subject);
