@@ -40,7 +40,7 @@
                                  src="<c:url value="/account/image/${user.photo}.jpg"/>"></td>
                         <td><a href="/account/${user.id}">${user.name} ${user.surname}</a></td>
                         <td>
-                            <form:form action="/account/invite-to-public/${eventId}" method="POST">
+                            <form:form action="/account/${eventId}/invite-to-public" method="POST">
                                 <button type="submit" class="btn btn-success">
                                     <input type="hidden" name="userId" value="${user.id}"/>
                                     Invite </span>
