@@ -43,12 +43,12 @@ public class JobSchedulingManager {
      * with JOB_NAME_PREFIX = "notificationJob_" for event with id 666, job name will be "notificationJob_666".
      * Analogically triggers.
      *
-     * @param entityId used for job name creation
-     * @param params map that contains keys (field names of executed job) and values (field values of executed job)
-     * @param jobClass job that will be executed
-     * @param startDate date when job is starting
-     * @param endDate date when job will be stopped
-     * @param cron job periodicity
+     * @param entityId            used for job name creation
+     * @param params              map that contains keys (field names of executed job) and values (field values of executed job)
+     * @param jobClass            job that will be executed
+     * @param startDate           date when job is starting
+     * @param endDate             date when job will be stopped
+     * @param cron                job periodicity
      * @param JOB_NAME_PREFIX
      * @param JOB_GROUP_NAME
      * @param TRIGGER_NAME_PREFIX
@@ -88,12 +88,15 @@ public class JobSchedulingManager {
             e.printStackTrace();
             return null;
         }
+        Date currentDate = new Date();
+        Date nextValidDate = cronExpression.getNextValidTimeAfter(startDate);
+        Date actualStartDate = nextValidDate.before(currentDate) ? currentDate : nextValidDate;
         CronTrigger cronTrigger = newTrigger()
                 .withSchedule(cronSchedule(cron)) //for using
 //                .withSchedule(cronSchedule("0/10 * * ? * * *")) //for demonstration
                 .withIdentity(TRIGGER_NAME_PREFIX + entityId, TRIGGER_GROUP_NAME)
                 .forJob(jobDetail)
-                .startAt(cronExpression.getNextValidTimeAfter(startDate))
+                .startAt(actualStartDate)
                 .endAt(endDate)
                 .build();
         return cronTrigger;
