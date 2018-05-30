@@ -40,7 +40,7 @@
                     <td>
                         <form action="/account/${eventId}/invite-to-public" method="POST">
                             <button type="submit"  class="btn btn-success">
-                                <input type="hidden" name="userId" value=${friend.id} />
+                                <input type="hidden" name="userId" value="${friend.id}" />
                                 Invite </span>
                             </button>
                         </form>
