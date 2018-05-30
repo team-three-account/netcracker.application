@@ -11,7 +11,7 @@
 <script src="${contextPath}/resources/js/stomp.js"></script>
 <script src="${contextPath}/resources/js/sockjs-0.3.4.js"></script>
 <div class="col-md-3" style="position: absolute;margin-left: 73%;z-index: 99999999;">
-
+    <input type="hidden" id="authUser" value="${auth_user.id}">
     <div id="notification">
     </div>
 </div>

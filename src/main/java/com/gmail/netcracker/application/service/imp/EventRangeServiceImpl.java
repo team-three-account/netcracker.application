@@ -47,8 +47,13 @@ public class EventRangeServiceImpl implements EventRangeService {
 
         List<Event> listWithoutPeriodicity = eventDao.searchByUserFromRange(userId, start, end);
         for (Event event : listWithoutPeriodicity)
-            if (event.getPeriodicity() == null)
+            if (event.getPeriodicity() == null) {
+
+            Date startEvent = Utilities.parseStringToTimestamp(event.getDateStart());
+            Date endEvent  = Utilities.parseLongToDate(startEvent.getTime()/1000 + event.getDuration());
+                event.setDateEnd(Utilities.parseDateToStringWithSeconds(endEvent));
                 eventList.add(event);
+            }
             else eventList.addAll(getAllDateFromPeriodical(event, start, end));
         return eventList;
     }
@@ -64,17 +69,6 @@ public class EventRangeServiceImpl implements EventRangeService {
                 userEvent.setName(user.getName()+" "+user.getSurname());
             }
             eventList.addAll(userEvents);
-        }
-        return eventList;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<Event> getEventsFromRange(List<Long> userList, Timestamp start, Timestamp end) {
-        List<Event> eventList = new ArrayList<>();
-
-        for (Long userId: userList){
-            eventList.addAll(getEventsFromRange(userId, start, end));
         }
         return eventList;
     }

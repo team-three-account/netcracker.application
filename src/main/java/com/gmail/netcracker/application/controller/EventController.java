@@ -335,8 +335,8 @@ public class EventController {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         List<Event> draftList = eventService.findDrafts(userService.getAuthenticatedUser().getId());
         model.addAttribute("draftList", draftList);
-        if (draftList.isEmpty()) model.addAttribute("message", "You have not any draft");
-        else model.addAttribute("message", "You're drafts :");
+        if (draftList.isEmpty()) model.addAttribute("message", "You have not any drafts");
+        else model.addAttribute("message", "Your drafts :");
         return "event/draft";
     }
 
@@ -387,7 +387,7 @@ public class EventController {
      * @param userId
      * @return String
      */
-    @RequestMapping(value = "{eventId}/invite-to-public", method = RequestMethod.POST)
+    @RequestMapping(value = "/{eventId}/invite-to-public", method = RequestMethod.POST)
     public String inviteToPublic(@PathVariable(value = "eventId") Long eventId,
                                  @RequestParam(value = "userId") Long userId) {
         eventService.participate(userId, eventId);

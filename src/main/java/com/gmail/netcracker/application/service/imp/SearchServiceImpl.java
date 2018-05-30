@@ -3,9 +3,11 @@ package com.gmail.netcracker.application.service.imp;
 import com.gmail.netcracker.application.dto.dao.interfaces.EventDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.FriendDao;
 import com.gmail.netcracker.application.dto.dao.interfaces.ItemDao;
+import com.gmail.netcracker.application.dto.dao.interfaces.TagDao;
 import com.gmail.netcracker.application.dto.model.Event;
 import com.gmail.netcracker.application.dto.model.Item;
 import com.gmail.netcracker.application.dto.model.User;
+import com.gmail.netcracker.application.service.interfaces.ItemService;
 import com.gmail.netcracker.application.service.interfaces.SearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +19,16 @@ import java.util.List;
 public class SearchServiceImpl implements SearchService {
 
     @Autowired
-    EventDao eventDao;
+    private EventDao eventDao;
     @Autowired
-    ItemDao itemDao;
+    private ItemDao itemDao;
     @Autowired
-    FriendDao friendDao;
+    private FriendDao friendDao;
+    @Autowired
+    private TagDao tagDao;
+    @Autowired
+    private ItemService itemService;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -50,12 +57,20 @@ public class SearchServiceImpl implements SearchService {
     @Override
     @Transactional(readOnly = true)
     public List<Item> searchItems(String query, User user) {
-        return itemDao.search(query, user.getId());
+        List<Item> searchLst = itemDao.search(query, user.getId());
+        for (Item item : searchLst) {
+            item.setTags(tagDao.getTagsOfItem(item.getItemId()));
+        }
+        return searchLst;
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<Item> searchMyItems(String query, User user) {
-        return itemDao.searchMy(query, user.getId());
+        List<Item> searchLst = itemDao.searchMy(query, user.getId());
+        for (Item item : searchLst) {
+            item.setTags(tagDao.getTagsOfItem(item.getItemId()));
+        }
+        return searchLst;
     }
 }

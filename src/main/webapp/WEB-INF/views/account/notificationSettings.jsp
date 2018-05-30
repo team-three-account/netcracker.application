@@ -26,132 +26,133 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2"
-    <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
-</div>
-<div class="col-md-10" style="padding-top: 3%">
-    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
-    <div class="card-header"><h2>Notification settings</h2></div>
-    <div class="card-body">
-        <div class="card card-register">
-            <form:form method="POST" action="/account/notificationSettings/save"
-                       modelAttribute="userNotificationOptions"
-                       class="forms_form ">
-                <div class="col-md-3">
-                    <div class="form-group">
-                        <label for="isNotificationsEnabled" class="nofloat">Enable notifications</label>
-                        <c:if test="${userNotificationOptions.notificationPeriodicity!=null}">
-                            <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
-                                   name="isNotificationsEnabled" checked value="true"/>
-                        </c:if>
-                        <c:if test="${userNotificationOptions.notificationPeriodicity==null}">
-                            <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
-                                   name="isNotificationsEnabled" value="false"/>
-                        </c:if>
-                        <input type="submit" value="Save settings" class="btn btn-success text-center"/>
+    <div class="col-md-2" style="height:100vh;">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+    </div>
+    <div class="col-md-10" style="padding-top: 3%">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
+        <div class="card-header"><h2>Notification settings</h2></div>
+        <div class="card-body">
+            <div class="card card-register">
+                <form:form method="POST" action="/account/notificationSettings/save"
+                           modelAttribute="userNotificationOptions"
+                           class="forms_form ">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="isNotificationsEnabled" class="nofloat">Enable notifications</label>
+                            <c:if test="${userNotificationOptions.notificationPeriodicity!=null}">
+                                <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
+                                       name="isNotificationsEnabled" checked value="true"/>
+                            </c:if>
+                            <c:if test="${userNotificationOptions.notificationPeriodicity==null}">
+                                <input type="checkbox" onchange="changeOptionsVisibility()" id="isNotificationsEnabled"
+                                       name="isNotificationsEnabled" value="false"/>
+                            </c:if>
+                            <input type="submit" value="Save settings" class="btn btn-success text-center"/>
+                        </div>
                     </div>
-                </div>
-                <div id="notificationOptions" class="col-md-6">
-                    <form:input path="id" type="hidden"
-                                id="userId" value="${userNotificationOptions.id}"></form:input>
-                    <div class="form-group">
-                        <label>Start Date: </label>
-                        <form:input path="notificationStartDate" id="dateStart" type="text"
-                                    class="form-control dateValid subSeconds"
-                                    value="${userNotificationOptions.notificationStartDate}"
-                                    onchange="changeDayOfMonth()"
-                                    placeholder="Enter notification start date"/>
-                        <form:errors path="notificationStartDate" cssClass="error"/>
-                    </div>
-                    <div class="form-group">
-                        <label>End Date: </label>
-                        <form:input path="notificationEndDate" id="notificationEndDate" type="text"
-                                    class="form-control dateValid subSeconds"
-                                    value="${userNotificationOptions.notificationEndDate}"
-                                    placeholder="Enter notification end date"/>
-                        <form:errors path="notificationEndDate" cssClass="error"/>
-                    </div>
-                    <div class="form-group">
-                        <label>Periodicity:</label>
-                        <input id="periodicity" class="form-control" type="text" readonly></input>
-                        <form:input path="notificationPeriodicity" type="hidden" id="cron"
-                                    value="${userNotificationOptions.notificationPeriodicity}"></form:input>
-                        <div id="crontabs">
-                            <div class="cron-option" style="padding-bottom:10px">
-                                <input type="radio" id="cronEveryDay" name="cronOptions"
-                                       checked="checked">
-                                <label for="cronEveryDay" class="nofloat">Every day</label>
-                            </div>
-                            <div class="cron-option" style="padding-bottom:10px">
-                                <input type="radio" id="cronDomIncrement" name="cronOptions">
-                                <label for="cronDomIncrement" class="nofloat">Every
-                                    <select id="cronDomIncrementIncrement" style="width:50px;">
-                                    </select> day(s) starting on the <span
-                                            id="dayOfMonth"></span> of the month
-                                </label>
-                            </div>
-                            <div class="cron-option" style="padding-bottom:10px">
-                                <input type="radio" id="cronDowSpecific" name="cronOptions">
-                                <label for="cronDowSpecific" class="nofloat">Specific day of
-                                    week
-                                    (choose one or
-                                    many)</label>
-                                <div style="margin-left:50px;">
-                                    <div style="display: inline-block">
-                                        <input type="checkbox" id="cronDowSun"
-                                               name="cronDowSpecificSpecific"
-                                               value="SUN"/>
-                                        <label for="cronDowSun" class="nofloat">Sunday</label>
-                                    </div>
-                                    <div style="display: inline-block">
-                                        <input type="checkbox" id="cronDowMon"
-                                               name="cronDowSpecificSpecific"
-                                               value="MON"/>
-                                        <label for="cronDowMon" class="nofloat">Monday</label>
-                                    </div>
-                                    <div style="display: inline-block">
-                                        <input type="checkbox" id="cronDowTue"
-                                               name="cronDowSpecificSpecific"
-                                               value="TUE"/>
-                                        <label for="cronDowTue" class="nofloat">Tuesday</label>
-                                    </div>
-                                    <div style="display: inline-block">
-                                        <input type="checkbox" id="cronDowWed"
-                                               name="cronDowSpecificSpecific"
-                                               value="WED"/>
-                                        <label for="cronDowWed" class="nofloat">Wednesday</label>
-                                    </div>
-                                    <div style="display: inline-block">
-                                        <input type="checkbox" id="cronDowThu"
-                                               name="cronDowSpecificSpecific"
-                                               value="THU"/>
-                                        <label for="cronDowThu" class="nofloat">Thursday</label>
-                                    </div>
-                                    <div style="display: inline-block">
-                                        <input type="checkbox" id="cronDowFri"
-                                               name="cronDowSpecificSpecific"
-                                               value="FRI"/>
-                                        <label for="cronDowFri" class="nofloat">Friday</label></div>
-                                    <div style="display: inline-block">
-                                        <input type="checkbox" id="cronDowSat"
-                                               name="cronDowSpecificSpecific"
-                                               value="SAT"/>
-                                        <label for="cronDowSat" class="nofloat">Saturday</label>
+                    <div id="notificationOptions" class="col-md-6">
+                        <form:input path="id" type="hidden"
+                                    id="userId" value="${userNotificationOptions.id}"></form:input>
+                        <div class="form-group">
+                            <label>Start Date: </label>
+                            <form:input path="notificationStartDate" id="dateStart" type="text"
+                                        class="form-control dateValid subSeconds"
+                                        value="${userNotificationOptions.notificationStartDate}"
+                                        onchange="changeDayOfMonth()"
+                                        placeholder="Enter notification start date"/>
+                            <form:errors path="notificationStartDate" cssClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <label>End Date: </label>
+                            <form:input path="notificationEndDate" id="notificationEndDate" type="text"
+                                        class="form-control dateValid subSeconds"
+                                        value="${userNotificationOptions.notificationEndDate}"
+                                        placeholder="Enter notification end date"/>
+                            <form:errors path="notificationEndDate" cssClass="error"/>
+                        </div>
+                        <div class="form-group">
+                            <label>Periodicity:</label>
+                            <input id="periodicity" class="form-control" type="text" readonly></input>
+                            <form:input path="notificationPeriodicity" type="hidden" id="cron"
+                                        value="${userNotificationOptions.notificationPeriodicity}"></form:input>
+                            <div id="crontabs">
+                                <div class="cron-option" style="padding-bottom:10px">
+                                    <input type="radio" id="cronEveryDay" name="cronOptions"
+                                           checked="checked">
+                                    <label for="cronEveryDay" class="nofloat">Every day</label>
+                                </div>
+                                <div class="cron-option" style="padding-bottom:10px">
+                                    <input type="radio" id="cronDomIncrement" name="cronOptions">
+                                    <label for="cronDomIncrement" class="nofloat">Every
+                                        <select id="cronDomIncrementIncrement" style="width:50px;">
+                                        </select> day(s) starting on the <span
+                                                id="dayOfMonth"></span> of the month
+                                    </label>
+                                </div>
+                                <div class="cron-option" style="padding-bottom:10px">
+                                    <input type="radio" id="cronDowSpecific" name="cronOptions">
+                                    <label for="cronDowSpecific" class="nofloat">Specific day of
+                                        week
+                                        (choose one or
+                                        many)</label>
+                                    <div style="margin-left:50px;">
+                                        <div style="display: inline-block">
+                                            <input type="checkbox" id="cronDowSun"
+                                                   name="cronDowSpecificSpecific"
+                                                   value="SUN"/>
+                                            <label for="cronDowSun" class="nofloat">Sunday</label>
+                                        </div>
+                                        <div style="display: inline-block">
+                                            <input type="checkbox" id="cronDowMon"
+                                                   name="cronDowSpecificSpecific"
+                                                   value="MON"/>
+                                            <label for="cronDowMon" class="nofloat">Monday</label>
+                                        </div>
+                                        <div style="display: inline-block">
+                                            <input type="checkbox" id="cronDowTue"
+                                                   name="cronDowSpecificSpecific"
+                                                   value="TUE"/>
+                                            <label for="cronDowTue" class="nofloat">Tuesday</label>
+                                        </div>
+                                        <div style="display: inline-block">
+                                            <input type="checkbox" id="cronDowWed"
+                                                   name="cronDowSpecificSpecific"
+                                                   value="WED"/>
+                                            <label for="cronDowWed" class="nofloat">Wednesday</label>
+                                        </div>
+                                        <div style="display: inline-block">
+                                            <input type="checkbox" id="cronDowThu"
+                                                   name="cronDowSpecificSpecific"
+                                                   value="THU"/>
+                                            <label for="cronDowThu" class="nofloat">Thursday</label>
+                                        </div>
+                                        <div style="display: inline-block">
+                                            <input type="checkbox" id="cronDowFri"
+                                                   name="cronDowSpecificSpecific"
+                                                   value="FRI"/>
+                                            <label for="cronDowFri" class="nofloat">Friday</label></div>
+                                        <div style="display: inline-block">
+                                            <input type="checkbox" id="cronDowSat"
+                                                   name="cronDowSpecificSpecific"
+                                                   value="SAT"/>
+                                            <label for="cronDowSat" class="nofloat">Saturday</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="cron-option" style="padding-bottom:10px">
-                                <input type="radio" id="cronEveryMonth" name="cronOptions">
-                                <label for="cronEveryMonth" class="nofloat">Every month</label>
-                            </div>
-                            <div class="cron-option" style="padding-bottom:10px">
-                                <input type="radio" id="cronEveryYear" name="cronOptions">
-                                <label for="cronEveryYear" class="nofloat">Every year</label>
+                                <div class="cron-option" style="padding-bottom:10px">
+                                    <input type="radio" id="cronEveryMonth" name="cronOptions">
+                                    <label for="cronEveryMonth" class="nofloat">Every month</label>
+                                </div>
+                                <div class="cron-option" style="padding-bottom:10px">
+                                    <input type="radio" id="cronEveryYear" name="cronOptions">
+                                    <label for="cronEveryYear" class="nofloat">Every year</label>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form:form>
+                </form:form>
+            </div>
         </div>
     </div>
 </div>

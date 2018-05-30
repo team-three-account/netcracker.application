@@ -140,7 +140,7 @@ public class CalendarController {
     public String timeline(Model model) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("list_friends", friendService.getAllFriends(userService.getAuthenticatedUser().getId()));
-        model.addAttribute("checkedFriends", new ArrayList<Long>());
+        model.addAttribute("filter", new Filter());
         return "calendar/timeline";
     }
 
@@ -148,15 +148,14 @@ public class CalendarController {
      * This method returns a timeline web page after checked friends.
      *
      * @param model
-     * @param checkedFriends
      * @return String
      */
     @RequestMapping(value = "/timeline", method = RequestMethod.POST)
     public String timelinePost(Model model,
-                               @RequestParam("checkedFriends") List<Long> checkedFriends) {
+                               @ModelAttribute("filter") Filter filter) {
         model.addAttribute("auth_user", userService.getAuthenticatedUser());
         model.addAttribute("list_friends", friendService.getAllFriends(userService.getAuthenticatedUser().getId()));
-        model.addAttribute("checkedFriends", checkedFriends);
+        model.addAttribute("filter", filter);
         return "calendar/timeline";
     }
 }

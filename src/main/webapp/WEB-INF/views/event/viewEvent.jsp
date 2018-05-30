@@ -18,208 +18,213 @@
 
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2"
-    <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
-</div>
-<div class="col-md-10 content">
-    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
-    <div class="container-fluid">
-        <div class="col-md-4">
-            <table class="table">
-                <tbody>
-                <tr>
-                    <td>
-                        <c:choose>
-                            <c:when test="${event.draft.equals(true)}">
-                                <h3 class="panel-title">Draft - ${event.name}</h3>
-                            </c:when>
-                            <c:otherwise>
-                                <h3 class="panel-title">Event - ${event.name}</h3>
-                            </c:otherwise>
-                        </c:choose>
-                    </td>
-                </tr>
+    <div class="col-md-2" style="height:100vh;">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+    </div>
+    <div class="col-md-10 content">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
+        <div class="container-fluid">
+            <div class="col-md-4">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <c:choose>
+                                <c:when test="${event.draft.equals(true)}">
+                                    <h3 class="panel-title">Draft - ${event.name}</h3>
+                                </c:when>
+                                <c:otherwise>
+                                    <h3 class="panel-title">Event - ${event.name}</h3>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
 
 
-                <c:if test="${isParticipated == true &&
+                    <c:if test="${isParticipated == true &&
                    (event.typeId==3 || event.typeId==2)}">
 
                         <tr>
                             <td>
                                 <div style="display: inline-flex">
-                                <form method="get"
-                                      action="/account/eventList/eventChat/main/${chatWithCreator.chatId}-${event.eventId}">
-                                    <button type="submit" class="btn btn-primary">
-                                        Main Chat
-                                    </button>
-                                </form>
-                                <c:if test="${auth_user.id != event.creator}">
                                     <form method="get"
-                                          action="/account/eventList/eventChat/subscriptions/${chatWithOutCreator.chatId}-${event.eventId}">
+                                          action="/account/eventList/eventChat/main/${chatWithCreator.chatId}-${event.eventId}">
                                         <button type="submit" class="btn btn-primary">
-                                            Subscribers Chat
+                                            Main Chat
                                         </button>
                                     </form>
-                                </c:if>
+                                    <c:if test="${auth_user.id != event.creator}">
+                                        <form method="get"
+                                              action="/account/eventList/eventChat/subscriptions/${chatWithOutCreator.chatId}-${event.eventId}">
+                                            <button type="submit" class="btn btn-primary">
+                                                Subscribers Chat
+                                            </button>
+                                        </form>
+                                    </c:if>
                                 </div>
                             </td>
                         </tr>
-                </c:if>
+                    </c:if>
 
 
-                <input id="cron" type="hidden" value="${event.periodicity}">
-                <tr>
-                    <td>Photo: <img class="img-circle" style="width: 200px;height: 200px"
-                                    src="<c:url value="${photo}"/>"></td>
-                </tr>
-                <tr>
-                    <td>Name :${event.name}
-                    </td>
-                </tr>
-                <tr>
-                    <td>Creator :<a
-                            href="/account/${user_creator.id}"> ${user_creator.name} ${user_creator.surname}</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Description : <span class="description-block eventDescriptionBlock">${event.description}</span></td>
-                </tr>
-                <tr>
-                    <td>Start : <span class="subSeconds">${event.dateStart}</span></td>
-                </tr>
-                <tr>
-                    <td>End   : <span class="subSeconds">${event.dateEnd}</span></td>
-                </tr>
-                <tr>
-                    <td id="periodicity"></td>
-                </tr>
-                <tr>
-                    <td>Place : ${event.eventPlaceName}</td>
-                </tr>
-                <tr>
-                    <td>Participants : <a href="/account/event-${event.eventId}/participants"> ${participants}
-                        people</a></td>
-                </tr>
-                <c:if test="${isParticipated == true}">
-                <tr>
-                    <td><a href="/account/event-${event.eventId}-${event.creator}/wishList">Wish List</a>
-                    </td>
-                </tr>
-                </c:if>
-                <tr>
-                    <td>
-                        <c:choose>
-                            <c:when test="${auth_user.id.equals(user_creator.id)}">
-                                <c:if test="${event.typeId==2}">
-                                    <a href="/account/public/event-${event.eventId}/invite">
-                                        <input type="submit" class="btn btn-success text-center"
-                                               value="Invite user"></a>
-                                </c:if>
-                                <c:if test="${event.typeId==3}">
-                                    <a href="/account/for-friends/event-${event.eventId}/invite">
-                                        <input type="submit" class="btn btn-success text-center"
-                                               value="Invite friend"></a>
-                                </c:if>
-                                <c:choose>
-                                    <c:when test="${event.draft.equals(true)}">
-                                        <a href="/account/eventList/editevent-${event.eventId}">
-                                            <input type="submit" class="btn btn-success text-center" value="Edit draft"></a>
-                                        <a href="/account/eventList/deleteEvent-${event.eventId}">
-                                            <input type="submit" class="btn btn-danger text-center"
-                                                   value="Delete draft"></a>
-                                        <a href="/account/eventList/convertToEvent-${event.eventId}">
+                    <input id="cron" type="hidden" value="${event.periodicity}">
+                    <tr>
+                        <td>Photo: <img class="img-circle" style="width: 200px;height: 200px"
+                                        src="<c:url value="${photo}"/>"></td>
+                    </tr>
+                    <tr>
+                        <td>Name :${event.name}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Creator :<a
+                                href="/account/${user_creator.id}"> ${user_creator.name} ${user_creator.surname}</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Description : <span
+                                class="description-block eventDescriptionBlock">${event.description}</span></td>
+                    </tr>
+                    <tr>
+                        <td>Start : <span class="subSeconds">${event.dateStart}</span></td>
+                    </tr>
+                    <tr>
+                        <td>End : <span class="subSeconds">${event.dateEnd}</span></td>
+                    </tr>
+                    <tr>
+                        <td id="periodicity"></td>
+                    </tr>
+                    <tr>
+                        <td>Place : ${event.eventPlaceName}</td>
+                    </tr>
+                    <tr>
+                        <td>Participants : <a href="/account/event-${event.eventId}/participants"> ${participants}
+                            people</a></td>
+                    </tr>
+                    <c:if test="${isParticipated == true}">
+                        <tr>
+                            <td><a href="/account/event-${event.eventId}-${event.creator}/wishList">Wish List</a>
+                            </td>
+                        </tr>
+                    </c:if>
+                    <tr>
+                        <td>
+                            <c:choose>
+                                <c:when test="${auth_user.id.equals(user_creator.id)}">
+                                    <c:if test="${event.typeId==2}">
+                                        <a href="/account/public/event-${event.eventId}/invite">
                                             <input type="submit" class="btn btn-success text-center"
-                                                   value="Convert to Event"></a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a href="/account/eventList/editevent-${event.eventId}">
-                                            <input type="submit" class="btn btn-success text-center" value="Edit event"></a>
-                                        <a href="/account/eventList/deleteEvent-${event.eventId}">
-                                            <input type="submit" class="btn btn-danger text-center"
-                                                   value="Delete event"></a>
-                                    </c:otherwise>
-                                </c:choose>
+                                                   value="Invite user"></a>
+                                    </c:if>
+                                    <c:if test="${event.typeId==3}">
+                                        <a href="/account/for-friends/event-${event.eventId}/invite">
+                                            <input type="submit" class="btn btn-success text-center"
+                                                   value="Invite friend"></a>
+                                    </c:if>
+                                    <c:choose>
+                                        <c:when test="${event.draft.equals(true)}">
+                                            <a href="/account/eventList/editevent-${event.eventId}">
+                                                <input type="submit" class="btn btn-success text-center"
+                                                       value="Edit draft"></a>
+                                            <a href="/account/eventList/deleteEvent-${event.eventId}">
+                                                <input type="submit" class="btn btn-danger text-center"
+                                                       value="Delete draft"></a>
+                                            <a href="/account/eventList/convertToEvent-${event.eventId}">
+                                                <input type="submit" class="btn btn-success text-center"
+                                                       value="Convert to Event"></a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="/account/eventList/editevent-${event.eventId}">
+                                                <input type="submit" class="btn btn-success text-center"
+                                                       value="Edit event"></a>
+                                            <a href="/account/eventList/deleteEvent-${event.eventId}">
+                                                <input type="submit" class="btn btn-danger text-center"
+                                                       value="Delete event"></a>
+                                        </c:otherwise>
+                                    </c:choose>
 
+                                </c:when>
+                                <c:otherwise>
+                                    <c:if test="${isParticipated == true}">
+                                        <form action="/account/unsubscribe" method="POST">
+                                            <button type="submit" class="btn btn-danger text-center">
+                                                <input type="hidden" name="event_id" value="${event.eventId}"/>
+                                                Unsubscribe </span>
+                                            </button>
+                                        </form>
+                                    </c:if>
+                                    <c:if test="${isParticipated == false}">
+                                        <form action="/account/participate" method="POST">
+                                            <button type="submit" class="btn btn-success">
+                                                <input type="hidden" name="event_id" value="${event.eventId}"/>
+                                                Subscribe </span>
+                                            </button>
+                                        </form>
+                                    </c:if>
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="col-md-6 pointer">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <c:choose>
+                            <c:when test="${event.draft.equals(true)}">
+                                <h3 class="panel-title">Draft Place</h3>
                             </c:when>
                             <c:otherwise>
-                                <c:if test="${isParticipated == true}">
-                                    <form action="/account/unsubscribe" method="POST">
-                                        <button type="submit" class="btn btn-danger text-center">
-                                            <input type="hidden" name="event_id" value="${event.eventId}"/>
-                                            Unsubscribe </span>
-                                        </button>
-                                    </form>
-                                </c:if>
-                                <c:if test="${isParticipated == false}">
-                                    <form action="/account/participate" method="POST">
-                                        <button type="submit" class="btn btn-success">
-                                            <input type="hidden" name="event_id" value="${event.eventId}"/>
-                                            Subscribe </span>
-                                        </button>
-                                    </form>
-                                </c:if>
+                                <h3 class="panel-title">Event Place</h3>
                             </c:otherwise>
                         </c:choose>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
 
-        <div class="col-md-6 pointer">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <c:choose>
-                        <c:when test="${event.draft.equals(true)}">
-                            <h3 class="panel-title">Draft Place</h3>
-                        </c:when>
-                        <c:otherwise>
-                            <h3 class="panel-title">Event Place</h3>
-                        </c:otherwise>
-                    </c:choose>
-
+                    </div>
+                    <div class="panel-body viewEvent">
+                        <div class="form-group">
+                            <label>Event place</label>
+                            <div id="map" disabled=""></div>
+                            <input type="hidden" value="${event.width}" id="latitude">
+                            <input type="hidden" value="${event.longitude}" id="longitude">
+                            <script src='${contextPath}/resources/js/pamCode.js'></script>
+                            <script
+                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&callback=initMap&language=en">
+                            </script>
+                        </div>
+                    </div>
                 </div>
-                <div class="panel-body viewEvent">
-                    <div class="form-group">
-                        <label>Event place</label>
-                        <div id="map" disabled=""></div>
-                        <input type="hidden" value="${event.width}" id="latitude">
-                        <input type="hidden" value="${event.longitude}" id="longitude">
-                        <script src='${contextPath}/resources/js/pamCode.js'></script>
-                        <script
-                                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFJb-oxFvvvPRvwubCZwYkPQC0rRUbtOM&callback=initMap&language=en">
-                        </script>
+            </div>
+            <c:choose>
+            <c:when test="${isParticipated == true}">
+            <div class="col-md-6 pointer">
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Priority</h3>
+                    </div>
+                    <div class="panel-body viewEvent">
+                        <div class="form-group">
+                            <label>Priority</label>
+                            <td>
+                                <form:form method="POST" modelAttribute="participation">
+                                    <tr>
+                                        <form:radiobuttons path="priority" items="${priorities}" itemValue="priorityId"
+                                                           itemLabel="name"/>
+                                    </tr>
+                                    <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                                </form:form>
+                            </td>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <c:choose>
-        <c:when test="${isParticipated == true}">
-        <div class="col-md-6 pointer">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Priority</h3>
-                </div>
-                <div class="panel-body viewEvent">
-                    <div class="form-group">
-                        <label>Priority</label>
-                        <td>
-                            <form:form method="POST" modelAttribute="participation">
-                                <tr>
-                                    <form:radiobuttons path="priority" items="${priorities}" itemValue="priorityId"
-                                                       itemLabel="name"/>
-                                </tr>
-                                <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-                            </form:form>
-                        </td>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+        </c:when>
+        <c:otherwise></c:otherwise>
+        </c:choose>
     </div>
-    </c:when>
-    <c:otherwise></c:otherwise>
-    </c:choose>
 </div>
 <script>
     $(function () {

@@ -14,7 +14,7 @@
 </head>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2">
+    <div class="col-md-2" style="height:100vh;">
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
@@ -80,5 +80,6 @@
 </div>
 </form:form>
 </div>
-
+<script src='${contextPath}/resources/js/textEditorInitAllArea.js'></script>
+<script src='${contextPath}/resources/js/imageUpload.js'></script>
 </html>

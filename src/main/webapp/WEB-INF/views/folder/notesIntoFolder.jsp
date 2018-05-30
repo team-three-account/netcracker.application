@@ -14,22 +14,22 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2"
-    <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
-</div>
-<div class="col-md-10 content">
-    <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
-    <div class="row">
-        <h1>Notes into : ${folderName.name}</h1>
-        <table class="table">
-            <c:forEach var="note" items="${listNotesIntoFolder}">
-                <tr>
-                    <td><a href="/account/eventList/note-${note.noteId}">${note.name}</a></td>
-                </tr>
-            </c:forEach>
-        </table>
+    <div class="col-md-2" style="height:100vh;">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
+    </div>
+    <div class="col-md-10 content">
+        <jsp:include page="${contextPath}/WEB-INF/views/account/notification.jsp"></jsp:include>
+        <div class="row">
+            <h1>Notes into : ${folderName.name}</h1>
+            <table class="table">
+                <c:forEach var="note" items="${listNotesIntoFolder}">
+                    <tr>
+                        <td><a href="/account/eventList/note-${note.noteId}">${note.name}</a></td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </div>
 </div>
-
 </body>
 </html>

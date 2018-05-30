@@ -12,7 +12,9 @@ public class Filter {
     public Filter(){
         priorities = new ArrayList<>();
         eventTypes = new ArrayList<>();
+        checkedFriends = new ArrayList<>();
     }
     List<Long> priorities;
     List<Long> eventTypes;
+    List<Long> checkedFriends;
 }

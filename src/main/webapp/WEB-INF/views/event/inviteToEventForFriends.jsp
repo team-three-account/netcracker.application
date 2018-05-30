@@ -18,7 +18,7 @@
 <body>
 <div class="row">
     <jsp:include page="${contextPath}/WEB-INF/views/account/navbar/navbar.jsp"/>
-    <div class="col-md-2"
+    <div class="col-md-2" style="height:100vh;">
     <jsp:include page="${contextPath}/WEB-INF/views/account/menu/menu.jsp"/>
 </div>
 
@@ -35,12 +35,12 @@
 
             <c:forEach var="friend" items="${friendsToInvite}">
                 <tr>
-                    <td><img class="img-circle" style="width: 200px;height: 200px" src="<c:url value="${friend.photo}.jpg"/>"></td>
+                    <td><img class="img-circle" style="width: 50px;height: 50px" src="<c:url value="${friend.photo}"/>"></td>
                     <td><a href="/account/${friend.id}">${friend.name} ${friend.surname}</a></td>
                     <td>
                         <form action="/account/${eventId}/invite-for-friends" method="POST">
                             <button type="submit"  class="btn btn-success">
-                                <input type="hidden" name="userId" value=${friend.id} />
+                                <input type="hidden" name="userId" value="${friend.id}" />
                                 Invite </span>
                             </button>
                         </form>
